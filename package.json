@@ -2,7 +2,7 @@
   "name": "com.cavrnus.sdk",
   "displayName": "Cavrnus SDK",
   "version": "0.0.1",
-  "unity": "2022.3.1",
+  "unity": "2022.3",
   "description": "This tool makes it easy to create collaborative experiences using a familiar Unity component workflow.",
   "repository": {
     "type": "git",
