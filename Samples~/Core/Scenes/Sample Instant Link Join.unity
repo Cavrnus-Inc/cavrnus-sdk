@@ -141,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8745700754057724192, guid: b31e0c963bfaf294782ddcb2f6a8aed2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.02
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8745700754057724192, guid: b31e0c963bfaf294782ddcb2f6a8aed2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -410,7 +410,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3897757212596022776, guid: ebbec5a477ef8074e9bd2b39c7569819, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.02
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3897757212596022776, guid: ebbec5a477ef8074e9bd2b39c7569819, type: 3}
       propertyPath: m_LocalPosition.y
@@ -528,13 +528,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 759562518}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &909852766
 PrefabInstance:
@@ -765,13 +765,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1578482807}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1578482811
 MonoBehaviour:
@@ -820,6 +820,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1700592191}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.02, y: 0.8, z: -5.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -830,10 +831,8 @@ Transform:
   - {fileID: 77783175}
   - {fileID: 29908506}
   - {fileID: 581145039}
-  - {fileID: 4295661245127686277}
   - {fileID: 2357124911198805754}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2357124911198805753
 PrefabInstance:
@@ -1016,83 +1015,12 @@ PrefabInstance:
       addedObject: {fileID: 208666322}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e813ce4abd790a44bde650b6b785a17, type: 3}
---- !u!1001 &4295661245127686276
-PrefabInstance:
+--- !u!1660057539 &9223372036854775807
+SceneRoots:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1700592192}
-    m_Modifications:
-    - target: {fileID: 506385638909826810, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      propertyPath: m_Name
-      value: WholeMaterialSync
-      objectReference: {fileID: 0}
-    - target: {fileID: 3890485181344958351, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3890485181344958351, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 8.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 3890485181344958351, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3890485181344958351, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3890485181344958351, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3890485181344958351, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3890485181344958351, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3890485181344958351, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3890485181344958351, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3890485181344958351, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3890485181344958351, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5992596676228521729, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      propertyPath: m_text
-      value: 'All my objects share a common material.
-
-
-        All of it''s Color,
-        Vector, Float, and Int properties are synced.
-
-
-        Try changing them!'
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1006621222576932948, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-  m_SourcePrefab: {fileID: 100100000, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
---- !u!4 &4295661245127686277 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3890485181344958351, guid: eca0ffe8a610c494f98a12a85972ff7e, type: 3}
-  m_PrefabInstance: {fileID: 4295661245127686276}
-  m_PrefabAsset: {fileID: 0}
+  m_Roots:
+  - {fileID: 1578482810}
+  - {fileID: 759562521}
+  - {fileID: 331434745}
+  - {fileID: 3762642889592571659}
+  - {fileID: 1700592192}
