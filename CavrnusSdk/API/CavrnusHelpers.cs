@@ -219,46 +219,6 @@ namespace CavrnusSdk
 			return connection;
 		}
 
-		public static string PostSpawnObjectWithUniqueId(CavrnusSpaceConnection spaceConn, string uniqueId,
-		                                                 CavrnusPropertyHelpers.TransformData pos = null)
-		{
-			var prefabToUse =
-				CavrnusCore.Instance.SpawnablePrefabs.SpawnablePrefabs.FirstOrDefault(
-					sp => sp.UniqueIdentifier == uniqueId);
-
-			if (prefabToUse == null) {
-				Debug.LogError(
-					$"Attempting to spawn prefab with unique ID {uniqueId}, but it does not exist in \"Assets/CavrnusSdk/Cavrnus Spawnable Prefabs Lookup\".");
-				return null;
-			}
-
-			var newId = spaceConn.RoomSystem.Comm.CreateNewUniqueObjectId();
-			var creatorId = spaceConn.RoomSystem.Comm.LocalCommUser.Value.ConnectionId;
-			var contentType = new ContentTypeWellKnownId(uniqueId);
-
-			var createOp = new OpCreateObjectLive(null, newId, creatorId, contentType);
-
-			spaceConn.RoomSystem.Comm.SendJournalEntry(createOp.ToOp(), null);
-
-			if (pos != null) {
-				if (prefabToUse.GetComponent<SyncTransform>() == null) {
-					Debug.LogError(
-						$"Attempting to set the Transform of spawned prefab with unique Id {uniqueId}, but it has no SyncTransform component.");
-					return newId;
-				}
-
-				var containerPath = prefabToUse.GetComponent<CavrnusPropertiesContainer>().UniqueContainerPath.ToList();
-				containerPath.Insert(0, newId);
-
-				CavrnusPropertyHelpers.UpdateTransformProperty(spaceConn, containerPath.ToArray(),
-				                                                   prefabToUse.GetComponent<SyncTransform>()
-				                                                              .PropertyName, pos.LocalPosition,
-				                                                   pos.LocalEulerAngles, pos.LocalScale);
-			}
-
-			return newId;
-		}
-
 		public static void DeleteSpawnedObject(CavrnusSpaceConnection spaceConn, CavrnusSpawnedObject spawnedOb)
 		{
 			OperationIdLive rootOpId = new OperationIdLive(spawnedOb.CreationOpId);
