@@ -31,7 +31,7 @@ namespace CavrnusSdk.Avatars
 
         private void Update()
         {
-            var input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+            var input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             var forward = transform.TransformDirection(Vector3.forward);
             var right = transform.TransformDirection(Vector3.right);
             
