@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5208012889342444704}
   - component: {fileID: 8469713998234474627}
   m_Layer: 5
-  m_Name: Properties Debugger
+  m_Name: PropertiesDebugger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
