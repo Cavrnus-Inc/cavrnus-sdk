@@ -7,5 +7,23 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Cavrnus-Inc/cavrnus-sdk.git"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Core",
+      "description": "Essential prefabs and scenes to get started quickly.",
+      "path": "Samples~/Core"
+    },
+    {
+      "displayName": "Xr Ui",
+      "description": "Xr specific prefabs meant to work on a variety of Xr devices.",
+      "path": "Samples~/Platforms/XR"
+    }
+    ,
+    {
+      "displayName": "Standard Renderer Pipeline Examples",
+      "description": "Examples which integrate specific standard render pipleine features.",
+      "path": "Samples~/Pipelines/SRP"
+    }
+  ]
 }
