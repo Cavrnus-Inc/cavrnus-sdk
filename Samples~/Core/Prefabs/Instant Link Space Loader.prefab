@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3196378109849081256}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &870373026112692730
 MonoBehaviour:
@@ -46,8 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InstantLink: 
   JoinWithUserName: SDK User
+  canvasUiPrefab: {fileID: 1993130951613162645, guid: 0e813ce4abd790a44bde650b6b785a17, type: 3}
   loadingUiPrefab: {fileID: 1949255927169078816, guid: 7e23f7d438cebea40b14760457be7be7, type: 3}
   spacePrefabs:
-  - {fileID: 7500289831068578633, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
+  - {fileID: 1993130951613162645, guid: 0e813ce4abd790a44bde650b6b785a17, type: 3}
   - {fileID: 1107540274462631947, guid: cdea8399efdd6d6408f3e72404bab8b6, type: 3}
   - {fileID: 5855605566567049347, guid: 04a855f9b4718e0429e4d14ab7bf24ef, type: 3}

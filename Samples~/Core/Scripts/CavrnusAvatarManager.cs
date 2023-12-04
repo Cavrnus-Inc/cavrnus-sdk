@@ -8,14 +8,15 @@ namespace CavrnusSdk
 {
 	public class CavrnusAvatarManager : MonoBehaviour
 	{
-	    public GameObject AvatarPrefab;
+		[Header("Avatar that will represent other remote users in the scene")]
+	    public GameObject RemoteAvatarPrefab;
 
 	    private Dictionary<string, GameObject> avatarInstances = new Dictionary<string, GameObject>();
 
 		// Start is called before the first frame update
 		void Start()
 	    {
-		    if (AvatarPrefab == null)
+		    if (RemoteAvatarPrefab == null)
 		    {
 			    Debug.LogError("No Avatar Prefab has been assigned.  Shutting down CoPresence display system.");
 				return;
@@ -40,7 +41,7 @@ namespace CavrnusSdk
 			if (user.IsLocalUser)
 				return;
 
-			avatarInstances[user.ContainerId] = Instantiate(AvatarPrefab);
+			avatarInstances[user.ContainerId] = Instantiate(RemoteAvatarPrefab);
 
 			avatarInstances[user.ContainerId].GetComponent<SyncTransform>().GetComponent<CavrnusPropertiesContainer>().SetContainerName($"{user.ContainerId}");
 			avatarInstances[user.ContainerId].GetComponent<SyncTransform>().PropertyName = UserPropertyDefs.User_CopresenceLocation;
