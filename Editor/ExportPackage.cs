@@ -1,15 +1,18 @@
 using UnityEditor;
 
-public static class ExportPackage
+namespace CavrnusSdk.Editor
 {
-	[MenuItem("Export/UnityPluginPackage")]
-	public static void BuildPluginPackage()
+	public static class ExportPackage
 	{
-		BuildExportPackage("Cavrnus Metaverse Connector.unitypackage");
-	}
+		[MenuItem("Export/UnityPluginPackage")]
+		public static void BuildPluginPackage()
+		{
+			BuildExportPackage("Cavrnus Metaverse Connector.unitypackage");
+		}
 
-	private static void BuildExportPackage(string dest)
-	{
-		AssetDatabase.ExportPackage(new[] { "Assets/CavrnusSdk", "Assets/StreamingAssets"}, dest, ExportPackageOptions.Recurse);
+		private static void BuildExportPackage(string dest)
+		{
+			AssetDatabase.ExportPackage(new[] { "Assets/CavrnusSdk", "Assets/StreamingAssets"}, dest, ExportPackageOptions.Recurse);
+		}
 	}
 }
