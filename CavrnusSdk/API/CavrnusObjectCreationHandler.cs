@@ -38,15 +38,15 @@ namespace CavrnusSdk
 					ob.gameObject.AddComponent<CavrnusSpawnedObject>().Init(createOp.Op.NewObjectId, createOp.Id);
 				}
 				else {
-					Debug.LogError(
+					Debug.LogWarning(
 						$"Could not find spawnable prefab with ID {cId.WellKnownId} in the \"Assets/CavrnusSDK/Cavrnus Spawnable Prefabs Lookup\"");
 				}
 			}
 			else if (createOp.Op.ObjectType is ContentTypeUrl cUrl) {
-				Debug.LogError($"ContentType URL coming soon...");
+				Debug.LogWarning($"ContentType URL coming soon...");
 			}
 			else {
-				Debug.LogError($"ContentType {createOp.Op.ObjectType} is not currently supported by the Cavrnus SDK.");
+				Debug.LogWarning($"ContentType {createOp.Op.ObjectType} is not currently supported by the Cavrnus SDK.");
 			}
 		}
 
