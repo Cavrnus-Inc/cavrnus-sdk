@@ -21,8 +21,6 @@ namespace CavrnusSdk.Avatars
         private Vector3 moveDirection = Vector3.zero;
         
         private float rotationX = 0;
-        private float rotationXVelocity = 0f;
-        private float rotationYVelocity = 0f;
 
         private void Awake()
         {

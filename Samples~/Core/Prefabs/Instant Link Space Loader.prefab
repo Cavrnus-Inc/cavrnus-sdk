@@ -49,6 +49,6 @@ MonoBehaviour:
   canvasUiPrefab: {fileID: 1993130951613162645, guid: 0e813ce4abd790a44bde650b6b785a17, type: 3}
   loadingUiPrefab: {fileID: 1949255927169078816, guid: 7e23f7d438cebea40b14760457be7be7, type: 3}
   spacePrefabs:
-  - {fileID: 1993130951613162645, guid: 0e813ce4abd790a44bde650b6b785a17, type: 3}
+  - {fileID: 7500289831068578633, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
   - {fileID: 1107540274462631947, guid: cdea8399efdd6d6408f3e72404bab8b6, type: 3}
   - {fileID: 5855605566567049347, guid: 04a855f9b4718e0429e4d14ab7bf24ef, type: 3}

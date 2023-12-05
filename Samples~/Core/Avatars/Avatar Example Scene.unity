@@ -1444,6 +1444,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Instant Link Space Loader
       objectReference: {fileID: 0}
+    - target: {fileID: 3196378109849081256, guid: 26489fdb640ff964fb3f26cbe23d411e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -24,7 +24,6 @@ namespace CavrnusSdk.Avatars
         private readonly int animIDGrounded = Animator.StringToHash("Grounded");
         private readonly int animIDInputHorizontal = Animator.StringToHash("InputHorizontal");
         private readonly int animIDInputForward = Animator.StringToHash("InputForward");
-        private readonly int animIDInputUp = Animator.StringToHash("InputUp");
 
         private void Awake()
         {
@@ -48,7 +47,6 @@ namespace CavrnusSdk.Avatars
             smoothedMovementDirection = Vector3.Slerp(smoothedMovementDirection, movementDirection, smoothingFactor * Time.deltaTime);
 
             animator.SetFloat(animIDInputHorizontal, smoothedMovementDirection.x);
-            animator.SetFloat(animIDInputUp, smoothedMovementDirection.y);
             animator.SetFloat(animIDInputForward, smoothedMovementDirection.z);
 
             animator.SetFloat(animIDSpeed, currentSpeed);

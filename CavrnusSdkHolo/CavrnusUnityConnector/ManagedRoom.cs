@@ -59,7 +59,7 @@ public class ManagedRoom : IDisposedElement, IDisposable
 
 	private LinkTargetAssetManager<TextureWithUVs> linkStateManager = null;
 
-	public async void UpdateSkyboxSource(PropertyId propId)
+	public void UpdateSkyboxSource(PropertyId propId)
 	{
 		linkStateManager?.Dispose();
 

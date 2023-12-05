@@ -87,7 +87,7 @@ namespace CavrnusSdk.XR.Widgets
 
             var elapsed = 0f;
             while (elapsed < 0.3f) {
-                mainCg.alpha = Mathf.Lerp(start, target, elapsed / 0.3f);
+                mainCg.alpha = Mathf.Lerp(start, target, elapsed / fadeVisibilitySpeed);
                 elapsed += Time.deltaTime;
                 
                 yield return null;
