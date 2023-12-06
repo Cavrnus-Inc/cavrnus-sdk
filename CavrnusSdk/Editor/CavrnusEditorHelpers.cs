@@ -43,9 +43,8 @@ namespace CavrnusSdk.Editor
 
 				string spawnablePrefaDesiredId = obj.name;
 
-				//Fuck it, it's an Editor-time Script.  Doesn't need to be super clever/efficient
-				//This will increase in cost as users add more and more prefabs sharing the sane name
-				//So if anybody has 1 million prefabs named Cube and wants all of them in Cavrnus, we'll write something cleverer
+				// Brute force approach. Costly if user has 1 million prefabs named Cube and wants all of them in Cavrnus.
+				// Can be inefficient for now...
 				for (int i = 0; i < Int32.MaxValue; i++) {
 					string nameToUse = spawnablePrefaDesiredId + "_" + i;
 					if (i == 0) nameToUse = spawnablePrefaDesiredId;
