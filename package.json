@@ -22,8 +22,12 @@
       "displayName": "Xr Ui",
       "description": "Xr specific prefabs meant to work on a variety of Xr devices.",
       "path": "Samples~/Platforms/XR"
-    }
-    ,
+    },
+    {
+      "displayName": "Ar Tracking",
+      "description": "Provided Ar components demonstrating adjusting world origin for tracked objects.",
+      "path": "Samples~/Platforms/AR"
+    },
     {
       "displayName": "Standard Renderer Pipeline Examples",
       "description": "Examples which integrate specific standard render pipleine features.",

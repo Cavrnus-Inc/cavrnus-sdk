@@ -41,7 +41,7 @@ namespace CavrnusSdk
 			if (user.IsLocalUser)
 				return;
 
-			avatarInstances[user.ContainerId] = Instantiate(RemoteAvatarPrefab);
+			avatarInstances[user.ContainerId] = Instantiate(RemoteAvatarPrefab, transform);
 
 			avatarInstances[user.ContainerId].GetComponent<SyncTransform>().GetComponent<CavrnusPropertiesContainer>().SetContainerName($"{user.ContainerId}");
 			avatarInstances[user.ContainerId].GetComponent<SyncTransform>().PropertyName = UserPropertyDefs.User_CopresenceLocation;
