@@ -59,13 +59,7 @@ namespace CavrnusSdk
 				op.Assignment = new TransformPropertyAssignmentLive() {
 					AssignmentId = "-",
 					Priority = 0,
-					SetGeneratorPb = new TransformSet() {
-						Srt = new TransformSetSRT() {
-							TransformPos = new VectorPropertyValue() {Constant = t.LocalPosition.ToFloat4().ToPb()},
-							RotationEuler = new VectorPropertyValue() {Constant = t.LocalEulerAngles.ToFloat4().ToPb()},
-							Scale = new VectorPropertyValue() {Constant = t.LocalScale.ToFloat4().ToPb()},
-						}
-					},
+					SetGeneratorPb = BuildApproachTransform(t),
 				};
 
 			handler = spaceConn.RoomSystem.LiveOpsSys.Create(op);
@@ -98,18 +92,33 @@ namespace CavrnusSdk
 			if (data is CavrnusPropertyHelpers.TransformData t)
 				handler.OpData.Assignment = new TransformPropertyAssignmentLive() {
 					AssignmentId = "-",
-					SetGeneratorPb = new TransformSet() {
-						Srt = new TransformSetSRT() {
-							TransformPos = new VectorPropertyValue() {Constant = t.LocalPosition.ToFloat4().ToPb()},
-							RotationEuler = new VectorPropertyValue() {Constant = t.LocalEulerAngles.ToFloat4().ToPb()},
-							Scale = new VectorPropertyValue() {Constant = t.LocalScale.ToFloat4().ToPb()},
-						}
-					},
+					SetGeneratorPb = BuildApproachTransform(t),
 				};
 
 			//Debug.Log("Posting Transient");
 
 			handler.PostAsTransient();
+		}
+
+		private TransformSet BuildApproachTransform(CavrnusPropertyHelpers.TransformData t)
+		{
+			return new TransformSet()
+			{
+				Approach = new TransformSetApproach()
+				{
+					To = new TransformSet()
+					{
+						Srt = new TransformSetSRT()
+						{
+							TransformPos = new VectorPropertyValue() { Constant = t.LocalPosition.ToFloat4().ToPb() },
+							RotationEuler = new VectorPropertyValue() { Constant = t.LocalEulerAngles.ToFloat4().ToPb() },
+							Scale = new VectorPropertyValue() { Constant = t.LocalScale.ToFloat4().ToPb() },
+						}
+					},
+					TimeToHalf = new ScalarPropertyValue() { Constant = .1f },
+					T = new ScalarPropertyValue() { Ref = new PropertyIdentifier() { Id = "t" } },
+				},
+			};
 		}
 
 		public void Finish()

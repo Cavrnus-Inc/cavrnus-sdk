@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class ArTrackerTest : MonoBehaviour
 {
+    [SerializeField] private CavrnusArTracker tracker;
+    
     public void AdjustWorld()
     {
         var camPos = Camera.main.transform.position;
@@ -11,6 +13,6 @@ public class ArTrackerTest : MonoBehaviour
 
         rot = Quaternion.Euler(0f, rot.eulerAngles.y, 0f);
 
-        GetComponent<CavrnusArTracker>().TrackArTracker(Vector3.zero, rot);
+        tracker.TrackArTracker(Vector3.zero, rot);
     }
 }
