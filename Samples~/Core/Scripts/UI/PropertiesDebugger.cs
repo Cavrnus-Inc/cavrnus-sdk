@@ -101,8 +101,8 @@ namespace CavrnusSdk
 			else if (prop is IVectorProperty vp)
 				disp = vp.Current.Bind(v => currPropValuesDisplay[prop.AbsoluteId.ToString()] = v.Value.ToString());
 			//TODO: Fix Json Prop Bind!!!!!!!!!!!!!!
-			else if (prop is IJsonProperty jp)
-				disp = jp.Current.Bind(v => currPropValuesDisplay[prop.AbsoluteId.ToString()] = v.Value.ToString());
+			// else if (prop is IJsonProperty jp)
+			// 	disp = jp.Current.Bind(v => currPropValuesDisplay[prop.AbsoluteId.ToString()] = v.Value.ToString());
 			else if (prop is ILinkProperty lp)
 				disp = lp.Current.Bind(v => currPropValuesDisplay[prop.AbsoluteId.ToString()] = v.Value.ToString());
 			else
