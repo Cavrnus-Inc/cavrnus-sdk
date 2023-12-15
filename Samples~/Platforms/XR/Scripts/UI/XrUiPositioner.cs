@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace CavrnusSdk.XR.UiPositioners
@@ -9,11 +8,16 @@ namespace CavrnusSdk.XR.UiPositioners
         [SerializeField] private float heightOffsetFromEyes = 0.2f;
         [SerializeField] private float xTilt = 0f;
 
+        [SerializeField] private XrRigHelper xrRigHelper;
+
         private void Awake()
         {
+            if (xrRigHelper == null) 
+                Debug.LogWarning($"Missing {nameof(xrRigHelper)} in parent! {gameObject}");
+            
             CavrnusSpaceJoinEvent.OnAnySpaceConnection(csc => RealignToEyeDirectionAndHeight());
         }
-
+        
         private void OnEnable()
         {
             RealignToEyeDirectionAndHeight();
@@ -21,10 +25,10 @@ namespace CavrnusSdk.XR.UiPositioners
 
         public void RealignToEyeDirectionAndHeight()
         {
-            if (XrRigHelper.Instance.XrRig == null)
-                Debug.Log("XR Rig is null! " + gameObject);
-
-            var eyeTransform = XrRigHelper.Instance.EyePosition;
+            if (xrRigHelper?.EyePosition == null) 
+                return;
+            
+            var eyeTransform = xrRigHelper.EyePosition;
             
             var targetRotation = eyeTransform.rotation.eulerAngles;
             transform.rotation = Quaternion.Euler(xTilt, targetRotation.y, 0);

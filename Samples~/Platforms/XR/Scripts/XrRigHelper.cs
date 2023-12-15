@@ -4,16 +4,12 @@ namespace CavrnusSdk.XR
 {
     public class XrRigHelper : MonoBehaviour
     {
-        public static XrRigHelper Instance;
-        
         public Camera XrRig{ get; private set; }
 
         public Transform EyePosition;
         
         private void Awake()
         {
-            Instance = this;
-
             XrRig = Camera.main;
 
             if (EyePosition == null) {
