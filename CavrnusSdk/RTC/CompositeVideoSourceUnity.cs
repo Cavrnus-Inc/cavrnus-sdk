@@ -18,7 +18,7 @@ public class CompositeVideoSourceUnity : VideoSource
 	{
 		get
 		{
-#if !UNITY_MAGICLEAP && !BUILD_ANDROID_OCULUS_QUEST
+#if BUILD_SUPPORT_WEBCAMTEXTURE
 			if (currentInternal is WebCamDirectTextureSource w)
 				return w.View;
 #endif
@@ -47,8 +47,7 @@ public class CompositeVideoSourceUnity : VideoSource
 			new SourceInput("Application", "Application"),
 			(Func<VideoSource>) (() => new ImagesVideoSource())));
 
-#if !UNITY_MAGICLEAP && !BUILD_ANDROID_OCULUS_QUEST
-
+#if BUILD_SUPPORT_WEBCAMTEXTURE
 		foreach (var camInput in WebCamDirectTextureSource.GetCameraInputs())
 		{
 			inputs.Add(camInput.Id, 

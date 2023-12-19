@@ -144,7 +144,7 @@ namespace CavrnusSdk
 			}
 			else if (val is TextureWithUVs twu)
 				providedTexture.Value = twu;
-#if !UNITY_MAGICLEAP && !BUILD_ANDROID_OCULUS_QUEST
+#if BUILD_SUPPORT_WEBCAMTEXTURE
 			else if (val is WebCamTexture wct)
 				providedTexture.Value = new TextureWithUVs(wct, new Rect(0, 0, 1, 1));
 #endif
