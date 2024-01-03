@@ -36,6 +36,10 @@ namespace CavrnusSdk
 		}
 
 		private static UnityScheduler scheduler = null;
+		public static NotifyCommunication Notify { get; private set; }
+		public static LivePolicyEvaluator LivePolicyEvaluator { get; private set; }
+
+		public static MultiTranslatingSetting<bool, bool, bool> NotifyPoliciesAndRolesFullyLoaded{ get; set; }
 
 		public static INetworkRequestImplementation NetworkRequestImpl;
 		public static IRtcContext RtcContext;
@@ -48,17 +52,18 @@ namespace CavrnusSdk
 
 			NetworkRequestImpl = new FrameworkNetworkRequestImplementation();
 
-
-
+			Notify = new NotifyCommunication(() => new NotifyWebsocket(Scheduler.BaseScheduler), Scheduler.BaseScheduler);
+			LivePolicyEvaluator = new LivePolicyEvaluator(Notify.PoliciesSystem.AllPolicies, Notify.PoliciesSystem.IsActive);
+			
 			IRtcSystem rtcSystem;
-
+			
 			if (CavrnusCore.Instance.CavrnusSettings.DisableVoiceAndVideo) 
 			{ 
 				rtcSystem = new RtcSystemUnavailable(); 
 			}
 			else
 			{
-				rtcSystem = new RtcSystemUnity(Scheduler, CavrnusCore.Instance.CavrnusSettings.BuildingForMagicLeap);
+				rtcSystem = new RtcSystemUnity(Scheduler, CavrnusCore.Instance.CavrnusSettings.DisableAcousticEchoCancellation);
 			}
 
 			RtcContext = new RtcContext(rtcSystem, Scheduler.BaseScheduler);
@@ -81,7 +86,7 @@ namespace CavrnusSdk
 
 			Scheduler.ExecOnApplicationQuit(() => RtcContext.Shutdown());
 		}
-
+		
 		private static void DoRecvMessage(string category, string message)
 		{
 			if (category == "log") return; // Ignore log messages.
@@ -122,8 +127,19 @@ namespace CavrnusSdk
 			var token = await ruc.PostLocalAccountLoginAsync(req);
 
 			DebugOutput.Info("Logged in, token: " + token.token);
-
+			
 			CavrnusAuth.Endpoint = endpoint.WithAuthorization(token.token);
+			
+			NotifySetup();
+		}
+
+		private static void NotifySetup()
+		{
+			Notify.Initialize(CavrnusAuth.Endpoint, true);
+			Notify.ObjectsSystem.StartListeningAll(null, err => DebugOutput.Error(err.ToString()));
+			Notify.PoliciesSystem.StartListeningAll(null, err => DebugOutput.Error(err.ToString()));
+			Notify.RolesSystem.StartListeningAll(null, err => DebugOutput.Error(err.ToString()));
+			Notify.UsersSystem.StartListening(null, err => DebugOutput.Error(err.ToString()));
 		}
 
 		public static async Task JoinLinkAsync(string link, string joinWithName)
@@ -144,7 +160,10 @@ namespace CavrnusSdk
 			var token = await ruc.PostInstantLinkLoginAsync(info.id, req);
 
 			DebugOutput.Info("Logged in, token: " + token.token);
+			
 			CavrnusAuth.Endpoint = endpoint.WithAuthorization(token.token);
+
+			NotifySetup();
 
 			await JoinSpaceFromId(info.room.id);
 		}
@@ -186,22 +205,24 @@ namespace CavrnusSdk
 			//if (!useSyncedContent)
 			//	engineConnector = null;
 
+			Notify.RoomsSystem.StartListeningSpecificAsync(roomId);
+
 			var contentManager = new ServerContentCacheManager(new FrameworkNetworkRequestImplementation());
 			contentManager.SetEndpoint(CavrnusAuth.Endpoint);
 
-			var notify = new NotifyCommunication(() => new NotifyWebsocket(Scheduler.BaseScheduler),
-			                                     Scheduler.BaseScheduler);
-			notify.Initialize(CavrnusAuth.Endpoint, true);
-
 			LiveObjectManagementContext liveObjectContext = new LiveObjectManagementContext() {
 				EngineConnector = null, //engineConnector,
-				Notify = notify,
+				Notify = Notify,
 				Scheduler = Scheduler.BaseScheduler,
 				ServerContentManager = contentManager,
 			};
 
-			RoomSystem rs = new RoomSystem(RtcContext, Scheduler.BaseScheduler, liveObjectContext, null, null, null,
-			                               null);
+			var env = new RoomSystemEnvironment() {
+				PolicyEvaluator = LivePolicyEvaluator,
+				RolesMaintainer = Notify.ContextualRoles,
+			};
+
+			RoomSystem rs = new RoomSystem(RtcContext, Scheduler.BaseScheduler, liveObjectContext, null, null, env, null);
 
 			rs.InitializeConnection(CavrnusAuth.Endpoint, roomId);
 
@@ -229,5 +250,11 @@ namespace CavrnusSdk
 
 			spaceConn.RoomSystem.Comm.SendJournalEntry(deleteOp.ToOp(), null);
 		}
+
+		public static IReadonlySetting<ISessionCommunicationLocalUser> GetLocalUser(CavrnusSpaceConnection csc)
+		{
+			return csc.RoomSystem.Comm.LocalCommUser;
+		}
+		
 	}
 }

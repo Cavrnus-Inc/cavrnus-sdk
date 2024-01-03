@@ -5,127 +5,132 @@ using UnityEngine;
 
 namespace CavrnusSdk.XR.Widgets
 {
-    public class WidgetMicPulse : MonoBehaviour
-    {
-        [SerializeField] private float fadeVisibilitySpeed = 0.3f;
-        
-        [Space]
-        [SerializeField] private float pulseSpeed = 0.9f;
-        [SerializeField] private float pulseInterval = 0.6f;
-        [SerializeField] private Vector2 pulseRange = new Vector2(0.4f, 1.1f);
-        [SerializeField] private Vector2 alphaRange = new Vector2(0.3f, 1f);
+	public class WidgetMicPulse : MonoBehaviour
+	{
+		[SerializeField] private float fadeVisibilitySpeed = 0.3f;
 
-        [Space]
-        [SerializeField] private GameObject inner;
-        [SerializeField] private GameObject outer;
+		[Space]
+		[SerializeField] private float pulseSpeed = 0.9f;
+		[SerializeField] private float pulseInterval = 0.6f;
+		[SerializeField] private Vector2 pulseRange = new Vector2(0.4f, 1.1f);
+		[SerializeField] private Vector2 alphaRange = new Vector2(0.3f, 1f);
 
-        private WaitForSeconds interval;
-        
-        private Coroutine pulseRoutine;
-        private Coroutine fadeRoutine;
-        private IDisposable disposable;
+		[Space]
+		[SerializeField] private GameObject inner;
+		[SerializeField] private GameObject outer;
 
-        private CavrnusUser cavUser;
+		private WaitForSeconds interval;
 
-        private bool hasSetup = false;
-        public void Setup(CavrnusUser user)
-        {
-            cavUser = user;
-            
-            mainCg = gameObject.AddComponent<CanvasGroup>();
-            inner.AddComponent<CanvasGroup>().alpha = 0f;
-            outer.AddComponent<CanvasGroup>().alpha = 0f;
+		private Coroutine pulseRoutine;
+		private Coroutine fadeRoutine;
+		private IDisposable disposable;
 
-            interval = new WaitForSeconds(pulseInterval);
-            
-            //Set the volume component to always match the user's data
-            BindUserSpeaking(user);
+		private CavrnusUser cavUser;
 
-            hasSetup = true;
-        }
+		private bool hasSetup = false;
+		public void Setup(CavrnusUser user)
+		{
+			cavUser = user;
 
-        private void BindUserSpeaking(CavrnusUser user)
-        {
-            if (!gameObject.activeInHierarchy) 
-                return;
-            
-            disposable = user.IsSpeaking.Bind(speaking => {
-                StartCoroutine(FadeRoutine(speaking));
+			mainCg = gameObject.AddComponent<CanvasGroup>();
+			inner.AddComponent<CanvasGroup>().alpha = 0f;
+			outer.AddComponent<CanvasGroup>().alpha = 0f;
 
-                if (!speaking && pulseRoutine != null) {
-                    StopCoroutine(pulseRoutine);
-                    pulseRoutine = null;
-                }
+			interval = new WaitForSeconds(pulseInterval);
 
-                if (speaking) 
-                    pulseRoutine = StartCoroutine(PulseIntervalRoutine());
-            });
-        }
+			//Set the volume component to always match the user's data
+			BindUserSpeaking(user);
 
-        private void OnEnable()
-        {
-            if (hasSetup)
-                BindUserSpeaking(cavUser);
-        }
-        
-        private void OnDisable()
-        {
-            if (pulseRoutine != null) {
-                StopCoroutine(pulseRoutine);
-                pulseRoutine = null;
-            }
-            
-            disposable?.Dispose();
-        }
+			hasSetup = true;
+		}
 
-        private CanvasGroup mainCg;
+		private void BindUserSpeaking(CavrnusUser user)
+		{
+			if (!gameObject.activeInHierarchy)
+				return;
 
-        private IEnumerator FadeRoutine(bool speaking)
-        {
-            var target = speaking ? 1 : 0;
-            var start = mainCg.alpha;
+			disposable = user.IsSpeaking.Bind(speaking => {
+				StartCoroutine(FadeRoutine(speaking));
 
-            var elapsed = 0f;
-            while (elapsed < 0.3f) {
-                mainCg.alpha = Mathf.Lerp(start, target, elapsed / fadeVisibilitySpeed);
-                elapsed += Time.deltaTime;
-                
-                yield return null;
-            }
-        }
-        
-        private IEnumerator PulseIntervalRoutine()
-        {
-            while (true) {
-                StartCoroutine(StartPulse(inner));
-                yield return interval;
-                StartCoroutine(StartPulse(outer));
-                yield return interval;
-            }
-        }
+				if (!speaking && pulseRoutine != null)
+				{
+					StopCoroutine(pulseRoutine);
+					pulseRoutine = null;
+				}
 
-        private IEnumerator StartPulse(GameObject target)
-        {
-            var cg = target.GetComponent<CanvasGroup>();
+				if (speaking)
+					pulseRoutine = StartCoroutine(PulseIntervalRoutine());
+			});
+		}
 
-            var elapsedTime = 0f;
-            var startingScale = Vector3.one * pulseRange.x;
-            var targetScale = Vector3.one * pulseRange.y;
-            
-            var startingAlpha = alphaRange.y;
-            var targetAlpha = alphaRange.x;
+		private void OnEnable()
+		{
+			if (hasSetup)
+				BindUserSpeaking(cavUser);
+		}
 
-            while (elapsedTime < pulseSpeed) {
-                var lerpFactor = Mathf.SmoothStep(0f, 1f, elapsedTime / pulseSpeed);
-                elapsedTime += Time.deltaTime;
-                
-                target.transform.localScale = Vector3.Lerp(startingScale, targetScale, lerpFactor);
-                cg.alpha = Mathf.Lerp(startingAlpha, targetAlpha, lerpFactor);
-                
-                yield return null;
-            }
-        }
+		private void OnDisable()
+		{
+			if (pulseRoutine != null)
+			{
+				StopCoroutine(pulseRoutine);
+				pulseRoutine = null;
+			}
 
-        private void OnDestroy() => disposable?.Dispose();
-    }
+			disposable?.Dispose();
+		}
+
+		private CanvasGroup mainCg;
+
+		private IEnumerator FadeRoutine(bool speaking)
+		{
+			var target = speaking ? 1 : 0;
+			var start = mainCg.alpha;
+
+			var elapsed = 0f;
+			while (elapsed < 0.3f)
+			{
+				mainCg.alpha = Mathf.Lerp(start, target, elapsed / fadeVisibilitySpeed);
+				elapsed += Time.deltaTime;
+
+				yield return null;
+			}
+		}
+
+		private IEnumerator PulseIntervalRoutine()
+		{
+			while (true)
+			{
+				StartCoroutine(StartPulse(inner));
+				yield return interval;
+				StartCoroutine(StartPulse(outer));
+				yield return interval;
+			}
+		}
+
+		private IEnumerator StartPulse(GameObject target)
+		{
+			var cg = target.GetComponent<CanvasGroup>();
+
+			var elapsedTime = 0f;
+			var startingScale = Vector3.one * pulseRange.x;
+			var targetScale = Vector3.one * pulseRange.y;
+
+			var startingAlpha = alphaRange.y;
+			var targetAlpha = alphaRange.x;
+
+			while (elapsedTime < pulseSpeed)
+			{
+				var lerpFactor = Mathf.SmoothStep(0f, 1f, elapsedTime / pulseSpeed);
+				elapsedTime += Time.deltaTime;
+
+				target.transform.localScale = Vector3.Lerp(startingScale, targetScale, lerpFactor);
+				cg.alpha = Mathf.Lerp(startingAlpha, targetAlpha, lerpFactor);
+
+				yield return null;
+			}
+		}
+
+		private void OnDestroy() => disposable?.Dispose();
+	}
 }

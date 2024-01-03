@@ -132,33 +132,26 @@ namespace CavrnusSdk
 		{
 			if (val is Texture2D tex)
 			{
-				//				Debug.Log($"UVTP: arg. {SystemInfo.graphicsUVStartsAtTop}");
-#if BUILD_ANDROID_OCULUS_QUEST
-				providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 1, 1, -1));
-#else
+				// Debug.Log($"UVTP: arg. {SystemInfo.graphicsUVStartsAtTop}");
+
 				if (SystemInfo.graphicsUVStartsAtTop)
-					providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 0, 1, 1));
+					providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 0, 1, -1));
 				else
-					providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 1, 1, -1));
-#endif
+					providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 1, 1, 1));
 			}
 			else if (val is TextureWithUVs twu)
 				providedTexture.Value = twu;
-#if BUILD_SUPPORT_WEBCAMTEXTURE
+#if !BUILD_MAGICLEAP && !BUILD_QUEST
 			else if (val is WebCamTexture wct)
-				providedTexture.Value = new TextureWithUVs(wct, new Rect(0, 0, 1, 1));
+				providedTexture.Value = new TextureWithUVs(wct, new Rect(0, 0, 1, -1));
 #endif
 			else if (val is RenderTexture rt)
 			{
-#if BUILD_ANDROID_OCULUS_QUEST
-				providedTexture.Value = new TextureWithUVs(rt, new Rect(0, 1, 1, -1));
-#else
 				// only true for self-stream in direct-video systems (android atm 1/23)
 				if (SystemInfo.graphicsUVStartsAtTop)
-					providedTexture.Value = new TextureWithUVs(rt, new Rect(0, 0, 1, 1));
+					providedTexture.Value = new TextureWithUVs(rt, new Rect(0, 0, 1, -1));
 				else
-					providedTexture.Value = new TextureWithUVs(rt, new Rect(0, 1, 1, -1));
-#endif
+					providedTexture.Value = new TextureWithUVs(rt, new Rect(0, 1, 1, 1));
 			}
 
 			providedTextureNeedsToBeDestroyed = false;

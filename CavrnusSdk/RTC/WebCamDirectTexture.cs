@@ -6,7 +6,7 @@ using FM.LiveSwitch.Unity;
 using UnityEngine;
 using UnityEngine.UI;
 
-#if BUILD_RESTRICT_SUPPORT_WEBCAMTEXTURE
+#if !UNITY_MAGICLEAP && !BUILD_ANDROID_OCULUS_QUEST
 
 /// <summary>A WebCamTexture-based video source. Decompiled from LS and modified for use.</summary>
 public class WebCamDirectTextureSource : CameraSourceBase
@@ -142,7 +142,6 @@ public class WebCamDirectTextureSource : CameraSourceBase
                         input = devices.Length != 0 ? InputFromDevice(((IEnumerable<WebCamDevice>)devices).First<WebCamDevice>()) : throw new Exception("No video devices found.");
                     }
                 }
-                
                 WebCamDevice webCamDevice = this._Device.Value;
                 this.ViewMirror = webCamDevice.isFrontFacing;
                 this._LastCameraRotation = -1;

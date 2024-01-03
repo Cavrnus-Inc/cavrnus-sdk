@@ -61,9 +61,9 @@ namespace CavrnusSdk.XR.UI
 
             // Setup widget components
             var cu = new CavrnusUser(csc.RoomSystem.Comm.LocalCommUser.Value, csc.RoomSystem);
-            widgetUserMicWidget.Setup(cu);
-            widgetUserProfileImageWidget.Setup(cu);
-        }
+			widgetUserMicWidget.Setup(cu);
+			widgetUserProfileImageWidget.Setup(cu);
+		}
         
         private void OnDestroy()
         {

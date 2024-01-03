@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using CavrnusSdk.Avatars;
 using UnityEngine;
 using Collab.Base.Collections;
 using Collab.Proxy.Prop.JournalInterop;
@@ -41,15 +40,27 @@ namespace CavrnusSdk
 			if (user.IsLocalUser)
 				return;
 
-			avatarInstances[user.ContainerId] = Instantiate(RemoteAvatarPrefab, transform);
+			var avatar = Instantiate(RemoteAvatarPrefab, transform);
 
-			avatarInstances[user.ContainerId].GetComponent<SyncTransform>().GetComponent<CavrnusPropertiesContainer>().SetContainerName($"{user.ContainerId}");
-			avatarInstances[user.ContainerId].GetComponent<SyncTransform>().PropertyName = UserPropertyDefs.User_CopresenceLocation;
+			avatar.AddComponent<CavrnusUserFlag>().User = user;
 
-			avatarInstances[user.ContainerId].GetComponentInChildren<SyncTmpText>().GetComponent<CavrnusPropertiesContainer>().SetContainerName($"{user.ContainerId}");
-			avatarInstances[user.ContainerId].GetComponentInChildren<SyncTmpText>().PropertyName = UserPropertyDefs.Users_Name;
-			
-			avatarInstances[user.ContainerId].GetComponentInChildren<AvatarTag>().Setup(user);
+			foreach (var propContainer in avatar.GetComponentsInChildren<CavrnusPropertiesContainer>())
+				propContainer.PrefixContainerName($"{user.ContainerId}");
+
+			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<bool>>())
+				sync.SendMyChanges = false;
+			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<float>>())
+				sync.SendMyChanges = false;
+			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<Color>>())
+				sync.SendMyChanges = false;
+			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<Vector4>>())
+				sync.SendMyChanges = false;
+			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<CavrnusPropertyHelpers.TransformData>>())
+				sync.SendMyChanges = false;
+			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<string>>())
+				sync.SendMyChanges = false;
+
+			avatarInstances[user.ContainerId] = avatar;
 		}
 
 		//Destroy them when we lose that user

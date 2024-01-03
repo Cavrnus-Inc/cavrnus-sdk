@@ -3,11 +3,13 @@ using Collab.Base.Collections;
 using Collab.LiveRoomSystem;
 using Collab.Proxy.Comm;
 using System.Collections.Generic;
+using UnityEngine.SocialPlatforms.Impl;
 
 namespace CavrnusSdk
 {
 	public class CavrnusSpaceUsersList
 	{
+		public ISetting<CavrnusUser> LocalUser = new Setting<CavrnusUser>();
 		public NotifyList<CavrnusUser> Users = new NotifyList<CavrnusUser>();
 
 		private RoomSystem rs;
@@ -48,6 +50,7 @@ namespace CavrnusSdk
 
 			if (newLocalUser != null) {
 				var cu = new CavrnusUser(newLocalUser, rs);
+				LocalUser.Value = cu;
 				cavrnusUsersLookup[newLocalUser.ConnectionId] = cu;
 				Users.Insert(0, cu);
 			}

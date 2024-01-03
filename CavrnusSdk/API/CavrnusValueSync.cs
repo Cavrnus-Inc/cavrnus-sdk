@@ -10,6 +10,9 @@ namespace CavrnusSdk
 
 		public bool SendMyChanges = true;
 
+		[HideInInspector]
+		public bool RecieveChanges = true;
+
 		public abstract T GetValue();
 		public abstract void SetValue(T value);
 
@@ -24,8 +27,10 @@ namespace CavrnusSdk
 			if (string.IsNullOrWhiteSpace(PropertyName))
 				throw new System.Exception($"A PropertyName has not been assigned on object {gameObject.name}");
 
-			displayer = new CavrnusDisplayProperty<T>(this);
-			if (SendMyChanges) sender = new CavrnusPostSynchronizedProperty<T>(this);
+			if(RecieveChanges)
+				displayer = new CavrnusDisplayProperty<T>(this);
+			if (SendMyChanges)
+				sender = new CavrnusPostSynchronizedProperty<T>(this);
 		}
 
 		private void OnDestroy()

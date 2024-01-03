@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CavrnusSdk.XR.UI
+namespace CavrnusSdk
 {
-    public class XrColorPickerItem : MonoBehaviour
+    public class UiColorPickerItem : MonoBehaviour
     {
         [SerializeField] private Image image;
 

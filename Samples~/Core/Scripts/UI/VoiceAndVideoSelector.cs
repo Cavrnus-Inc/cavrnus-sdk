@@ -148,6 +148,6 @@ namespace CavrnusSdk
 			CavrnusRtcHelpers.UpdateVideoInput(spaceConn, videoInputs[v]);
 		}
 
-		public void ToggleAudioMuted(bool muted) { CavrnusRtcHelpers.SetUserMutedState(spaceConn, muted); }
+		public void ToggleAudioMuted(bool muted) { CavrnusRtcHelpers.SetLocalUserMutedState(spaceConn, muted); }
 	}
 }

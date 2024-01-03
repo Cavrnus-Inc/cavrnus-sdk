@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using CavrnusSdk.Common;
 using UnityEngine;
 
-namespace CavrnusSdk.XR.UI
+namespace CavrnusSdk
 {
-    public class XrColorPicker : MonoBehaviour
+    public class UiColorPickerMenu : MonoBehaviour
     {
         [SerializeField] private List<Color> colors;
         [SerializeField] private GameObject colorPrefab;
@@ -20,7 +20,7 @@ namespace CavrnusSdk.XR.UI
             CavrnusSpaceJoinEvent.OnAnySpaceConnection(sc => {
                 foreach (var color in colors) {
                     var go = Instantiate(colorPrefab, container);
-                    go.GetComponent<XrColorPickerItem>().Setup(color, c => ColorPickerSingleton.Instance.ColorUpdated(c));
+                    go.GetComponent<UiColorPickerItem>().Setup(color, c => ColorPickerSingleton.Instance.ColorUpdated(c));
                 }
             });
         }

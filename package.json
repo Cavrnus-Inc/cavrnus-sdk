@@ -19,6 +19,11 @@
       "path": "Samples~/Core"
     },
     {
+      "displayName": "Permissions",
+      "description": "Examples showing how to use roles and policies to tailor content for users.",
+      "path": "Samples~/Permissions"
+    },
+    {
       "displayName": "Xr Ui",
       "description": "Xr specific prefabs meant to work on a variety of Xr devices.",
       "path": "Samples~/Platforms/XR"

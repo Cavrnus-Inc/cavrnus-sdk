@@ -6,49 +6,51 @@ using UnityEngine.Events;
 
 namespace CavrnusSdk.XR.Widgets
 {
-    public class WidgetUserMic : MonoBehaviour
-    {
-        [SerializeField] private GameObject speakingGameObject;
-        [SerializeField] private GameObject mutedGameObject;
+	public class WidgetUserMic : MonoBehaviour
+	{
+		[SerializeField] private GameObject speakingGameObject;
+		[SerializeField] private GameObject mutedGameObject;
 
-        [SerializeField] private WidgetMicPulse micPulse;
-        
-        private readonly List<IDisposable> disposables = new List<IDisposable>();
+		[SerializeField] private WidgetMicPulse micPulse;
 
-        private CavrnusUser cu;
+		private readonly List<IDisposable> disposables = new List<IDisposable>();
 
-        public void Setup(CavrnusUser cu)
-        {
-            this.cu = cu;
-            
-            micPulse.Setup(cu);
-            
-            //Set the mute component to always match the user's data
-            var mutedDisposable = cu.IsMuted.Bind(muted => {
-                if (muted) {
-                    speakingGameObject.SetActive(false);
-                    mutedGameObject.SetActive(true);
-                }
-                else {
-                    speakingGameObject.SetActive(true);
-                    mutedGameObject.SetActive(false);
-                }
-            });
-            
-            disposables.Add(mutedDisposable);
-        }
+		private CavrnusUser cu;
 
-        public void ToggleMic()
-        {
-            if (!cu.IsLocalUser) return;
-            
-            CavrnusRtcHelpers.SetUserMutedState(CavrnusSpaceJoinEvent.CurrentCavrnusSpace, !cu.IsMuted.Value);
-        }
+		public void Setup(CavrnusUser cu)
+		{
+			this.cu = cu;
 
-        private void OnDestroy()
-        {
-            foreach (var disp in disposables)
-                disp.Dispose();
-        }
-    }
+			micPulse.Setup(cu);
+
+			//Set the mute component to always match the user's data
+			var mutedDisposable = cu.IsMuted.Bind(muted => {
+				if (muted)
+				{
+					speakingGameObject.SetActive(false);
+					mutedGameObject.SetActive(true);
+				}
+				else
+				{
+					speakingGameObject.SetActive(true);
+					mutedGameObject.SetActive(false);
+				}
+			});
+
+			disposables.Add(mutedDisposable);
+		}
+
+		public void ToggleMic()
+		{
+			if (!cu.IsLocalUser) return;
+
+			CavrnusRtcHelpers.SetLocalUserMutedState(CavrnusSpaceJoinEvent.CurrentCavrnusSpace, !cu.IsMuted.Value);
+		}
+
+		private void OnDestroy()
+		{
+			foreach (var disp in disposables)
+				disp.Dispose();
+		}
+	}
 }

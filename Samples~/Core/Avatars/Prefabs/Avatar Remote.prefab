@@ -2158,8 +2158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd55bf99a9846e42af35a7ac3492b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PropertyName: Transform
+  PropertyName: transform
   SendMyChanges: 1
+  RecieveChanges: 1
 --- !u!114 &8125684635791219339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2944,6 +2945,10 @@ PrefabInstance:
     - target: {fileID: 5024231983568138814, guid: a656518c3a854a14e899c8979410f9f9, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5499709192575208212, guid: a656518c3a854a14e899c8979410f9f9, type: 3}
+      propertyPath: PropertyName
+      value: name
       objectReference: {fileID: 0}
     - target: {fileID: 7280266415884593545, guid: a656518c3a854a14e899c8979410f9f9, type: 3}
       propertyPath: m_AnchorMax.y

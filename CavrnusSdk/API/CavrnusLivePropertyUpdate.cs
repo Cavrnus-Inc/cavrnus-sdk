@@ -9,12 +9,14 @@ using Collab.Proxy.Prop.StringProp;
 using Collab.Proxy.Prop.VectorProp;
 using UnityBase;
 using UnityEngine;
+using Collab.Proxy.Prop.TransformProp;
 
 namespace CavrnusSdk
 {
 	public class CavrnusLivePropertyUpdate<T>
 	{
 		private LiveOpHandler<OpPropertyUpdateLive> handler;
+		private ITransformProperty specialTransformProp;
 
 		public CavrnusLivePropertyUpdate(CavrnusSpaceConnection spaceConn, string[] pathToContainer,
 		                                       string propertyId, T data)
@@ -26,44 +28,73 @@ namespace CavrnusSdk
 			op.Property = myContainer.AbsoluteId.Push(propertyId);
 
 			if (data is Color c)
-				op.Assignment = new ColorPropertyAssignmentLive() {
-					AssignmentId = "-", Priority = 0, GeneratorPb = new ColorGeneratorConst(c.ToColor4F()).ToPb(),
+				op.Assignment = new ColorPropertyAssignmentLive()
+				{
+					AssignmentId = "-",
+					Priority = 0,
+					GeneratorPb = new ColorGeneratorConst(c.ToColor4F()).ToPb(),
 				};
 			else if (data is bool b)
-				op.Assignment = new BooleanPropertyAssignmentLive() {
-					AssignmentId = "-", Priority = 0, GeneratorPb = new BooleanGeneratorConst(b).ToPb(),
+				op.Assignment = new BooleanPropertyAssignmentLive()
+				{
+					AssignmentId = "-",
+					Priority = 0,
+					GeneratorPb = new BooleanGeneratorConst(b).ToPb(),
 				};
-			else if(data is string s)
-				op.Assignment = new StringPropertyAssignmentLive() {
-					AssignmentId = "-", Priority = 0, GeneratorPb = new StringGeneratorConst(s).ToPb(),
+			else if (data is string s)
+				op.Assignment = new StringPropertyAssignmentLive()
+				{
+					AssignmentId = "-",
+					Priority = 0,
+					GeneratorPb = new StringGeneratorConst(s).ToPb(),
 				};
-			else if(data is float f)
-				op.Assignment = new ScalarPropertyAssignmentLive() {
-					AssignmentId = "-", OverridingPriority = 0, GeneratorPb = new ScalarGeneratorConst(f).ToPb(),
+			else if (data is float f)
+				op.Assignment = new ScalarPropertyAssignmentLive()
+				{
+					AssignmentId = "-",
+					OverridingPriority = 0,
+					GeneratorPb = new ScalarGeneratorConst(f).ToPb(),
 				};
-			else if(data is Vector4 v)
-				op.Assignment = new VectorPropertyAssignmentLive() {
-					AssignmentId = "-", Priority = 0, GeneratorPb = new VectorGeneratorConst(v.ToFloat4()).ToPb(),
-				};
-			else if(data is Vector3 v3)
+			else if (data is Vector4 v)
 				op.Assignment = new VectorPropertyAssignmentLive()
 				{
-					AssignmentId = "-",	Priority = 0, GeneratorPb = new VectorGeneratorConst(new Vector4(v3.x, v3.y, v3.z).ToFloat4()).ToPb(),
+					AssignmentId = "-",
+					Priority = 0,
+					GeneratorPb = new VectorGeneratorConst(v.ToFloat4()).ToPb(),
 				};
-			else if(data is Vector2 v2)
+			else if (data is Vector3 v3)
 				op.Assignment = new VectorPropertyAssignmentLive()
 				{
-					AssignmentId = "-",	Priority = 0, GeneratorPb = new VectorGeneratorConst(new Vector4(v2.x, v2.y).ToFloat4()).ToPb(),
+					AssignmentId = "-",
+					Priority = 0,
+					GeneratorPb = new VectorGeneratorConst(new Vector4(v3.x, v3.y, v3.z).ToFloat4()).ToPb(),
 				};
-			else if(data is CavrnusPropertyHelpers.TransformData t)
-				op.Assignment = new TransformPropertyAssignmentLive() {
+			else if (data is Vector2 v2)
+				op.Assignment = new VectorPropertyAssignmentLive()
+				{
+					AssignmentId = "-",
+					Priority = 0,
+					GeneratorPb = new VectorGeneratorConst(new Vector4(v2.x, v2.y).ToFloat4()).ToPb(),
+				};
+			else if (data is CavrnusPropertyHelpers.TransformData t)
+			{
+				op.Assignment = new TransformPropertyAssignmentLive()
+				{
 					AssignmentId = "-",
 					Priority = 0,
 					SetGeneratorPb = BuildApproachTransform(t),
 				};
+				specialTransformProp = spaceConn.RoomSystem.PropertiesRoot.SearchForTransformProperty(op.Property);
+				specialTransformProp.UpdateValue("moverTmp", 1, new TransformSetGeneratorSrt(
+					new VectorGeneratorConst(t.LocalPosition.ToFloat4()),
+					new VectorGeneratorConst(t.LocalEulerAngles.ToFloat4()),
+					new VectorGeneratorConst(t.LocalScale.ToFloat4())));
+			}
+
+			
 
 			handler = spaceConn.RoomSystem.LiveOpsSys.Create(op);
-			//Debug.Log("Posting First Transient");
+			//Debug.Log("Posting First Transient " + Time.time);
 			handler.PostAsTransient();
 		}
 
@@ -90,12 +121,19 @@ namespace CavrnusSdk
 					AssignmentId = "-", GeneratorPb = new VectorGeneratorConst(v.ToFloat4()).ToPb()
 				};
 			if (data is CavrnusPropertyHelpers.TransformData t)
-				handler.OpData.Assignment = new TransformPropertyAssignmentLive() {
+			{
+				handler.OpData.Assignment = new TransformPropertyAssignmentLive()
+				{
 					AssignmentId = "-",
 					SetGeneratorPb = BuildApproachTransform(t),
 				};
 
-			//Debug.Log("Posting Transient");
+				specialTransformProp.UpdateValue("moverTmp", 1, new TransformSetGeneratorSrt(
+					new VectorGeneratorConst(t.LocalPosition.ToFloat4()),
+					new VectorGeneratorConst(t.LocalEulerAngles.ToFloat4()),
+					new VectorGeneratorConst(t.LocalScale.ToFloat4())));
+			}
+			Debug.Log("Posting Transient " + handler.OpData + ", " + Time.time);
 
 			handler.PostAsTransient();
 		}
@@ -123,7 +161,12 @@ namespace CavrnusSdk
 
 		public void Finish()
 		{
-			//Debug.Log("Posting Final");
+			if(specialTransformProp != null)
+			{
+				specialTransformProp.ClearValue("moverTmp");
+			}
+
+			//Debug.Log("Posting Final " + Time.time);
 			handler.PostAndComplete();
 		}
 

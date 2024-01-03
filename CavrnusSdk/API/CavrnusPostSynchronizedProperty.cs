@@ -66,7 +66,7 @@ namespace CavrnusSdk
 
 			if (!hasChange) {
 				//This change has timed out, time to finalize it
-				if (updater != null && Time.time - lastChangeTime > endChangeTimeGap) {
+				if (!sync.Context.IsUserProperty() && updater != null && Time.time - lastChangeTime > endChangeTimeGap) {
 					updater.UpdateWithNewData(sync.GetValue());
 					updater.Finish();
 					updater = null;
@@ -78,12 +78,16 @@ namespace CavrnusSdk
 
 			lastChangeTime = Time.time;
 
-			if (updater == null) {
+			if (updater == null) 
+			{
 				updater = CavrnusPropertyHelpers.BeginContinuousPropertyUpdate<T>(spaceConn,
 					sync.Context.UniqueContainerPath, sync.PropName,
 					sync.GetValue());
 			}
-			else { updater.UpdateWithNewData(sync.GetValue()); }
+			else 
+			{ 
+				updater.UpdateWithNewData(sync.GetValue()); 
+			}
 		}
 
 		public void Dispose() { disp.Dispose(); }

@@ -11,7 +11,18 @@ namespace CavrnusSdk
 		[SerializeField]
 		private string UniqueContainerName;
 
-		public void SetContainerName(string containerName) { UniqueContainerName = containerName; }
+		public void PrefixContainerName(string prefix) 
+		{
+			if(string.IsNullOrWhiteSpace(UniqueContainerName))
+				UniqueContainerName = prefix;
+			else
+				UniqueContainerName = $"{prefix}/{UniqueContainerName}";
+		}
+
+		public bool IsUserProperty()
+		{
+			return UniqueContainerName.StartsWith("/users/");
+		}
 
 		public string[] UniqueContainerPath{
 			get {

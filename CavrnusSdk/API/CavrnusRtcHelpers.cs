@@ -7,7 +7,7 @@ namespace CavrnusSdk
 {
 	public static class CavrnusRtcHelpers
 	{
-		public static void SetUserMutedState(CavrnusSpaceConnection spaceConn, bool muted)
+		public static void SetLocalUserMutedState(CavrnusSpaceConnection spaceConn, bool muted)
 		{
 			spaceConn.RoomSystem.Comm.LocalCommUser.Value.Rtc.Muted.Value = muted;
 		}

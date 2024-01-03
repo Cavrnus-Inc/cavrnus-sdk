@@ -1,4 +1,5 @@
 using CavrnusSdk.XR.Widgets;
+using UnityBase;
 using UnityEngine;
 
 namespace CavrnusSdk.Avatars
@@ -10,16 +11,18 @@ namespace CavrnusSdk.Avatars
         
         private Camera mainCam;
 
-        public void Setup(CavrnusUser user)
-        {
-            mainCam = Camera.main;
-            if (mainCam == null)
-                Debug.LogWarning("Missing main cam in scene!");
-            
-            userMic.Setup(user);
-            profileImage.Setup(user);
-        }
-        
+		private void Start()
+		{
+			mainCam = Camera.main;
+			if (mainCam == null)
+				Debug.LogWarning("Missing main cam in scene!");
+
+            var user = gameObject.GetComponentInAllParents<CavrnusUserFlag>().User;
+
+			userMic.Setup(user);
+			profileImage.Setup(user);
+		}
+
         private void Update()
         {
             if (mainCam != null)
