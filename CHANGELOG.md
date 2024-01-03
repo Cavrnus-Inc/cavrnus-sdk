@@ -1,11 +1,20 @@
 # Changelog
 
-## [0.0.1] - 2023-12-01
+## [0.1.0] - 2023-12-01
 
 ### Added
 - Initial package creation
 
-## [0.0.2] - 2023-12-11
+## [0.2.0] - 2023-12-11
 
 ### Added
 - Add Ar components to handle locally adjusting world origin of Ar tracked objects.
+
+## [1.0.0] - 2024-01-03
+
+### Added
+- Add permissions demo showcasing restricting desired UI elements in a scene.
+- Add smooth copresence along with other enhancements to avatar system.
+- Demo assets are now URP compliant.
+- Fix flipped video streams.
+- Remove Magic Leap specific option in cav settings object.
