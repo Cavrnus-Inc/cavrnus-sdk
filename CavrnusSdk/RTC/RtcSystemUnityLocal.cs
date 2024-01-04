@@ -93,7 +93,7 @@ namespace Collab.RtcWrapper
 	
 		public void Initialize(RtcModeEnum mode, bool enableAec)
 		{
-#if !UNITY_EDITOR_OSX && !UNITY_STANDALONE_OSX && !UNITY_IOS && !UNITY_MAGICLEAP
+#if !UNITY_EDITOR_OSX && !UNITY_STANDALONE_OSX && !UNITY_IOS && !UNITY_VISIONOS
 			if (enableAec && !RtcRegistrySettings.GetDisableAudioProcessing())
 				AecContext = new AecContextUnity();
 #endif
