@@ -19,6 +19,9 @@ namespace CavrnusSdk
 		public IReadonlySetting<bool> IsMuted;
 		public IReadonlySetting<float> SpeakingVolume;
 		public IReadonlySetting<Sprite> ProfileAndVideoTexture;
+		public IReadonlySetting<Sprite> VideoTexture;
+
+		public IReadonlySetting<bool> IsStreaming;
 
 		private ISessionCommunicationUser user;
 		private IRegistrationHook<TextureWithUVs, int> userVidHook;
@@ -49,7 +52,10 @@ namespace CavrnusSdk
 			userVidHook.Request(1);
 
 			ProfileAndVideoTexture = profileProvider.UsersMenuTex.Translating(tuv => {
-				if (tuv?.Texture == null) { return null; }
+				if (tuv?.Texture == null) {
+					
+					return null;
+				}
 				else {
 					var sprite = Sprite.Create(tuv.Texture as Texture2D,
 					                           new Rect(Vector2.zero,
@@ -59,7 +65,23 @@ namespace CavrnusSdk
 					return sprite;
 				}
 			});
-
+			
+			VideoTexture = profileProvider.UsersStream.Translating(tuv => {
+				if (tuv?.Texture == null) {
+					
+					return null;
+				}
+				else {
+					var sprite = Sprite.Create(tuv.Texture as Texture2D,
+					                           new Rect(Vector2.zero,
+					                                    new Vector2(tuv.Texture.width * tuv.UVRect.width,
+					                                                tuv.Texture.height * tuv.UVRect.height)),
+					                           Vector2.zero);
+					return sprite;
+				}
+			});
+			
+			IsStreaming = profileProvider.StreamingToUsersMenu;
 		}
 
 		public IDisposable BindLatestCoPresence(Action<CoPresenceLive> act) { return user.LatestCoPresence.Bind(act); }

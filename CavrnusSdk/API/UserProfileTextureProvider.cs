@@ -48,8 +48,10 @@ namespace CavrnusSdk
 	public class UserProfileTextureProvider
 	{
 		public IReadonlySetting<TextureWithUVs> UsersMenuTex => cameraStreamOrProfileTexture;
+		public IReadonlySetting<TextureWithUVs> UsersStream => overridingUsersMenuStreamPic;
 
-		private IReadonlySetting<bool> StreamingToUsersMenu { get; }
+		public IReadonlySetting<bool> StreamingToUsersMenu { get; }
+		
 		private IReadonlySetting<TextureWithUVs> overridingUsersMenuStreamPic;
 		private IReadonlySetting<TextureWithUVs> cameraStreamOrProfileTexture;
 		private IRegistrationSet<TextureWithUVs, int> combinedUsersMenuTextureRegSet { get; }

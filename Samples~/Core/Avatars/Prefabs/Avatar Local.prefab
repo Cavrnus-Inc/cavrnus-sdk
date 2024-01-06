@@ -2260,10 +2260,12 @@ GameObject:
   - component: {fileID: 6900051372607755785}
   - component: {fileID: 6612895205250229514}
   - component: {fileID: 2596274881969203551}
-  - component: {fileID: 4842529227403388436}
   - component: {fileID: 7122404411001425442}
   - component: {fileID: 6793951268615245588}
   - component: {fileID: 1642582787528222925}
+  - component: {fileID: 8737680936930819449}
+  - component: {fileID: 6578269918291015153}
+  - component: {fileID: 1810778229820001925}
   m_Layer: 0
   m_Name: Avatar Local
   m_TagString: Untagged
@@ -2335,18 +2337,6 @@ CharacterController:
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.93, z: 0}
---- !u!114 &4842529227403388436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7655749332648085126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46655a88e8116fc41aee5abcbd8a0960, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7122404411001425442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2400,7 +2390,46 @@ MonoBehaviour:
   reticle: {fileID: 183991626649236058}
   interactableColor: {r: 0.12609467, g: 0.4475497, b: 0.8679245, a: 1}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  interactor: 101
+--- !u!114 &8737680936930819449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7655749332648085126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b94f81ebabca554d995c69dc4ce9cb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6578269918291015153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7655749332648085126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e724c140dc23a418b8365b0907f9ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UniqueContainerName: 
+--- !u!114 &1810778229820001925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7655749332648085126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cd55bf99a9846e42af35a7ac3492b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: Transform
+  SendMyChanges: 1
+  RecieveChanges: 1
 --- !u!1 &7919840968269678509
 GameObject:
   m_ObjectHideFlags: 0
