@@ -20,7 +20,7 @@ namespace CavrnusSdk
             CavrnusSpaceJoinEvent.OnAnySpaceConnection(sc => {
                 foreach (var color in colors) {
                     var go = Instantiate(colorPrefab, container);
-                    go.GetComponent<UiColorPickerItem>().Setup(color, c => ColorPickerSingleton.Instance.ColorUpdated(c));
+                    go.GetComponent<UiColorPickerItem>().Setup(color, c => ColorPickerSingleton.Instance.UpdateColor(c));
                 }
             });
         }

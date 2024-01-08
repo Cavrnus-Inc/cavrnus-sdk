@@ -10,50 +10,37 @@ namespace CavrnusSdk.StreamBoards
         [SerializeField] private Image image;
         [SerializeField] private AspectRatioFitter aspectRatioFitter;
 
-        [SerializeField] private CavrnusStreamContextMenu ctxMenuPrefab;
-
-        private CavrnusSpaceConnection spaceConn;
         private IDisposable profileDisposable;
 
-        private void Start()
+        public void UpdateAndBindUserTexture(CavrnusUser user)
         {
-            CavrnusSpaceJoinEvent.OnAnySpaceConnection(csc => {
-                spaceConn = csc;
-            });
+            if (user == null) 
+                ResetStream();
+
+            profileDisposable = user?.VideoTexture.Bind(SetImageAndAspectRatio);
         }
 
-        public void OnPointerClick()
+        public void UpdateTexture(Sprite sp)
         {
-            if (spaceConn == null) 
-                return;
-            
-            var ctx = Instantiate(ctxMenuPrefab, null);
-            
-            ctx.GetComponentInChildren<CavrnusStreamContextMenu>().Setup(spaceConn.UsersList.Users, user => {
-                if (user == null) {
-                    image.sprite = null;
-                    profileDisposable?.Dispose();
-                }
-                
-                profileDisposable = user?.VideoTexture.Bind(vidTex =>
-                {
-                    if (vidTex != null) {
-                        image.sprite = vidTex;
-                        aspectRatioFitter.aspectRatio = (float)vidTex.texture.width / (float)vidTex.texture.height;
-                    }
-                    else {
-                        image.sprite = null;
-                        profileDisposable?.Dispose();
-                    }
-                });
-                
-                Destroy(ctx.gameObject);
-            });
+            SetImageAndAspectRatio(sp);
         }
-                
-        private void OnDestroy()
+
+        private void SetImageAndAspectRatio(Sprite sp)
         {
+            if (sp != null) {
+                image.sprite = sp;
+                aspectRatioFitter.aspectRatio = (float) sp.texture.width / (float) sp.texture.height;
+            }
+            else
+                ResetStream();
+        }
+
+        private void ResetStream()
+        {
+            image.sprite = null;
             profileDisposable?.Dispose();
         }
+                
+        private void OnDestroy() => profileDisposable?.Dispose();
     }
 }

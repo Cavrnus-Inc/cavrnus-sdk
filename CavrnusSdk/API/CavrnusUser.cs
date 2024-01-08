@@ -16,12 +16,11 @@ namespace CavrnusSdk
 
 		public IReadonlySetting<string> UserName;
 		public IReadonlySetting<bool> IsSpeaking;
+		public IReadonlySetting<bool> IsStreaming;
 		public IReadonlySetting<bool> IsMuted;
 		public IReadonlySetting<float> SpeakingVolume;
 		public IReadonlySetting<Sprite> ProfileAndVideoTexture;
 		public IReadonlySetting<Sprite> VideoTexture;
-
-		public IReadonlySetting<bool> IsStreaming;
 
 		private ISessionCommunicationUser user;
 		private IRegistrationHook<TextureWithUVs, int> userVidHook;

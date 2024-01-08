@@ -1,54 +1,38 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CavrnusSdk.Common
 {
-    [RequireComponent(typeof(MeshRenderer))]
-    [RequireComponent(typeof(CavrnusPropertiesContainer))]
+    [RequireComponent(typeof(SyncMaterialSharedColor))]
     public class ColorPickerSingleton : MonoBehaviour
     {
         public static ColorPickerSingleton Instance{ get; private set; }
 
         [SerializeField] private Material material;
-        
-        private MeshRenderer rend;
-        private IDisposable disposable;
-        private CavrnusSpaceConnection spaceConn;
-        private CavrnusPropertiesContainer ctx;
+
+        [Space] [SerializeField] private List<Color> colors;
 
         private void Awake()
         {
-            Instance = this;
-            
-            ctx = GetComponent<CavrnusPropertiesContainer>();
-            rend = GetComponent<MeshRenderer>();
-
-            if (material != null)
-                rend.sharedMaterial = material;
+            if (Instance != null && Instance != this)
+                Destroy(this);
             else
-                Debug.LogWarning($"Missing material on{nameof(ColorPickerSingleton)}"!);
+                Instance = this;
         }
 
-        private void Start()
+        public void SetNewDefinedColor()
         {
-            if (material != null) {
-                CavrnusSpaceJoinEvent.OnAnySpaceConnection(sc => {
-                    spaceConn = sc;
+            var color = colors.IndexOf(material.color);
 
-                    disposable = CavrnusPropertyHelpers.BindToVectorProperty(
-                        sc, ctx.UniqueContainerPath, "GenericColorUpdated", c => { rend.sharedMaterial.color = c; });
-                });
-            }
+            // Is last in list? 
+            if (color + 1 == colors.Count)
+                color = 0;
+            else
+                color += 1;
+
+            UpdateColor(colors[color]);
         }
-        
-        public void ColorUpdated(Color newValue)
-        {
-            Vector4 colorVector = newValue;
-            if (colorVector != CavrnusPropertyHelpers.GetVectorPropertyValue(spaceConn, ctx.UniqueContainerPath, "GenericColorUpdated")) {
-                CavrnusPropertyHelpers.UpdateVectorProperty(spaceConn, ctx.UniqueContainerPath, "GenericColorUpdated", colorVector);
-            }
-        }
-        
-        private void OnDestroy() => disposable?.Dispose();
+
+        public void UpdateColor(Color newValue) { material.color = newValue; }
     }
 }

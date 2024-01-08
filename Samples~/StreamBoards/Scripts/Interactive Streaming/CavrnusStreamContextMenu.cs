@@ -17,9 +17,8 @@ namespace CavrnusSdk.StreamBoards
         {
             var filteredUsers = users.Where(user => user.IsStreaming.Value).ToList();
 
-            if (filteredUsers.Count == 0) {
+            if (filteredUsers.Count == 0)
                 noContentContainer.gameObject.SetActive(true);
-            }
             else {
                 noContentContainer.gameObject.SetActive(false);
                 Instantiate(streamOptionPrefab, container).Setup(null, userSelected);
@@ -30,9 +29,6 @@ namespace CavrnusSdk.StreamBoards
             }
         }
 
-        public void Close()
-        {
-            Destroy(gameObject);
-        }
+        public void Close() => Destroy(gameObject);
     }
 }

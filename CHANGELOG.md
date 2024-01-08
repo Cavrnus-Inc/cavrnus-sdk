@@ -23,4 +23,9 @@
 
 ### Added
 - Add v1 streamboard functionality.
-- Added local avatar components for copresence.
+- Add local avatar components for copresence.
+
+## [1.2.0] - 2024-01-05
+
+### Added
+- Add v1 auto streamboard functionality.These are basic and without board ownership.
