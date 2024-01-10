@@ -6,7 +6,7 @@ using FM.LiveSwitch.Unity;
 using UnityEngine;
 using UnityEngine.UI;
 
-#if !UNITY_MAGICLEAP && !BUILD_ANDROID_OCULUS_QUEST
+#if !UNITY_MAGICLEAP && !BUILD_ANDROID_OCULUS_QUEST && !UNITY_VISIONOS
 
 /// <summary>A WebCamTexture-based video source. Decompiled from LS and modified for use.</summary>
 public class WebCamDirectTextureSource : CameraSourceBase

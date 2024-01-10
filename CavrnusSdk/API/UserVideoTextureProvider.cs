@@ -133,15 +133,19 @@ namespace CavrnusSdk
 			if (val is Texture2D tex)
 			{
 				// Debug.Log($"UVTP: arg. {SystemInfo.graphicsUVStartsAtTop}");
-
-				if (SystemInfo.graphicsUVStartsAtTop)
-					providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 0, 1, -1));
-				else
-					providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 1, 1, 1));
+				
+				#if UNITY_VISIONOS
+					providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 0, 1, 1));
+				#else
+					if (SystemInfo.graphicsUVStartsAtTop)
+						providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 0, 1, -1));
+					else
+						providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 1, 1, 1));
+				#endif
 			}
 			else if (val is TextureWithUVs twu)
 				providedTexture.Value = twu;
-#if !BUILD_MAGICLEAP && !BUILD_QUEST
+#if !BUILD_MAGICLEAP && !BUILD_QUEST && !UNITY_VISIONOS
 			else if (val is WebCamTexture wct)
 				providedTexture.Value = new TextureWithUVs(wct, new Rect(0, 0, 1, -1));
 #endif
