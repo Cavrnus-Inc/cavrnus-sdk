@@ -23,9 +23,9 @@
 
 ### Added
 - Add v1 streamboard functionality.
-- Add local avatar components for copresence.
+- Added local avatar components for copresence.
 
-## [1.2.0] - 2024-01-05
+## [1.2.0] - 2024-01-23
 
 ### Added
-- Add v1 auto streamboard functionality.These are basic and without board ownership.
+- Cavrnus Core as the primary setup mechanism

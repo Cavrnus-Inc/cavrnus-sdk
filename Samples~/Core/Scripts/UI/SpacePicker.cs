@@ -21,8 +21,15 @@ namespace CavrnusSdk
 		private List<CavrnusSpaceInfo> allSpaces;
 		private List<CavrnusSpaceInfo> currentDisplayedSpaces;
 
-		public void Setup(List<CavrnusSpaceInfo> spaces)
+		void Start()
 		{
+			Setup();
+		}
+
+		private async void Setup()
+		{
+			List<CavrnusSpaceInfo> spaces = await CavrnusHelpers.GetAllAvailableSpaces();
+
 			allSpaces = spaces;
 			currentDisplayedSpaces = allSpaces;
 

@@ -64,6 +64,15 @@ namespace CavrnusSdk
 			T currUnityVal = sync.GetValue();
 			bool hasChange = !currPropertyValue.Equals(currUnityVal);
 
+			//Transforms can sometimes be a little wobbly w/ gravity etc.  Wanna give them a LITTLE bit of epsilon
+			if (typeof(T) == typeof(CavrnusPropertyHelpers.TransformData))
+			{
+				if(currPropertyValue is CavrnusPropertyHelpers.TransformData td && currUnityVal is CavrnusPropertyHelpers.TransformData utd)
+				{
+					hasChange = !td.LocalPosition.AlmostEquals(utd.LocalPosition, .0001f) || !td.LocalEulerAngles.AlmostEquals(utd.LocalEulerAngles, .0001f) || !td.LocalScale.AlmostEquals(utd.LocalScale, .0001f);
+				}
+			}
+
 			if (!hasChange) {
 				//This change has timed out, time to finalize it
 				if (!sync.Context.IsUserProperty() && updater != null && Time.time - lastChangeTime > endChangeTimeGap) {

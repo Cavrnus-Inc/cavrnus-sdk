@@ -123,8 +123,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6215367342216451923}
-        m_TargetAssemblyTypeName: LoginPanel, Assembly-CSharp
-        m_MethodName: JoinCavrnusSpace
+        m_TargetAssemblyTypeName: CavrnusSdk.LoginPanel, Assembly-CSharp
+        m_MethodName: Authenticate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

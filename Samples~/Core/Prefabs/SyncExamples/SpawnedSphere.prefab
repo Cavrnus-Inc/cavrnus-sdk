@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 1787192482058821119}
   - component: {fileID: 1987002606504821961}
   - component: {fileID: 5208800444259398337}
+  - component: {fileID: 8235261899005985479}
   - component: {fileID: 7461992201499700206}
   - component: {fileID: 4235910513697499208}
   - component: {fileID: -8927140575836919384}
   - component: {fileID: 5415683409911098110}
-  - component: {fileID: 8235261899005985479}
   - component: {fileID: -1741082778259530779}
   m_Layer: 0
   m_Name: SpawnedSphere
@@ -38,7 +38,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1787192482058821119
 MeshFilter:
@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 53fab51a2472422468e41d894256d421, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,6 +111,19 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8235261899005985479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2592921197611725377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 223f6208492441a4bb71be856a4b467c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UniqueIdentifier: SpawnedSphere
 --- !u!114 &7461992201499700206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PropertyName: Color
   SendMyChanges: 1
+  RecieveChanges: 1
 --- !u!114 &-8927140575836919384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,6 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PropertyName: Transform
   SendMyChanges: 1
+  RecieveChanges: 1
 --- !u!114 &5415683409911098110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,19 +179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9cbc63bfd504b449983751316b095dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8235261899005985479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2592921197611725377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 223f6208492441a4bb71be856a4b467c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UniqueIdentifier: SpawnedSphere
 --- !u!114 &-1741082778259530779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,4 +191,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86c600b7281c8f1409312c2f45b8c3d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UniqueObjectIdToSpawn: 

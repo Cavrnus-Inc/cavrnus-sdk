@@ -119,23 +119,39 @@ namespace CavrnusSdk
 		{
 			RestApiEndpoint endpoint = RestApiEndpoint.ParseFromHostname(server);
 
-			RestUserCommunication ruc =
-				new RestUserCommunication(endpoint, new FrameworkNetworkRequestImplementation());
+			RestUserCommunication ruc =	new RestUserCommunication(endpoint, new FrameworkNetworkRequestImplementation());
 			RestUserCommunication.LoginRequest req = new RestUserCommunication.LoginRequest();
 			req.email = email;
 			req.password = password;
 			var token = await ruc.PostLocalAccountLoginAsync(req);
 
-			DebugOutput.Info("Logged in, token: " + token.token);
+			DebugOutput.Info("Logged in as User, token: " + token.token);
 			
-			CavrnusAuth.Endpoint = endpoint.WithAuthorization(token.token);
+			CavrnusAuthRecvEvent.SetAuthorization(new CavrnusAuth(endpoint.WithAuthorization(token.token)));
 			
+			NotifySetup();
+		}
+
+		public static async Task AuthenticateAsGuest(string server, string userName)
+		{
+			RestApiEndpoint endpoint = RestApiEndpoint.ParseFromHostname(server);
+
+			RestUserCommunication ruc =	new RestUserCommunication(endpoint, new FrameworkNetworkRequestImplementation());
+			RestUserCommunication.GuestRegistrationRequest req = new RestUserCommunication.GuestRegistrationRequest();
+			req.screenName = userName;
+			
+			var token = await ruc.PostGuestRegistrationAsync(req);
+
+			DebugOutput.Info("Logged in as Guest, token: " + token.token);
+
+			CavrnusAuthRecvEvent.SetAuthorization(new CavrnusAuth(endpoint.WithAuthorization(token.token)));
+
 			NotifySetup();
 		}
 
 		private static void NotifySetup()
 		{
-			Notify.Initialize(CavrnusAuth.Endpoint, true);
+			Notify.Initialize(CavrnusAuthRecvEvent.CurrentAuth.Endpoint, true);
 			Notify.ObjectsSystem.StartListeningAll(null, err => DebugOutput.Error(err.ToString()));
 			Notify.PoliciesSystem.StartListeningAll(null, err => DebugOutput.Error(err.ToString()));
 			Notify.RolesSystem.StartListeningAll(null, err => DebugOutput.Error(err.ToString()));
@@ -161,7 +177,7 @@ namespace CavrnusSdk
 
 			DebugOutput.Info("Logged in, token: " + token.token);
 			
-			CavrnusAuth.Endpoint = endpoint.WithAuthorization(token.token);
+			CavrnusAuthRecvEvent.SetAuthorization(new CavrnusAuth(endpoint.WithAuthorization(token.token)));
 
 			NotifySetup();
 
@@ -171,7 +187,7 @@ namespace CavrnusSdk
 		public static async Task<List<CavrnusSpaceInfo>> GetAllAvailableSpaces()
 		{
 			RestRoomCommunication rrc =
-				new RestRoomCommunication(CavrnusAuth.Endpoint, new FrameworkNetworkRequestImplementation());
+				new RestRoomCommunication(CavrnusAuthRecvEvent.CurrentAuth.Endpoint, new FrameworkNetworkRequestImplementation());
 
 			var uri = await rrc.GetUserFullRoomsAndInvitesInfoAsync();
 
@@ -188,7 +204,7 @@ namespace CavrnusSdk
 		public static async Task<string> CreateSpace(string newSpaceName)
 		{
 			RestRoomCommunication rrc =
-				new RestRoomCommunication(CavrnusAuth.Endpoint, new FrameworkNetworkRequestImplementation());
+				new RestRoomCommunication(CavrnusAuthRecvEvent.CurrentAuth.Endpoint, new FrameworkNetworkRequestImplementation());
 
 			RestRoomCommunication.CreateRoomRequest cr = new RestRoomCommunication.CreateRoomRequest();
 			cr.name = newSpaceName;
@@ -205,10 +221,12 @@ namespace CavrnusSdk
 			//if (!useSyncedContent)
 			//	engineConnector = null;
 
-			Notify.RoomsSystem.StartListeningSpecificAsync(roomId);
+			CavrnusSpaceJoinEvent.InvokeSpaceLoading(roomId);
+
+			await Notify.RoomsSystem.StartListeningSpecificAsync(roomId);
 
 			var contentManager = new ServerContentCacheManager(new FrameworkNetworkRequestImplementation());
-			contentManager.SetEndpoint(CavrnusAuth.Endpoint);
+			contentManager.SetEndpoint(CavrnusAuthRecvEvent.CurrentAuth.Endpoint);
 
 			LiveObjectManagementContext liveObjectContext = new LiveObjectManagementContext() {
 				EngineConnector = null, //engineConnector,
@@ -224,7 +242,7 @@ namespace CavrnusSdk
 
 			RoomSystem rs = new RoomSystem(RtcContext, Scheduler.BaseScheduler, liveObjectContext, null, null, env, null);
 
-			rs.InitializeConnection(CavrnusAuth.Endpoint, roomId);
+			rs.InitializeConnection(CavrnusAuthRecvEvent.CurrentAuth.Endpoint, roomId);
 
 			await rs.AwaitJournalProcessed();
 

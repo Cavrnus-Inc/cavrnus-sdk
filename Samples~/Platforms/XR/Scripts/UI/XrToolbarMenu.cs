@@ -42,10 +42,13 @@ namespace CavrnusSdk.XR.UI
 
         public void OpenSpacePicker()
         {
+            //TODO: FIX!
+            /*
             MenuManager.Instance.ToggleMenu("SpacePickerMenu", menusContainer, async go => {
                 var foundSpaces = await CavrnusHelpers.GetAllAvailableSpaces();
                 go.GetComponent<SpacePicker>().Setup(foundSpaces);
             });
+            */
         }
         
         public void OpenColorPicker() => MenuManager.Instance.ToggleMenu("ColorPickerMenu", menusContainer);
