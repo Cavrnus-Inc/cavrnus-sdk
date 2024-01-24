@@ -1,4 +1,4 @@
-﻿using CavrnusSdk.Common;
+﻿using CavrnusSdk.UI;
 using UnityEngine;
 
 namespace CavrnusSdk.XR.UI

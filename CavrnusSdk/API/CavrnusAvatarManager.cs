@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Collab.Base.Collections;
-using Collab.Proxy.Prop.JournalInterop;
 
 namespace CavrnusSdk
 {

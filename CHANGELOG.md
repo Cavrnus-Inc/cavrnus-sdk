@@ -3,7 +3,7 @@
 ## [0.1.0] - 2023-12-01
 
 ### Added
-- Initial package creation
+- Initial package creation.
 
 ## [0.2.0] - 2023-12-11
 
@@ -28,4 +28,14 @@
 ## [1.2.0] - 2024-01-23
 
 ### Added
-- Cavrnus Core as the primary setup mechanism
+- Cavrnus Core as the primary setup mechanism.
+
+## [1.3.0] - 2024-01-24
+
+### Added
+- Major folder reorg. Moved core samples content into main sdk folder.
+
+## [1.4.0] - 2024-01-24
+
+### Changed
+-Project core folder reorganization along with misc code cleanup.

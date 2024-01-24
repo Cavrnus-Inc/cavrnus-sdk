@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CavrnusSdk.Common;
-using CavrnusSdk.XR.Widgets;
+using CavrnusSdk.UI;
 using Collab.Base.Collections;
 using UnityEngine;
 using UnityEngine.UI;
