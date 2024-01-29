@@ -60,3 +60,9 @@
 
 ### Security
 -
+
+
+## [1.5.0] - 2024-01-29
+
+### Changed
+- More folder reorg to match standard Unity packages.
