@@ -39,3 +39,24 @@
 
 ### Changed
 -Project core folder reorganization along with misc code cleanup.
+
+
+## [1.4.0] - 2024-01-29
+
+### Added
+- Added a new feature
+
+### Changed
+- 
+
+### Deprecated
+- 
+
+### Removed
+- 
+
+### Fixed
+- 
+
+### Security
+-
