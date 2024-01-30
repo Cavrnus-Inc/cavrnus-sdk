@@ -118,11 +118,10 @@ namespace CavrnusSdk
 				GameObject.Destroy(ui);
 			CurrentAuthenticationUi.Clear();
 
-			if (SpaceJoinMethod != SpaceJoinOption.None)
-				CavrnusSpaceJoinEvent.OnSpaceLoading(spaceConn => SetupLoadingUi(GetCurrentSpaceJoinUi()));
-
 			if (SpaceJoinMethod == SpaceJoinOption.Automatic)
 			{
+				CavrnusSpaceJoinEvent.OnSpaceLoading(spaceConn => SetupLoadingUi(GetCurrentSpaceJoinUi(), false));
+
 				if (string.IsNullOrEmpty(AutomaticSpaceJoinId))
 					throw new System.Exception("Error on Cavrnus Core object: No Automatic Space Join ID specified!");
 
@@ -130,12 +129,14 @@ namespace CavrnusSdk
 			}
 			else if (SpaceJoinMethod == SpaceJoinOption.SpacesList)
 			{
+				CavrnusSpaceJoinEvent.OnSpaceLoading(spaceConn => SetupLoadingUi(GetCurrentSpaceJoinUi(), true));
+
 				if (SpacesListMenu == null)
 					throw new System.Exception("Error on Cavrnus Core object: No Spaces List Menu specified!");
 				if (UiCanvas == null)
 					throw new System.Exception("Error on Cavrnus Core object: No Canvas has been specified to contain the spawned UI!");
 
-				CurrentSpaceJoinUi.Add(GameObject.Instantiate(SpacesListMenu, UiCanvas.transform));
+				CurrentSpaceJoinUi.Add(Instantiate(SpacesListMenu, UiCanvas.transform));
 			}
 		}
 
@@ -146,33 +147,37 @@ namespace CavrnusSdk
 			return CurrentSpaceJoinUi;
 		}
 
-		private void SetupLoadingUi(List<GameObject> currentSpaceJoinUi)
+		private void SetupLoadingUi(List<GameObject> currentSpaceJoinUi, bool required)
 		{
-			if (UiCanvas == null)
+			if (required && UiCanvas == null)
 				throw new System.Exception("Error on Cavrnus Core object: No Canvas has been specified to contain the spawned UI!");
 
-			foreach (var ui in CurrentSpaceJoinUi)
-				GameObject.Destroy(ui);
-			currentSpaceJoinUi.Clear();
+			if (UiCanvas != null) {
+				foreach (var ui in CurrentSpaceJoinUi)
+					Destroy(ui);
+				currentSpaceJoinUi.Clear();
+				
+					foreach (var ui in LoadingMenus)
+						CurrentSpaceLoadingUi.Add(Instantiate(ui, UiCanvas.transform));
+			}
 
-			foreach (var ui in LoadingMenus)
-				CurrentSpaceLoadingUi.Add(GameObject.Instantiate(ui, UiCanvas.transform));
-
-			CavrnusSpaceJoinEvent.OnAnySpaceConnection(spaceConn => FinalizeSpaceJoin());
+			CavrnusSpaceJoinEvent.OnAnySpaceConnection(spaceConn => FinalizeSpaceJoin(required));
 		}
 
-		private List<GameObject> CurrentSpaceUi = new List<GameObject>();
-		private void FinalizeSpaceJoin()
+		private readonly List<GameObject> currentSpaceUi = new List<GameObject>();
+		private void FinalizeSpaceJoin(bool required)
 		{
-			if (UiCanvas == null)
+			if (required && UiCanvas == null)
 				throw new System.Exception("Error on Cavrnus Core object: No Canvas has been specified to contain the spawned UI!");
 
-			foreach (var ui in CurrentSpaceLoadingUi)
-				GameObject.Destroy(ui);
-			CurrentSpaceLoadingUi.Clear();
+			if (UiCanvas != null) {
+				foreach (var ui in CurrentSpaceLoadingUi)
+					Destroy(ui);
+				CurrentSpaceLoadingUi.Clear();
 
-			foreach (var ui in SpaceMenus)
-				CurrentSpaceUi.Add(GameObject.Instantiate(ui, UiCanvas.transform));
+				foreach (var ui in SpaceMenus)
+					currentSpaceUi.Add(Instantiate(ui, UiCanvas.transform));
+			}
 		}
 	}
 }

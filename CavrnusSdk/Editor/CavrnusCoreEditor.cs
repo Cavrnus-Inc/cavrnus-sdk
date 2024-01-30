@@ -164,6 +164,8 @@ namespace CavrnusSdk.Editor
 			EditorGUILayout.LabelField("How do you want to join a space?", EditorStyles.boldLabel);
 
 			EditorGUILayout.PropertyField(SpaceJoinMethod);
+			
+			var uiCanvasValue = UiCanvas.objectReferenceValue;
 
 			if (SpaceJoinMethod.enumValueFlag == 0) //Automatic
 			{
@@ -175,12 +177,22 @@ namespace CavrnusSdk.Editor
 				EditorGUILayout.LabelField("Spaces can be created and managed from the Admin Portal:");
 				AdminPortalButton();
 				EditorGUILayout.EndHorizontal();
+				
+				// Auto Auth
+				if (AuthenticationMethod.enumValueFlag == 0 || AuthenticationMethod.enumValueFlag == 2)
+					HandleCanvasRequirement(uiCanvasValue, false);
+				
+				// Manual Auth
+				if (AuthenticationMethod.enumValueFlag == 1 || AuthenticationMethod.enumValueFlag == 3)
+					HandleCanvasRequirement(uiCanvasValue, true);
 			}
 			else if (SpaceJoinMethod.enumValueFlag == 1) //SpacesList
 			{
 				EditorGUILayout.LabelField("Spawns a UI menu that lets a user select a space to join from a list of ones available to them:");
 
 				EditorGUILayout.PropertyField(SpacesListMenu);
+
+				HandleCanvasRequirement(uiCanvasValue, true);
 			}
 			else if (SpaceJoinMethod.enumValueFlag == 2) //None
 			{
@@ -190,13 +202,10 @@ namespace CavrnusSdk.Editor
 
 				if(AuthenticationMethod.enumValueFlag == 3 || AuthenticationMethod.enumValueFlag == 1)//Uses UI
 				{
-					EditorGUILayout.Space();
-					EditorGUILayout.Space();
-					EditorGUILayout.Space();
-					EditorGUILayout.Space();
-
-					UiCanvasPicker();
+					HandleCanvasRequirement(uiCanvasValue, true);
 				}				
+
+				serializedObject.ApplyModifiedProperties();
 
 				return;
 			}
@@ -205,9 +214,50 @@ namespace CavrnusSdk.Editor
 			EditorGUILayout.Space();
 			EditorGUILayout.Space();
 			EditorGUILayout.Space();
+			
+			EditorGUILayout.LabelField("What should be the remote user's Avatar?", EditorStyles.boldLabel);
+			EditorGUILayout.LabelField("Leave blank to not spawn CoPresence.");
+			EditorGUILayout.PropertyField(RemoteUserAvatar);
+			
+			serializedObject.ApplyModifiedProperties();
+		}
 
+		private void HandleCanvasRequirement(Object uiCanvasValue, bool required)
+		{
 			UiCanvasPicker();
+			
+			if (uiCanvasValue == null) 
+			{
+				EditorGUILayout.Space();
+				EditorGUILayout.Space();
+				EditorGUILayout.Space();
+				
+				EditorGUILayout.BeginHorizontal();
+				GUILayout.FlexibleSpace();
+		
+				var boxStyle = new GUIStyle(GUI.skin.box) {
+					fontStyle = FontStyle.Bold,
+					padding = new RectOffset(20, 20, 20, 20)
+				};
 
+				var prevColor = GUI.color;
+				GUI.color = required ? new Color(1f, 0.5f, 0.5f) : new Color(1f, 1f, 0.5f);
+
+				var msg = required ? "This mode needs a canvas in order to display the UI." : "No UI will be displayed because you have deselected the Canvas.";
+				
+				GUILayout.Box(msg, boxStyle, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(false));
+				
+				GUI.color = prevColor;
+				GUILayout.FlexibleSpace();
+				EditorGUILayout.EndHorizontal();
+			}
+			else {
+				UIAssignmentFields();
+			}
+		}
+
+		private void UIAssignmentFields()
+		{
 			EditorGUILayout.Space();
 			EditorGUILayout.Space();
 			EditorGUILayout.Space();
@@ -225,26 +275,19 @@ namespace CavrnusSdk.Editor
 			EditorGUILayout.LabelField("Shows once you enter the space:");
 
 			EditorGUILayout.PropertyField(SpaceMenus);
-
-			EditorGUILayout.Space();
-			EditorGUILayout.Space();
-			EditorGUILayout.Space();
-			EditorGUILayout.Space();
-
-			EditorGUILayout.LabelField("What should be the remote user's Avatar?", EditorStyles.boldLabel);
-
-			EditorGUILayout.LabelField("Leave blank to not spawn CoPresence.");
-
-			EditorGUILayout.PropertyField(RemoteUserAvatar);
-
-			serializedObject.ApplyModifiedProperties();
 		}
 
 		private void UiCanvasPicker()
 		{
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+			
 			EditorGUILayout.LabelField("What Canvas should the UI spawn under?", EditorStyles.boldLabel);
 
 			EditorGUILayout.PropertyField(UiCanvas);
+			EditorGUILayout.Space();
 		}
 
 		private void AdminPortalButton()

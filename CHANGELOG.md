@@ -40,29 +40,10 @@
 ### Changed
 -Project core folder reorganization along with misc code cleanup.
 
-
-## [1.4.0] - 2024-01-29
-
-### Added
-- Added a new feature
-
-### Changed
-- 
-
-### Deprecated
-- 
-
-### Removed
-- 
-
-### Fixed
-- 
-
-### Security
--
-
-
 ## [1.5.0] - 2024-01-29
 
-### Changed
-- More folder reorg to match standard Unity packages.
+### Added
+- Cavrnus core now has messaging for optional canvases.
+
+### Fixed
+- Cleaned up Welcome Modal. Auto load toggle feature implemented.
