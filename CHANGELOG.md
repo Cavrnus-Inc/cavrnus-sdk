@@ -47,3 +47,8 @@
 
 ### Fixed
 - Cleaned up Welcome Modal. Auto load toggle feature implemented.
+
+## [1.5.1] - 2024-01-31
+
+### Added
+- Quick fixes to ui color picker and avatars

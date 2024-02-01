@@ -20,19 +20,20 @@ namespace CavrnusSdk.UI
                 Instance = this;
         }
 
-        public void SetNewDefinedColor()
+        private int currentColorIndex = 0;
+
+        public void SetNextColor()
         {
-            var color = colors.IndexOf(material.color);
+            var nextColor = colors[currentColorIndex];
+            UpdateColor(nextColor);
 
-            // Is last in list? 
-            if (color + 1 == colors.Count)
-                color = 0;
-            else
-                color += 1;
-
-            UpdateColor(colors[color]);
+            // Move to the next color index and wrap around if needed
+            currentColorIndex = (currentColorIndex + 1) % colors.Count;
         }
 
-        public void UpdateColor(Color newValue) { material.color = newValue; }
+        public void UpdateColor(Color newValue)
+        {
+            material.color = newValue;
+        }
     }
 }

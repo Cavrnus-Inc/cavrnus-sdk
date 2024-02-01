@@ -71,6 +71,9 @@ namespace CavrnusSdk.UI
 				//Store the fetched options to look up the selection
 				outputs = opts;
 
+				if (AudioOutputs == null)
+					return;
+
 				//Clear the existing UI
 				AudioOutputs.ClearOptions();
 
