@@ -54,27 +54,8 @@
 - Major refactor of code into CavrnusFunctionLibrary, and re-worked namespaces around that.
 
 
-## [2.0] - 2024-02-08
-
-### Changed
-- Refactored all functions into CavrnusFunctionLibrary
-- Reworked namespaces to match the new structure
-
-
 ## [2.0.0] - 2024-02-08
 
 ### Changed
 - Refactored all functions into CavrnusFunctionLibrary
 - Reworked namespaces to match the new structure
-
-
-## [2.0.0] - 2024-02-08
-
-### Changed
-- Fixed version number
-
-
-## [2.0.0] - 2024-02-08
-
-### Changed
-- Fixed version number
