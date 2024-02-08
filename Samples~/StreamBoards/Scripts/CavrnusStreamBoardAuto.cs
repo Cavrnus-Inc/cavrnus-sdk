@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Collab.Base.Collections;
+using CavrnusSdk.API;
 using UnityEngine;
 
 namespace CavrnusSdk.StreamBoards
@@ -8,7 +8,7 @@ namespace CavrnusSdk.StreamBoards
     [RequireComponent(typeof(CavrnusStreamBoard))]
     public class CavrnusStreamBoardAuto : MonoBehaviour
     {
-        private readonly Dictionary<CavrnusUser, IHook> streamHooks = new Dictionary<CavrnusUser, IHook>();
+        private readonly Dictionary<CavrnusUser, IDisposable> streamHooks = new Dictionary<CavrnusUser, IDisposable>();
 
         private CavrnusStreamBoard board;
         private CavrnusSpaceConnection spaceConn;
@@ -21,16 +21,16 @@ namespace CavrnusSdk.StreamBoards
         
         private void Start()
         {
-            CavrnusSpaceJoinEvent.OnAnySpaceConnection(csc => {
+			CavrnusFunctionLibrary.AwaitAnySpaceConnection(csc => {
                 spaceConn = csc;
-                listDisp = spaceConn.UsersList.Users.BindAll(UserAdded, UserRemoved);
+                listDisp = CavrnusFunctionLibrary.BindSpaceUsers(csc, UserAdded, UserRemoved);
             });
         }
 
         private void UserAdded(CavrnusUser user)
         {
             // This does not provide any board ownership. User B can and will override User A presentation.
-            streamHooks.Add(user, user.VideoTexture.Bind(vidTex => board.UpdateTexture(vidTex)));
+            streamHooks.Add(user, user.BindUserVideoFrames(vidTex => board.UpdateTexture(vidTex)));
         }
 
         private void UserRemoved(CavrnusUser user)

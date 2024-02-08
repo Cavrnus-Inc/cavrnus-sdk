@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using CavrnusSdk.API;
 
 namespace CavrnusSdk.StreamBoards
 {
@@ -17,7 +18,7 @@ namespace CavrnusSdk.StreamBoards
         
         private void Start()
         {
-            CavrnusSpaceJoinEvent.OnAnySpaceConnection(csc => {
+			CavrnusFunctionLibrary.AwaitAnySpaceConnection(csc => {
                 spaceConn = csc;
             });
         }
@@ -29,7 +30,7 @@ namespace CavrnusSdk.StreamBoards
             
             var ctx = Instantiate(ctxMenuPrefab, null);
             
-            ctx.GetComponentInChildren<CavrnusStreamContextMenu>().Setup(spaceConn.UsersList.Users, user => {
+            ctx.GetComponentInChildren<CavrnusStreamContextMenu>().Setup(CavrnusFunctionLibrary.GetCurrentSpaceUsers(spaceConn), user => {
                 board.UpdateAndBindUserTexture(user);
 
                 Destroy(ctx.gameObject);

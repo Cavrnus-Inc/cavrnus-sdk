@@ -1,5 +1,6 @@
 using System;
-using Collab.Base.Collections;
+using CavrnusSdk.API;
+using UnityBase;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,29 +8,37 @@ namespace CavrnusSdk.StreamBoards
 {
     public class CavrnusStreamBoard : MonoBehaviour
     {
-        [SerializeField] private Image image;
+        [SerializeField] private RawImage image;
         [SerializeField] private AspectRatioFitter aspectRatioFitter;
 
         private IDisposable profileDisposable;
 
         public void UpdateAndBindUserTexture(CavrnusUser user)
         {
-            if (user == null) 
+            if (user == null)
+            {
                 ResetStream();
+                return;
+            }
 
-            profileDisposable = user?.VideoTexture.Bind(SetImageAndAspectRatio);
+            profileDisposable = user?.BindUserVideoFrames(SetImageAndAspectRatio);
         }
 
-        public void UpdateTexture(Sprite sp)
+        public void UpdateTexture(TextureWithUVs tex)
         {
-            SetImageAndAspectRatio(sp);
+            SetImageAndAspectRatio(tex);
         }
 
-        private void SetImageAndAspectRatio(Sprite sp)
+        private void SetImageAndAspectRatio(TextureWithUVs tex)
         {
-            if (sp != null) {
-                image.sprite = sp;
-                aspectRatioFitter.aspectRatio = (float) sp.texture.width / (float) sp.texture.height;
+            if (tex != null) {
+                image.texture = tex.Texture;
+                image.uvRect = tex.UVRect;
+
+                if (tex.Texture.width > 0 && tex.Texture.height > 0)
+                    aspectRatioFitter.aspectRatio = (float)tex.Texture.width / (float)tex.Texture.height;
+                else
+                    aspectRatioFitter.aspectRatio = 1.5f;
             }
             else
                 ResetStream();
@@ -37,7 +46,7 @@ namespace CavrnusSdk.StreamBoards
 
         private void ResetStream()
         {
-            image.sprite = null;
+            image.texture = null;
             profileDisposable?.Dispose();
         }
                 

@@ -1,5 +1,5 @@
 using System;
-using Collab.Base.Collections;
+using CavrnusSdk.API;
 using TMPro;
 using UnityEngine;
 
@@ -11,6 +11,7 @@ namespace CavrnusSdk.StreamBoards
 
         private CavrnusUser user;
         private Action<CavrnusUser> onUserSelected;
+        private IDisposable disp;
 
         public void Setup(CavrnusUser user, Action<CavrnusUser> onUserSelected)
         {
@@ -23,7 +24,12 @@ namespace CavrnusSdk.StreamBoards
                 return;
             }
 
-            userName.text = user.UserName.Translating(s => s).Value;
+            disp = user.BindUserName(n => userName.text = n);
+        }
+
+        private void OnDestroy()
+        {
+            disp?.Dispose();
         }
 
         public void SelectUser()

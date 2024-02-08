@@ -1,3 +1,4 @@
+using CavrnusSdk.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace CavrnusSdk.StreamBoards
 
         public void Setup(IEnumerable<CavrnusUser> users, Action<CavrnusUser> userSelected)
         {
-            var filteredUsers = users.Where(user => user.IsStreaming.Value).ToList();
+            var filteredUsers = users.Where(user => user.GetUserStreaming()).ToList();
 
             if (filteredUsers.Count == 0)
                 noContentContainer.gameObject.SetActive(true);

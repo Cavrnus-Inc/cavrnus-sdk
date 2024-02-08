@@ -1,10 +1,13 @@
 using System;
 using UnityEngine;
+using CavrnusSdk.API;
+using CavrnusSdk.PropertySynchronizers;
 
 namespace CavrnusSdk.Permissions
 {
     public class PermissionsControlledVisibility : MonoBehaviour
     {
+        [SerializeField] private bool isGlobalPolicy;
         [SerializeField] private string permissionAction;
         
         private IDisposable disposable;
@@ -12,10 +15,16 @@ namespace CavrnusSdk.Permissions
 
         private void Start()
         {
-            CavrnusSpaceJoinEvent.OnAnySpaceConnection(sc => {
-                disposable = RoleAndPermissionHelpers.EvaluateSpacePolicy(permissionAction, sc, b => {
-                    gameObject.SetActive(b);
-                });
+			CavrnusFunctionLibrary.AwaitAnySpaceConnection(sc => 
+            {
+                if (isGlobalPolicy)
+                {
+                    disposable = CavrnusFunctionLibrary.BindGlobalPolicy(permissionAction, b => { gameObject.SetActive(b); });
+                }
+                else 
+                {
+                    disposable = sc.BindSpacePolicy(permissionAction, b => { gameObject.SetActive(b); });
+                }
             });
         }
 

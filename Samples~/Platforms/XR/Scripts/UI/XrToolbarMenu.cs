@@ -4,6 +4,7 @@ using CavrnusSdk.UI;
 using Collab.Base.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using CavrnusSdk.API;
 
 namespace CavrnusSdk.XR.UI
 {
@@ -26,11 +27,11 @@ namespace CavrnusSdk.XR.UI
         
         public void Setup()
         {
-            // Toolbar is hidden by default
-            CavrnusSpaceJoinEvent.OnAnySpaceConnection(OnSpaceConnection);
+			// Toolbar is hidden by default
+            CavrnusFunctionLibrary.AwaitAnySpaceConnection(sc => sc.AwaitLocalUser(OnLocalUser));
 
             // Set initial vis if in space or not
-            var isInSpace = CavrnusSpaceJoinEvent.CurrentCavrnusSpace != null;
+            var isInSpace = CavrnusFunctionLibrary.IsConnectedToAnySpace();
             toolBarContainer.gameObject.SetActive(isInSpace);
             
             disposables.Add(MenuManager.Instance.GetMenuSetting("UsersMenu").Bind(vis => usersMenuOpen.gameObject.SetActive(vis)));
@@ -55,16 +56,18 @@ namespace CavrnusSdk.XR.UI
         
         public void OpenUsersMenu() => MenuManager.Instance.ToggleMenu("UsersMenu", menusContainer);
         
-        public void ExitSpace() => CavrnusSpaceJoinEvent.ExitCurrentSpace();
-        
-        private void OnSpaceConnection(CavrnusSpaceConnection csc)
+        public void ExitSpace() => CavrnusFunctionLibrary.ExitSpace(spaceConn);
+
+        private CavrnusSpaceConnection spaceConn;
+
+        private void OnLocalUser(CavrnusUser user)
         {
+            this.spaceConn = user.SpaceConnection;
             toolBarContainer.gameObject.SetActive(true);
 
             // Setup widget components
-            var cu = new CavrnusUser(csc.RoomSystem.Comm.LocalCommUser.Value, csc.RoomSystem);
-			widgetUserMicWidget.Setup(cu);
-			widgetUserProfileImageWidget.Setup(cu);
+			widgetUserMicWidget.Setup(user);
+			widgetUserProfileImageWidget.Setup(user);
 		}
         
         private void OnDestroy()

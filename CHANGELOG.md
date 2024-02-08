@@ -48,7 +48,14 @@
 ### Fixed
 - Cleaned up Welcome Modal. Auto load toggle feature implemented.
 
-## [1.5.1] - 2024-01-31
+## [1.6.0] - 2024-02-08
 
-### Added
-- Quick fixes to ui color picker and avatars
+### Changed
+- Major refactor of code into CavrnusFunctionLibrary, and re-worked namespaces around that.
+
+
+## [2.0] - 2024-02-08
+
+### Changed
+- Refactored all functions into CavrnusFunctionLibrary
+- Reworked namespaces to match the new structure

@@ -1,4 +1,5 @@
 using UnityEngine;
+using CavrnusSdk.API;
 
 namespace CavrnusSdk.XR.UiPositioners
 {
@@ -14,8 +15,8 @@ namespace CavrnusSdk.XR.UiPositioners
         {
             if (xrRigHelper == null) 
                 Debug.LogWarning($"Missing {nameof(xrRigHelper)} in parent! {gameObject}");
-            
-            CavrnusSpaceJoinEvent.OnAnySpaceConnection(csc => RealignToEyeDirectionAndHeight());
+
+			CavrnusFunctionLibrary.AwaitAnySpaceConnection(csc => RealignToEyeDirectionAndHeight());
         }
         
         private void OnEnable()
