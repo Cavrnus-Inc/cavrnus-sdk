@@ -16,11 +16,18 @@ namespace CavrnusSdk.Setup.Editor
 				return;
 			}
 
-			var corePrefab = AssetDatabase.LoadAssetAtPath<CavrnusSpatialConnector>("Assets/CavrnusSdk/Runtime/Prefabs/Cavrnus Spatial Connector.prefab");
+			string cscPackagePath = "Packages/com.cavrnus.sdk/CavrnusSdk/Runtime/Prefabs/Cavrnus Spatial Connector.prefab";
+			string cscAssetsPath = "Assets/CavrnusSdk/Runtime/Prefabs/Cavrnus Spatial Connector.prefab";
 
+            var corePrefab = AssetDatabase.LoadAssetAtPath<CavrnusSpatialConnector>(cscPackagePath);
+
+			//For development project
 			if(corePrefab == null)
+				corePrefab = AssetDatabase.LoadAssetAtPath<CavrnusSpatialConnector>(cscAssetsPath);
+
+            if (corePrefab == null)
 			{
-				Debug.LogError("Cavrnus Spatial Connector prefab was not found at its expected location (Assets/CavrnusSdk/Runtime/Prefabs/Cavrnus Spatial Connector.prefab).  Please update or reinstall the Plugin to fix!");
+				Debug.LogError($"Cavrnus Spatial Connector prefab was not found at its expected location ({cscPackagePath}).  Please update or reinstall the Plugin to fix!");
 				return;
 			}
 
@@ -30,11 +37,18 @@ namespace CavrnusSdk.Setup.Editor
 
 			Selection.SetActiveObjectWithContext(ob, ob);
 
-            var canvasPrefab = AssetDatabase.LoadAssetAtPath<Canvas>("Assets/CavrnusSdk/Runtime/Prefabs/Cavrnus UI Canvas.prefab");
+			string canvasPackagesPath = "Packages/com.cavrnus.sdk/CavrnusSdk/Runtime/Prefabs/Cavrnus UI Canvas.prefab";
+			string canvasAssetsPath = "Assets/CavrnusSdk/Runtime/Prefabs/Cavrnus UI Canvas.prefab";
+
+            var canvasPrefab = AssetDatabase.LoadAssetAtPath<Canvas>(canvasPackagesPath);
+
+            //For development project
+            if (canvasPrefab == null)
+				canvasPrefab = AssetDatabase.LoadAssetAtPath<Canvas>(canvasAssetsPath);
 
             if (canvasPrefab == null)
             {
-                Debug.LogError("Cavrnus UI Canvas prefab was not found at its expected location (Assets/CavrnusSdk/Runtime/Prefabs/Cavrnus UI Canvas.prefab).  Please update or reinstall the Plugin to fix!");
+                Debug.LogError($"Cavrnus UI Canvas prefab was not found at its expected location ({canvasPackagesPath}).  Please update or reinstall the Plugin to fix!");
                 return;
             }
 
