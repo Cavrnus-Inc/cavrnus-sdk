@@ -59,9 +59,7 @@
 - Refactored all functions into CavrnusFunctionLibrary
 - Reworked namespaces to match the new structure
 
+## [2.0.2] - 2024-02-08
 
-## [2.0.1] - 2024-02-08
-
-### Fixed
-- Editor Scripts now properly path to Package assets
-
+### Removed
+- Remove bad using

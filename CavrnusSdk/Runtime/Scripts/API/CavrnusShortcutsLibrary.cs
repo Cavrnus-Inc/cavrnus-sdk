@@ -3,7 +3,6 @@ using Collab.Proxy.Prop.JournalInterop;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-using static UnityEditor.PlayerSettings;
 
 namespace CavrnusSdk.API
 {
