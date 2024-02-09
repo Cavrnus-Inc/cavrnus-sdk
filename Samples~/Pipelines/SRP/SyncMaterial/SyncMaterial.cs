@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CavrnusSdk.PropertySynchronizers;
 
-namespace CavrnusSdk
+namespace CavrnusSdk.PropertySynchronizers
 {
 	[RequireComponent(typeof(CavrnusPropertiesContainer))]
 	public class SyncMaterial : MonoBehaviour

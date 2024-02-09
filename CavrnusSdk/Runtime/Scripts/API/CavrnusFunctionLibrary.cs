@@ -28,13 +28,13 @@ namespace CavrnusSdk.API
         //Gets user credentials, allowing you to join valid spaces and make other requests
         public static void AuthenticateWithPassword(string server, string email, string password, Action<CavrnusAuthentication> onSuccess, Action<string> onFailure)
 		{
-			CavrnusAuthHelpers.Authenticate(server , email, password, onSuccess, onFailure);
+			CavrnusAuthHelpers.Authenticate(server.Trim(), email.Trim(), password.Trim(), onSuccess, onFailure);
 		}
 
         //Creates a guest user account with a given name and joins as that user
         public static void AuthenticateAsGuest(string server, string userName, Action<CavrnusAuthentication> onSuccess, Action<string> onFailure)
 		{
-			CavrnusAuthHelpers.AuthenticateAsGuest(server, userName, onSuccess, onFailure);
+			CavrnusAuthHelpers.AuthenticateAsGuest(server.Trim(), userName.Trim(), onSuccess, onFailure);
 		}
 
 		//Throws an even when user authentication is complete
@@ -69,7 +69,7 @@ namespace CavrnusSdk.API
         //Connects to a Space; joining voice & video and receiving/processing the journal
         public static void JoinSpace(string spaceId, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure)
 		{
-			CavrnusSpaceHelpers.JoinSpace(spaceId, CavrnusSpatialConnector.Instance.SpawnableObjects, onConnected, onFailure);
+			CavrnusSpaceHelpers.JoinSpace(spaceId.Trim(), CavrnusSpatialConnector.Instance.SpawnableObjects, onConnected, onFailure);
 		}
 
         //Triggers when you begin attempting to join a space, returning the ID of the space being joined

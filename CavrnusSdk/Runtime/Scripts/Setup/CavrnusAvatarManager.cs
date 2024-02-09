@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using CavrnusSdk.API;
 using CavrnusSdk.PropertySynchronizers;
+using CavrnusCore;
+using UnityEngine.SocialPlatforms.Impl;
 
 namespace CavrnusSdk.Setup
 {
@@ -41,13 +43,11 @@ namespace CavrnusSdk.Setup
 				return;
 
 			var avatar = Instantiate(RemoteAvatarPrefab, transform);
+            avatar.AddComponent<CavrnusUserFlag>().User = user;
 
-			avatar.AddComponent<CavrnusUserFlag>().User = user;
+            CavrnusPropertyHelpers.ResetLiveHierarchyRootName(avatar, $"{user.ContainerId}");
 
-			foreach (var propContainer in avatar.GetComponentsInChildren<CavrnusPropertiesContainer>())
-				propContainer.PrefixContainerName($"{user.ContainerId}");
-
-			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<bool>>())
+            foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<bool>>())
 				sync.SendMyChanges = false;
 			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<float>>())
 				sync.SendMyChanges = false;

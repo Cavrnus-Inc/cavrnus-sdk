@@ -1,3 +1,5 @@
+using CavrnusSdk.Setup;
+using UnityBase;
 using UnityEngine;
 
 namespace CavrnusSdk.PropertySynchronizers
@@ -24,14 +26,23 @@ namespace CavrnusSdk.PropertySynchronizers
 
 		void Start()
 		{
-			if (string.IsNullOrWhiteSpace(PropertyName))
-				throw new System.Exception($"A PropertyName has not been assigned on object {gameObject.name}");
+			//This starts in the scene but isn't valid to set up until the local user arrives
+			if (gameObject.GetComponentInAllParents<CavrnusLocalUserFlag>() != null)
+				return;
 
-			if(RecieveChanges)
-				displayer = new CavrnusDisplayProperty<T>(this);
-			if (SendMyChanges)
-				sender = new CavrnusPostSynchronizedProperty<T>(this);
+			Setup();			
 		}
+
+		public void Setup()
+		{
+            if (string.IsNullOrWhiteSpace(PropertyName))
+                throw new System.Exception($"A Property Name has not been assigned on object {gameObject.name}");
+
+            if (RecieveChanges)
+                displayer = new CavrnusDisplayProperty<T>(this);
+            if (SendMyChanges)
+                sender = new CavrnusPostSynchronizedProperty<T>(this);
+        }
 
 		private void OnDestroy()
 		{

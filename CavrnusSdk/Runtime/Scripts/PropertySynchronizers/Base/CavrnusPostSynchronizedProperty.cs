@@ -38,27 +38,27 @@ namespace CavrnusSdk.PropertySynchronizers
 			T currPropertyValue;
 			if (typeof(T) == typeof(Color)) {
 				currPropertyValue = (T) (object)CavrnusFunctionLibrary.GetColorPropertyValue(spaceConn,
-					sync.Context.UniqueContainerPath, sync.PropName);
+					sync.Context.UniqueContainerName, sync.PropName);
 			}
 			else if (typeof(T) == typeof(string)) {
 				currPropertyValue = (T) (object)CavrnusFunctionLibrary.GetStringPropertyValue(spaceConn,
-					sync.Context.UniqueContainerPath, sync.PropName);
+					sync.Context.UniqueContainerName, sync.PropName);
 			}
 			else if (typeof(T) == typeof(bool)) {
 				currPropertyValue = (T) (object)CavrnusFunctionLibrary.GetBoolPropertyValue(spaceConn,
-					sync.Context.UniqueContainerPath, sync.PropName);
+					sync.Context.UniqueContainerName, sync.PropName);
 			}
 			else if (typeof(T) == typeof(Vector4)) {
 				currPropertyValue = (T) (object)CavrnusFunctionLibrary.GetVectorPropertyValue(spaceConn,
-					sync.Context.UniqueContainerPath, sync.PropName);
+					sync.Context.UniqueContainerName, sync.PropName);
 			}
 			else if (typeof(T) == typeof(float)) {
 				currPropertyValue = (T) (object)CavrnusFunctionLibrary.GetFloatPropertyValue(spaceConn,
-					sync.Context.UniqueContainerPath, sync.PropName);
+					sync.Context.UniqueContainerName, sync.PropName);
 			}
 			else if (typeof(T) == typeof(CavrnusTransformData)) {
 				currPropertyValue = (T) (object)CavrnusFunctionLibrary.GetTransformPropertyValue(spaceConn,
-					sync.Context.UniqueContainerPath, sync.PropName);
+					sync.Context.UniqueContainerName, sync.PropName);
 			}
 			else {
 				throw new Exception($"Property value of type {typeof(T)} is not supported by CavrnusPostSynchronizedProperty yet!");
@@ -76,9 +76,11 @@ namespace CavrnusSdk.PropertySynchronizers
 				}
 			}
 
-			if (!hasChange) {
-				//This change has timed out, time to finalize it
-				if (!sync.Context.IsUserProperty() && updater != null && Time.time - lastChangeTime > endChangeTimeGap) {
+			if (!hasChange) 
+			{
+				bool isUserProperty = sync.Context.UniqueContainerName.StartsWith("users/");
+                //This change has timed out, time to finalize it
+                if (!isUserProperty && updater != null && Time.time - lastChangeTime > endChangeTimeGap) {
 					updater.UpdateWithNewData(sync.GetValue());
 					updater.Finish();
 					updater = null;
@@ -93,7 +95,7 @@ namespace CavrnusSdk.PropertySynchronizers
 			if (updater == null)
 			{
                 updater = CavrnusPropertyHelpers.BeginContinuousPropertyUpdate<T>(spaceConn,
-					sync.Context.UniqueContainerPath, sync.PropName,
+					sync.Context.UniqueContainerName, sync.PropName,
 					sync.GetValue());
 			}
 			else 

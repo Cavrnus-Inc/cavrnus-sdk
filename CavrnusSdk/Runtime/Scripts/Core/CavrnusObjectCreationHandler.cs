@@ -40,10 +40,14 @@ namespace CavrnusCore
 		{
 			if (createOp.Op.ObjectType is ContentTypeWellKnownId cId) 
 			{
-				if (spawnablePrefabs.Any(sp => sp.UniqueId == cId.WellKnownId)) {
-					var ob = GameObject.Instantiate(spawnablePrefabs.FirstOrDefault(sp => sp.UniqueId == cId.WellKnownId).Object);
+				if (spawnablePrefabs.Any(sp => sp.UniqueId == cId.WellKnownId)) 
+				{
+					var prefab = spawnablePrefabs.FirstOrDefault(sp => sp.UniqueId == cId.WellKnownId).Object;
+                    var ob = GameObject.Instantiate(prefab);
 					createdObjects[createOp.Op.NewObjectId] = ob.gameObject;
+					ob.gameObject.name = $"{createOp.Op.NewObjectId} ({prefab.name})";
 					ob.gameObject.AddComponent<CavrnusSpawnedObjectFlag>().Init(new CavrnusSpawnedObject(createOp.Op.NewObjectId, createOp.Id, spaceConn));
+					CavrnusPropertyHelpers.ResetLiveHierarchyRootName(ob.gameObject, createOp.Op.NewObjectId);
 				}
 				else {
 					Debug.LogWarning(

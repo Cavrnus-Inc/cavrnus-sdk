@@ -28,7 +28,7 @@ namespace CavrnusSdk
 		private void OnSpaceConnection(CavrnusSpaceConnection spaceConn)
 		{
 			this.spaceConn = spaceConn;
-			CavrnusFunctionLibrary.BindStringPropertyValue(spaceConn, GetComponent<CavrnusPropertiesContainer>().UniqueContainerPath, PropertyName, DisplayJsonData);
+			CavrnusFunctionLibrary.BindStringPropertyValue(spaceConn, GetComponent<CavrnusPropertiesContainer>().UniqueContainerName, PropertyName, DisplayJsonData);
 		}
 
 		public void DisplayJsonData(string ob)
@@ -68,7 +68,7 @@ namespace CavrnusSdk
 
 			for (int i = 0; i < numItems; i++) { dataToSend.Data.Add(UnityEngine.Random.Range(0, 99)); }
 
-			CavrnusFunctionLibrary.PostStringPropertyUpdate(spaceConn, GetComponent<CavrnusPropertiesContainer>().UniqueContainerPath, PropertyName, JsonUtility.ToJson(dataToSend));
+			CavrnusFunctionLibrary.PostStringPropertyUpdate(spaceConn, GetComponent<CavrnusPropertiesContainer>().UniqueContainerName, PropertyName, JsonUtility.ToJson(dataToSend));
 		}
 	}
 }

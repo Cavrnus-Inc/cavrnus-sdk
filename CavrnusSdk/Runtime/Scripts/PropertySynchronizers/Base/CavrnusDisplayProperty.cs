@@ -22,44 +22,44 @@ namespace CavrnusSdk.PropertySynchronizers
 		{
 			if (typeof(T) == typeof(Color)) 
 			{
-                spaceConn.DefineColorPropertyDefaultValue(sync.Context.UniqueContainerPath, sync.PropName, (Color)(object)sync.GetValue());
+                spaceConn.DefineColorPropertyDefaultValue(sync.Context.UniqueContainerName, sync.PropName, (Color)(object)sync.GetValue());
 
-                var bndDisp = spaceConn.BindColorPropertyValue(sync.Context.UniqueContainerPath, sync.PropName, (data) => sync.SetValue((T)(object)data));
+                var bndDisp = spaceConn.BindColorPropertyValue(sync.Context.UniqueContainerName, sync.PropName, (data) => sync.SetValue((T)(object)data));
                 disposables.Add(bndDisp);
             }
 			else if (typeof(T) == typeof(string)) 
 			{
-                spaceConn.DefineStringPropertyDefaultValue(sync.Context.UniqueContainerPath, sync.PropName, (string)(object)sync.GetValue());
+                spaceConn.DefineStringPropertyDefaultValue(sync.Context.UniqueContainerName, sync.PropName, (string)(object)sync.GetValue());
 
-                var bndDisp = spaceConn.BindStringPropertyValue(sync.Context.UniqueContainerPath, sync.PropName, (data) => sync.SetValue((T)(object)data));
+                var bndDisp = spaceConn.BindStringPropertyValue(sync.Context.UniqueContainerName, sync.PropName, (data) => sync.SetValue((T)(object)data));
                 disposables.Add(bndDisp);
 			}
 			else if (typeof(T) == typeof(bool)) 
 			{
-                spaceConn.DefineBoolPropertyDefaultValue(sync.Context.UniqueContainerPath, sync.PropName, (bool)(object)sync.GetValue());
+                spaceConn.DefineBoolPropertyDefaultValue(sync.Context.UniqueContainerName, sync.PropName, (bool)(object)sync.GetValue());
 
-                var bndDisp = spaceConn.BindBoolPropertyValue(sync.Context.UniqueContainerPath, sync.PropName, (data) => sync.SetValue((T)(object)data));
+                var bndDisp = spaceConn.BindBoolPropertyValue(sync.Context.UniqueContainerName, sync.PropName, (data) => sync.SetValue((T)(object)data));
                 disposables.Add(bndDisp);
 			}
 			else if (typeof(T) == typeof(Vector4)) 
 			{
-                spaceConn.DefineVectorPropertyDefaultValue(sync.Context.UniqueContainerPath, sync.PropName, (Vector4)(object)sync.GetValue());
+                spaceConn.DefineVectorPropertyDefaultValue(sync.Context.UniqueContainerName, sync.PropName, (Vector4)(object)sync.GetValue());
 
-                var bndDisp = spaceConn.BindVectorPropertyValue(sync.Context.UniqueContainerPath, sync.PropName, (data) => sync.SetValue((T)(object)data));
+                var bndDisp = spaceConn.BindVectorPropertyValue(sync.Context.UniqueContainerName, sync.PropName, (data) => sync.SetValue((T)(object)data));
                 disposables.Add(bndDisp);
             }
 			else if (typeof(T) == typeof(float)) 
 			{
-                spaceConn.DefineFloatPropertyDefaultValue(sync.Context.UniqueContainerPath, sync.PropName, (float)(object)sync.GetValue());
+                spaceConn.DefineFloatPropertyDefaultValue(sync.Context.UniqueContainerName, sync.PropName, (float)(object)sync.GetValue());
 
-                var bndDisp = spaceConn.BindFloatPropertyValue(sync.Context.UniqueContainerPath, sync.PropName, (data) => sync.SetValue((T)(object)data));
+                var bndDisp = spaceConn.BindFloatPropertyValue(sync.Context.UniqueContainerName, sync.PropName, (data) => sync.SetValue((T)(object)data));
                 disposables.Add(bndDisp);
 			}
 			else if (typeof(T) == typeof(CavrnusTransformData)) 
 			{
-                spaceConn.DefineTransformPropertyDefaultValue(sync.Context.UniqueContainerPath, sync.PropName, (CavrnusTransformData)(object)sync.GetValue());
+                spaceConn.DefineTransformPropertyDefaultValue(sync.Context.UniqueContainerName, sync.PropName, (CavrnusTransformData)(object)sync.GetValue());
 
-                var bndDisp = spaceConn.BindTransformPropertyValue(sync.Context.UniqueContainerPath, sync.PropName,	(data) => sync.SetValue((T) (object)data));
+                var bndDisp = spaceConn.BindTransformPropertyValue(sync.Context.UniqueContainerName, sync.PropName,	(data) => sync.SetValue((T) (object)data));
 				disposables.Add(bndDisp);
 			}
 			else {

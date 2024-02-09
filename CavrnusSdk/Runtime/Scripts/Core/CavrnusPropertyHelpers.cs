@@ -7,11 +7,32 @@ using Collab.Proxy.Prop.TransformProp;
 using UnityBase;
 using UnityEngine;
 using CavrnusSdk.API;
+using CavrnusSdk.PropertySynchronizers;
 
 namespace CavrnusCore
 {
 	internal class CavrnusPropertyHelpers : MonoBehaviour
 	{
+		public static void ResetLiveHierarchyRootName(GameObject root, string newRootName)
+		{
+			if(root.GetComponent<CavrnusPropertiesContainer>() == null)
+				root.AddComponent<CavrnusPropertiesContainer>();
+			string initialName = root.GetComponent<CavrnusPropertiesContainer>().UniqueContainerName;
+
+			foreach(var propsContainer in root.GetComponentsInChildren<CavrnusPropertiesContainer>())
+			{
+				if(propsContainer.UniqueContainerName == initialName)
+				{
+					propsContainer.UniqueContainerName = newRootName;
+
+                }
+				else if (propsContainer.UniqueContainerName.StartsWith(initialName + "/"))
+				{
+					propsContainer.UniqueContainerName = newRootName + "/" + propsContainer.UniqueContainerName.Substring((initialName + "/").Length);
+				}
+			}
+		}
+
 		private static void ResolveContainerPath(ref string propertyId, ref string containerId)
 		{
 			//Ignore the path completely and resolve from root

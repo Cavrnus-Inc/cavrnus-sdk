@@ -6,50 +6,41 @@ namespace CavrnusSdk.PropertySynchronizers
 {
 	public class CavrnusPropertiesContainer : MonoBehaviour
 	{
-		[Header(
-			"The ID of the Property Container this value lives in.\nNote that two scripts referencing the same Container ID will get/set the same value.")]
+		[Header("The ID of the Property Container this value lives in.\nNote that two scripts referencing the same Container ID will get/set the same value.")]
 		[SerializeField]
-		private string UniqueContainerName;
+		public string UniqueContainerName;
 
-		public void PrefixContainerName(string prefix) 
+        private void Reset() 
 		{
-			if(string.IsNullOrWhiteSpace(UniqueContainerName))
-				UniqueContainerName = prefix;
-			else
-				UniqueContainerName = $"{prefix}/{UniqueContainerName}";
+			UniqueContainerName = GetGameObjectPath(gameObject); 
 		}
 
-		public bool IsUserProperty()
+        private void Start()
+        {
+            if (string.IsNullOrWhiteSpace(UniqueContainerName))
+                throw new System.Exception($"A Unique Container Name has not been assigned on object {GetGameObjectPath(gameObject)}");
+        }
+
+        private static string GetGameObjectPath(GameObject obj)
 		{
-			return UniqueContainerName.StartsWith("/users/");
-		}
-
-		public string UniqueContainerPath{
-			get {
-				//If spawned at runtime, use the spawned parents prefix
-				if (gameObject.GetComponent<CavrnusSpawnedObjectFlag>() != null) {
-					return gameObject.GetComponent<CavrnusSpawnedObjectFlag>().SpawnedObject.PropertiesContainerName;
-				}				
-
-				if (!string.IsNullOrWhiteSpace(UniqueContainerName))
-					return UniqueContainerName;
+			string res = "";
+            res = res.Insert(0, "/"+obj.name);
+			while (obj.transform.parent != null)
+			{
+				if(obj.transform.parent.GetComponent<CavrnusPropertiesContainer>() != null)
+				{
+                    res = res.Insert(0, "/" + obj.transform.parent.GetComponent<CavrnusPropertiesContainer>().UniqueContainerName);
+                    return res.Substring(1);
+                }
 				else
-					return String.Join("/", GetGameObjectPath(gameObject));
-
-            }
-		}
-
-		private static List<string> GetGameObjectPath(GameObject obj)
-		{
-			var path = new List<string>();
-			path.Insert(0, obj.name);
-			while (obj.transform.parent != null &&
-			       obj.transform.parent.GetComponent<CavrnusSpawnedObjectFlag>() != null) {
-				obj = obj.transform.parent.gameObject;
-				path.Insert(0, obj.name);
+				{
+                    obj = obj.transform.parent.gameObject;
+                    res = res.Insert(0, "/" + obj.name);
+                }				
 			}
 
-			return path;
+			//Chop off the leading "/"
+			return res.Substring(1);
 		}
 	}
 }

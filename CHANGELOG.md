@@ -48,18 +48,18 @@
 ### Fixed
 - Cleaned up Welcome Modal. Auto load toggle feature implemented.
 
-## [1.6.0] - 2024-02-08
-
-### Changed
-- Major refactor of code into CavrnusFunctionLibrary, and re-worked namespaces around that.
-
 ## [2.0.0] - 2024-02-08
 
 ### Changed
 - Refactored all functions into CavrnusFunctionLibrary
 - Reworked namespaces to match the new structure
 
-## [2.0.2] - 2024-02-08
+## [2.0.1] - 2024-02-08
 
 ### Removed
 - Remove bad using
+
+## [2.1.0] - 2024-02-09
+
+### Changed
+- CavrnusPropertiesContainer names are now absolute, and are automatically filled in and managed for users by default
