@@ -53,6 +53,9 @@ namespace CavrnusSdk.Editor
 					}
 				}
 			}
-		}
+
+			EditorUtility.SetDirty(csc);
+
+        }
 	}
 }

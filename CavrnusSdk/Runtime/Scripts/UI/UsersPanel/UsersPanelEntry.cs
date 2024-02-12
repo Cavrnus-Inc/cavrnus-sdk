@@ -1,7 +1,9 @@
 using CavrnusSdk.API;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityBase;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,21 +37,31 @@ namespace CavrnusSdk.UI
             });
             disposables.Add(picDisp);
 
+            var isStreaming = user.BindUserStreaming(isStreaming => videoStreamImage.gameObject.SetActive(isStreaming));
+			disposables.Add(isStreaming);
+				
             //Set the profile pic/stream component to always match the user's data
             var videoDisp = user.BindUserVideoFrames(tex => {
-
-                videoStreamImage.texture = tex.Texture;
-                videoStreamImage.uvRect = tex.UVRect;
-
-                if (tex.Texture.width > 0 && tex.Texture.height > 0)
-                    videoStreamImage.GetComponent<AspectRatioFitter>().aspectRatio = (float)tex.Texture.width / (float)tex.Texture.height;
-                else
-                    videoStreamImage.GetComponent<AspectRatioFitter>().aspectRatio = 1.5f;
+                StartCoroutine(AssignVidTexture(tex));
 			});
 			//Stop matching them up when the menu is destroyed
 			disposables.Add(videoDisp);
 		}
 
+		private IEnumerator AssignVidTexture(TextureWithUVs tex)
+		{
+			if (tex.Texture.width > 0 && tex.Texture.height > 0)
+				videoStreamImage.GetComponent<AspectRatioFitter>().aspectRatio =
+					(float) tex.Texture.width / (float) tex.Texture.height;
+			else
+				videoStreamImage.GetComponent<AspectRatioFitter>().aspectRatio = 1.5f;
+			
+			yield return new WaitForSeconds(1f); // Need delay to handle if user is already streaming when loading space
+
+			videoStreamImage.texture = tex.Texture;
+			videoStreamImage.uvRect = tex.UVRect;
+		}
+		
 		void OnDestroy()
 		{
 			foreach (var disp in disposables) disp.Dispose();

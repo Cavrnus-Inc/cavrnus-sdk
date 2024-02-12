@@ -28,9 +28,9 @@ namespace CavrnusSdk.API
             return user.SpaceConnection.GetBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Streaming);
         }
 
-        public static IDisposable BindUserStreaming(this CavrnusUser user, Action<bool> onMutedChanged)
+        public static IDisposable BindUserStreaming(this CavrnusUser user, Action<bool> onStreamingChanged)
         {
-            return user.SpaceConnection.BindBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Streaming, onMutedChanged);
+            return user.SpaceConnection.BindBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Streaming, onStreamingChanged);
         }
 
         public static IDisposable BindUserName(this CavrnusUser user, Action<string> onNameChanged)

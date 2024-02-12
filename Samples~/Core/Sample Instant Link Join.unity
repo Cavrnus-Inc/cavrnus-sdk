@@ -283,15 +283,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: SpawnableObjects.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: SpawnableObjects.Array.data[0].Object
       value: 
       objectReference: {fileID: 2592921197611725377, guid: c1885d33aa101a745b35075600754b78, type: 3}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: SpawnableObjects.Array.data[1].Object
+      value: 
+      objectReference: {fileID: 5906387600968752733, guid: 346d6d875d11b934498e314c0046703c, type: 3}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: SpawnableObjects.Array.data[0].UniqueId
       value: SpawnedSphere
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: SpawnableObjects.Array.data[1].UniqueId
+      value: NPC
       objectReference: {fileID: 0}
     - target: {fileID: 4731373496736375337, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: m_Name
@@ -903,6 +911,10 @@ PrefabInstance:
 
         They will have their own individual
         properties.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4467610004533251379, guid: 2bc2a0b0248504e4ab973f8a2401d44d, type: 3}
+      propertyPath: UniqueObjectIdToSpawn
+      value: NPC
       objectReference: {fileID: 0}
     - target: {fileID: 7773405908944184510, guid: 2bc2a0b0248504e4ab973f8a2401d44d, type: 3}
       propertyPath: m_RootOrder

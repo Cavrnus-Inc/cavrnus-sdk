@@ -95,9 +95,15 @@ namespace CavrnusSdk.UI
 		public void VideoInputsChanged(int v)
 		{
 			//Have we finished fetching the options?
-			if (videoInputs == null) return;
+			if (videoInputs == null) {
+				spaceConn.SetLocalUserStreamingState(false);
+
+				return;
+			}
 
 			CavrnusFunctionLibrary.UpdateVideoInput(videoInputs[v]);
+			
+			spaceConn.SetLocalUserStreamingState(true);
 		}
 
 		public void ToggleAudioMuted(bool muted) { CavrnusFunctionLibrary.SetLocalUserMutedState(spaceConn, muted); }

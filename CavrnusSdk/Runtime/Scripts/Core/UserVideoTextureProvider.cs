@@ -88,7 +88,7 @@ namespace CavrnusCore
 				providedTexture.Value = twu;
 #if !BUILD_MAGICLEAP && !BUILD_QUEST && !UNITY_VISIONOS
 			else if (val is WebCamTexture wct)
-				providedTexture.Value = new TextureWithUVs(wct, new Rect(0, 0, 1, -1));
+				providedTexture.Value = new TextureWithUVs(wct, new Rect(0, 0, 1, 1));
 #endif
 			else if (val is RenderTexture rt)
 			{

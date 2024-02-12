@@ -63,3 +63,9 @@
 
 ### Changed
 - CavrnusPropertiesContainer names are now absolute, and are automatically filled in and managed for users by default
+
+
+## [2.1.1] - 2024-02-12
+
+### Fixed
+- Both local and remote video streams now update correctly

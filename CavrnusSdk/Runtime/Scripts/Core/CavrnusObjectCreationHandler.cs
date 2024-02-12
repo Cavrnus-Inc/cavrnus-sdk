@@ -51,7 +51,7 @@ namespace CavrnusCore
 				}
 				else {
 					Debug.LogWarning(
-						$"Could not find spawnable prefab with ID {cId.WellKnownId} in the \"Assets/CavrnusSDK/Cavrnus Spawnable Prefabs Lookup\"");
+						$"Could not find spawnable prefab with ID {cId.WellKnownId} in the \"Cavrnus Spatial Connector\"");
 				}
 			}
 			else if (createOp.Op.ObjectType is ContentTypeUrl cUrl) {
