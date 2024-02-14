@@ -6,6 +6,8 @@ using UnityEngine;
 using CavrnusCore;
 using CavrnusSdk.Setup;
 using UnityBase;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace CavrnusSdk.API
 {
@@ -466,6 +468,20 @@ namespace CavrnusSdk.API
 			CavrnusStatics.RtcContext.ChangeVideoInputDevice(new Collab.RtcCommon.RtcInputSource() { Id = device.Id, Name = device.Name },
 																   (s) => Debug.Log("Changed video input device to: " + s),
 																   err => Debug.LogError("Failed to change video input device: " + err));
+		}
+
+		#endregion
+
+		#region Remote Content
+
+		public static void FetchFileById(CavrnusSpaceConnection spaceConn, string id, Func<Stream, long, Task> onStreamLoaded)
+		{
+			CavrnusContentHelpers.FetchFileById(spaceConn, id, onStreamLoaded);
+		}
+
+		public static void FetchAllUploadedContent(Action<List<CavrnusRemoteContent>> onCurrentContentArrived)
+		{
+			CavrnusContentHelpers.FetchAllUploadedContent(onCurrentContentArrived);
 		}
 
 		#endregion

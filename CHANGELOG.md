@@ -75,3 +75,9 @@
 
 ### Added
 - Added new temporary banner for welcome modal and fix pathing issues
+
+
+## [2.1.3] - 2024-02-14
+
+### Added
+- Started adding new Remote Content SDK calls

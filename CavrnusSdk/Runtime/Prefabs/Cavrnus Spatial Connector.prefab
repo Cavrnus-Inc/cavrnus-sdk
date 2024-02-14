@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: accce399d9aa69b4ab3bef2bf31d8871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyServer: 
+  MyServer: cav.dev.cavrn.us
   UiCanvas: {fileID: 0}
   AuthenticationMethod: 0
   ManualLoginMenu: {fileID: 3334598808290815954, guid: 0bc6e13fd848f49479c8d40d1233ddc1, type: 3}
@@ -55,12 +55,14 @@ MonoBehaviour:
   SaveUserToken: 1
   SpaceJoinMethod: 0
   SpacesListMenu: {fileID: 7566173827213273048, guid: 3bff16a09419a114ead151503f2b596c, type: 3}
-  AutomaticSpaceJoinId: 
+  AutomaticSpaceJoinId: 64f25f0196537d6ad410ea2e
   LoadingMenus:
   - {fileID: 1949255927169078816, guid: 7e23f7d438cebea40b14760457be7be7, type: 3}
   SpaceMenus:
   - {fileID: 1107540274462631947, guid: cdea8399efdd6d6408f3e72404bab8b6, type: 3}
   - {fileID: 5855605566567049347, guid: 04a855f9b4718e0429e4d14ab7bf24ef, type: 3}
   RemoteUserAvatar: {fileID: 7655749332648085126, guid: 10dc195713eb0824283dedd9778869c9, type: 3}
-  SpawnablePrefabs: {fileID: 11400000, guid: f7205bab3d9e06f4b8e3a4e1da2db252, type: 2}
-  CavrnusSettings: {fileID: 11400000, guid: ad200cfe68666bf4aaa4bd02bdb41a07, type: 2}
+  SpawnableObjects: []
+  AdditionalSettings:
+    DisableVoiceAndVideo: 0
+    DisableAcousticEchoCancellation: 0

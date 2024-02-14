@@ -2063,7 +2063,7 @@ GameObject:
   - component: {fileID: 8125684635791219339}
   - component: {fileID: 5829776716824976431}
   m_Layer: 0
-  m_Name: Avatar Remote
+  m_Name: Rigged Remote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2097,7 +2097,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
   m_Controller: {fileID: 9100000, guid: 40db3173a05ae3242b1c182a09b0a183, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -2158,7 +2158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd55bf99a9846e42af35a7ac3492b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PropertyName: transform
+  PropertyName: Transform
   SendMyChanges: 0
   RecieveChanges: 1
 --- !u!114 &8125684635791219339
@@ -2173,7 +2173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49268d9e05fc48748a609da7d0ac55b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshRenderer: {fileID: 7432566112208860653}
+  meshRenderer:
+  - {fileID: 7432566112208860653}
 --- !u!114 &5829776716824976431
 MonoBehaviour:
   m_ObjectHideFlags: 0

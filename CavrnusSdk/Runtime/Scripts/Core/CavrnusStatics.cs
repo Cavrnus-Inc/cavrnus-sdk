@@ -15,9 +15,9 @@ using static CavrnusSdk.Setup.CavrnusSpatialConnector;
 
 namespace CavrnusCore
 {
-	internal static class CavrnusStatics
+	public static class CavrnusStatics
 	{
-		internal static UnityScheduler Scheduler
+		public static UnityScheduler Scheduler
 		{
 			get {
 				if (scheduler == null) {
