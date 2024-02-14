@@ -6,7 +6,7 @@ namespace CavrnusSdk.Setup.Editor
 {
     public class WelcomeModal : EditorWindow
     {
-        private static readonly Vector2 WindowSize = new Vector2(700, 520);
+        private static readonly Vector2 WindowSize = new Vector2(700, 580);
         private readonly Vector2 mainButtonSize = new Vector2(500, 50);
         
         private const float Space = 10;
@@ -40,7 +40,7 @@ namespace CavrnusSdk.Setup.Editor
         {
             shouldAutoOpen = EditorPrefs.GetBool("ShouldAutoOpen", true);
 
-            if (shouldAutoOpen) 
+            if (shouldAutoOpen && !Application.isPlaying) 
                 ShowWindow();
             
             EditorApplication.update -= HandleUpdate;
@@ -58,7 +58,7 @@ namespace CavrnusSdk.Setup.Editor
 
             GUILayout.BeginVertical();
             
-            CustomEditorUtilities.CreateHeader("Instantly add multi-user collaboration to your project with just a few clicks!");
+            CustomEditorUtilities.CreateHeader("Instantly add multi-user collaboration to any project");
             
             CustomEditorUtilities.AddDivider();
             CustomEditorUtilities.AddSpace(Space);
@@ -109,15 +109,15 @@ namespace CavrnusSdk.Setup.Editor
                 // Draw the box
 
                 var cacheColor = GUI.color;
-                GUI.color = new Color(0.7f, 0.9f, 0.7f);
                 
                 var boxStyle = new GUIStyle(GUI.skin.box) {
                     alignment = TextAnchor.MiddleCenter, 
                     fontStyle = FontStyle.Bold,
-                    fontSize = 30
+                    fontSize = 30,
                 };
 
-                GUILayout.Box("Welcome to Cavrnus!", boxStyle, GUILayout.ExpandWidth(true), GUILayout.Height(150));
+                var assetsImg = CustomEditorUtilities.LoadTextureFromFile(CustomEditorUtilities.GetPathWithRoot("Runtime/Scripts/Setup/Editor/Welcome Modal/cav-logo.png"));
+                GUILayout.Box(assetsImg, boxStyle, GUILayout.ExpandWidth(true), GUILayout.Height(200));
                 
                 GUI.color = cacheColor;
 

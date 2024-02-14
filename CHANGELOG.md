@@ -69,3 +69,9 @@
 
 ### Fixed
 - Both local and remote video streams now update correctly
+
+
+## [2.1.2] - 2024-02-13
+
+### Added
+- Added new temporary banner for welcome modal and fix pathing issues

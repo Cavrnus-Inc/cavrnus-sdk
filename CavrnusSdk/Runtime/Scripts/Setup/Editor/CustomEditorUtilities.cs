@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,6 +16,39 @@ namespace CavrnusSdk.Setup.Editor
             w.CenterOnMainWin();
 
             return w;
+        }
+
+        private const string PackageRoot = "Packages/com.cavrnus.sdk/CavrnusSdk/";
+        private const string Development = "Assets/CavrnusSdk/";
+
+        public static string GetPathWithRoot(string path)
+        {
+            var result = "";
+            
+            // Package path...
+            if (File.Exists(PackageRoot + path))
+                result = PackageRoot + path;
+            // Development path...
+            else if (File.Exists(Development + path))
+                result = Development + path;
+            else
+                Debug.Log($"File does not exist at: {path}");
+
+            return result;
+        }
+
+        public static Texture2D LoadTextureFromFile(string path)
+        {
+            var texture = new Texture2D(2, 2);      
+
+            if (File.Exists(path)) {
+                var fileData = File.ReadAllBytes(path);
+                texture.LoadImage(fileData);
+            }
+            else
+                Debug.Log($"File doesn't exist at: {path}");
+
+            return texture;
         }
 
         public static void AddSpace(float amount)
