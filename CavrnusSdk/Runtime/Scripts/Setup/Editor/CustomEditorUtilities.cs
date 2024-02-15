@@ -18,25 +18,6 @@ namespace CavrnusSdk.Setup.Editor
             return w;
         }
 
-        private const string PackageRoot = "Packages/com.cavrnus.sdk/CavrnusSdk/";
-        private const string Development = "Assets/";
-
-        public static string GetPathWithRoot(string path)
-        {
-            var result = "";
-            
-            // Package path...
-            if (File.Exists(PackageRoot + path))
-                result = PackageRoot + path;
-            // Development path...
-            else if (File.Exists(Development + path))
-                result = Development + path;
-            else
-                Debug.Log($"File does not exist at: {path}");
-
-            return result;
-        }
-
         public static Texture2D LoadTextureFromFile(string path)
         {
             var texture = new Texture2D(2, 2);      

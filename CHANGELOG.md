@@ -76,6 +76,7 @@
 ### Added
 - Added new temporary banner for welcome modal and fix pathing issues
 
+
 ## [2.1.3] - 2024-02-14
 
 ### Added
@@ -85,5 +86,8 @@
 - Fixes to scenes with broken prefabs and configurating core asset
 - Fixes to avatar components
 
-### Removed
-- Remove holo sample folder
+
+## [2.1.4] - 2024-02-15
+
+### Fixed
+- Fixed some pathing issues with editor windows

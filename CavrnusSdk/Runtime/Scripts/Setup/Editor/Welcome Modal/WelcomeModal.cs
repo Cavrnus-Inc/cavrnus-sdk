@@ -136,8 +136,12 @@ namespace CavrnusSdk.Setup.Editor
                     fontStyle = FontStyle.Bold,
                     fontSize = 30,
                 };
+                
+                const string assetsPath = "Assets/CavrnusSdk/Runtime/Scripts/Setup/Editor/Welcome Modal/cav-logo.png";
+                const string packagePath = "Packages/com.cavrnus.sdk/CavrnusSdk/Runtime/Scripts/Setup/Editor/Welcome Modal/cav-logo.png";
+                var path = File.Exists(assetsPath) ? assetsPath : packagePath;
 
-                var assetsImg = CustomEditorUtilities.LoadTextureFromFile(CustomEditorUtilities.GetPathWithRoot("CavrnusSdk/Runtime/Scripts/Setup/Editor/Welcome Modal/cav-logo.png"));
+                var assetsImg = CustomEditorUtilities.LoadTextureFromFile(path);
                 GUILayout.Box(assetsImg, boxStyle, GUILayout.ExpandWidth(true), GUILayout.Height(200));
                 
                 GUI.color = cacheColor;
@@ -172,19 +176,22 @@ namespace CavrnusSdk.Setup.Editor
         private static string GetPackageVersion()
         {
             var result = "";
-            var devPath = "Assets/package.json";
-            var path = CustomEditorUtilities.GetPathWithRoot("package.json");
-            if (File.Exists(devPath)) {
-                var data = File.ReadAllText(devPath);
+            const string assetsPath = "Assets/package.json";
+            const string packagePath = "Packages/com.cavrnus.sdk/package.json";
+
+            var path = File.Exists(assetsPath) ? assetsPath : packagePath;
+                
+            if (File.Exists(path)) {
+                var data = File.ReadAllText(path);
                 var jData = JObject.Parse(data);
             
                 if (jData["version"] != null)
                     result = jData["version"].ToString();
                 else
-                    Debug.LogError($"Cannot find version Json entry in {devPath} file!"); 
+                    Debug.LogError($"Cannot find version Json entry in {path} file!"); 
             }
             else {
-                Debug.LogError($"Cannot find package path at {devPath}: ");
+                Debug.LogError($"Cannot find package path at {path}: ");
             }
 
             return result;
