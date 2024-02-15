@@ -271,7 +271,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: MyServer
-      value: cav.dev.cavrn.us
+      value: veve.stage.cavrn.us
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: UiCanvas
@@ -287,7 +287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AutomaticSpaceJoinId
-      value: 65ca9f163bfd98faa92a00f7
+      value: 64c1a8198ded0551434665bd
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AutomaticLoginPassword
@@ -496,7 +496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7345963137491064662, guid: cc37aee95e5b5784da4582ba6ed51408, type: 3}
       propertyPath: FileNameToSearchFor
-      value: chewey
+      value: dis-frozen-elsa
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

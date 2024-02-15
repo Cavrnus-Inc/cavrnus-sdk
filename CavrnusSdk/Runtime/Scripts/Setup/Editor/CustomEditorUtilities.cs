@@ -19,7 +19,7 @@ namespace CavrnusSdk.Setup.Editor
         }
 
         private const string PackageRoot = "Packages/com.cavrnus.sdk/CavrnusSdk/";
-        private const string Development = "Assets/CavrnusSdk/";
+        private const string Development = "Assets/";
 
         public static string GetPathWithRoot(string path)
         {
@@ -58,30 +58,41 @@ namespace CavrnusSdk.Setup.Editor
         
         public static void AddDivider()
         {
-            GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(3));
+            var whiteBoxStyle = new GUIStyle {normal = {background = MakeTex(1, 1, new Color(0.4f,0.4f,0.4f))}};
+            GUILayout.Box("", whiteBoxStyle, GUILayout.Height(1));
         }
+
+        #region Buttons
         
-        public static void CreateLargeButton(string label, Vector2 size, Action onClick, int space = 10)
+        public static void CreateLargeButton(string label, Vector2 size, int radius, Action onClick)
         {
             var style = ButtonStyle();
-            style.fontSize = 16;
-            style.fontStyle = FontStyle.Bold;
+            style.fontSize = 12;
+            style.fontStyle = FontStyle.Normal;
             style.fixedWidth = size.x;
             style.fixedHeight = size.y;
+            style.alignment = TextAnchor.MiddleCenter;
+            style.border = new RectOffset(radius, radius, radius, radius);
             
             if (GUILayout.Button(label, style))
                 onClick?.Invoke();
             
-            GUILayout.Space(space);
         }
 
-        public static void CreateButton(string label, Action onClick, int space = 10)
+        public static void CreateButton(string label, Vector2 size, Action onClick = null)
         {
-            if (GUILayout.Button(label, ButtonStyle()))
-                onClick?.Invoke();
+            var style = ButtonStyle();
+            style.fontSize = 12;
+            style.fontStyle = FontStyle.Normal;
+            style.fixedWidth = size.x;
+            style.fixedHeight = size.y;
+            style.alignment = TextAnchor.MiddleCenter;
             
-            GUILayout.Space(space);
+            if (GUILayout.Button(label, style))
+                onClick?.Invoke();
         }
+        
+#endregion
 
         public static void CreateHeader(string text, int space = 10)
         {
@@ -89,9 +100,31 @@ namespace CavrnusSdk.Setup.Editor
             GUILayout.Space(space);
         }
 
+        public static void CreateLabel(string label, int fontSize = 14, bool bold = false, TextAnchor alignment = TextAnchor.MiddleLeft)
+        {
+            var bs = LabelStyle();
+            bs.fontSize = fontSize;
+            bs.alignment = alignment;
+            bs.fontStyle = bold ? FontStyle.Bold : FontStyle.Normal;
+            
+            GUILayout.Label(label, bs);
+        }
+        
+        public static void CreateLabelAbsolutePos(string label, Rect rect, Color color, int fontSize = 14, bool bold = false, TextAnchor alignment = TextAnchor.MiddleLeft)
+        {
+            var style = LabelStyle();
+            style.fontSize = fontSize;
+            style.normal.textColor = color;
+            style.alignment = alignment;
+            style.hover.textColor = color;
+            style.fontStyle = bold ? FontStyle.Bold : FontStyle.Normal;
+            
+            GUI.Label(rect, label, style);
+        }
+
         public static string CreateTextFieldWithLabel(string container, string label, int space = 10, int width = 120)
         {
-            GUILayout.Label(label, BodyStyle());
+            GUILayout.Label(label, LabelStyle());
             GUILayout.Space(space / 4);
             var gui= EditorGUILayout.TextField(container, GUILayout.Height(20), GUILayout.Width(width));
             GUILayout.Space(space);
@@ -101,7 +134,7 @@ namespace CavrnusSdk.Setup.Editor
         
         public static string CreateTextAreaWithLabel(string container, string label, int height = 200, int space = 10)
         {
-            GUILayout.Label(label, BodyStyle());
+            GUILayout.Label(label, LabelStyle());
             GUILayout.Space(space / 4);
             var gui= EditorGUILayout.TextArea(container, GUILayout.Height(height));
             GUILayout.Space(space);
@@ -120,15 +153,9 @@ namespace CavrnusSdk.Setup.Editor
             window.position = pos;
         }
 
-        public static GUIStyle BodyStyle()
+        public static GUIStyle LabelStyle()
         {
-            var style = new GUIStyle(EditorStyles.label) {
-                wordWrap = true, 
-                fontSize = 14, 
-                richText = true
-            };
-
-            return style;
+            return new GUIStyle(EditorStyles.label);
         }
         
         public static GUIStyle TitleStyle()
@@ -159,11 +186,24 @@ namespace CavrnusSdk.Setup.Editor
                 wordWrap = true, 
                 fontSize = 16, 
                 richText = true,
-                fontStyle = FontStyle.Bold,
+                fontStyle = FontStyle.Normal,
                 alignment = TextAnchor.MiddleCenter,
             };
 
             return style;
+        }
+        
+        public static Texture2D MakeTex(int width, int height, Color col)
+        {
+            Color[] pix = new Color[width * height];
+            for (int i = 0; i < pix.Length; ++i)
+            {
+                pix[i] = col;
+            }
+            Texture2D result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
         }
     }
 }

@@ -76,8 +76,14 @@
 ### Added
 - Added new temporary banner for welcome modal and fix pathing issues
 
-
 ## [2.1.3] - 2024-02-14
 
 ### Added
-- Started adding new Remote Content SDK calls
+- Add new welcome modal with updated graphics
+
+### Fixed
+- Fixes to scenes with broken prefabs and configurating core asset
+- Fixes to avatar components
+
+### Removed
+- Remove holo sample folder
