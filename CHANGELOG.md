@@ -91,3 +91,9 @@
 
 ### Fixed
 - Fixed some pathing issues with editor windows
+
+
+## [2.2] - 2024-02-16
+
+### Added
+- Finished Holo Loading Samples

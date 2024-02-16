@@ -474,9 +474,9 @@ namespace CavrnusSdk.API
 
 		#region Remote Content
 
-		public static void FetchFileById(CavrnusSpaceConnection spaceConn, string id, Func<Stream, long, Task> onStreamLoaded)
+		public static void FetchFileById(CavrnusSpaceConnection spaceConn, string id, Action<string, float> progress, Func<Stream, long, Task> onStreamLoaded)
 		{
-			CavrnusContentHelpers.FetchFileById(spaceConn, id, onStreamLoaded);
+			CavrnusContentHelpers.FetchFileById(spaceConn, id, progress, onStreamLoaded);
 		}
 
 		public static void FetchAllUploadedContent(Action<List<CavrnusRemoteContent>> onCurrentContentArrived)
