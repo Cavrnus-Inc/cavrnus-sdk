@@ -102,3 +102,9 @@
 
 ### Fixed
 - Local user transforms are the only send-only option
+
+
+## [2.2.2] - 2024-02-16
+
+### Fixed
+- Fixed Holo Sample Path
