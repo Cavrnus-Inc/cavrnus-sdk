@@ -17,34 +17,37 @@ namespace CavrnusSdk.Setup
 
                     CavrnusPropertyHelpers.ResetLiveHierarchyRootName(gameObject, $"{localUser.ContainerId}");
 
-                    foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<bool>>())
+                    //Transform is SEND-ONLY
+					foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<CavrnusTransformData>>())
+					{
+						sync.RecieveChanges = false;
+						sync.Setup();
+					}
+
+                    //All others are RECV-ONLY
+					foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<bool>>())
                     {
-                        sync.RecieveChanges = false;
+                        sync.SendMyChanges = false;
                         sync.Setup();
                     }
                     foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<float>>())
                     {
-                        sync.RecieveChanges = false;
+                        sync.SendMyChanges = false;
                         sync.Setup();
                     }
                     foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<Color>>())
                     {
-                        sync.RecieveChanges = false;
+                        sync.SendMyChanges = false;
                         sync.Setup();
                     }
                     foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<Vector4>>())
                     {
-                        sync.RecieveChanges = false;
-                        sync.Setup();
-                    }
-                    foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<CavrnusTransformData>>())
-                    {
-                        sync.RecieveChanges = false;
+                        sync.SendMyChanges = false;
                         sync.Setup();
                     }
                     foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<string>>())
                     {
-                        sync.RecieveChanges = false;
+                        sync.SendMyChanges = false;
                         sync.Setup();
                     }
                 });				

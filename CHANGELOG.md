@@ -92,8 +92,13 @@
 ### Fixed
 - Fixed some pathing issues with editor windows
 
-
-## [2.2] - 2024-02-16
+## [2.2.0] - 2024-02-16
 
 ### Added
-- Finished Holo Loading Samples
+- Finished Holo Loading & Samples
+
+
+## [2.2.1] - 2024-02-16
+
+### Fixed
+- Local user transforms are the only send-only option
