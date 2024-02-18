@@ -108,3 +108,8 @@
 
 ### Fixed
 - Fixed Holo Sample Path
+
+## [2.2.3] - 2024-02-17
+
+### Fixed
+- Fixed file data paths on Android/iOS/MacOS

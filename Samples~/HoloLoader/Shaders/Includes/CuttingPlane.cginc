@@ -12,10 +12,10 @@ bool getWithinVolume(float3 worldPos, float3 volumeCenter, float3 volumeXAxis, f
 
 bool handleCullingVolume(float3 worldPos, float4 volumeCenter, float3 volumeXAxis, float3 volumeZAxis, float3 cullSize, float borderSize) {
 	if (volumeCenter.w != -1) {
-		bool withinBoundingVolume = getWithinVolume(worldPos, volumeCenter, volumeXAxis, volumeZAxis, cullSize/2);
+		bool withinBoundingVolume = getWithinVolume(worldPos, volumeCenter.xyz, volumeXAxis, volumeZAxis, cullSize/2);
 		clip(withinBoundingVolume ? -1 : 1);
 		float3 withBorderSize = cullSize/2 + float3(borderSize, borderSize, borderSize);
-		return getWithinVolume(worldPos, volumeCenter, volumeXAxis, volumeZAxis, withBorderSize);
+		return getWithinVolume(worldPos, volumeCenter.xyz, volumeXAxis, volumeZAxis, withBorderSize);
 	}
 	return false;
 }

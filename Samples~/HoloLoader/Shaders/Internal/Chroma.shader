@@ -79,15 +79,13 @@ Shader "Cavrnus/Internal/Chroma"
 			inline void ChromaKeyCutout(float4 col)
 			{
 				float3 d = ChromaKeyCalcDiffrence(col);
-				if (all(step(0.0, ChromaKeyGetRange() - d)))
-					discard;
+				clip(all(step(0.0, ChromaKeyGetRange() - d)) ? -1 : 1);
 			}
 
 			inline float ChromaKeyAlpha(float4 col)
 			{
 				float3 d = ChromaKeyCalcDiffrence(col);
-				if (all(step(0.0, ChromaKeyGetRange() - d)))
-					discard;
+				clip(all(step(0.0, ChromaKeyGetRange() - d)) ? -1 : 1);
 				return saturate(length(d / ChromaKeyGetRange()) - 1.0);
 			}
 
@@ -167,15 +165,13 @@ Shader "Cavrnus/Internal/Chroma"
 			inline void ChromaKeyCutout(float4 col)
 			{
 				float3 d = ChromaKeyCalcDiffrence(col);
-				if (all(step(0.0, ChromaKeyGetRange() - d)))
-					discard;
+				clip(all(step(0.0, ChromaKeyGetRange() - d)) ? -1 : 1);
 			}
 
 			inline float ChromaKeyAlpha(float4 col)
 			{
 				float3 d = ChromaKeyCalcDiffrence(col);
-				if (all(step(0.0, ChromaKeyGetRange() - d)))
-					discard;
+				clip(all(step(0.0, ChromaKeyGetRange() - d)) ? -1 : 1);
 				return saturate(length(d / ChromaKeyGetRange()) - 1.0);
 			}
 
@@ -203,8 +199,7 @@ Shader "Cavrnus/Internal/Chroma"
 				fixed4 col = tex2D(_MainTex, i.uv);
 				// Chroma-ize
 				float alpha = ChromaKeyAlpha(col);
-				if (alpha < .05)
-					discard;
+				clip(alpha - .05);
 
 				SHADOW_CASTER_FRAGMENT(i)
 			}

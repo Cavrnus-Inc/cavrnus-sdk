@@ -74,8 +74,7 @@ Shader "Cavrnus/Internal/Particles/Unlit"
             HLSLPROGRAM
             #pragma target 2.0
 
-            //normal map doesnt matter on unlit shader.
-            // #pragma shader_feature_local _NORMALMAP
+            #pragma shader_feature_local _NORMALMAP
             #pragma shader_feature_local_fragment _EMISSION
 
             #pragma shader_feature_local_fragment _ _ALPHAPREMULTIPLY_ON _ALPHAMODULATE_ON
@@ -133,6 +132,7 @@ Shader "Cavrnus/Internal/Particles/Unlit"
             ENDHLSL
         }
 
+        // ------------------------------------------------------------------
         //  Scene picking buffer pass.
         Pass
         {
