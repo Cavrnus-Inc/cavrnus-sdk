@@ -110,7 +110,7 @@ namespace CavrnusCore
 
 		private static void HandlePlatformsSetup()
 		{
-			if(Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.VisionOS /*TODO: Does this use the same settings?*/)
+			if(Application.platform == RuntimePlatform.IPhonePlayer)
 			{
 				CollabPaths.ProgramDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/Caches/ProgramData");
 
@@ -123,7 +123,23 @@ namespace CavrnusCore
 				CollabPaths.TempPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/tmp");
 
 				CollabPaths.SecondaryApplicationsPath = CollabPaths.ProgramDataPath;
-	}
+			}
+#if UNITY_2022
+			if (Application.platform == RuntimePlatform.VisionOS /*TODO: Does this use the same settings as iOS?*/)
+			{
+				CollabPaths.ProgramDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/Caches/ProgramData");
+
+				CollabPaths.DownloadCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/Caches/CacheV1");
+
+				CollabPaths.ContentPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"Documents/{BuildInfo.applicationPathName}Content");
+
+				CollabPaths.ScreenshotsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"Documents/{BuildInfo.applicationPathName}Pictures");
+
+				CollabPaths.TempPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/tmp");
+
+				CollabPaths.SecondaryApplicationsPath = CollabPaths.ProgramDataPath;
+			}
+#endif
 			else if (Application.platform == RuntimePlatform.OSXPlayer)
 			{
 				var ProgramDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/" + BuildInfo.AppNameStorageFolder);
@@ -139,7 +155,7 @@ namespace CavrnusCore
 				CollabPaths.TempPath = Path.Combine(ProgramDataPath, "tmp");
 
 				CollabPaths.SecondaryApplicationsPath = ProgramDataPath;
-	}
+			}
 			else if(Application.platform == RuntimePlatform.Android)
 			{
 				var DataPathRoot = Application.persistentDataPath;

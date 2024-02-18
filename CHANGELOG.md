@@ -109,7 +109,14 @@
 ### Fixed
 - Fixed Holo Sample Path
 
+
 ## [2.2.3] - 2024-02-17
 
 ### Fixed
 - Fixed file data paths on Android/iOS/MacOS
+
+
+## [2.2.4] - 2024-02-17
+
+### Fixed
+- Added #if check for older Unity version without VisionOS
