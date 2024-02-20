@@ -42,7 +42,7 @@ namespace CavrnusCore
 			{
 				if (spawnablePrefabs.Any(sp => sp.UniqueId == cId.WellKnownId)) 
 				{
-					var prefab = spawnablePrefabs.FirstOrDefault(sp => sp.UniqueId == cId.WellKnownId)?.Object;
+					var prefab = spawnablePrefabs.FirstOrDefault(sp => sp.UniqueId == cId.WellKnownId).Object;
                     var ob = GameObject.Instantiate(prefab);
 					createdObjects[createOp.Op.NewObjectId] = ob.gameObject;
 					ob.gameObject.name = $"{createOp.Op.NewObjectId} ({prefab.name})";
@@ -53,22 +53,6 @@ namespace CavrnusCore
 					Debug.LogWarning(
 						$"Could not find spawnable prefab with ID {cId.WellKnownId} in the \"Cavrnus Spatial Connector\"");
 				}
-			}
-			else if(createOp.Op.ObjectType is ContentTypeId ctId)
-			{
-				if(!spawnablePrefabs.Any((sp => sp.UniqueId == "HoloLoader")))
-				{
-					//TODO: CHECK FILE TYPE FOR COMPATABILITY!!!!!!!!!!!!!!!
-					Debug.LogWarning("Cannot load file since HoloLoader is not present in Spawnable Prefabs");
-					return;
-				}
-
-				var prefab = spawnablePrefabs.FirstOrDefault(sp => sp.UniqueId == "HoloLoader")?.Object;
-				var ob = GameObject.Instantiate(prefab);
-				createdObjects[createOp.Op.NewObjectId] = ob.gameObject;
-				ob.gameObject.name = $"{createOp.Op.NewObjectId} ({prefab.name})";
-				ob.gameObject.AddComponent<CavrnusSpawnedObjectFlag>().Init(new CavrnusSpawnedObject(createOp.Op.NewObjectId, createOp.Id, spaceConn));
-				CavrnusPropertyHelpers.ResetLiveHierarchyRootName(ob.gameObject, createOp.Op.NewObjectId);
 			}
 			else if (createOp.Op.ObjectType is ContentTypeUrl cUrl) {
 				Debug.LogWarning($"ContentType URL coming soon...");

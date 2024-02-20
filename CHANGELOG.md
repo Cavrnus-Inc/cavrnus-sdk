@@ -120,3 +120,9 @@
 
 ### Fixed
 - Added #if check for older Unity version without VisionOS
+
+
+## [2.2.5] - 2024-02-19
+
+### Added
+- Add library search for holos
