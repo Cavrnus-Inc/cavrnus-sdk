@@ -73,7 +73,7 @@ namespace CavrnusSdk.Setup.Editor
             
             GUILayout.BeginVertical();
 
-            CreateLargeButton("Set up your Space", mainButtonSize, CavrnusSetupHelpers.SetupSceneForCavrnus);
+            CreateLargeButton("Set up your Scene", mainButtonSize, CavrnusSetupHelpers.SetupSceneForCavrnus);
             CreateLargeButton("Web Console",  mainButtonSize,()=> Application.OpenURL("https://console.dev.cavrn.us/signin?startUrl=/"));
             
             CustomEditorUtilities.AddSpace(5);

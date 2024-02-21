@@ -48,7 +48,7 @@ namespace CavrnusSdk.UI
 		{
 			if (spaceConn == null || !cu.IsLocalUser) return;
 
-			CavrnusFunctionLibrary.SetLocalUserMutedState(spaceConn, !cu.GetUserMuted());
+			spaceConn.SetLocalUserMutedState(!cu.GetUserMuted());
 		}
 
 		private void OnDestroy()

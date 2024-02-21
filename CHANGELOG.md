@@ -138,3 +138,11 @@
 
 ### Fixed
 - Fixed spawned objects popping from origin by delaying 3 frames to let props catch up
+
+
+## [2.2.8] - 2024-02-21
+
+### Fixed
+- Fixes to CSC remote avatar spawning
+- Welcome modal verbiage changes
+- User name tag works again

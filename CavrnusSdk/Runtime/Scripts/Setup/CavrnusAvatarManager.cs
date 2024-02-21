@@ -32,7 +32,7 @@ namespace CavrnusSdk.Setup
 		{
 			cavrnusSpaceConnection = obj;
 
-			CavrnusFunctionLibrary.BindSpaceUsers(cavrnusSpaceConnection, UserAdded, UserRemoved);
+			cavrnusSpaceConnection.BindSpaceUsers(UserAdded, UserRemoved);
 		}
 
 		//Instantiate avatars when we get a new user

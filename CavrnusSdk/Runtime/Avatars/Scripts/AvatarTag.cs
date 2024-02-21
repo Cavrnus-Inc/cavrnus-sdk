@@ -1,7 +1,10 @@
+using System;
+using CavrnusSdk.API;
 using CavrnusSdk.UI;
 using UnityBase;
 using UnityEngine;
 using CavrnusSdk.Setup;
+using TMPro;
 
 namespace CavrnusSdk.Avatars
 {
@@ -9,22 +12,31 @@ namespace CavrnusSdk.Avatars
     {
         [SerializeField] private WidgetUserProfileImage profileImage;
         [SerializeField] private WidgetUserMic userMic;
+        [SerializeField] private TextMeshProUGUI nameText;
         
         private Camera mainCam;
+        private IDisposable nameDisposable;
 
-		private void Start()
+        private void Start()
 		{
 			mainCam = Camera.main;
 			if (mainCam == null)
 				Debug.LogWarning("Missing main cam in scene!");
 
             var user = gameObject.GetComponentInAllParents<CavrnusUserFlag>().User;
-
+            nameDisposable = user.BindUserName(n => nameText.text = n);
+            //Stop matching them up when the menu is destroyed
+            
 			userMic.Setup(user);
 			profileImage.Setup(user);
 		}
 
-        private void Update()
+		private void OnDestroy()
+		{
+			nameDisposable?.Dispose();
+		}
+
+		private void Update()
         {
             if (mainCam != null)
             {

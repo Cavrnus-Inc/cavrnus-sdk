@@ -180,67 +180,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2298a8a1d58c35940989338ffb0391bf, type: 3}
---- !u!1001 &480764167
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6013315796870998746, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
-      propertyPath: RemoteAvatarPrefab
-      value: 
-      objectReference: {fileID: 7693442957038673469, guid: 359ef14a5d0b53449b11cb20bb963643, type: 3}
-    - target: {fileID: 6244170822727850740, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6244170822727850740, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6244170822727850740, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6244170822727850740, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6244170822727850740, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6244170822727850740, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6244170822727850740, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6244170822727850740, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6244170822727850740, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6244170822727850740, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7500289831068578633, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
-      propertyPath: m_Name
-      value: Cavrnus Avatar Manager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b7e4c1033aed8324cb874ab98a1d7db8, type: 3}
 --- !u!1 &889265834
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,6 +844,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: RemoteUserAvatar
+      value: 
+      objectReference: {fileID: 7693442957038673469, guid: 359ef14a5d0b53449b11cb20bb963643, type: 3}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AutomaticLoginEmail
       value: security.expert@gmail.com
       objectReference: {fileID: 0}
@@ -914,7 +857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AutomaticSpaceJoinId
-      value: 64f25f0196537d6ad410ea2e
+      value: 65d1754f9ae2a2748ce25b79
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AutomaticLoginPassword
@@ -1119,4 +1062,3 @@ SceneRoots:
   - {fileID: 2051988306}
   - {fileID: 899935826}
   - {fileID: 306502357}
-  - {fileID: 480764167}
