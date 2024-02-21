@@ -126,3 +126,9 @@
 
 ### Added
 - Add library search for holos
+
+
+## [2.2.6] - 2024-02-20
+
+### Fixed
+- Increased Physics Lambda for Transforms
