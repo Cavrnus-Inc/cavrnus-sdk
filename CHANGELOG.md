@@ -132,3 +132,9 @@
 
 ### Fixed
 - Increased Physics Lambda for Transforms
+
+
+## [2.2.7] - 2024-02-21
+
+### Fixed
+- Fixed spawned objects popping from origin by delaying 3 frames to let props catch up

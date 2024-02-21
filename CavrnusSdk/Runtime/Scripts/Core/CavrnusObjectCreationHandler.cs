@@ -31,19 +31,24 @@ namespace CavrnusCore
 
 			var visibleObjectOps = creationHandler.GetMultiEntryWatcher<OpCreateObjectLive>().VisibleOps;
 
-			disp = visibleObjectOps.BindAll(ObjectCreated, ObjectRemoved);
+			//We have the delay to allow for the new objct's properties to arrive.  This way there's less weird "pop-in" of values
+			disp = visibleObjectOps.BindAll(op => CavrnusStatics.Scheduler.ExecInMainThreadAfterFrames(3, () => ObjectCreated(op)), ObjectRemoved);
 		}
 
 		public void Dispose() { disp.Dispose(); }
 
 		internal void ObjectCreated(OpInfo<OpCreateObjectLive> createOp)
 		{
+			//Since we waited, this should be here if they already set it
+			var initialTransform = spaceConn.GetTransformPropertyValue(createOp.Op.NewObjectId, "Transform");
+
 			if (createOp.Op.ObjectType is ContentTypeWellKnownId cId) 
 			{
 				if (spawnablePrefabs.Any(sp => sp.UniqueId == cId.WellKnownId)) 
 				{
-					var prefab = spawnablePrefabs.FirstOrDefault(sp => sp.UniqueId == cId.WellKnownId).Object;
-                    var ob = GameObject.Instantiate(prefab);
+					var prefab = spawnablePrefabs.FirstOrDefault(sp => sp.UniqueId == cId.WellKnownId)?.Object;
+					
+                    var ob = GameObject.Instantiate(prefab, initialTransform.LocalPosition, Quaternion.Euler(initialTransform.LocalEulerAngles));
 					createdObjects[createOp.Op.NewObjectId] = ob.gameObject;
 					ob.gameObject.name = $"{createOp.Op.NewObjectId} ({prefab.name})";
 					ob.gameObject.AddComponent<CavrnusSpawnedObjectFlag>().Init(new CavrnusSpawnedObject(createOp.Op.NewObjectId, createOp.Id, spaceConn));
@@ -54,6 +59,22 @@ namespace CavrnusCore
 						$"Could not find spawnable prefab with ID {cId.WellKnownId} in the \"Cavrnus Spatial Connector\"");
 				}
 			}
+			/*else if(createOp.Op.ObjectType is ContentTypeId ctId)
+			{
+				if(!spawnablePrefabs.Any((sp => sp.UniqueId == "HoloLoader")))
+				{
+					//TODO: CHECK FILE TYPE FOR COMPATABILITY!!!!!!!!!!!!!!!
+					Debug.LogWarning("Cannot load file since HoloLoader is not present in Spawnable Prefabs");
+					return;
+				}
+
+				var prefab = spawnablePrefabs.FirstOrDefault(sp => sp.UniqueId == "HoloLoader")?.Object;
+				var ob = GameObject.Instantiate(prefab, initialTransform.LocalPosition, Quaternion.Euler(initialTransform.LocalEulerAngles));
+				createdObjects[createOp.Op.NewObjectId] = ob.gameObject;
+				ob.gameObject.name = $"{createOp.Op.NewObjectId} ({prefab.name})";
+				ob.gameObject.AddComponent<CavrnusSpawnedObjectFlag>().Init(new CavrnusSpawnedObject(createOp.Op.NewObjectId, createOp.Id, spaceConn));
+				CavrnusPropertyHelpers.ResetLiveHierarchyRootName(ob.gameObject, createOp.Op.NewObjectId);
+			}*/
 			else if (createOp.Op.ObjectType is ContentTypeUrl cUrl) {
 				Debug.LogWarning($"ContentType URL coming soon...");
 			}
