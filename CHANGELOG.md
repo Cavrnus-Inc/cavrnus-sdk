@@ -152,3 +152,9 @@
 
 ### Fixed
 - Further Avatar Spawn Improvements
+
+
+## [2.2.10] - 2024-02-21
+
+### Fixed
+- Fixed minor Avatar Manager warnings
