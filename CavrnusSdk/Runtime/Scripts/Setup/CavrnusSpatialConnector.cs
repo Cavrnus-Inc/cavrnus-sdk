@@ -201,12 +201,15 @@ namespace CavrnusSdk.Setup
 			CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceId => FinalizeSpaceJoin(spaceId, required));
 		}
 
+		private CavrnusAvatarManager avatarManager;
+
 		private readonly List<GameObject> currentSpaceUi = new List<GameObject>();
 		private void FinalizeSpaceJoin(CavrnusSpaceConnection conn, bool required)
 		{
-			if (RemoteUserAvatar != null)
-				conn.BindSpaceUsers(UserAdded, UserRemoved);
-			
+			avatarManager = new CavrnusAvatarManager();
+			avatarManager.Setup(RemoteUserAvatar);
+
+
 			if (required && UiCanvas == null)
 				throw new System.Exception("Error on Cavrnus Spatial Connector object: No Canvas has been specified to contain the spawned UI!");
 
@@ -217,46 +220,6 @@ namespace CavrnusSdk.Setup
 
 				foreach (var ui in SpaceMenus)
 					currentSpaceUi.Add(Instantiate(ui, UiCanvas.transform));
-			}
-		}
-
-		private Dictionary<string, GameObject> avatarInstances = new Dictionary<string, GameObject>();
-
-		//Instantiate avatars when we get a new user
-		private void UserAdded(CavrnusUser user)
-		{
-			//This list contains the player. But we don't wanna show their avatar via this system.
-			if (user.IsLocalUser)
-				return;
-
-			var avatar = Instantiate(RemoteUserAvatar, transform);
-			avatar.AddComponent<CavrnusUserFlag>().User = user;
-
-			CavrnusPropertyHelpers.ResetLiveHierarchyRootName(avatar, $"{user.ContainerId}");
-
-			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<bool>>())
-				sync.SendMyChanges = false;
-			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<float>>())
-				sync.SendMyChanges = false;
-			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<Color>>())
-				sync.SendMyChanges = false;
-			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<Vector4>>())
-				sync.SendMyChanges = false;
-			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<CavrnusTransformData>>())
-				sync.SendMyChanges = false;
-			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<string>>())
-				sync.SendMyChanges = false;
-
-			avatarInstances[user.ContainerId] = avatar;
-		}
-
-		//Destroy them when we lose that user
-		private void UserRemoved(CavrnusUser user)
-		{
-			if (avatarInstances.ContainsKey(user.ContainerId))
-			{
-				Destroy(avatarInstances[user.ContainerId].gameObject);
-				avatarInstances.Remove(user.ContainerId);
 			}
 		}
 	}

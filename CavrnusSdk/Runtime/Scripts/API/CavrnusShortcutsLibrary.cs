@@ -18,7 +18,12 @@ namespace CavrnusSdk.API
             return user.SpaceConnection.GetBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Muted);
         }
 
-        public static IDisposable BindUserMuted(this CavrnusUser user, Action<bool> onMutedChanged)
+		public static string GetUserName(this CavrnusUser user)
+		{
+			return user.SpaceConnection.GetStringPropertyValue(user.ContainerId, UserPropertyDefs.Users_Name);
+		}
+
+		public static IDisposable BindUserMuted(this CavrnusUser user, Action<bool> onMutedChanged)
         {
             return user.SpaceConnection.BindBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Muted, onMutedChanged);
         }

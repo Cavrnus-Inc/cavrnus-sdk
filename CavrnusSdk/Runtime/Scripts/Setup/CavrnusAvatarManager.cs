@@ -7,17 +7,19 @@ using UnityEngine.SocialPlatforms.Impl;
 
 namespace CavrnusSdk.Setup
 {
-	public class CavrnusAvatarManager : MonoBehaviour
+	public class CavrnusAvatarManager 
 	{
-		[Header("Avatar that will represent other remote users in the scene")]
-	    public GameObject RemoteAvatarPrefab;
+		private GameObject remoteAvatarPrefab;
 
 	    private Dictionary<string, GameObject> avatarInstances = new Dictionary<string, GameObject>();
 
 		// Start is called before the first frame update
-		void Start()
+		public void Setup(GameObject remoteAvatarPrefab)
 	    {
-		    if (RemoteAvatarPrefab == null)
+			this.remoteAvatarPrefab = remoteAvatarPrefab;
+
+
+			if (remoteAvatarPrefab == null)
 		    {
 			    Debug.LogError("No Avatar Prefab has been assigned.  Shutting down CoPresence display system.");
 				return;
@@ -32,7 +34,7 @@ namespace CavrnusSdk.Setup
 		{
 			cavrnusSpaceConnection = obj;
 
-			cavrnusSpaceConnection.BindSpaceUsers(UserAdded, UserRemoved);
+			cavrnusSpaceConnection.BindSpaceUsers((u) => CavrnusStatics.Scheduler.ExecInMainThreadAfterFrames(3, () => UserAdded(u)), UserRemoved);
 		}
 
 		//Instantiate avatars when we get a new user
@@ -42,22 +44,25 @@ namespace CavrnusSdk.Setup
 			if (user.IsLocalUser)
 				return;
 
-			var avatar = Instantiate(RemoteAvatarPrefab, transform);
+			var initialTransform = user.SpaceConnection.GetTransformPropertyValue(user.ContainerId, "Transform");
+
+			var avatar = GameObject.Instantiate(remoteAvatarPrefab, initialTransform.LocalPosition, Quaternion.Euler(initialTransform.LocalEulerAngles));
             avatar.AddComponent<CavrnusUserFlag>().User = user;
+			avatar.name = $"{user.ContainerId} ({user.GetUserName()}'s Avatar)";
 
             CavrnusPropertyHelpers.ResetLiveHierarchyRootName(avatar, $"{user.ContainerId}");
 
-            foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<bool>>())
+            foreach (var sync in avatar.GetComponentsInChildren<CavrnusValueSync<bool>>())
 				sync.SendMyChanges = false;
-			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<float>>())
+			foreach (var sync in avatar.GetComponentsInChildren<CavrnusValueSync<float>>())
 				sync.SendMyChanges = false;
-			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<Color>>())
+			foreach (var sync in avatar.GetComponentsInChildren<CavrnusValueSync<Color>>())
 				sync.SendMyChanges = false;
-			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<Vector4>>())
+			foreach (var sync in avatar.GetComponentsInChildren<CavrnusValueSync<Vector4>>())
 				sync.SendMyChanges = false;
-			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<CavrnusTransformData>>())
+			foreach (var sync in avatar.GetComponentsInChildren<CavrnusValueSync<CavrnusTransformData>>())
 				sync.SendMyChanges = false;
-			foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<string>>())
+			foreach (var sync in avatar.GetComponentsInChildren<CavrnusValueSync<string>>())
 				sync.SendMyChanges = false;
 
 			avatarInstances[user.ContainerId] = avatar;
@@ -68,7 +73,7 @@ namespace CavrnusSdk.Setup
 		{
 			if (avatarInstances.ContainsKey(user.ContainerId))
 			{
-				Destroy(avatarInstances[user.ContainerId].gameObject);
+				GameObject.Destroy(avatarInstances[user.ContainerId].gameObject);
 				avatarInstances.Remove(user.ContainerId);
 			}
 		}

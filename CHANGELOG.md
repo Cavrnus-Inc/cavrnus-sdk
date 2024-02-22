@@ -146,3 +146,9 @@
 - Fixes to CSC remote avatar spawning
 - Welcome modal verbiage changes
 - User name tag works again
+
+
+## [2.2.9] - 2024-02-21
+
+### Fixed
+- Further Avatar Spawn Improvements
