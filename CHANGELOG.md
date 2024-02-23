@@ -170,3 +170,13 @@
 
 ### Fixed
 - Fixed statically-defined user props being redefined/overridden
+
+
+## [2.2.13] - 2024-02-23
+
+### Changed
+- Changed both package and github repo name
+- Updated pathing references as well
+
+### Fixed
+- Including a few meta files in transfer that were missing

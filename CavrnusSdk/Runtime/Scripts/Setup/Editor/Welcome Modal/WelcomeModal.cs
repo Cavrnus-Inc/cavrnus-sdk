@@ -138,7 +138,7 @@ namespace CavrnusSdk.Setup.Editor
                 };
                 
                 const string assetsPath = "Assets/CavrnusSdk/Runtime/Scripts/Setup/Editor/Welcome Modal/cav-logo.png";
-                const string packagePath = "Packages/com.cavrnus.sdk/CavrnusSdk/Runtime/Scripts/Setup/Editor/Welcome Modal/cav-logo.png";
+                const string packagePath = "Packages/com.cavrnus.csc/CavrnusSdk/Runtime/Scripts/Setup/Editor/Welcome Modal/cav-logo.png";
                 var path = File.Exists(assetsPath) ? assetsPath : packagePath;
 
                 var assetsImg = CustomEditorUtilities.LoadTextureFromFile(path);
@@ -177,7 +177,7 @@ namespace CavrnusSdk.Setup.Editor
         {
             var result = "";
             const string assetsPath = "Assets/package.json";
-            const string packagePath = "Packages/com.cavrnus.sdk/package.json";
+            const string packagePath = "Packages/com.cavrnus.csc/package.json";
 
             var path = File.Exists(assetsPath) ? assetsPath : packagePath;
                 
