@@ -180,3 +180,9 @@
 
 ### Fixed
 - Including a few meta files in transfer that were missing
+
+
+## [2.2.14] - 2024-02-23
+
+### Changed
+- Changed the CSC defaults to be blank for customers to fill in
