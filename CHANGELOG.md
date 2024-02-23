@@ -186,3 +186,9 @@
 
 ### Changed
 - Changed the CSC defaults to be blank for customers to fill in
+
+
+## [2.2.15] - 2024-02-23
+
+### Fixed
+- Fixed Nametag default Property Name

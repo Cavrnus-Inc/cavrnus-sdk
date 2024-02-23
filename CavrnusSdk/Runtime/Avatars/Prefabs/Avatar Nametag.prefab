@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c97f90c2e2b6054eb2abf590d30fd06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PropertyName: Text
+  PropertyName: name
   SendMyChanges: 0
   RecieveChanges: 1
   TextComponent: {fileID: 952016954250858436}
@@ -433,7 +433,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   profileImage: {fileID: 3585148093701301353}
   userMic: {fileID: 5789699161871084525}
-  nameText: {fileID: 952016954250858436}
 --- !u!1 &5234795651509298361
 GameObject:
   m_ObjectHideFlags: 0
