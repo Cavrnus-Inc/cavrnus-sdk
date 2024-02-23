@@ -164,3 +164,9 @@
 
 ### Fixed
 - Fixed property flickering due to value bounce-back
+
+
+## [2.2.12] - 2024-02-23
+
+### Fixed
+- Fixed statically-defined user props being redefined/overridden

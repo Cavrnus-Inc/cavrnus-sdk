@@ -13,6 +13,11 @@ namespace CavrnusCore
 {
 	internal class CavrnusPropertyHelpers : MonoBehaviour
 	{
+		private class MiniFakeDisposable : IDisposable
+		{
+			public void Dispose(){}
+		}
+
 		public static void ResetLiveHierarchyRootName(GameObject root, string newRootName)
 		{
 			if(root.GetComponent<CavrnusPropertiesContainer>() == null)
@@ -92,6 +97,11 @@ namespace CavrnusCore
 			ResolveContainerPath(ref propertyId, ref containerId);
 
 			var myContainer = MyContainer(spaceConn, containerId);
+			if (myContainer.GetColorProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
+			{
+				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
+				return new MiniFakeDisposable();
+			}
 
 			return myContainer.DefineColorProperty(propertyId, defaultVal.ToColor4F(),
 			                                       new Collab.Proxy.Prop.ColorProp.ColorPropertyMetadata() {
@@ -171,6 +181,12 @@ namespace CavrnusCore
 
 			var myContainer = MyContainer(spaceConn, containerId);
 
+			if (myContainer.GetStringProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
+			{
+				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
+				return new MiniFakeDisposable();
+			}
+
 			return myContainer.DefineStringProperty(propertyId, defaultVal,
 			                                        new Collab.Proxy.Prop.StringProp.StringPropertyMetadata() {
 				                                        Name = propertyId
@@ -246,6 +262,12 @@ namespace CavrnusCore
 			ResolveContainerPath(ref propertyId, ref containerId);
 
 			var myContainer = MyContainer(spaceConn, containerId);
+
+			if (myContainer.GetBooleanProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
+			{
+				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
+				return new MiniFakeDisposable();
+			}
 
 			return myContainer.DefineBooleanProperty(propertyId, defaultVal,
 			                                         new Collab.Proxy.Prop.BooleanProp.BooleanPropertyMetadata() {
@@ -323,6 +345,12 @@ namespace CavrnusCore
 
 			var myContainer = MyContainer(spaceConn, containerId);
 
+			if (myContainer.GetScalarProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
+			{
+				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
+				return new MiniFakeDisposable();
+			}
+
 			return myContainer.DefineScalarProperty(propertyId, defaultVal,
 			                                        new Collab.Proxy.Prop.ScalarProp.ScalarPropertyMetadata() {
 				                                        Name = propertyId
@@ -398,6 +426,12 @@ namespace CavrnusCore
 			ResolveContainerPath(ref propertyId, ref containerId);
 
 			var myContainer = MyContainer(spaceConn, containerId);
+
+			if (myContainer.GetVectorProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
+			{
+				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
+				return new MiniFakeDisposable();
+			}
 
 			return myContainer.DefineVectorProperty(propertyId, defaultVal.ToFloat4(),
 			                                        new Collab.Proxy.Prop.VectorProp.VectorPropertyMetadata() {
@@ -477,6 +511,12 @@ namespace CavrnusCore
 			ResolveContainerPath(ref propertyId, ref containerId);
 
 			var myContainer = MyContainer(spaceConn, containerId);
+
+			if (myContainer.GetTransformProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
+			{
+				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
+				return new MiniFakeDisposable();
+			}
 
 			var defaultTrans = new TransformComplete() {
 				startData = new TransformDataSRT() {

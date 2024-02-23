@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityBase;
+using CavrnusSdk.Setup;
 
 namespace CavrnusSdk.PropertySynchronizers
 {
@@ -17,7 +19,9 @@ namespace CavrnusSdk.PropertySynchronizers
 
         private void Start()
         {
-            if (string.IsNullOrWhiteSpace(UniqueContainerName))
+			bool isLocalUserAndIsFine = UniqueContainerName == gameObject.GetComponentInAllParents<CavrnusLocalUserFlag>()?.GetComponent<CavrnusPropertiesContainer>()?.UniqueContainerName;
+
+			if (string.IsNullOrWhiteSpace(UniqueContainerName) && !isLocalUserAndIsFine)
                 throw new System.Exception($"A Unique Container Name has not been assigned on object {GetGameObjectPath(gameObject)}");
         }
 
