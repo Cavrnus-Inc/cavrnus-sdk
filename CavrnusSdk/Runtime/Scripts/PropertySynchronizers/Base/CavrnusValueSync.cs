@@ -38,10 +38,11 @@ namespace CavrnusSdk.PropertySynchronizers
             if (string.IsNullOrWhiteSpace(PropertyName))
                 throw new System.Exception($"A Property Name has not been assigned on object {gameObject.name}");
 
-            if (RecieveChanges)
-                displayer = new CavrnusDisplayProperty<T>(this);
-            if (SendMyChanges)
-                sender = new CavrnusPostSynchronizedProperty<T>(this);
+			if (SendMyChanges)
+				sender = new CavrnusPostSynchronizedProperty<T>(this);
+
+			if (RecieveChanges)
+                displayer = new CavrnusDisplayProperty<T>(this, () => sender?.transientUpdater != null);            
         }
 
 		private void OnDestroy()

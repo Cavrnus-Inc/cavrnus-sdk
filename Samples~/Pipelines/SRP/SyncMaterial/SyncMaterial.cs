@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using CavrnusSdk.PropertySynchronizers;
 
 namespace CavrnusSdk.PropertySynchronizers
 {
@@ -83,29 +82,40 @@ namespace CavrnusSdk.PropertySynchronizers
 			if (Material == null) throw new System.Exception($"No material selected for sync on object {name}");
 
 			foreach (var vec in Material.GetPropertyNames(MaterialPropertyType.Vector)) {
-				disps.Add(new CavrnusDisplayProperty<Vector4>(
-					          new MatVectorDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>())));
+
+				Func<bool> claimed = () => false;
 				if (SendMyChanges)
-					disps.Add(new CavrnusPostSynchronizedProperty<Vector4>(
-						          new MatVectorDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>())));
+				{
+					var poster = new CavrnusPostSynchronizedProperty<Vector4>(new MatVectorDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>()));
+					claimed = () => poster.transientUpdater != null;
+					disps.Add(poster);
+				}
+				disps.Add(new CavrnusDisplayProperty<Vector4>(new MatVectorDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>()), claimed));
+				
 			}
 
-			foreach (var vec in Material.GetPropertyNames(MaterialPropertyType.Float)) {
-				disps.Add(new CavrnusDisplayProperty<float>(
-					          new MatScalerDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>(), false)));
+			foreach (var vec in Material.GetPropertyNames(MaterialPropertyType.Float))
+			{
+				Func<bool> claimed = () => false;
 				if (SendMyChanges)
-					disps.Add(new CavrnusPostSynchronizedProperty<float>(
-						          new MatScalerDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>(),
-						                                 false)));
+				{
+					var poster = new CavrnusPostSynchronizedProperty<float>(new MatScalerDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>(), false));
+					claimed = () => poster.transientUpdater != null;
+					disps.Add(poster);
+				}
+				disps.Add(new CavrnusDisplayProperty<float>(new MatScalerDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>(), false), claimed));
 			}
 
-			foreach (var vec in Material.GetPropertyNames(MaterialPropertyType.Int)) {
-				disps.Add(new CavrnusDisplayProperty<float>(
-					          new MatScalerDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>(), true)));
+			foreach (var vec in Material.GetPropertyNames(MaterialPropertyType.Int))
+			{
+				Func<bool> claimed = () => false;
 				if (SendMyChanges)
-					disps.Add(new CavrnusPostSynchronizedProperty<float>(
-						          new MatScalerDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>(),
-						                                 true)));
+				{
+					var poster = new CavrnusPostSynchronizedProperty<float>(new MatScalerDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>(), true));
+					claimed = () => poster.transientUpdater != null;
+					disps.Add(poster);
+				}
+				disps.Add(new CavrnusDisplayProperty<float>(new MatScalerDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>(), true), claimed));
 			}
 		}
 

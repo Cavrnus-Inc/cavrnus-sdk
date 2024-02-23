@@ -10,7 +10,7 @@ namespace CavrnusSdk.PropertySynchronizers
 {
 	public class CavrnusPostSynchronizedProperty<T> : IDisposable
 	{
-		private CavrnusLivePropertyUpdate<T> updater = null;
+		public CavrnusLivePropertyUpdate<T> transientUpdater = null;
 
 		private CavrnusSpaceConnection spaceConn;
 
@@ -80,10 +80,11 @@ namespace CavrnusSdk.PropertySynchronizers
 			{
 				bool isUserProperty = sync.Context.UniqueContainerName.StartsWith("users/");
                 //This change has timed out, time to finalize it
-                if (!isUserProperty && updater != null && Time.time - lastChangeTime > endChangeTimeGap) {
-					updater.UpdateWithNewData(sync.GetValue());
-					updater.Finish();
-					updater = null;
+                if (!isUserProperty && transientUpdater != null && Time.time - lastChangeTime > endChangeTimeGap) 
+				{
+					transientUpdater.UpdateWithNewData(sync.GetValue());
+					transientUpdater.Finish();
+					transientUpdater = null;
 				}
 
 				//Our transform is synchronized w/ the server, so don't do any posting
@@ -92,15 +93,15 @@ namespace CavrnusSdk.PropertySynchronizers
 
 			lastChangeTime = Time.time;
 
-			if (updater == null)
+			if (transientUpdater == null)
 			{
-                updater = CavrnusPropertyHelpers.BeginContinuousPropertyUpdate<T>(spaceConn,
+				transientUpdater = CavrnusPropertyHelpers.BeginContinuousPropertyUpdate<T>(spaceConn,
 					sync.Context.UniqueContainerName, sync.PropName,
 					sync.GetValue());
 			}
 			else 
-			{ 
-				updater.UpdateWithNewData(sync.GetValue()); 
+			{
+				transientUpdater.UpdateWithNewData(sync.GetValue()); 
 			}
 		}
 

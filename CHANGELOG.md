@@ -158,3 +158,9 @@
 
 ### Fixed
 - Fixed minor Avatar Manager warnings
+
+
+## [2.2.11] - 2024-02-22
+
+### Fixed
+- Fixed property flickering due to value bounce-back
