@@ -198,3 +198,10 @@
 ### Fixed
 - Avatar nametag rotation and transform property names
 
+
+
+## [2.2.17] - 2024-02-23
+
+### Added
+- Reverted a few changes with avatar propertynames
+- Fix local user setup helper to be capital Transform

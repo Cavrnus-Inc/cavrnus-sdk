@@ -92,15 +92,13 @@ namespace CavrnusSdk.Setup.Editor
 				return;
 			}
 
-			
-
 			if (Selection.activeGameObject.GetComponent<CavrnusLocalUserFlag>() != null)
 			{
-				Debug.LogWarning("Selected object is already configured to be the Local User.  No further action is needed.");
+				Debug.LogWarning("Selected object is already configured to be the Local User. No further action is needed.");
 			}
 			else if (GameObject.FindObjectOfType<CavrnusLocalUserFlag>() != null)
 			{
-				Debug.LogError($"{GameObject.FindObjectOfType<CavrnusLocalUserFlag>().name} has already been set up as the Local User.  There can be only one!");
+				Debug.LogError($"{GameObject.FindObjectOfType<CavrnusLocalUserFlag>().name} has already been set up as the Local User. There can be only one!");
 				return;
 			}
 			else
@@ -113,7 +111,7 @@ namespace CavrnusSdk.Setup.Editor
 				Debug.Log("Automatically adding a Sync Transform component to the local user, so that your CoPresence is sent to other users.");
 
 				var st = Selection.activeGameObject.AddComponent<SyncTransform>();
-				st.PropertyName = "transform";
+				st.PropertyName = "Transform";
 			}
 		}
 	}
