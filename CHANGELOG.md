@@ -192,3 +192,9 @@
 
 ### Fixed
 - Fixed Nametag default Property Name
+
+## [2.2.16] - 2024-02-23
+
+### Fixed
+- Avatar nametag rotation and transform property names
+

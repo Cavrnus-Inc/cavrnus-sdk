@@ -2425,7 +2425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd55bf99a9846e42af35a7ac3492b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PropertyName: Transform
+  PropertyName: transform
   SendMyChanges: 1
   RecieveChanges: 1
 --- !u!1 &7919840968269678509
