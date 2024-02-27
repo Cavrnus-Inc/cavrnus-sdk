@@ -879,7 +879,7 @@ GameObject:
   - component: {fileID: 2978301629267769678}
   - component: {fileID: 6215367342216451923}
   m_Layer: 5
-  m_Name: LoginMenu
+  m_Name: MemberLoginMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

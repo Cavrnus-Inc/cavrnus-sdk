@@ -132,12 +132,32 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: MyServer
+      value: cav.dev.cavrn.us
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: UiCanvas
       value: 
       objectReference: {fileID: 1890347816}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: GuestName
+      value: Guest
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: GuestLoginMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: AuthenticationMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: AutomaticSpaceJoinId
+      value: 65d1754f9ae2a2748ce25b79
+      objectReference: {fileID: 0}
     - target: {fileID: 4731373496736375337, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: m_Name
-      value: Cavrnus Core
+      value: Cavrnus Spatial Connector
       objectReference: {fileID: 0}
     - target: {fileID: 5226886331182882975, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: m_RootOrder

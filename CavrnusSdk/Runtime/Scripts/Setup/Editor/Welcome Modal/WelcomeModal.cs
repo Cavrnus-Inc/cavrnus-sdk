@@ -74,14 +74,14 @@ namespace CavrnusSdk.Setup.Editor
             GUILayout.BeginVertical();
 
             CreateLargeButton("Set up your Scene", mainButtonSize, CavrnusSetupHelpers.SetupSceneForCavrnus);
-            CreateLargeButton("Web Console",  mainButtonSize,()=> Application.OpenURL("https://console.dev.cavrn.us/signin?startUrl=/"));
+            CreateLargeButton("Web Console",  mainButtonSize,()=> Application.OpenURL("https://app.cavrn.us/"));
             
             CustomEditorUtilities.AddSpace(5);
 
             CustomEditorUtilities.CreateLabel("Need help with getting started?", 12, false, TextAnchor.MiddleCenter);
             CustomEditorUtilities.AddSpace(5);
 
-            CreateLargeButton("Visit Documentation",  smallerButtonSize,()=> Application.OpenURL("https://www.cavrnus.com/"));
+            CreateLargeButton("Visit Documentation",  smallerButtonSize,()=> Application.OpenURL("https://cavrnus.atlassian.net/servicedesk/customer/portal/1/article/827457539"));
 
             GUILayout.EndVertical();
 

@@ -205,3 +205,10 @@
 ### Added
 - Reverted a few changes with avatar propertynames
 - Fix local user setup helper to be capital Transform
+
+
+## [2.2.18] - 2024-02-27
+
+### Changed
+- Updated login flow options with new verbiage as well
+- Updated documentation links

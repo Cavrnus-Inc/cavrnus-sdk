@@ -9,15 +9,16 @@ namespace CavrnusSdk.Setup.Editor
 		SerializedProperty MyServer;
 
 		SerializedProperty AuthenticationMethod;
+		SerializedProperty MemberLoginMethod;
+		SerializedProperty GuestLoginMethod;
 
-		SerializedProperty ManualLoginMenu;
+		SerializedProperty GuestJoinMenu;
+		SerializedProperty MemberLoginMenu;
 
-		SerializedProperty AutomaticLoginEmail;
-		SerializedProperty AutomaticLoginPassword;
+		SerializedProperty MemberEmail;
+		SerializedProperty MemberPassword;
 
-		SerializedProperty ManualGuestJoinMenu;
-
-		SerializedProperty AutomaticGuestJoinUsername;
+		SerializedProperty GuestName;
 
 		SerializedProperty SaveUserToken;
 
@@ -43,16 +44,17 @@ namespace CavrnusSdk.Setup.Editor
 		{
 			MyServer = serializedObject.FindProperty("MyServer");
 
-			AuthenticationMethod = serializedObject.FindProperty("AuthenticationMethod");
+			AuthenticationMethod = serializedObject.FindProperty(nameof(AuthenticationMethod));
+			MemberLoginMethod = serializedObject.FindProperty(nameof(MemberLoginMethod));
+			GuestLoginMethod = serializedObject.FindProperty(nameof(GuestLoginMethod));
 
-			ManualLoginMenu = serializedObject.FindProperty("ManualLoginMenu");
+			GuestJoinMenu = serializedObject.FindProperty(nameof(GuestJoinMenu));
+			MemberLoginMenu = serializedObject.FindProperty(nameof(MemberLoginMenu));
 
-			AutomaticLoginEmail = serializedObject.FindProperty("AutomaticLoginEmail");
-			AutomaticLoginPassword = serializedObject.FindProperty("AutomaticLoginPassword");
+			MemberEmail = serializedObject.FindProperty(nameof(MemberEmail));
+			MemberPassword = serializedObject.FindProperty(nameof(MemberPassword));
 
-			ManualGuestJoinMenu = serializedObject.FindProperty("ManualGuestJoinMenu");
-
-			AutomaticGuestJoinUsername = serializedObject.FindProperty("AutomaticGuestJoinUsername");
+			GuestName = serializedObject.FindProperty(nameof(GuestName));
 
 			SaveUserToken = serializedObject.FindProperty("SaveUserToken");
 
@@ -75,6 +77,8 @@ namespace CavrnusSdk.Setup.Editor
             AdditionalSettings = serializedObject.FindProperty("AdditionalSettings");
         }
 
+        private string memberPassword = "";
+        private bool passwordVis = false;
 		public override void OnInspectorGUI()
 		{
 			serializedObject.Update();
@@ -86,7 +90,7 @@ namespace CavrnusSdk.Setup.Editor
 			EditorGUILayout.LabelField("Welcome to Cavrnus!", EditorStyles.boldLabel);
 			if (EditorGUILayout.LinkButton("[Documentation]"))
 			{
-				Application.OpenURL("https://www.cavrnus.com/");
+				Application.OpenURL("https://cavrnus.atlassian.net/servicedesk/customer/portal/1/article/827457539");
 			}
 			EditorGUILayout.EndHorizontal();
 
@@ -95,11 +99,12 @@ namespace CavrnusSdk.Setup.Editor
 			EditorGUILayout.LabelField("First please specify the server you are using (ex: \"yourcompany.cavrn.us\")", EditorStyles.boldLabel);
 			EditorGUILayout.PropertyField(MyServer);
 			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField("If you don't have a server yet:");
-			if (EditorGUILayout.LinkButton("Register a New Domain"))
-			{
-				Application.OpenURL("https://www.cavrnus.com/");
-			}
+			
+			EditorGUILayout.LabelField("If you don't have an account, contact us at sales@cavrnus.com");
+			// if (EditorGUILayout.LinkButton("Contact Us"))
+			// {
+			// 	Application.OpenURL("https://www.cavrnus.com/");
+			// }
 			EditorGUILayout.EndHorizontal();
 
 			EditorGUILayout.Space();
@@ -110,48 +115,45 @@ namespace CavrnusSdk.Setup.Editor
 			EditorGUILayout.LabelField("How do you want your users to Authenticate?", EditorStyles.boldLabel);
 
 			EditorGUILayout.PropertyField(AuthenticationMethod);
+			
+			if (AuthenticationMethod.enumValueFlag == 0) { //JoinAsGuest
+				EditorGUILayout.PropertyField(GuestLoginMethod);
+				EditorGUILayout.Space();
+				EditorGUILayout.Space();
 
-			if(AuthenticationMethod.enumValueFlag == 0) //GuestJoinAutomatic
-			{
-				EditorGUILayout.LabelField("Automatically creates a simple guest account and logs in as that:");
-
-				EditorGUILayout.PropertyField(AutomaticGuestJoinUsername);
+				if (GuestLoginMethod.enumValueFlag == 0) { //EnterUserLoginCredentials
+					EditorGUILayout.LabelField("Automatically joins as a guest with the name below:");
+					EditorGUILayout.PropertyField(GuestName);
+				}
+				else if (GuestLoginMethod.enumValueFlag == 1) { //PromptUserToLogin
+					EditorGUILayout.LabelField("Spawns a UI menu that lets a guest input their name:");
+					EditorGUILayout.PropertyField(GuestJoinMenu);
+				}
 			}
-			else if (AuthenticationMethod.enumValueFlag == 1) //GuestJoinManual
-			{
-				EditorGUILayout.LabelField("Spawns a UI menu that lets a user input a username and create a guest account:");
+			else if (AuthenticationMethod.enumValueFlag == 1) { //JoinAsMember
+				EditorGUILayout.PropertyField(MemberLoginMethod);
+				EditorGUILayout.Space();
+				EditorGUILayout.Space();
 
-				EditorGUILayout.PropertyField(ManualGuestJoinMenu);
-			}
-			else if (AuthenticationMethod.enumValueFlag == 2) //LoginAutomatic
-			{
-				EditorGUILayout.LabelField("Automatically logs the user into a pre-defined account:");
-
-				EditorGUILayout.PropertyField(AutomaticLoginEmail);
-				EditorGUILayout.PropertyField(AutomaticLoginPassword);
-
+				if (MemberLoginMethod.enumValueFlag == 0) { //EnterUserLoginCredentials
+					EditorGUILayout.PropertyField(MemberEmail);
+					EditorGUILayout.PropertyField(MemberPassword);
+				}
+				else if (MemberLoginMethod.enumValueFlag == 1) { //PromptUserToLogin
+					EditorGUILayout.LabelField("Spawns a UI menu that lets a user log into their account:");
+					EditorGUILayout.PropertyField(MemberLoginMenu);
+				}
+				
+				EditorGUILayout.Space();
 				EditorGUILayout.BeginHorizontal();
 				EditorGUILayout.LabelField("User accounts can be created and managed in the Admin Portal:");
 				AdminPortalButton();
 				EditorGUILayout.EndHorizontal();
 			}
-			else if (AuthenticationMethod.enumValueFlag == 3) //LoginManual
-			{
-				EditorGUILayout.LabelField("Spawns a UI menu that lets a user log into their account:");
-
-				EditorGUILayout.PropertyField(ManualLoginMenu);
-
-				EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("User accounts can be created and managed in the Admin Portal:");
-				AdminPortalButton();
-				EditorGUILayout.EndHorizontal();
-			}
-			else if (AuthenticationMethod.enumValueFlag == 4) //None
+			else if (AuthenticationMethod.enumValueFlag == 2) //None
 			{
 				EditorGUILayout.LabelField("Cavrnus Spatial Connector will establish singleton systems for you to call into, but no other setup will be performed.");
-
 				serializedObject.ApplyModifiedProperties();
-
 				return;
 			}
 
@@ -160,7 +162,7 @@ namespace CavrnusSdk.Setup.Editor
 			EditorGUILayout.Space();
 			EditorGUILayout.Space();
 
-			EditorGUILayout.LabelField("Should the token be stored on Disk?", EditorStyles.boldLabel);
+			EditorGUILayout.LabelField("Should the users auth token be stored on Disk?", EditorStyles.boldLabel);
 			EditorGUILayout.LabelField("If so it will bypass the login step on subsequent joins until they logout or the token expires.");
 			EditorGUILayout.PropertyField(SaveUserToken);
 
@@ -240,6 +242,14 @@ namespace CavrnusSdk.Setup.Editor
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("For specific device settings, please refer to the documentation");
+            if (EditorGUILayout.LinkButton("Settings"))
+            {
+	            Application.OpenURL("https://cavrnus.atlassian.net/wiki/spaces/CSM/pages/841187346/Cavrnus+on+Multiple+Devices");
+            }
+            GUILayout.EndHorizontal();
+            
             EditorGUILayout.PropertyField(AdditionalSettings);
 
             serializedObject.ApplyModifiedProperties();

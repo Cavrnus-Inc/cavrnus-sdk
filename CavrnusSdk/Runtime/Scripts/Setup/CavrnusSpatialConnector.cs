@@ -12,31 +12,44 @@ namespace CavrnusSdk.Setup
 
 		public Canvas UiCanvas;
 
-		public enum LoginOption
+		public enum AuthenticationOptionEnum
 		{
-			GuestJoinAutomatic = 0,
-			GuestJoinManual = 1,
-			LoginAutomatic = 2,
-			LoginManual = 3,
-			None = 4,
+			JoinAsGuest = 0,
+			JoinAsMember = 1,
+			None = 2,
+		}
+		
+		public enum MemberLoginOptionEnum
+		{
+			EnterMemberLoginCredentials = 0,
+			PromptMemberToLogin = 1,
+		}
+		
+		public enum GuestLoginOptionEnum
+		{
+			EnterNameBelow = 0,
+			PromptToEnterName = 1,
 		}
 
-		public LoginOption AuthenticationMethod;
+		public AuthenticationOptionEnum AuthenticationMethod;
+		
+		public MemberLoginOptionEnum MemberLoginMethod;
+		public GuestLoginOptionEnum GuestLoginMethod;
 
-		public GameObject ManualLoginMenu;
+		public GameObject GuestJoinMenu;
+		public GameObject MemberLoginMenu;
 
-		public string AutomaticLoginEmail;
-		public string AutomaticLoginPassword;
+		public string MemberEmail;
+		public string MemberPassword;
 
-		public GameObject ManualGuestJoinMenu;
 
-		public string AutomaticGuestJoinUsername;
+		public string GuestName;
 
 		public bool SaveUserToken;
 
 		public enum SpaceJoinOption
 		{
-			Automatic = 0,
+			EnterSpaceId = 0,
 			SpacesList = 1,
 			None = 2,
 		}
@@ -64,9 +77,7 @@ namespace CavrnusSdk.Setup
         [System.Serializable]
         public class CavrnusSettings
 		{
-            [Header("Some devices don't support voice and video systems. " + "Disabling this will prevent build/runtime errors on them.")]
             public bool DisableVoiceAndVideo = false;
-            [Header("Some devices don't support AEC. " + "Disabling this will prevent build/runtime errors on them.")]
             public bool DisableAcousticEchoCancellation = false;
         }
         
@@ -74,13 +85,13 @@ namespace CavrnusSdk.Setup
 
         public static CavrnusSpatialConnector Instance => instance;
 		private static CavrnusSpatialConnector instance;
-		void Start()
+		private void Start()
 		{
 			ValidateSpawnableObjects();
 
             instance = this;
 
-			GameObject.DontDestroyOnLoad(this);
+			DontDestroyOnLoad(this);
 
 			CavrnusFunctionLibrary.InitializeCavrnus();
 
@@ -105,47 +116,51 @@ namespace CavrnusSdk.Setup
 		private List<GameObject> CurrentAuthenticationUi = new List<GameObject>();
 		private void SetupAuthenticate()
 		{
-			if (AuthenticationMethod != LoginOption.None)
+			if (AuthenticationMethod != AuthenticationOptionEnum.None)
 				CavrnusFunctionLibrary.AwaitAuthentication(auth => SetupJoinSpace());
-
-			if (AuthenticationMethod == LoginOption.GuestJoinAutomatic)
+			
+			if (AuthenticationMethod == AuthenticationOptionEnum.JoinAsMember)
 			{
 				if (string.IsNullOrEmpty(MyServer))
 					throw new System.Exception("Error on Cavrnus Spatial Connector object: No Server specified!");
-				if (string.IsNullOrEmpty(AutomaticGuestJoinUsername))
-					throw new System.Exception("Error on Cavrnus Spatial Connector object: No Automatic Guest Join Username specified!");
 
-				CavrnusFunctionLibrary.AuthenticateAsGuest(MyServer, AutomaticGuestJoinUsername, auth => { }, err => Debug.LogError(err));
+				if (MemberLoginMethod == MemberLoginOptionEnum.EnterMemberLoginCredentials) {
+					if (string.IsNullOrEmpty(MemberEmail))
+						throw new System.Exception("Error on Cavrnus Spatial Connector object: No Username specified!");
+					if (string.IsNullOrEmpty(MemberPassword))
+						throw new System.Exception("Error on Cavrnus Spatial Connector object: No Password specified!");
+					
+					CavrnusFunctionLibrary.AuthenticateWithPassword(MyServer, MemberEmail, MemberPassword, auth => { }, err => Debug.LogError(err));
+				} 
+				else if (MemberLoginMethod == MemberLoginOptionEnum.PromptMemberToLogin) {
+					if (MemberLoginMenu == null)
+						throw new System.Exception("Error on Cavrnus Spatial Connector object: No Member Login Menu specified!");
+					if (UiCanvas == null)
+						throw new System.Exception("Error on Cavrnus Spatial Connector object: No Canvas has been specified to contain the spawned UI!");
+					
+					CurrentAuthenticationUi.Add(Instantiate(MemberLoginMenu, UiCanvas.transform));
+				}
 			}
-			else if (AuthenticationMethod == LoginOption.GuestJoinManual)
-			{
-				if (ManualGuestJoinMenu == null)
-					throw new System.Exception("Error on Cavrnus Spatial Connector object: No Manual Guest Join Menu specified!");
-				if (UiCanvas == null)
-					throw new System.Exception("Error on Cavrnus Spatial Connector object: No Canvas has been specified to contain the spawned UI!");
-
-				CurrentAuthenticationUi.Add(GameObject.Instantiate(ManualGuestJoinMenu, UiCanvas.transform));
-			}
-			else if (AuthenticationMethod == LoginOption.LoginAutomatic)
+			else if (AuthenticationMethod == AuthenticationOptionEnum.JoinAsGuest)
 			{
 				if (string.IsNullOrEmpty(MyServer))
 					throw new System.Exception("Error on Cavrnus Spatial Connector object: No Server specified!");
-				if (string.IsNullOrEmpty(AutomaticLoginEmail))
-					throw new System.Exception("Error on Cavrnus Spatial Connector object: No Automatic Guest Join Username specified!");
-				if (string.IsNullOrEmpty(AutomaticLoginPassword))
-					throw new System.Exception("Error on Cavrnus Spatial Connector object: No Automatic Guest Join Username specified!");
 
-				CavrnusFunctionLibrary.AuthenticateWithPassword(MyServer, AutomaticLoginEmail, AutomaticLoginPassword, auth => { }, err => Debug.LogError(err));
+				if (GuestLoginMethod == GuestLoginOptionEnum.EnterNameBelow) {
+					if (string.IsNullOrEmpty(GuestName))
+						throw new System.Exception("Error on Cavrnus Spatial Connector object: No Guest Username specified!");
+					
+					CavrnusFunctionLibrary.AuthenticateAsGuest(MyServer, GuestName, auth => { }, err => Debug.LogError(err));
+				} 
+				else if (GuestLoginMethod == GuestLoginOptionEnum.PromptToEnterName) {
+					if (GuestJoinMenu == null)
+						throw new System.Exception("Error on Cavrnus Spatial Connector object: No Guest Join Menu specified!");
+					if (UiCanvas == null)
+						throw new System.Exception("Error on Cavrnus Spatial Connector object: No Canvas has been specified to contain the spawned UI!");
+				
+					CurrentAuthenticationUi.Add(Instantiate(GuestJoinMenu, UiCanvas.transform));
+				}
 			}
-			else if (AuthenticationMethod == LoginOption.LoginManual)
-			{
-				if (ManualLoginMenu == null)
-					throw new System.Exception("Error on Cavrnus Spatial Connector object: No Manual Login Menu specified!");
-				if (UiCanvas == null)
-					throw new System.Exception("Error on Cavrnus Spatial Connector object: No Canvas has been specified to contain the spawned UI!");
-
-				CurrentAuthenticationUi.Add(GameObject.Instantiate(ManualLoginMenu, UiCanvas.transform));
-			}			
 		}
 
 		private List<GameObject> CurrentSpaceJoinUi = new List<GameObject>();
@@ -155,7 +170,7 @@ namespace CavrnusSdk.Setup
 				GameObject.Destroy(ui);
 			CurrentAuthenticationUi.Clear();
 
-			if (SpaceJoinMethod == SpaceJoinOption.Automatic)
+			if (SpaceJoinMethod == SpaceJoinOption.EnterSpaceId)
 			{
 				CavrnusFunctionLibrary.AwaitAnySpaceBeginLoading(spaceId => SetupLoadingUi(GetCurrentSpaceJoinUi(), false));
 				

@@ -441,8 +441,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CavrnusSdk.LoginPanel, Assembly-CSharp
+      - m_Target: {fileID: 1852351564021291186}
+        m_TargetAssemblyTypeName: CavrnusSdk.UI.GuestJoinMenu, Cavrnus.Sdk
         m_MethodName: Authenticate
         m_Mode: 1
         m_Arguments:

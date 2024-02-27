@@ -278,6 +278,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1159816265}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: GuestName
+      value: Guest
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: GuestLoginMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AutomaticLoginEmail
       value: 
       objectReference: {fileID: 0}
@@ -1116,7 +1124,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 546802283}
+  - {fileID: 1159816264}
   - {fileID: 1578482810}
   - {fileID: 1700592192}
-  - {fileID: 1159816264}
   - {fileID: 1430798182}

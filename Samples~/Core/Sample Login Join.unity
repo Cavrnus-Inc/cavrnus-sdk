@@ -409,7 +409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4731373496736375337, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: m_Name
-      value: Cavrnus Core
+      value: Cavrnus Spatial Connector
       objectReference: {fileID: 0}
     - target: {fileID: 5226886331182882975, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: m_RootOrder
@@ -659,8 +659,8 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1483363334}
   - {fileID: 1323803514}
+  - {fileID: 1483363334}
   - {fileID: 993698090139127875}
   - {fileID: 8160156130235206127}
   - {fileID: 6977674555436801484}

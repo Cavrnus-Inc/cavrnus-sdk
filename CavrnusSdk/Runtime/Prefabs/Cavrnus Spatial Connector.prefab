@@ -46,12 +46,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyServer: 
   UiCanvas: {fileID: 0}
-  AuthenticationMethod: 2
-  ManualLoginMenu: {fileID: 3334598808290815954, guid: 0bc6e13fd848f49479c8d40d1233ddc1, type: 3}
-  AutomaticLoginEmail: 
-  AutomaticLoginPassword: 
-  ManualGuestJoinMenu: {fileID: 7982817234186541664, guid: 07472ed40f5a59c4d828ef8aea1cd7b9, type: 3}
-  AutomaticGuestJoinUsername: SDK User
+  AuthenticationMethod: 1
+  MemberLoginMethod: 0
+  GuestLoginMethod: 1
+  GuestJoinMenu: {fileID: 7982817234186541664, guid: 07472ed40f5a59c4d828ef8aea1cd7b9, type: 3}
+  MemberLoginMenu: {fileID: 3334598808290815954, guid: 0bc6e13fd848f49479c8d40d1233ddc1, type: 3}
+  MemberEmail: 
+  MemberPassword: 
+  GuestName: 
   SaveUserToken: 1
   SpaceJoinMethod: 0
   SpacesListMenu: {fileID: 7566173827213273048, guid: 3bff16a09419a114ead151503f2b596c, type: 3}
