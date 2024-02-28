@@ -22,6 +22,8 @@ namespace CavrnusSdk.Setup
 					{
 						sync.RecieveChanges = false;
 						sync.Setup();
+                        //We don't want users relying on default values for our initial position
+                        sync.ForceBeginTransientUpdate();
 					}
 
                     //All others are RECV-ONLY

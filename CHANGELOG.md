@@ -230,3 +230,12 @@
 
 ### Added
 - SyncWorldTransform sync component
+
+
+## [2.4.0] - 2024-02-28
+
+### Added
+- User Tokens will now automatically cache if told to
+
+### Fixed
+- Users post their position properly on join

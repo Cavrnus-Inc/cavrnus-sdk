@@ -4,12 +4,46 @@ using Collab.Proxy.Comm;
 using System.Collections.Generic;
 using System;
 using CavrnusSdk.API;
+using UnityEngine;
+using System.Threading.Tasks;
+using CavrnusSdk.Setup;
 
 namespace CavrnusCore
 {
     internal static class CavrnusAuthHelpers
     {
 		internal static CavrnusAuthentication CurrentAuthentication = null;
+
+		internal static async Task<CavrnusAuthentication> TryAuthenticateWithToken(string server, string token)
+		{
+			RestApiEndpoint endpoint = RestApiEndpoint.ParseFromHostname(server);
+
+			CurrentAuthentication = new CavrnusAuthentication(endpoint.WithAuthorization(token), token);
+
+			RestUserCommunication ruc = new RestUserCommunication(CurrentAuthentication.Endpoint, new FrameworkNetworkRequestImplementation());
+			try
+			{
+				await ruc.GetUserProfileAsync();
+			}
+			catch (ErrorInfo e)
+			{
+				if (e.status == 401)
+				{
+					//Invalid Token
+					PlayerPrefs.SetString("CavrnusAuthToken", "");
+					return null;
+				}
+
+				//Fail, but don't clear the token
+				//TODO: Is this right?
+				return null;
+			}
+
+			NotifySetup();
+
+			HandleAuth(CurrentAuthentication);
+			return CurrentAuthentication;
+		}
 
 		internal static async void Authenticate(string server, string email, string password, Action<CavrnusAuthentication> onSuccess, Action<string> onFailure)
 		{
@@ -23,7 +57,7 @@ namespace CavrnusCore
 
 			DebugOutput.Info("Logged in as User, token: " + token.token);
 
-			CurrentAuthentication = new CavrnusAuthentication(endpoint.WithAuthorization(token.token));
+			CurrentAuthentication = new CavrnusAuthentication(endpoint.WithAuthorization(token.token), token.token);
 
 			NotifySetup();
 
@@ -44,7 +78,7 @@ namespace CavrnusCore
 
 			DebugOutput.Info("Logged in as Guest, token: " + token.token);
 
-			CurrentAuthentication = new CavrnusAuthentication(endpoint.WithAuthorization(token.token));
+			CurrentAuthentication = new CavrnusAuthentication(endpoint.WithAuthorization(token.token), token.token);
 
 			NotifySetup();
 
@@ -63,6 +97,10 @@ namespace CavrnusCore
 
 		private static void HandleAuth(CavrnusAuthentication auth)
 		{
+			if (CavrnusSpatialConnector.Instance.SaveUserToken)
+			{
+				PlayerPrefs.SetString("CavrnusAuthToken", auth.Token);
+			}
 
 			if(onAuthActions.Count > 0)
 			{

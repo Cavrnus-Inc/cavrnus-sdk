@@ -27,6 +27,14 @@ namespace CavrnusSdk.PropertySynchronizers
 			disp = CavrnusStatics.Scheduler.ExecInMainThreadRepeating(pollingTime, TryUpdate);
 		}
 
+		//Only really for CoPresence
+		public void ForceBeginTransientUpdate()
+		{
+			transientUpdater = CavrnusPropertyHelpers.BeginContinuousPropertyUpdate<T>(spaceConn,
+					sync.Context.UniqueContainerName, sync.PropName,
+					sync.GetValue());
+		}
+
 		const float endChangeTimeGap = .3f;
 		float lastChangeTime;
 

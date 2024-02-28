@@ -45,6 +45,11 @@ namespace CavrnusSdk.PropertySynchronizers
                 displayer = new CavrnusDisplayProperty<T>(this, () => sender?.transientUpdater != null);            
         }
 
+		public void ForceBeginTransientUpdate()
+		{
+			sender?.ForceBeginTransientUpdate();
+		}
+
 		private void OnDestroy()
 		{
 			displayer?.Dispose();
