@@ -239,3 +239,9 @@
 
 ### Fixed
 - Users post their position properly on join
+
+
+## [2.4.1] - 2024-02-28
+
+### Fixed
+- User tokens are cleared properly if Save is not set

@@ -116,15 +116,23 @@ namespace CavrnusSdk.Setup
 		private List<GameObject> CurrentAuthenticationUi = new List<GameObject>();
 		private async void SetupAuthenticate()
 		{
-			if (SaveUserToken && !string.IsNullOrWhiteSpace(PlayerPrefs.GetString("CavrnusAuthToken")))
+			if (SaveUserToken)
 			{
-				var auth = await CavrnusAuthHelpers.TryAuthenticateWithToken(MyServer, PlayerPrefs.GetString("CavrnusAuthToken"));
-
-				if (auth != null)
+				if (!string.IsNullOrWhiteSpace(PlayerPrefs.GetString("CavrnusAuthToken")))
 				{
-					SetupJoinSpace();
-					return;
+					var auth = await CavrnusAuthHelpers.TryAuthenticateWithToken(MyServer, PlayerPrefs.GetString("CavrnusAuthToken"));
+
+					if (auth != null)
+					{
+						SetupJoinSpace();
+						return;
+					}
 				}
+			}
+			else
+			{
+				//Clear any existing token if Save is not set
+				PlayerPrefs.SetString("CavrnusAuthToken", "");
 			}
 
 			if (AuthenticationMethod != AuthenticationOptionEnum.None)
