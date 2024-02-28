@@ -224,3 +224,9 @@
 
 ### Fixed
 - Fixed error where ui canvas is missing from CSC
+
+
+## [2.3.2] - 2024-02-27
+
+### Added
+- SyncWorldTransform sync component
