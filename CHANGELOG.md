@@ -218,3 +218,9 @@
 
 ### Fixed
 - Missing holo library sprites 
+
+
+## [2.3.1] - 2024-02-27
+
+### Fixed
+- Fixed error where ui canvas is missing from CSC

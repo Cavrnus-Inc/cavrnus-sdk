@@ -135,10 +135,9 @@ namespace CavrnusSdk.Setup
 				else if (MemberLoginMethod == MemberLoginOptionEnum.PromptMemberToLogin) {
 					if (MemberLoginMenu == null)
 						throw new System.Exception("Error on Cavrnus Spatial Connector object: No Member Login Menu specified!");
-					if (UiCanvas == null)
-						throw new System.Exception("Error on Cavrnus Spatial Connector object: No Canvas has been specified to contain the spawned UI!");
 					
-					CurrentAuthenticationUi.Add(Instantiate(MemberLoginMenu, UiCanvas.transform));
+					if (UiCanvas != null)
+						CurrentAuthenticationUi.Add(Instantiate(MemberLoginMenu, UiCanvas.transform));
 				}
 			}
 			else if (AuthenticationMethod == AuthenticationOptionEnum.JoinAsGuest)
@@ -155,10 +154,9 @@ namespace CavrnusSdk.Setup
 				else if (GuestLoginMethod == GuestLoginOptionEnum.PromptToEnterName) {
 					if (GuestJoinMenu == null)
 						throw new System.Exception("Error on Cavrnus Spatial Connector object: No Guest Join Menu specified!");
-					if (UiCanvas == null)
-						throw new System.Exception("Error on Cavrnus Spatial Connector object: No Canvas has been specified to contain the spawned UI!");
 				
-					CurrentAuthenticationUi.Add(Instantiate(GuestJoinMenu, UiCanvas.transform));
+					if (UiCanvas != null)
+						CurrentAuthenticationUi.Add(Instantiate(GuestJoinMenu, UiCanvas.transform));
 				}
 			}
 		}
