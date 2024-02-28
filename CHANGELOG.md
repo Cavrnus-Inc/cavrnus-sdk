@@ -212,3 +212,9 @@
 ### Changed
 - Updated login flow options with new verbiage as well
 - Updated documentation links
+
+
+## [2.3.0] - 2024-02-27
+
+### Fixed
+- Missing holo library sprites 
