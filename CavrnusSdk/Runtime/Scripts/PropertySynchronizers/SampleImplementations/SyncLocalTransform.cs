@@ -2,7 +2,7 @@ using CavrnusSdk.API;
 
 namespace CavrnusSdk.PropertySynchronizers.CommonImplementations
 {
-	public class SyncTransform : CavrnusTransformPropertySynchronizer
+	public class SyncLocalTransform : CavrnusTransformPropertySynchronizer
 	{
 		public override CavrnusTransformData GetValue()
 		{
@@ -11,9 +11,9 @@ namespace CavrnusSdk.PropertySynchronizers.CommonImplementations
 
 		public override void SetValue(CavrnusTransformData value)
 		{
-			transform.localPosition = value.LocalPosition;
-			transform.localEulerAngles = value.LocalEulerAngles;
-			transform.localScale = value.LocalScale;
+			transform.localPosition = value.Position;
+			transform.localEulerAngles = value.EulerAngles;
+			transform.localScale = value.Scale;
 		}
 	}
 }

@@ -48,7 +48,7 @@ namespace CavrnusCore
 				{
 					var prefab = spawnablePrefabs.FirstOrDefault(sp => sp.UniqueId == cId.WellKnownId)?.Object;
 					
-                    var ob = GameObject.Instantiate(prefab, initialTransform.LocalPosition, Quaternion.Euler(initialTransform.LocalEulerAngles));
+                    var ob = GameObject.Instantiate(prefab, initialTransform.Position, Quaternion.Euler(initialTransform.EulerAngles));
 					createdObjects[createOp.Op.NewObjectId] = ob.gameObject;
 					ob.gameObject.name = $"{createOp.Op.NewObjectId} ({prefab.name})";
 					ob.gameObject.AddComponent<CavrnusSpawnedObjectFlag>().Init(new CavrnusSpawnedObject(createOp.Op.NewObjectId, createOp.Id, spaceConn));

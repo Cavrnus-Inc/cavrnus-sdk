@@ -274,7 +274,7 @@ namespace CavrnusSdk.API
         //Defines what the application will show if a new prop value has not been assigned
         public static void DefineTransformPropertyDefaultValue(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, CavrnusTransformData propertyValue)
 		{
-			CavrnusPropertyHelpers.DefineTransformPropertyDefaultValue(spaceConn, containerName, propertyName, propertyValue.LocalPosition, propertyValue.LocalEulerAngles, propertyValue.LocalScale);
+			CavrnusPropertyHelpers.DefineTransformPropertyDefaultValue(spaceConn, containerName, propertyName, propertyValue.Position, propertyValue.EulerAngles, propertyValue.Scale);
 		}
 
         //Gets the current property value, whether the default or the one currently set
@@ -298,7 +298,7 @@ namespace CavrnusSdk.API
         //Updates the property value at the given path and synchronizes the data to the server
         public static void PostTransformPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, CavrnusTransformData propertyValue)
 		{
-			CavrnusPropertyHelpers.UpdateTransformProperty(spaceConn, containerName, propertyName, propertyValue.LocalPosition, propertyValue.LocalEulerAngles, propertyValue.LocalScale);
+			CavrnusPropertyHelpers.UpdateTransformProperty(spaceConn, containerName, propertyName, propertyValue.Position, propertyValue.EulerAngles, propertyValue.Scale);
 		}
 
         #endregion

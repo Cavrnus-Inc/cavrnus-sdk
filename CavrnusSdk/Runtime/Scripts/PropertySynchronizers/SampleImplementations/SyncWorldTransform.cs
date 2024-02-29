@@ -11,9 +11,9 @@ namespace CavrnusSdk.PropertySynchronizers.CommonImplementations
 
         public override void SetValue(CavrnusTransformData value)
         {
-            transform.position = value.LocalPosition;
-            transform.eulerAngles = value.LocalEulerAngles;
-            transform.localScale = value.LocalScale;
+            transform.position = value.Position;
+            transform.eulerAngles = value.EulerAngles;
+            transform.localScale = value.Scale;
         }
     }
 }

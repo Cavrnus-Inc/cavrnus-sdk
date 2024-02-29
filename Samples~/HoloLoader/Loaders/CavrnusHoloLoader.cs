@@ -87,7 +87,7 @@ namespace CavrnusCore
 			var cpc = ob.AddComponent<CavrnusPropertiesContainer>();
 			cpc.UniqueContainerName = GetComponent<CavrnusPropertiesContainer>().UniqueContainerName;
 
-			var syncT = ob.AddComponent<SyncTransform>();
+			var syncT = ob.AddComponent<SyncLocalTransform>();
 			syncT.PropertyName = "Transform";
 			var syncV = ob.AddComponent<SyncVisibility>();
 			syncV.PropertyName = "Visibility";

@@ -86,9 +86,9 @@ namespace CavrnusSdk.API
 				};
 				specialTransformProp = spaceConn.RoomSystem.PropertiesRoot.SearchForTransformProperty(op.Property);
 				specialTransformProp.UpdateValue("moverTmp", 1, new TransformSetGeneratorSrt(
-					new VectorGeneratorConst(t.LocalPosition.ToFloat4()),
-					new VectorGeneratorConst(t.LocalEulerAngles.ToFloat4()),
-					new VectorGeneratorConst(t.LocalScale.ToFloat4())));
+					new VectorGeneratorConst(t.Position.ToFloat4()),
+					new VectorGeneratorConst(t.EulerAngles.ToFloat4()),
+					new VectorGeneratorConst(t.Scale.ToFloat4())));
 			}
 
 			
@@ -129,9 +129,9 @@ namespace CavrnusSdk.API
 				};
 
 				specialTransformProp.UpdateValue("moverTmp", 1, new TransformSetGeneratorSrt(
-					new VectorGeneratorConst(t.LocalPosition.ToFloat4()),
-					new VectorGeneratorConst(t.LocalEulerAngles.ToFloat4()),
-					new VectorGeneratorConst(t.LocalScale.ToFloat4())));
+					new VectorGeneratorConst(t.Position.ToFloat4()),
+					new VectorGeneratorConst(t.EulerAngles.ToFloat4()),
+					new VectorGeneratorConst(t.Scale.ToFloat4())));
 			}
 			//Debug.Log("Posting Transient " + handler.OpData + ", " + Time.time);
 
@@ -148,9 +148,9 @@ namespace CavrnusSdk.API
 					{
 						Srt = new TransformSetSRT()
 						{
-							TransformPos = new VectorPropertyValue() { Constant = t.LocalPosition.ToFloat4().ToPb() },
-							RotationEuler = new VectorPropertyValue() { Constant = t.LocalEulerAngles.ToFloat4().ToPb() },
-							Scale = new VectorPropertyValue() { Constant = t.LocalScale.ToFloat4().ToPb() },
+							TransformPos = new VectorPropertyValue() { Constant = t.Position.ToFloat4().ToPb() },
+							RotationEuler = new VectorPropertyValue() { Constant = t.EulerAngles.ToFloat4().ToPb() },
+							Scale = new VectorPropertyValue() { Constant = t.Scale.ToFloat4().ToPb() },
 						}
 					},
 					TimeToHalf = new ScalarPropertyValue() { Constant = .1f },

@@ -331,6 +331,8 @@ GameObject:
   - component: {fileID: 1095557267}
   - component: {fileID: 1095557266}
   - component: {fileID: 1095557269}
+  - component: {fileID: 1095557271}
+  - component: {fileID: 1095557272}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -451,6 +453,34 @@ MonoBehaviour:
           m_StringArgument: fff
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1095557271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095557264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e724c140dc23a418b8365b0907f9ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UniqueContainerName: Environment/Cube3
+--- !u!114 &1095557272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095557264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cd55bf99a9846e42af35a7ac3492b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: Transform
+  SendMyChanges: 1
+  RecieveChanges: 1
 --- !u!1 &1219058676
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,6 +494,8 @@ GameObject:
   - component: {fileID: 1219058679}
   - component: {fileID: 1219058678}
   - component: {fileID: 1219058681}
+  - component: {fileID: 1219058683}
+  - component: {fileID: 1219058682}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -584,6 +616,34 @@ MonoBehaviour:
           m_StringArgument: aaaa
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1219058682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219058676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cd55bf99a9846e42af35a7ac3492b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: Transform
+  SendMyChanges: 1
+  RecieveChanges: 1
+--- !u!114 &1219058683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219058676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e724c140dc23a418b8365b0907f9ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UniqueContainerName: Environment/Cube2
 --- !u!1 &1652692735
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,6 +657,8 @@ GameObject:
   - component: {fileID: 1652692738}
   - component: {fileID: 1652692737}
   - component: {fileID: 1652692740}
+  - component: {fileID: 1652692742}
+  - component: {fileID: 1652692741}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -717,6 +779,34 @@ MonoBehaviour:
           m_StringArgument: eeee
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1652692741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652692735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cd55bf99a9846e42af35a7ac3492b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: Transform
+  SendMyChanges: 1
+  RecieveChanges: 1
+--- !u!114 &1652692742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652692735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e724c140dc23a418b8365b0907f9ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UniqueContainerName: Environment/Cube1
 --- !u!1 &1873814630
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,8 +934,16 @@ PrefabInstance:
       value: Guest User
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: MemberEmail
+      value: cody.tedrick@cavrn.us
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: MemberPassword
+      value: 52493127
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: SpaceJoinMethod
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: GuestLoginMethod
@@ -861,7 +959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AuthenticationMethod
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AutomaticSpaceJoinId

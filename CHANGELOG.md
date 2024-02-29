@@ -245,3 +245,12 @@
 
 ### Fixed
 - User tokens are cleared properly if Save is not set
+
+
+## [2.4.2] - 2024-02-29
+
+### Added
+- SyncXrCameraTransform no-code component
+
+### Changed
+- Now have specific Sync transform components for Local and World.

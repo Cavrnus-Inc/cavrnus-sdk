@@ -46,7 +46,7 @@ namespace CavrnusSdk.Setup
 
 			var initialTransform = user.SpaceConnection.GetTransformPropertyValue(user.ContainerId, "Transform");
 
-			var avatar = GameObject.Instantiate(remoteAvatarPrefab, initialTransform.LocalPosition, Quaternion.Euler(initialTransform.LocalEulerAngles));
+			var avatar = GameObject.Instantiate(remoteAvatarPrefab, initialTransform.Position, Quaternion.Euler(initialTransform.EulerAngles));
             avatar.AddComponent<CavrnusUserFlag>().User = user;
 			avatar.name = $"{user.ContainerId} ({user.GetUserName()}'s Avatar)";
 

@@ -5,25 +5,25 @@ namespace CavrnusSdk.API
 {
 	public class CavrnusTransformData
 	{
-		public Vector3 LocalPosition;
-		public Vector3 LocalEulerAngles;
-		public Vector3 LocalScale;
+		public Vector3 Position;
+		public Vector3 EulerAngles;
+		public Vector3 Scale;
 
-		public CavrnusTransformData(Vector3 localPosition, Vector3 localEulerAngles, Vector3 localScale)
+		public CavrnusTransformData(Vector3 position, Vector3 eulerAngles, Vector3 scale)
 		{
-			LocalPosition = localPosition;
-			LocalEulerAngles = localEulerAngles;
-			LocalScale = localScale;
+			Position = position;
+			EulerAngles = eulerAngles;
+			Scale = scale;
 		}
 
 		public override bool Equals(object obj)
 		{
 			return obj is CavrnusTransformData data &&
-				   LocalPosition.Equals(data.LocalPosition) &&
-				   LocalEulerAngles.Equals(data.LocalEulerAngles) &&
-				   LocalScale.Equals(data.LocalScale);
+				   Position.Equals(data.Position) &&
+				   EulerAngles.Equals(data.EulerAngles) &&
+				   Scale.Equals(data.Scale);
 		}
 
-		public override int GetHashCode() { return HashCode.Combine(LocalPosition, LocalEulerAngles, LocalScale); }
+		public override int GetHashCode() { return HashCode.Combine(Position, EulerAngles, Scale); }
 	}
 }

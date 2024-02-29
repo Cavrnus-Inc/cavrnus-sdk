@@ -80,7 +80,7 @@ namespace CavrnusSdk.PropertySynchronizers
 			{
 				if(currPropertyValue is CavrnusTransformData td && currUnityVal is CavrnusTransformData utd)
 				{
-					hasChange = !td.LocalPosition.AlmostEquals(utd.LocalPosition, .001f) || !td.LocalEulerAngles.AlmostEquals(utd.LocalEulerAngles, .1f) || !td.LocalScale.AlmostEquals(utd.LocalScale, .001f);
+					hasChange = !td.Position.AlmostEquals(utd.Position, .001f) || !td.EulerAngles.AlmostEquals(utd.EulerAngles, .1f) || !td.Scale.AlmostEquals(utd.Scale, .001f);
 				}
 			}
 

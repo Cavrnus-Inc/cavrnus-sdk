@@ -106,11 +106,11 @@ namespace CavrnusSdk.Setup.Editor
 				Selection.activeGameObject.AddComponent<CavrnusLocalUserFlag>();
 			}
 
-			if (Selection.activeGameObject.GetComponent<SyncTransform>() == null)
+			if (Selection.activeGameObject.GetComponent<SyncLocalTransform>() == null)
 			{
 				Debug.Log("Automatically adding a Sync Transform component to the local user, so that your CoPresence is sent to other users.");
 
-				var st = Selection.activeGameObject.AddComponent<SyncTransform>();
+				var st = Selection.activeGameObject.AddComponent<SyncLocalTransform>();
 				st.PropertyName = "Transform";
 			}
 		}
