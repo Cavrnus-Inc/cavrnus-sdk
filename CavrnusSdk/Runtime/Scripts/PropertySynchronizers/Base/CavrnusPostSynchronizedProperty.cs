@@ -11,6 +11,7 @@ namespace CavrnusSdk.PropertySynchronizers
 	public class CavrnusPostSynchronizedProperty<T> : IDisposable
 	{
 		public CavrnusLivePropertyUpdate<T> transientUpdater = null;
+		private T lastPostedTransientValue;
 
 		private CavrnusSpaceConnection spaceConn;
 
@@ -44,32 +45,47 @@ namespace CavrnusSdk.PropertySynchronizers
 			if (spaceConn == null) return;
 
 			T currPropertyValue;
-			if (typeof(T) == typeof(Color)) {
-				currPropertyValue = (T) (object)CavrnusFunctionLibrary.GetColorPropertyValue(spaceConn,
-					sync.Context.UniqueContainerName, sync.PropName);
+
+			if(transientUpdater == null)
+			{
+				if (typeof(T) == typeof(Color))
+				{
+					currPropertyValue = (T)(object)CavrnusFunctionLibrary.GetColorPropertyValue(spaceConn,
+						sync.Context.UniqueContainerName, sync.PropName);
+				}
+				else if (typeof(T) == typeof(string))
+				{
+					currPropertyValue = (T)(object)CavrnusFunctionLibrary.GetStringPropertyValue(spaceConn,
+						sync.Context.UniqueContainerName, sync.PropName);
+				}
+				else if (typeof(T) == typeof(bool))
+				{
+					currPropertyValue = (T)(object)CavrnusFunctionLibrary.GetBoolPropertyValue(spaceConn,
+						sync.Context.UniqueContainerName, sync.PropName);
+				}
+				else if (typeof(T) == typeof(Vector4))
+				{
+					currPropertyValue = (T)(object)CavrnusFunctionLibrary.GetVectorPropertyValue(spaceConn,
+						sync.Context.UniqueContainerName, sync.PropName);
+				}
+				else if (typeof(T) == typeof(float))
+				{
+					currPropertyValue = (T)(object)CavrnusFunctionLibrary.GetFloatPropertyValue(spaceConn,
+						sync.Context.UniqueContainerName, sync.PropName);
+				}
+				else if (typeof(T) == typeof(CavrnusTransformData))
+				{
+					currPropertyValue = (T)(object)CavrnusFunctionLibrary.GetTransformPropertyValue(spaceConn,
+						sync.Context.UniqueContainerName, sync.PropName);
+				}
+				else
+				{
+					throw new Exception($"Property value of type {typeof(T)} is not supported by CavrnusPostSynchronizedProperty yet!");
+				}
 			}
-			else if (typeof(T) == typeof(string)) {
-				currPropertyValue = (T) (object)CavrnusFunctionLibrary.GetStringPropertyValue(spaceConn,
-					sync.Context.UniqueContainerName, sync.PropName);
-			}
-			else if (typeof(T) == typeof(bool)) {
-				currPropertyValue = (T) (object)CavrnusFunctionLibrary.GetBoolPropertyValue(spaceConn,
-					sync.Context.UniqueContainerName, sync.PropName);
-			}
-			else if (typeof(T) == typeof(Vector4)) {
-				currPropertyValue = (T) (object)CavrnusFunctionLibrary.GetVectorPropertyValue(spaceConn,
-					sync.Context.UniqueContainerName, sync.PropName);
-			}
-			else if (typeof(T) == typeof(float)) {
-				currPropertyValue = (T) (object)CavrnusFunctionLibrary.GetFloatPropertyValue(spaceConn,
-					sync.Context.UniqueContainerName, sync.PropName);
-			}
-			else if (typeof(T) == typeof(CavrnusTransformData)) {
-				currPropertyValue = (T) (object)CavrnusFunctionLibrary.GetTransformPropertyValue(spaceConn,
-					sync.Context.UniqueContainerName, sync.PropName);
-			}
-			else {
-				throw new Exception($"Property value of type {typeof(T)} is not supported by CavrnusPostSynchronizedProperty yet!");
+			else
+			{
+				currPropertyValue = lastPostedTransientValue;
 			}
 
 			T currUnityVal = sync.GetValue();
@@ -90,7 +106,8 @@ namespace CavrnusSdk.PropertySynchronizers
                 //This change has timed out, time to finalize it
                 if (!isUserProperty && transientUpdater != null && Time.time - lastChangeTime > endChangeTimeGap) 
 				{
-					transientUpdater.UpdateWithNewData(sync.GetValue());
+					lastPostedTransientValue = currUnityVal;
+					transientUpdater.UpdateWithNewData(lastPostedTransientValue);
 					transientUpdater.Finish();
 					transientUpdater = null;
 				}
@@ -103,13 +120,15 @@ namespace CavrnusSdk.PropertySynchronizers
 
 			if (transientUpdater == null)
 			{
+				lastPostedTransientValue = currUnityVal;
 				transientUpdater = CavrnusPropertyHelpers.BeginContinuousPropertyUpdate<T>(spaceConn,
 					sync.Context.UniqueContainerName, sync.PropName,
-					sync.GetValue());
+					lastPostedTransientValue);
 			}
-			else 
+			else
 			{
-				transientUpdater.UpdateWithNewData(sync.GetValue()); 
+				lastPostedTransientValue = currUnityVal;
+				transientUpdater.UpdateWithNewData(lastPostedTransientValue); 
 			}
 		}
 

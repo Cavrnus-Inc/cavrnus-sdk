@@ -254,3 +254,9 @@
 
 ### Changed
 - Now have specific Sync transform components for Local and World.
+
+
+## [2.4.3] - 2024-03-05
+
+### Fixed
+- Fixed Ping-Ponging Property Values when multiple Transients conflict
