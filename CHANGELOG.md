@@ -260,3 +260,10 @@
 
 ### Fixed
 - Fixed Ping-Ponging Property Values when multiple Transients conflict
+
+
+## [2.4.4] - 2024-03-05
+
+### Added
+- Added sync components for material textures and sprites
+- Added several new demo scenes for various methods of updating materials/textures
