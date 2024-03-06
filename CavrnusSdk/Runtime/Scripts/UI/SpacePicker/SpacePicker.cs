@@ -11,14 +11,6 @@ namespace CavrnusSdk.UI
 
 		[SerializeField] private TMP_InputField search;
 
-		[Header("This prefab will spawn under the current parent.  It will disappear as soon as the space loads.")]
-		[SerializeField]
-		private GameObject loadingUiPrefab;
-
-		[Header("These prefabs will spawn as soon as the space loads.")]
-		[SerializeField]
-		private List<GameObject> spacePrefabs;
-
 		private List<CavrnusSpaceInfo> allSpaces;
 		private List<CavrnusSpaceInfo> currentDisplayedSpaces;
 
@@ -62,10 +54,6 @@ namespace CavrnusSdk.UI
 			if (spacePicker.value < 0 && spacePicker.value >= currentDisplayedSpaces.Count) return;
 
 			var spaceToJoin = currentDisplayedSpaces[spacePicker.value];
-
-			gameObject.SetActive(false);
-
-			var loadingOb = GameObject.Instantiate(loadingUiPrefab, transform.parent);
 
 			CavrnusFunctionLibrary.JoinSpace(spaceToJoin.Id, (spaceConn) =>{/*The Post-Load cleanup is done by the Cavrnus Spatial Connector.  If you did you own version though, you would need to implement this*/}, err => Debug.LogError(err));
 		}

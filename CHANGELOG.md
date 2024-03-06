@@ -297,3 +297,9 @@
 
 ### Fixed
 - Fixed problems when locally cached user token is invalid
+
+
+## [2.4.8] - 2024-03-06
+
+### Fixed
+- Fixed space picker loading UI sticking around
