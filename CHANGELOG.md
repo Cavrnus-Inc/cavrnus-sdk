@@ -267,3 +267,9 @@
 ### Added
 - Added sync components for material textures and sprites
 - Added several new demo scenes for various methods of updating materials/textures
+
+
+## [2.4.5] - 2024-03-05
+
+### Fixed
+- Fixed change detection epsilons for colors, floats, and vectors

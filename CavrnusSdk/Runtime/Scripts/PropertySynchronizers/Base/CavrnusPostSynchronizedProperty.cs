@@ -91,13 +91,41 @@ namespace CavrnusSdk.PropertySynchronizers
 			T currUnityVal = sync.GetValue();
 			bool hasChange = !currPropertyValue.Equals(currUnityVal);
 
-			//Transforms can sometimes be a little wobbly w/ gravity etc.  Wanna give them a LITTLE bit of epsilon
-			if (typeof(T) == typeof(CavrnusTransformData))
+			if (typeof(T) == typeof(Color))
 			{
-				if(currPropertyValue is CavrnusTransformData td && currUnityVal is CavrnusTransformData utd)
-				{
-					hasChange = !td.Position.AlmostEquals(utd.Position, .001f) || !td.EulerAngles.AlmostEquals(utd.EulerAngles, .1f) || !td.Scale.AlmostEquals(utd.Scale, .001f);
-				}
+				Color serverVal = (Color)(object)currPropertyValue;
+				Color unityVal = (Color)(object)currUnityVal;
+				hasChange = !serverVal.r.AlmostEquals(unityVal.r, .0001f) || !serverVal.g.AlmostEquals(unityVal.g, .0001f) || !serverVal.b.AlmostEquals(unityVal.b, .0001f);
+			}
+			else if (typeof(T) == typeof(string))
+			{
+				string serverVal = currPropertyValue as string;
+				string unityVal = currUnityVal as string;
+				hasChange = !serverVal.Equals(unityVal);
+			}
+			else if (typeof(T) == typeof(bool))
+			{
+				bool serverVal = (bool)(object)currPropertyValue;
+				bool unityVal = (bool)(object)currUnityVal;
+				hasChange = serverVal != unityVal;
+			}
+			else if (typeof(T) == typeof(Vector4))
+			{
+				Vector4 serverVal = (Vector4)(object)currPropertyValue;
+				Vector4 unityVal = (Vector4)(object)currUnityVal;
+				hasChange = !serverVal.x.AlmostEquals(unityVal.x, .0001f) || !serverVal.y.AlmostEquals(unityVal.y, .0001f) || !serverVal.z.AlmostEquals(unityVal.z, .0001f) || !serverVal.w.AlmostEquals(unityVal.w, .0001f);
+			}
+			else if (typeof(T) == typeof(float))
+			{
+				float serverVal = (float)(object)currPropertyValue;
+				float unityVal = (float)(object)currUnityVal;
+				hasChange = !serverVal.AlmostEquals(unityVal, .0001f);
+			}
+			else if (typeof(T) == typeof(CavrnusTransformData))
+			{
+				var serverVal = currPropertyValue as CavrnusTransformData;
+				var unityVal = currUnityVal as CavrnusTransformData;
+				hasChange = !serverVal.Position.AlmostEquals(unityVal.Position, .001f) || !serverVal.EulerAngles.AlmostEquals(unityVal.EulerAngles, .1f) || !serverVal.Scale.AlmostEquals(unityVal.Scale, .001f);
 			}
 
 			if (!hasChange) 
