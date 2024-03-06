@@ -279,3 +279,21 @@
 
 ### Fixed
 - Fixed Space Picker error
+
+
+## [2.4.7] - 2024-03-05
+
+### Added
+- Added a new feature
+
+### Changed
+- 
+
+### Deprecated
+- 
+
+### Removed
+- 
+
+### Fixed
+- Fixed problems when locally cached user token is invalid

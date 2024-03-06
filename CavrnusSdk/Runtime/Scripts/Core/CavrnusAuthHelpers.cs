@@ -16,11 +16,9 @@ namespace CavrnusCore
 
 		internal static async Task<CavrnusAuthentication> TryAuthenticateWithToken(string server, string token)
 		{
-			RestApiEndpoint endpoint = RestApiEndpoint.ParseFromHostname(server);
+			RestApiEndpoint endpoint = RestApiEndpoint.ParseFromHostname(server).WithAuthorization(token);
 
-			CurrentAuthentication = new CavrnusAuthentication(endpoint.WithAuthorization(token), token);
-
-			RestUserCommunication ruc = new RestUserCommunication(CurrentAuthentication.Endpoint, new FrameworkNetworkRequestImplementation());
+			RestUserCommunication ruc = new RestUserCommunication(endpoint, new FrameworkNetworkRequestImplementation());
 			try
 			{
 				await ruc.GetUserProfileAsync();
@@ -38,6 +36,8 @@ namespace CavrnusCore
 				//TODO: Is this right?
 				return null;
 			}
+
+			CurrentAuthentication = new CavrnusAuthentication(endpoint, token);
 
 			NotifySetup();
 
