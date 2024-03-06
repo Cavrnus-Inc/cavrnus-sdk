@@ -1,5 +1,6 @@
 using System;
 using CavrnusSdk.API;
+using CavrnusSdk.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,6 +9,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class HoloLibraryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public event Action<GameObject> OnSelected;
+    
     [SerializeField] private TextMeshProUGUI itemName;
     [SerializeField] private GameObject downloadButton;
     

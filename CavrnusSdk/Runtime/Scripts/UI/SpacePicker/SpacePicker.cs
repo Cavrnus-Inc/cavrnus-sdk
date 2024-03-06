@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,55 +8,76 @@ namespace CavrnusSdk.UI
 {
 	public class SpacePicker : MonoBehaviour
 	{
-		[SerializeField] private TMP_Dropdown spacePicker;
-
+		private class SpacePickerOption : IListElement
+		{
+			private readonly CavrnusSpaceInfo content;
+			private readonly Action<CavrnusSpaceInfo> selected;
+			
+			public SpacePickerOption(CavrnusSpaceInfo content, Action<CavrnusSpaceInfo> selected)
+			{
+				this.content = content;
+				this.selected = selected;
+			}
+			
+			public void EntryBuilt(GameObject element)
+			{
+				element.GetComponent<SpacePickerEntry>().Setup(content, selected);
+			}
+		}
+		
 		[SerializeField] private TMP_InputField search;
-
+		[SerializeField] private GameObject spacePickerPrefab;
+		[SerializeField] private Pagination pagination;
+		
 		private List<CavrnusSpaceInfo> allSpaces;
 		private List<CavrnusSpaceInfo> currentDisplayedSpaces;
 
-		void Start()
+		private void Start()
 		{
-			Setup();
-		}
+			search.interactable = false;
 
-		private void Setup()
-		{
 			CavrnusFunctionLibrary.FetchJoinableSpaces(spaces =>
 			{
 				allSpaces = spaces;
 				currentDisplayedSpaces = allSpaces;
 
-				var opts = new List<TMP_Dropdown.OptionData>();
-				foreach (var space in currentDisplayedSpaces) { opts.Add(new TMP_Dropdown.OptionData(space.Name)); }
-
-				spacePicker.AddOptions(opts);
-			});			
+				search.interactable = true;
+				search.onValueChanged.AddListener(Search);
+			});		
 		}
 
-		public void Search()
+		public void Search(string value)
 		{
-			spacePicker.ClearOptions();
-
+			if (string.IsNullOrWhiteSpace(value)) {
+				pagination.ResetPagination();
+				currentDisplayedSpaces.Clear();
+				
+				return;
+			}
+			
 			currentDisplayedSpaces = new List<CavrnusSpaceInfo>();
 			foreach (var space in allSpaces) {
-				if (space.Name.ToLowerInvariant().Contains(search.text.ToLowerInvariant()))
+				if (space.Name.ToLowerInvariant().Contains(value.ToLowerInvariant()))
 					currentDisplayedSpaces.Add(space);
 			}
 
-			var opts = new List<TMP_Dropdown.OptionData>();
-			foreach (var space in currentDisplayedSpaces) { opts.Add(new TMP_Dropdown.OptionData(space.Name)); }
-
-			spacePicker.AddOptions(opts);
+			var options = new List<IListElement>();
+			currentDisplayedSpaces.ForEach(s => options.Add(new SpacePickerOption(s,JoinSelectedSpace)));
+			
+			pagination.NewPagination(spacePickerPrefab, options);
 		}
 
-		public void JoinSpace()
+		private void JoinSelectedSpace(CavrnusSpaceInfo csi)
 		{
-			if (spacePicker.value < 0 && spacePicker.value >= currentDisplayedSpaces.Count) return;
+			CavrnusFunctionLibrary.JoinSpace(csi.Id, (spaceConn) => {
+				/*The Post-Load cleanup is done by the Cavrnus Spatial Connector.
+				 If you did you own version though, you would need to implement this*/
+			}, err => Debug.LogError(err));
+		}
 
-			var spaceToJoin = currentDisplayedSpaces[spacePicker.value];
-
-			CavrnusFunctionLibrary.JoinSpace(spaceToJoin.Id, (spaceConn) =>{/*The Post-Load cleanup is done by the Cavrnus Spatial Connector.  If you did you own version though, you would need to implement this*/}, err => Debug.LogError(err));
+		private void OnDestroy()
+		{
+			search.onValueChanged.RemoveListener(Search);
 		}
 	}
 }

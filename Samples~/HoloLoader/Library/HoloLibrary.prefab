@@ -2325,7 +2325,6 @@ MonoBehaviour:
   itemsPerPage: 10
   buttonPrev: {fileID: 4835085101872242552}
   buttonNext: {fileID: 6966255294799203937}
-  itemPrefab: {fileID: 6226277543569049047, guid: 619a2ddabd0c7fa47b90e7a22671ae4b, type: 3}
   itemContainer: {fileID: 8376878555140478178}
   parentContainer: {fileID: 447887990418707296}
   currentPageText: {fileID: 2070489298062999861}
@@ -2345,6 +2344,7 @@ MonoBehaviour:
   visibleIcon: {fileID: 1534712540590622784}
   hiddenIcon: {fileID: 5048093613676401980}
   mainContent: {fileID: 4605315793950615957}
+  libraryItemPrefab: {fileID: 8365300090950719935, guid: 619a2ddabd0c7fa47b90e7a22671ae4b, type: 3}
   searchField: {fileID: 4693174948529955669}
   resultsArea: {fileID: 5058197247415200087}
   resultsMessageText: {fileID: 3883392657011558866}

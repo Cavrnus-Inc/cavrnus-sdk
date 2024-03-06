@@ -303,3 +303,10 @@
 
 ### Fixed
 - Fixed space picker loading UI sticking around
+
+
+## [2.4.9] - 2024-03-06
+
+### Changed
+- Changed several menus to be visually consistent rest of UI
+

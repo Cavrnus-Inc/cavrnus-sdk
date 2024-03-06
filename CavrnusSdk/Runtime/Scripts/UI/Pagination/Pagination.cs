@@ -5,9 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CavrnusCore.Library
+namespace CavrnusSdk.UI
 {
-    public class LibraryPagination : MonoBehaviour
+    public class Pagination : MonoBehaviour
     {
         [SerializeField] private int itemsPerPage = 10;
         
@@ -16,37 +16,31 @@ namespace CavrnusCore.Library
         [SerializeField] private Button buttonNext;
 
         [Space]
-        [SerializeField] private HoloLibraryItem itemPrefab;
         [SerializeField] private Transform itemContainer;
         [SerializeField] private Transform parentContainer;
 
         [Space]
         [SerializeField] private TextMeshProUGUI currentPageText;
+        
+        private GameObject itemPrefab;
 
         private int currentPage;
         private int totalPages;
 
-        private List<CavrnusRemoteContent> content;
-
-        private Action<CavrnusRemoteContent> selected;
+        private List<IListElement> content;
 
         private void Awake()
         {
             ResetPagination();
+            
+            buttonPrev.onClick.AddListener(Prev);
+            buttonNext.onClick.AddListener(Next);
         }
 
-        private void Start()
-        { 
-            CavrnusFunctionLibrary.AwaitAnySpaceConnection(sc => {
-                buttonPrev.onClick.AddListener(Prev);
-                buttonNext.onClick.AddListener(Next);
-            });
-        }
-
-        public void NewPagination(List<CavrnusRemoteContent> content, Action<CavrnusRemoteContent> selected)
+        public void NewPagination(GameObject itemPrefab, List<IListElement> content)
         {
+            this.itemPrefab = itemPrefab;
             this.content = content;
-            this.selected = selected;
             
             buttonPrev.interactable = false;
             buttonNext.interactable = true;
@@ -73,7 +67,7 @@ namespace CavrnusCore.Library
             LoadPage(currentPage - 1);
         }
 
-        private List<GameObject> currentItems = new List<GameObject>();
+        private Dictionary<GameObject, IListElement> currentItems = new Dictionary<GameObject, IListElement>();
         private void LoadPage(int page)
         {
             if (page == 1) {
@@ -87,7 +81,7 @@ namespace CavrnusCore.Library
             
             if (currentItems.Count > 0) {
                 foreach (var go in currentItems)
-                    Destroy(go);
+                    Destroy(go.Key);
 
                 currentItems.Clear();
             }
@@ -98,19 +92,13 @@ namespace CavrnusCore.Library
             for (var i = start; i < end; i++)   
             {
                 var newItem = Instantiate(itemPrefab, itemContainer);
-                newItem.Setup(content[i], ItemSelected);
-                
-                currentItems.Add(newItem.gameObject);
+                currentItems.Add(newItem.gameObject, content[i]);
+                currentItems[newItem.gameObject].EntryBuilt(newItem);
             }
 
             parentContainer.gameObject.SetActive(true);
             currentPageText.text = $"{page} of {totalPages}";
             currentPage = page;
-        }
-
-        private void ItemSelected(CavrnusRemoteContent crc)
-        {
-            selected?.Invoke(crc);
         }
         
         private void OnDestroy()
@@ -123,7 +111,7 @@ namespace CavrnusCore.Library
         {
             if (currentItems.Count > 0) {
                 foreach (var go in currentItems)
-                    Destroy(go);
+                    Destroy(go.Key);
 
                 currentItems.Clear();
             }

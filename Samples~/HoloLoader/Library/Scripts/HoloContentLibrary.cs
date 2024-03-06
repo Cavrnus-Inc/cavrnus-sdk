@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CavrnusSdk.API;
+using CavrnusSdk.UI;
 using Collab.Proxy.Comm.LiveTypes;
 using TMPro;
 using UnityEngine;
@@ -9,15 +10,33 @@ using UnityEngine.UI;
 
 namespace CavrnusCore.Library
 {
-    [RequireComponent(typeof(LibraryPagination))]
+    [RequireComponent(typeof(Pagination))]
     public class HoloContentLibrary : MonoBehaviour
     {
+        private class HoloLibraryOption : IListElement
+        {
+            public CavrnusRemoteContent Content;
+            public event Action<CavrnusRemoteContent> Selected;
+            public HoloLibraryOption(CavrnusRemoteContent content, Action<CavrnusRemoteContent> selected)
+            {
+                Content = content;
+                Selected = selected;
+            }
+            
+            public void EntryBuilt(GameObject element)
+            {
+                element.GetComponent<HoloLibraryItem>().Setup(Content, Selected);
+            }
+        }
+        
         public Action<CavrnusRemoteContent> OnSelect;
         
         [SerializeField] private Button buttonVis;
         [SerializeField] private GameObject visibleIcon;
         [SerializeField] private GameObject hiddenIcon;
         [SerializeField] private GameObject mainContent;
+
+        [SerializeField] private GameObject libraryItemPrefab;
 
         [Space]
         [SerializeField] private TMP_InputField searchField;
@@ -26,12 +45,12 @@ namespace CavrnusCore.Library
         [SerializeField] private GameObject resultsArea;
         [SerializeField] private TextMeshProUGUI resultsMessageText;
 
-        private LibraryPagination pagination;
+        private Pagination pagination;
         private List<CavrnusRemoteContent> allContent;
 
         private void Awake()
         {
-            pagination = GetComponent<LibraryPagination>();
+            pagination = GetComponent<Pagination>();
             
             searchField.interactable = false;
             
@@ -95,13 +114,17 @@ namespace CavrnusCore.Library
 
             resultsMessageText.gameObject.SetActive(false);
             resultsArea.SetActive(true);
-            pagination.NewPagination(found, Selected);
+
+            var options = new List<IListElement>();
+            found.ForEach(f => options.Add(new HoloLibraryOption(f,Selected)));
+            
+            pagination.NewPagination(libraryItemPrefab, options);
         }
 
-        private void Selected(CavrnusRemoteContent crc)
+        private void Selected(CavrnusRemoteContent obj)
         {
-            OnSelect?.Invoke(crc);
-            Debug.Log($"Selected {crc.Name}");
+            OnSelect?.Invoke(obj);
+            Debug.Log($"Selected {obj.Name}");
         }
     }
 }
