@@ -67,15 +67,7 @@ namespace CavrnusSdk.UI
 
 			var loadingOb = GameObject.Instantiate(loadingUiPrefab, transform.parent);
 
-			CavrnusFunctionLibrary.JoinSpace(spaceToJoin.Id, (spaceConn) =>
-			{
-				GameObject.Destroy(loadingOb);
-
-				foreach (var spacePrefab in spacePrefabs) GameObject.Instantiate(spacePrefab, transform.parent);
-
-				GameObject.Destroy(gameObject);
-			}, 
-			err => Debug.LogError(err));
+			CavrnusFunctionLibrary.JoinSpace(spaceToJoin.Id, (spaceConn) =>{/*The Post-Load cleanup is done by the Cavrnus Spatial Connector.  If you did you own version though, you would need to implement this*/}, err => Debug.LogError(err));
 		}
 	}
 }

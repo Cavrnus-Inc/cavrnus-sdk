@@ -273,3 +273,9 @@
 
 ### Fixed
 - Fixed change detection epsilons for colors, floats, and vectors
+
+
+## [2.4.6] - 2024-03-05
+
+### Fixed
+- Fixed Space Picker error
