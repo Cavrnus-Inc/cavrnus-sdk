@@ -21,6 +21,7 @@ namespace CavrnusSdk.Setup.Editor
 		SerializedProperty GuestName;
 
 		SerializedProperty SaveUserToken;
+		SerializedProperty SaveGuestToken;
 
 		SerializedProperty SpaceJoinMethod;
 
@@ -56,7 +57,8 @@ namespace CavrnusSdk.Setup.Editor
 
 			GuestName = serializedObject.FindProperty(nameof(GuestName));
 
-			SaveUserToken = serializedObject.FindProperty("SaveUserToken");
+			SaveUserToken = serializedObject.FindProperty(nameof(SaveUserToken));
+			SaveGuestToken = serializedObject.FindProperty(nameof(SaveGuestToken));
 
 			SpaceJoinMethod = serializedObject.FindProperty("SpaceJoinMethod");
 
@@ -128,6 +130,15 @@ namespace CavrnusSdk.Setup.Editor
 				else if (GuestLoginMethod.enumValueFlag == 1) { //PromptUserToLogin
 					EditorGUILayout.LabelField("Spawns a UI menu that lets a guest input their name:");
 					EditorGUILayout.PropertyField(GuestJoinMenu);
+					
+					EditorGUILayout.Space();
+					EditorGUILayout.Space();
+					EditorGUILayout.Space();
+					EditorGUILayout.Space();
+					
+					EditorGUILayout.LabelField("Should the guest auth token be stored on Disk?", EditorStyles.boldLabel);
+					EditorGUILayout.LabelField("If so, it will bypass the login step on subsequent joins until they logout or the token expires.");
+					EditorGUILayout.PropertyField(SaveGuestToken);
 				}
 			}
 			else if (AuthenticationMethod.enumValueFlag == 1) { //JoinAsMember
@@ -142,6 +153,16 @@ namespace CavrnusSdk.Setup.Editor
 				else if (MemberLoginMethod.enumValueFlag == 1) { //PromptUserToLogin
 					EditorGUILayout.LabelField("Spawns a UI menu that lets a user log into their account:");
 					EditorGUILayout.PropertyField(MemberLoginMenu);
+					
+					
+					EditorGUILayout.Space();
+					EditorGUILayout.Space();
+					EditorGUILayout.Space();
+					EditorGUILayout.Space();
+					
+					EditorGUILayout.LabelField("Should the users auth token be stored on Disk?", EditorStyles.boldLabel);
+					EditorGUILayout.LabelField("If so, it will bypass the login step on subsequent joins until they logout or the token expires.");
+					EditorGUILayout.PropertyField(SaveUserToken);
 				}
 				
 				EditorGUILayout.Space();
@@ -156,15 +177,6 @@ namespace CavrnusSdk.Setup.Editor
 				serializedObject.ApplyModifiedProperties();
 				return;
 			}
-
-			EditorGUILayout.Space();
-			EditorGUILayout.Space();
-			EditorGUILayout.Space();
-			EditorGUILayout.Space();
-
-			EditorGUILayout.LabelField("Should the users auth token be stored on Disk?", EditorStyles.boldLabel);
-			EditorGUILayout.LabelField("If so it will bypass the login step on subsequent joins until they logout or the token expires.");
-			EditorGUILayout.PropertyField(SaveUserToken);
 
 			EditorGUILayout.Space();
 			EditorGUILayout.Space();

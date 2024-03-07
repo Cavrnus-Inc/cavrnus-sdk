@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CavrnusSdk.API;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,10 +16,12 @@ namespace CavrnusSdk.UI
 
         [Space]
         [SerializeField] private Transform itemContainer;
-        [SerializeField] private Transform parentContainer;
+        [SerializeField] private Transform footerControlsContainer;
 
         [Space]
         [SerializeField] private TextMeshProUGUI currentPageText;
+
+        [SerializeField] private Transform noResultsContainer;
         
         private GameObject itemPrefab;
 
@@ -41,7 +42,16 @@ namespace CavrnusSdk.UI
         {
             this.itemPrefab = itemPrefab;
             this.content = content;
-            
+
+            if (content.Count == 0) {
+                noResultsContainer.gameObject.SetActive(true);
+                footerControlsContainer.gameObject.SetActive(false);
+            }
+            else {
+                noResultsContainer.gameObject.SetActive(false);
+                footerControlsContainer.gameObject.SetActive(true);
+            }
+
             buttonPrev.interactable = false;
             buttonNext.interactable = true;
             
@@ -96,7 +106,7 @@ namespace CavrnusSdk.UI
                 currentItems[newItem.gameObject].EntryBuilt(newItem);
             }
 
-            parentContainer.gameObject.SetActive(true);
+            // footerControlsContainer.gameObject.SetActive(true);
             currentPageText.text = $"{page} of {totalPages}";
             currentPage = page;
         }
@@ -116,7 +126,7 @@ namespace CavrnusSdk.UI
                 currentItems.Clear();
             }
             
-            parentContainer.gameObject.SetActive(false);
+            footerControlsContainer.gameObject.SetActive(false);
         }
     }
 }

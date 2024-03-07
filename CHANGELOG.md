@@ -310,3 +310,21 @@
 ### Changed
 - Changed several menus to be visually consistent rest of UI
 
+
+
+## [2.4.10] - 2024-03-07
+
+## [2.4.10] - 2024-03-07
+
+### Changed
+
+- User login flow to account for member and guest auth tokens
+
+
+### Fixed
+
+- Fixed missing icons in space picker menu.
+
+- Space picker menu results are now sorted alphabetically.
+
+- Space picker menu always shows available spaces.

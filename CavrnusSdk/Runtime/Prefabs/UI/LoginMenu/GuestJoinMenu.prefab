@@ -1211,6 +1211,7 @@ MonoBehaviour:
   selectables:
   - {fileID: 4786199836196028002}
   - {fileID: 4618335782484680144}
+  ctaButton: {fileID: 4618335782484680144}
 --- !u!1 &8898183875649867115
 GameObject:
   m_ObjectHideFlags: 0

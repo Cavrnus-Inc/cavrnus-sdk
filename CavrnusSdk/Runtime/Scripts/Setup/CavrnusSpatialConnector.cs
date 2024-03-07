@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CavrnusCore;
 using UnityEngine;
 using CavrnusSdk.API;
-using CavrnusSdk.PropertySynchronizers;
 
 namespace CavrnusSdk.Setup
 {
@@ -42,10 +42,10 @@ namespace CavrnusSdk.Setup
 		public string MemberEmail;
 		public string MemberPassword;
 
-
 		public string GuestName;
 
 		public bool SaveUserToken;
+		public bool SaveGuestToken;
 
 		public enum SpaceJoinOption
 		{
@@ -113,28 +113,21 @@ namespace CavrnusSdk.Setup
 			}
 		}
 
+		private async Task<bool> IsTokenValid(string tokenName)
+		{
+			if (!string.IsNullOrWhiteSpace(PlayerPrefs.GetString(tokenName)))
+			{
+				var auth = await CavrnusAuthHelpers.TryAuthenticateWithToken(MyServer, PlayerPrefs.GetString(tokenName));
+
+				return auth != null;
+			}
+
+			return false;
+		}
+
 		private List<GameObject> CurrentAuthenticationUi = new List<GameObject>();
 		private async void SetupAuthenticate()
 		{
-			if (SaveUserToken)
-			{
-				if (!string.IsNullOrWhiteSpace(PlayerPrefs.GetString("CavrnusAuthToken")))
-				{
-					var auth = await CavrnusAuthHelpers.TryAuthenticateWithToken(MyServer, PlayerPrefs.GetString("CavrnusAuthToken"));
-
-					if (auth != null)
-					{
-						SetupJoinSpace();
-						return;
-					}
-				}
-			}
-			else
-			{
-				//Clear any existing token if Save is not set
-				PlayerPrefs.SetString("CavrnusAuthToken", "");
-			}
-
 			if (AuthenticationMethod != AuthenticationOptionEnum.None)
 				CavrnusFunctionLibrary.AwaitAuthentication(auth => SetupJoinSpace());
 			
@@ -152,6 +145,18 @@ namespace CavrnusSdk.Setup
 					CavrnusFunctionLibrary.AuthenticateWithPassword(MyServer, MemberEmail, MemberPassword, auth => { }, err => Debug.LogError(err));
 				} 
 				else if (MemberLoginMethod == MemberLoginOptionEnum.PromptMemberToLogin) {
+					if (SaveUserToken) {
+						var valid = await IsTokenValid("MemberCavrnusAuthToken");
+						if (valid) {
+							SetupJoinSpace();
+							return;
+						}
+					}
+					else {
+						//Clear any existing token if Save is not set
+						PlayerPrefs.SetString("MemberCavrnusAuthToken", "");
+					}
+					
 					if (MemberLoginMenu == null)
 						throw new System.Exception("Error on Cavrnus Spatial Connector object: No Member Login Menu specified!");
 					
@@ -171,6 +176,18 @@ namespace CavrnusSdk.Setup
 					CavrnusFunctionLibrary.AuthenticateAsGuest(MyServer, GuestName, auth => { }, err => Debug.LogError(err));
 				} 
 				else if (GuestLoginMethod == GuestLoginOptionEnum.PromptToEnterName) {
+					if (SaveGuestToken) {
+						var valid = await IsTokenValid("GuestCavrnusAuthToken");
+						if (valid) {
+							SetupJoinSpace();
+							return;
+						}
+					}
+					else {
+						//Clear any existing token if Save is not set
+						PlayerPrefs.SetString("GuestCavrnusAuthToken", "");
+					}
+					
 					if (GuestJoinMenu == null)
 						throw new System.Exception("Error on Cavrnus Spatial Connector object: No Guest Join Menu specified!");
 				
@@ -179,7 +196,7 @@ namespace CavrnusSdk.Setup
 				}
 			}
 		}
-
+		
 		private List<GameObject> CurrentSpaceJoinUi = new List<GameObject>();
 		private void SetupJoinSpace()
 		{

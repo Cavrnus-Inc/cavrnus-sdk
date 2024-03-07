@@ -2264,6 +2264,7 @@ GameObject:
   - component: {fileID: 8737680936930819449}
   - component: {fileID: 6578269918291015153}
   - component: {fileID: 1810778229820001925}
+  - component: {fileID: 8243673503004954900}
   m_Layer: 0
   m_Name: Rigged Local
   m_TagString: Untagged
@@ -2428,6 +2429,22 @@ MonoBehaviour:
   PropertyName: Transform
   SendMyChanges: 1
   RecieveChanges: 1
+--- !u!114 &8243673503004954900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7655749332648085126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2dda050550238348a00fcf43178e882, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: 7122404411001425442}
+  - {fileID: 1642582787528222925}
+  - {fileID: 6793951268615245588}
 --- !u!1 &7919840968269678509
 GameObject:
   m_ObjectHideFlags: 0

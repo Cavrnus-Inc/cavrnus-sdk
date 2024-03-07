@@ -43,6 +43,8 @@ namespace CavrnusSdk.UI
 
 				search.interactable = true;
 				search.onValueChanged.AddListener(Search);
+				
+				UpdatePagination(allSpaces);
 			});		
 		}
 
@@ -51,19 +53,29 @@ namespace CavrnusSdk.UI
 			if (string.IsNullOrWhiteSpace(value)) {
 				pagination.ResetPagination();
 				currentDisplayedSpaces.Clear();
-				
+
+				// Default to showing all available spaces
+				UpdatePagination(allSpaces);
+
 				return;
 			}
 			
+			// None of this is performant...
 			currentDisplayedSpaces = new List<CavrnusSpaceInfo>();
 			foreach (var space in allSpaces) {
 				if (space.Name.ToLowerInvariant().Contains(value.ToLowerInvariant()))
 					currentDisplayedSpaces.Add(space);
 			}
 
+			UpdatePagination(currentDisplayedSpaces);
+		}
+
+		private void UpdatePagination(List<CavrnusSpaceInfo> spaces)
+		{
 			var options = new List<IListElement>();
-			currentDisplayedSpaces.ForEach(s => options.Add(new SpacePickerOption(s,JoinSelectedSpace)));
-			
+			spaces.Sort((x, y) => String.Compare(x.Name.ToLowerInvariant(), y.Name.ToLowerInvariant(), StringComparison.Ordinal));
+			spaces.ForEach(s => options.Add(new SpacePickerOption(s, JoinSelectedSpace)));
+
 			pagination.NewPagination(spacePickerPrefab, options);
 		}
 

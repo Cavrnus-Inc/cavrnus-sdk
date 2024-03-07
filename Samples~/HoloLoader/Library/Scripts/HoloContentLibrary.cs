@@ -41,10 +41,6 @@ namespace CavrnusCore.Library
         [Space]
         [SerializeField] private TMP_InputField searchField;
 
-        [Space]
-        [SerializeField] private GameObject resultsArea;
-        [SerializeField] private TextMeshProUGUI resultsMessageText;
-
         private Pagination pagination;
         private List<CavrnusRemoteContent> allContent;
 
@@ -54,10 +50,8 @@ namespace CavrnusCore.Library
             
             searchField.interactable = false;
             
-            resultsArea.SetActive(false);
             visibleIcon.SetActive(false);
             hiddenIcon.SetActive(true);
-            resultsMessageText.gameObject.SetActive(false);
             
             mainContent.SetActive(false);
             buttonVis.onClick.AddListener(() => {
@@ -89,6 +83,8 @@ namespace CavrnusCore.Library
                     searchField.interactable = true;
                     
                     searchField.onValueChanged.AddListener(DoSearch);
+                    
+                    UpdatePagination(allContent);
                 });
             }); 
         }
@@ -98,26 +94,21 @@ namespace CavrnusCore.Library
             if (string.IsNullOrWhiteSpace(value)) {
                 pagination.ResetPagination();
                 
-                resultsArea.SetActive(false);
+                UpdatePagination(allContent);
+                
                 return;
             }
             
             var found = allContent.Where(c => c.Name.ToLowerInvariant().Contains(value.ToLowerInvariant())).ToList();
-            if (found.Count == 0) {
-                resultsMessageText.gameObject.SetActive(true);
-                resultsArea.SetActive(false);
-
-                pagination.ResetPagination();
-                
-                return;
-            }
-
-            resultsMessageText.gameObject.SetActive(false);
-            resultsArea.SetActive(true);
-
+            UpdatePagination(found);
+        }
+        
+        private void UpdatePagination(List<CavrnusRemoteContent> content)
+        {
             var options = new List<IListElement>();
-            found.ForEach(f => options.Add(new HoloLibraryOption(f,Selected)));
-            
+            content.Sort((x, y) => String.Compare(x.Name.ToLowerInvariant(), y.Name.ToLowerInvariant(), StringComparison.Ordinal));
+            content.ForEach(s => options.Add(new HoloLibraryOption(s, Selected)));
+
             pagination.NewPagination(libraryItemPrefab, options);
         }
 

@@ -28,7 +28,12 @@ namespace CavrnusCore
 				if (e.status == 401)
 				{
 					//Invalid Token
-					PlayerPrefs.SetString("CavrnusAuthToken", "");
+					if (CavrnusSpatialConnector.Instance.SaveUserToken)
+						PlayerPrefs.SetString("MemberCavrnusAuthToken", "");
+			
+					if (CavrnusSpatialConnector.Instance.SaveGuestToken)
+						PlayerPrefs.SetString("GuestCavrnusAuthToken", "");
+
 					return null;
 				}
 
@@ -99,7 +104,12 @@ namespace CavrnusCore
 		{
 			if (CavrnusSpatialConnector.Instance.SaveUserToken)
 			{
-				PlayerPrefs.SetString("CavrnusAuthToken", auth.Token);
+				PlayerPrefs.SetString("MemberCavrnusAuthToken", auth.Token);
+			}
+			
+			if (CavrnusSpatialConnector.Instance.SaveGuestToken)
+			{
+				PlayerPrefs.SetString("GuestCavrnusAuthToken", auth.Token);
 			}
 
 			if(onAuthActions.Count > 0)
