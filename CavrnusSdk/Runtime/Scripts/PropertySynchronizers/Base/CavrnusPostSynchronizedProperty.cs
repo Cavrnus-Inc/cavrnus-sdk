@@ -125,7 +125,7 @@ namespace CavrnusSdk.PropertySynchronizers
 			{
 				var serverVal = currPropertyValue as CavrnusTransformData;
 				var unityVal = currUnityVal as CavrnusTransformData;
-				hasChange = !serverVal.Position.AlmostEquals(unityVal.Position, .001f) || !serverVal.EulerAngles.AlmostEquals(unityVal.EulerAngles, .1f) || !serverVal.Scale.AlmostEquals(unityVal.Scale, .001f);
+				hasChange = !serverVal.Position.AlmostEquals(unityVal.Position, .001f) || !EulersAreEqual(serverVal.EulerAngles, unityVal.EulerAngles, .1f) || !serverVal.Scale.AlmostEquals(unityVal.Scale, .001f);
 			}
 
 			if (!hasChange) 
@@ -158,6 +158,13 @@ namespace CavrnusSdk.PropertySynchronizers
 				lastPostedTransientValue = currUnityVal;
 				transientUpdater.UpdateWithNewData(lastPostedTransientValue); 
 			}
+		}
+
+		private bool EulersAreEqual(Vector3 a, Vector3 b, float lambda)
+		{
+			var angle = Quaternion.Angle(Quaternion.Euler(a), Quaternion.Euler(b));
+
+			return angle < lambda;
 		}
 
 		public void Dispose() { disp.Dispose(); }

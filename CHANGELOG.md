@@ -328,3 +328,9 @@
 - Space picker menu results are now sorted alphabetically.
 
 - Space picker menu always shows available spaces.
+
+
+## [2.4.11] - 2024-03-11
+
+### Fixed
+- Fixed euler angle properties detecting changes when none are present

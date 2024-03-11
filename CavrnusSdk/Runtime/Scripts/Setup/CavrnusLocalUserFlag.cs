@@ -17,41 +17,48 @@ namespace CavrnusSdk.Setup
 
                     CavrnusPropertyHelpers.ResetLiveHierarchyRootName(gameObject, $"{localUser.ContainerId}");
 
-                    //Transform is SEND-ONLY
 					foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<CavrnusTransformData>>())
 					{
-						sync.RecieveChanges = false;
 						sync.Setup();
-                        //We don't want users relying on default values for our initial position
-                        sync.ForceBeginTransientUpdate();
+                        //Force init user props
+                        if(sync.GetComponent<CavrnusPropertiesContainer>().UniqueContainerName.StartsWith(localUser.ContainerId))
+                            sync.ForceBeginTransientUpdate();
 					}
-
-                    //All others are RECV-ONLY
 					foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<bool>>())
                     {
-                        sync.SendMyChanges = false;
                         sync.Setup();
-                    }
+						//Force init user props
+						if (sync.GetComponent<CavrnusPropertiesContainer>().UniqueContainerName.StartsWith(localUser.ContainerId))
+							sync.ForceBeginTransientUpdate();
+					}
                     foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<float>>())
                     {
-                        sync.SendMyChanges = false;
                         sync.Setup();
-                    }
+						//Force init user props
+						if (sync.GetComponent<CavrnusPropertiesContainer>().UniqueContainerName.StartsWith(localUser.ContainerId))
+							sync.ForceBeginTransientUpdate();
+					}
                     foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<Color>>())
                     {
-                        sync.SendMyChanges = false;
                         sync.Setup();
-                    }
+						//Force init user props
+						if (sync.GetComponent<CavrnusPropertiesContainer>().UniqueContainerName.StartsWith(localUser.ContainerId))
+							sync.ForceBeginTransientUpdate();
+					}
                     foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<Vector4>>())
                     {
-                        sync.SendMyChanges = false;
                         sync.Setup();
-                    }
+						//Force init user props
+						if (sync.GetComponent<CavrnusPropertiesContainer>().UniqueContainerName.StartsWith(localUser.ContainerId))
+							sync.ForceBeginTransientUpdate();
+					}
                     foreach (var sync in gameObject.GetComponentsInChildren<CavrnusValueSync<string>>())
                     {
-                        sync.SendMyChanges = false;
                         sync.Setup();
-                    }
+						//Force init user props
+						if (sync.GetComponent<CavrnusPropertiesContainer>().UniqueContainerName.StartsWith(localUser.ContainerId))
+							sync.ForceBeginTransientUpdate();
+					}
                 });				
 			});
 		}
