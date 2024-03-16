@@ -1,0 +1,20 @@
+name: Publish Package to Verdaccio on Commit
+
+on:
+  push:
+    branches:
+      - master  # Adjust this to your main branch name
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Publish with Verdaccio
+        uses: verdaccio/github-actions/publish@master
+        with:
+          registry-url: 'https://packages.cavrn.us/'
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.VERDACCIO_TOKEN}}
