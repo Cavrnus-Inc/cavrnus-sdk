@@ -334,3 +334,9 @@
 
 ### Fixed
 - Fixed euler angle properties detecting changes when none are present
+
+
+## [2.4.13] - 2024-03-15
+
+### Added
+- Added package registry

@@ -5,12 +5,15 @@
   },
   "name": "com.cavrnus.csc",
   "displayName": "Cavrnus Spatial Connector",
-  "version": "2.4.11",
+  "version": "2.4.13",
   "unity": "2022.3",
   "description": "Cavrnus enhances 3D workflows by providing developers a seamless drag-and-drop toolkit for embedding collaborative features directly into Unity projects.",
   "repository": {
     "type": "git",
     "url": "https://github.com/Cavrnus-Inc/cavrnus-spatial-connector-unity.git"
+  },
+  "publishConfig": {
+    "registry": "https://packages.cavrn.us/"
   },
   "samples": [
     {
