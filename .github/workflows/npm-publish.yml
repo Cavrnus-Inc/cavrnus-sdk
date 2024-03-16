@@ -3,7 +3,7 @@ name: Publish Package to Verdaccio on Commit
 on:
   push:
     branches:
-      - master  # Adjust this to your main branch name
+      - master
 
 jobs:
   publish:
@@ -11,10 +11,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: Publish with Verdaccio
-        uses: verdaccio/github-actions/publish@master
-        with:
-          registry-url: 'https://packages.cavrn.us/'
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.VERDACCIO_TOKEN}}
+
+      - name: Login to Verdaccio
+        run: echo "//packages.cavrn.us/:_authToken=${{secrets.VERDACCIO_TOKEN}}" > ~/.npmrc
+
+      - name: Publish to Verdaccio
+        run: npm publish --registry https://packages.cavrn.us/
