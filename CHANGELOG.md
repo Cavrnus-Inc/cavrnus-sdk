@@ -346,3 +346,9 @@
 
 ### Added
 - Changes to README
+
+
+## [2.4.15] - 2024-03-18
+
+### Fixed
+- Fixed README image paths

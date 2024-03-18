@@ -1,6 +1,6 @@
 
 <p align="center">
-    <img src="Resources~/Readme/cav-logo.png" alt="Cavrnus Banner"/>
+    <img src="https://raw.githubusercontent.com/Cavrnus-Inc/cavrnus-spatial-connector-unity/master/Resources%7E/Readme/cav-logo.png" alt="Cavrnus Banner"/>
 </p>
 
 # <p style="text-align: center;">Cavrnus Spatial Connector</p>
@@ -29,7 +29,7 @@ The Cavrnus Spatial Connector (CSC) for Unity™ connects Unity’s powerful int
 1. Open Project Settings
      
 <p align="center">
-    <img src="Resources~/Readme/scoped-registry-package-manager-open-ps.png" alt="Cavrnus open project settings"/>
+    <img src="https://raw.githubusercontent.com/Cavrnus-Inc/cavrnus-spatial-connector-unity/master/Resources%7E/Readme/scoped-registry-package-manager-open-ps.png" alt="Cavrnus open project settings"/>
 </p>
 
 2. Navigate to Package Manager and add a new scoped registry using the following information:
@@ -38,25 +38,25 @@ The Cavrnus Spatial Connector (CSC) for Unity™ connects Unity’s powerful int
     * b. <b>Scope(s)</b>: com.cavrnus
 
 <p align="center">
-    <img src="Resources~/Readme/scoped-registry-package-manager.png" alt="Cavrnus open scoped registry window"/>
+    <img src="https://raw.githubusercontent.com/Cavrnus-Inc/cavrnus-spatial-connector-unity/master/Resources%7E/Readme/scoped-registry-package-manager.png" alt="Cavrnus open scoped registry window"/>
 </p>
 
 3. Open the Package Manager window.
 
 <p align="center">
-    <img src="Resources~/Readme/scoped-registry-package-manager-open-pm.png" alt="Cavrnus open my registries"/>
+    <img src="https://raw.githubusercontent.com/Cavrnus-Inc/cavrnus-spatial-connector-unity/master/Resources%7E/Readme/scoped-registry-package-manager-open-pm.png" alt="Cavrnus open my registries"/>
 </p>
 
 4. Once open, navigate to <b>My Registries</b>.
 
 <p align="center">
-    <img src="Resources~/Readme/scoped-registry-package-manager-my-reg.png" alt="Cavrnus open my registries"/>
+    <img src="https://raw.githubusercontent.com/Cavrnus-Inc/cavrnus-spatial-connector-unity/master/Resources%7E/Readme/scoped-registry-package-manager-my-reg.png" alt="Cavrnus open my registries"/>
 </p>
 
 5. Press <b>Install</b> to the load the package.
 
 <p align="center">
-    <img src="Resources~/Readme/scoped-registry-package-manager-install.png" alt="Cavrnus install"/>
+    <img src="https://raw.githubusercontent.com/Cavrnus-Inc/cavrnus-spatial-connector-unity/master/Resources%7E/Readme/scoped-registry-package-manager-install.png" alt="Cavrnus install"/>
 </p>
 
 6. Cavrnus Spatial Connector is now ready to be used.
