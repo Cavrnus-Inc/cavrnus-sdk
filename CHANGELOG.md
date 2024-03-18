@@ -340,3 +340,9 @@
 
 ### Added
 - Added package registry
+
+
+## [2.4.14] - 2024-03-18
+
+### Added
+- Changes to README
