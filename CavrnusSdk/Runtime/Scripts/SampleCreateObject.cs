@@ -30,12 +30,10 @@ namespace CavrnusSdk
 
 		private void CreateObject()
 		{
-			var pos = transform.position +
-			          new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), Random.Range(-2f, 2f));
+			var randomOffset = new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), Random.Range(-2f, 2f));
+			var pos = transform.position + randomOffset;
 
-			PostSpawnObjectWithUniqueId(spaceConn, UniqueObjectIdToSpawn,
-			                                           new CavrnusTransformData(
-				                                           pos, transform.localEulerAngles, Vector3.one));
+			PostSpawnObjectWithUniqueId(spaceConn, UniqueObjectIdToSpawn, new CavrnusTransformData(pos, transform.localEulerAngles, Vector3.one));
 		}
 		
 		// Temporarily moved out of CavrnusHelpers to avoid missing dependency when using package samples.

@@ -130,7 +130,7 @@ namespace CavrnusSdk.PropertySynchronizers
 
 			if (!hasChange) 
 			{
-				bool isUserProperty = sync.Context.UniqueContainerName.StartsWith("users/");
+				bool isUserProperty = sync.Context.UniqueContainerName.StartsWith("/users/");
                 //This change has timed out, time to finalize it
                 if (!isUserProperty && transientUpdater != null && Time.time - lastChangeTime > endChangeTimeGap) 
 				{

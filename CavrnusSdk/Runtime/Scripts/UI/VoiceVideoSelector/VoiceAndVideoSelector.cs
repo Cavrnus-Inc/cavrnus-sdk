@@ -23,7 +23,6 @@ namespace CavrnusSdk.UI
 		CavrnusSpaceConnection spaceConn;
 
 		private const string PLAYERPREFS_AUDIOINPUT = "CavrnusAudioInput";
-		private const string PLAYERPREFS_AUDIOOUTPUT = "CavrnusAudioOutput";
 
 		private void OnSpaceConnection(CavrnusSpaceConnection spaceConn)
 		{
@@ -57,7 +56,7 @@ namespace CavrnusSdk.UI
 						CavrnusFunctionLibrary.UpdateAudioInput(selection);
 					}
 				}
-				else if (CavrnusFunctionLibrary.GetCurrentAudioInputDevice() != null && inputs.Count > 0) {
+				else if (inputs.Count > 0) {
 					AudioInputs.value = 0;
 					CavrnusFunctionLibrary.UpdateAudioInput(inputs[0]);
 				}

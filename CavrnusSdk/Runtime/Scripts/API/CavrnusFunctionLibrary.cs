@@ -39,7 +39,7 @@ namespace CavrnusSdk.API
 			CavrnusAuthHelpers.AuthenticateAsGuest(server.Trim(), userName.Trim(), onSuccess, onFailure);
 		}
 
-		//Throws an even when user authentication is complete
+		//Throws an event when user authentication is complete
 		public static void AwaitAuthentication(Action<CavrnusAuthentication> onAuth)
 		{
 			CavrnusAuthHelpers.AwaitAuthentication(onAuth);
@@ -388,8 +388,6 @@ namespace CavrnusSdk.API
         {
             return user.vidProvider.providedTexture.Bind(frame =>
 			{
-                Debug.Log($"BUILDING SPRITE FOR USER {user.ContainerId} local({user.IsLocalUser}) with Frame: {frame}");
-
                 if (frame == null)
 					return;
 
@@ -413,13 +411,6 @@ namespace CavrnusSdk.API
 			spaceConnection.RoomSystem.Comm.LocalCommUser.Value.UpdateLocalUserCameraStreamState(streaming);
 		}
 
-		//Gets the current audio input device
-		public static CavrnusInputDevice GetCurrentAudioInputDevice()
-		{
-			var input = CavrnusStatics.RtcContext.CurrentAudioInputSource.Value;
-			return new CavrnusInputDevice(input.Name, input.Id);
-		}
-
         //Gets available microphones
         public static void FetchAudioInputs(Action<List<CavrnusInputDevice>> onRecvDevices)
 		{
@@ -440,12 +431,6 @@ namespace CavrnusSdk.API
 			CavrnusStatics.RtcContext.ChangeAudioInputDevice(new Collab.RtcCommon.RtcInputSource() { Id = device.Id, Name = device.Name },
 																   (s) => Debug.Log("Changed audio input device to: " + s),
 																   err => Debug.LogError("Failed to change audio input device: " + err));
-		}
-
-		public static CavrnusVideoInputDevice GetCurrentVideoInputDevice()
-		{
-			var input = CavrnusStatics.RtcContext.CurrentVideoInputSource.Value;
-			return new CavrnusVideoInputDevice(input.Name, input.Id);
 		}
 
         //Gets available camera/stream sources

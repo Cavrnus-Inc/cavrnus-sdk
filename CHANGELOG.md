@@ -352,3 +352,9 @@
 
 ### Fixed
 - Fixed README image paths
+
+
+## [2.4.16] - 2024-03-19
+
+### Fixed
+- Fixed user transients accidentally finalizing, causing unexpected properties to show
