@@ -413,3 +413,9 @@
 ### Removed
 - Removed XR content out of this core package to dedicated com.cavrnus.xr package.
 
+
+
+## [2.6.1] - 2024-03-20
+
+### Changed
+- Updated Collab Plugins
