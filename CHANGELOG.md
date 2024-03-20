@@ -406,3 +406,10 @@
 
 ### Removed
 - Removed Holo Loader from CSC package. Now lives in it's own package.
+
+
+## [2.6.0] - 2024-03-20
+
+### Removed
+- Removed XR content out of this core package to dedicated com.cavrnus.xr package.
+
