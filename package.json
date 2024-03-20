@@ -5,7 +5,7 @@
   },
   "name": "com.cavrnus.csc",
   "displayName": "Cavrnus Spatial Connector",
-  "version": "2.4.16",
+  "version": "2.5.0",
   "unity": "2022.3",
   "description": "Cavrnus enhances 3D workflows by providing developers a seamless drag-and-drop toolkit for embedding collaborative features directly into Unity projects.",
   "repository": {
@@ -25,21 +25,6 @@
       "displayName": "Permissions",
       "description": "Examples showing how to use roles and policies to tailor content for users.",
       "path": "Samples~/Permissions"
-    },
-    {
-      "displayName": "Holo",
-      "description": ".holo is a universal file format developed by Cavrnus to deploy live content at runtime.",
-      "path": "Samples~/HoloLoader"
-    },
-    {
-      "displayName": "Xr Ui",
-      "description": "Xr specific prefabs meant to work on a variety of Xr devices.",
-      "path": "Samples~/Platforms/XR"
-    },
-    {
-      "displayName": "Ar Tracking",
-      "description": "Provided Ar components demonstrating adjusting world origin for tracked objects.",
-      "path": "Samples~/Platforms/AR"
     },
     {
       "displayName": "Standard Renderer Pipeline Examples",

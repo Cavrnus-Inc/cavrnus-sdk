@@ -358,3 +358,51 @@
 
 ### Fixed
 - Fixed user transients accidentally finalizing, causing unexpected properties to show
+
+
+## [2.4.17] - 2024-03-19
+
+### Added
+- Added a new feature
+
+### Changed
+- 
+
+### Deprecated
+- 
+
+### Removed
+- 
+
+### Fixed
+- 
+
+### Security
+-
+
+
+## [2.4.18] - 2024-03-19
+
+### Added
+- Added a new feature
+
+### Changed
+- 
+
+### Deprecated
+- 
+
+### Removed
+- 
+
+### Fixed
+- 
+
+### Security
+-
+
+
+## [2.5.0] - 2024-03-20
+
+### Removed
+- Removed Holo Loader from CSC package. Now lives in it's own package.
