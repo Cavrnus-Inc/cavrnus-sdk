@@ -1,9 +1,11 @@
-name: Publish Package to Verdaccio on Commit
+name: Publish Package to Verdaccio [https://packages.cavrn.us/] on Commit
 
 on:
   push:
+    tags:
+      - '*' # Trigger on all tags, maybe use 'v' prefix?
     branches:
-      - master
+      - release # Only trigger on the release branch
 
 jobs:
   publish:
@@ -14,6 +16,11 @@ jobs:
     
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Update package.json version
+        run: |
+          tag=$(git describe --tags)
+          npm version $tag --allow-same-version
 
       - name: Login to Verdaccio
         run: echo "//packages.cavrn.us/:_authToken=${{secrets.VERDACCIO_TOKEN}}" > ~/.npmrc
