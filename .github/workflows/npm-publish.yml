@@ -11,9 +11,6 @@ jobs:
     steps:
       - name: Delete .github folder
         run: rm -rf .github
-
-      - name: Delete .gitignore file
-        run: rm .gitignore
     
       - name: Checkout code
         uses: actions/checkout@v2
