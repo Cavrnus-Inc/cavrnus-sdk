@@ -419,3 +419,9 @@
 
 ### Changed
 - Updated Collab Plugins
+
+
+## [2.6.2] - 2024-03-22
+
+### Fixed
+- Added safeties when checking values from server and local..

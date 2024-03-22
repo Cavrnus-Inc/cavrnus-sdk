@@ -17,7 +17,7 @@ namespace CavrnusSdk.Setup.Editor
 			}
 
 			string cscPackagePath = "Packages/com.cavrnus.csc/CavrnusSdk/Runtime/Prefabs/Cavrnus Spatial Connector.prefab";
-			string cscAssetsPath = "Assets/CavrnusSdk/Runtime/Prefabs/Cavrnus Spatial Connector.prefab";
+			string cscAssetsPath = "Assets/com.cavrnus.csc/CavrnusSdk/Runtime/Prefabs/Cavrnus Spatial Connector.prefab";
 
             var corePrefab = AssetDatabase.LoadAssetAtPath<CavrnusSpatialConnector>(cscPackagePath);
 
@@ -38,7 +38,7 @@ namespace CavrnusSdk.Setup.Editor
 			Selection.SetActiveObjectWithContext(ob, ob);
 
 			string canvasPackagesPath = "Packages/com.cavrnus.csc/CavrnusSdk/Runtime/Prefabs/Cavrnus UI Canvas.prefab";
-			string canvasAssetsPath = "Assets/CavrnusSdk/Runtime/Prefabs/Cavrnus UI Canvas.prefab";
+			string canvasAssetsPath = "Assets/com.cavrnus.cscCavrnusSdk/Runtime/Prefabs/Cavrnus UI Canvas.prefab";
 
             var canvasPrefab = AssetDatabase.LoadAssetAtPath<Canvas>(canvasPackagesPath);
 

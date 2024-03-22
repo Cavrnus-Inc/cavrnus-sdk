@@ -89,7 +89,7 @@ namespace CavrnusSdk.PropertySynchronizers
 			}
 
 			T currUnityVal = sync.GetValue();
-			bool hasChange = !currPropertyValue.Equals(currUnityVal);
+			bool hasChange = !Equals(currPropertyValue, currUnityVal);
 
 			if (typeof(T) == typeof(Color))
 			{
@@ -101,7 +101,7 @@ namespace CavrnusSdk.PropertySynchronizers
 			{
 				string serverVal = currPropertyValue as string;
 				string unityVal = currUnityVal as string;
-				hasChange = !serverVal.Equals(unityVal);
+				hasChange = !Equals(unityVal, serverVal);
 			}
 			else if (typeof(T) == typeof(bool))
 			{
@@ -125,7 +125,13 @@ namespace CavrnusSdk.PropertySynchronizers
 			{
 				var serverVal = currPropertyValue as CavrnusTransformData;
 				var unityVal = currUnityVal as CavrnusTransformData;
-				hasChange = !serverVal.Position.AlmostEquals(unityVal.Position, .001f) || !EulersAreEqual(serverVal.EulerAngles, unityVal.EulerAngles, .1f) || !serverVal.Scale.AlmostEquals(unityVal.Scale, .001f);
+
+				if (serverVal == null || unityVal == null) {
+					hasChange = true;
+				}
+				else {
+					hasChange = !serverVal.Position.AlmostEquals(unityVal.Position, .001f) || !EulersAreEqual(serverVal.EulerAngles, unityVal.EulerAngles, .1f) || !serverVal.Scale.AlmostEquals(unityVal.Scale, .001f);
+				}
 			}
 
 			if (!hasChange) 
