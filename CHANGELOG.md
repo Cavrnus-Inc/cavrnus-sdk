@@ -425,3 +425,9 @@
 
 ### Fixed
 - Added safeties when checking values from server and local..
+
+
+## [2.6.3] - 2024-03-28
+
+### Added
+- Property drawer password field component to hide CSC member password entry

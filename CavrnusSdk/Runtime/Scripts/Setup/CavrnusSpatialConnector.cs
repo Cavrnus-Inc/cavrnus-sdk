@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CavrnusCore;
 using UnityEngine;
 using CavrnusSdk.API;
+using CavrnusSdk.Editor.PropertyDrawers;
 
 namespace CavrnusSdk.Setup
 {
@@ -40,6 +41,8 @@ namespace CavrnusSdk.Setup
 		public GameObject MemberLoginMenu;
 
 		public string MemberEmail;
+		
+		[PasswordField]
 		public string MemberPassword;
 
 		public string GuestName;
