@@ -17,11 +17,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Update package.json version
-        run: |
-          tag=$(git describe --tags)
-          npm version $tag --allow-same-version
-
       - name: Login to Verdaccio
         run: echo "//packages.cavrn.us/:_authToken=${{secrets.VERDACCIO_TOKEN}}" > ~/.npmrc
 
