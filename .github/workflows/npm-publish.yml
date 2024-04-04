@@ -1,14 +1,13 @@
 name: Publish Package to Verdaccio [https://packages.cavrn.us/] on Commit
 
 on:
-  push:
+  release: # This should only happen when pushing a release ie. pushing tag.
     tags:
-      - '*' # Trigger on all tags, maybe use 'v' prefix?
-    branches:
-      - release # Only trigger on the release branch
+      - '*' # Trigger on all tags
 
 jobs:
   publish:
+    if: startsWith(github.ref, 'refs/tags/') && github.ref == 'refs/heads/release'
     runs-on: ubuntu-latest
     steps:
       - name: Delete .github folder
