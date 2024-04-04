@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CavrnusSdk.PropertySynchronizers.CommonImplementations
 {
-	public class SyncTmpText : CavrnusStringPropertySynchronizer
+	public class SyncTmpText : CavrnusValueSyncString
 	{
 		[Header("The text component you want to update")]
 		public TMP_Text TextComponent;

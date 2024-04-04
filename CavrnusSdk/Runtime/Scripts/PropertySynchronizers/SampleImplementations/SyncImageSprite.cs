@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace CavrnusSdk.PropertySynchronizers.CommonImplementations
 {
-    public class SyncImageSprite : CavrnusStringPropertySynchronizer
+    public class SyncImageSprite : CavrnusValueSyncString
     {
         [SerializeField] private List<Sprite> sprites;
         public readonly Dictionary<string, Sprite> SpriteLookup = new Dictionary<string, Sprite>();

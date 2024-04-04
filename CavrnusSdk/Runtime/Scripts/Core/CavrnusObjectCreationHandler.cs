@@ -12,8 +12,10 @@ using CavrnusSdk.Setup;
 
 namespace CavrnusCore
 {
-	internal class CavrnusObjectCreationHandler : IDisposable
+	public class CavrnusObjectCreationHandler : IDisposable
 	{
+		public Dictionary<string, Action<CavrnusSpawnedObject, GameObject>> SpawnCallbacks = new Dictionary<string, Action<CavrnusSpawnedObject, GameObject>>();
+
 		private List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnablePrefabs;
 
         private Dictionary<string, GameObject> createdObjects = new Dictionary<string, GameObject>();
@@ -51,8 +53,15 @@ namespace CavrnusCore
                     var ob = GameObject.Instantiate(prefab, initialTransform.Position, Quaternion.Euler(initialTransform.EulerAngles));
 					createdObjects[createOp.Op.NewObjectId] = ob.gameObject;
 					ob.gameObject.name = $"{createOp.Op.NewObjectId} ({prefab.name})";
-					ob.gameObject.AddComponent<CavrnusSpawnedObjectFlag>().Init(new CavrnusSpawnedObject(createOp.Op.NewObjectId, createOp.Id, spaceConn));
+					var spawnedObject = new CavrnusSpawnedObject(createOp.Op.NewObjectId, createOp.Id, spaceConn);
+					ob.gameObject.AddComponent<CavrnusSpawnedObjectFlag>().Init(spawnedObject);
 					CavrnusPropertyHelpers.ResetLiveHierarchyRootName(ob.gameObject, createOp.Op.NewObjectId);
+
+					if(SpawnCallbacks.ContainsKey(createOp.Op.NewObjectId))
+					{
+						SpawnCallbacks[createOp.Op.NewObjectId].Invoke(spawnedObject, ob);
+						SpawnCallbacks.Remove(createOp.Op.NewObjectId);
+					}
 				}
 				else {
 					Debug.LogWarning(

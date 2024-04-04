@@ -52,7 +52,7 @@ namespace CavrnusSdk.Setup
 
 		public enum SpaceJoinOption
 		{
-			EnterSpaceId = 0,
+			JoinId = 0,
 			SpacesList = 1,
 			None = 2,
 		}
@@ -207,7 +207,7 @@ namespace CavrnusSdk.Setup
 				GameObject.Destroy(ui);
 			CurrentAuthenticationUi.Clear();
 
-			if (SpaceJoinMethod == SpaceJoinOption.EnterSpaceId)
+			if (SpaceJoinMethod == SpaceJoinOption.JoinId)
 			{
 				CavrnusFunctionLibrary.AwaitAnySpaceBeginLoading(spaceId => SetupLoadingUi(GetCurrentSpaceJoinUi(), false));
 				

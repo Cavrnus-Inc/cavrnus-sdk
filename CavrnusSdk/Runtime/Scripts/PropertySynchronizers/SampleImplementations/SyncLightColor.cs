@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CavrnusSdk.PropertySynchronizers.CommonImplementations
 {
-    public class SyncLightColor : CavrnusColorPropertySynchronizer
+    public class SyncLightColor : CavrnusValueSyncColor
     {
         public override Color GetValue()
         {

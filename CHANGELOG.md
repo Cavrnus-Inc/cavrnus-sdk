@@ -431,3 +431,21 @@
 
 ### Added
 - Property drawer password field component to hide CSC member password entry
+
+
+## [2.7.0] - 2024-04-04
+
+### Added
+- Add server input into welcome modal.
+- Add join config to CSC component.
+- Add optional callback to SpawnObject which gives the actual ob when it arrives.
+- Add spawnObject shortcut that takes a Transform.
+- Add new demo scene "Sample Cavrnus Connected Space" that includes common sync samples.
+
+### Changed
+- Rename ValueSync components to match latest in Unreal
+
+### Fixed
+- Sample scene cleanup. Updated out of date components.
+- Fix builds breaking. Add Unity scripting symbols around custom property drawers.
+- Fix broken XR menus due to deprecated code.

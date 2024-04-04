@@ -11,7 +11,7 @@ namespace CavrnusSdk.API
 	public class CavrnusSpaceConnection : IDisposable
 	{
 		public RoomSystem RoomSystem;
-		private CavrnusObjectCreationHandler CreationHandler;
+		public CavrnusObjectCreationHandler CreationHandler;
 		private IDisposable timeUpdater;
 
 		public CavrnusSpaceConnection(RoomSystem roomSystem, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects)

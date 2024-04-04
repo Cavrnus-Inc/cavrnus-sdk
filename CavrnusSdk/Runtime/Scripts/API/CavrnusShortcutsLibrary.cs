@@ -79,5 +79,23 @@ namespace CavrnusSdk.API
         {
             spaceConn.PostTransformPropertyUpdate(containerName, propertyName, new CavrnusTransformData(transform.localPosition, transform.localEulerAngles, transform.localScale));
         }
+
+		public static string SpawnObject(this CavrnusSpaceConnection spaceConn, string uniqueId, Vector3 pos, Action<CavrnusSpawnedObject, GameObject> onSpawnComplete = null)
+		{
+			string instanceContainerId = spaceConn.SpawnObject(uniqueId, onSpawnComplete);
+
+			spaceConn.PostTransformPropertyUpdate(instanceContainerId, "Transform", pos, Vector3.zero, Vector3.one);
+
+			return instanceContainerId;
+		}
+
+		public static string SpawnObject(this CavrnusSpaceConnection spaceConn, string uniqueId, Vector3 pos, Vector3 rot, Vector3 scale, Action<CavrnusSpawnedObject, GameObject> onSpawnComplete = null)
+        {
+			string instanceContainerId = spaceConn.SpawnObject(uniqueId, onSpawnComplete);
+
+			spaceConn.PostTransformPropertyUpdate(instanceContainerId, "Transform", pos, rot, scale);
+
+            return instanceContainerId;
+		}
     }
 }

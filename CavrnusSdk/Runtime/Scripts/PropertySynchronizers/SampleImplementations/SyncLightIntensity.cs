@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CavrnusSdk.PropertySynchronizers.CommonImplementations
 {
-    public class SyncLightIntensity : CavrnusFloatPropertySynchronizer
+    public class SyncLightIntensity : CavrnusValueSyncFloat
     {
         public override float GetValue()
         {

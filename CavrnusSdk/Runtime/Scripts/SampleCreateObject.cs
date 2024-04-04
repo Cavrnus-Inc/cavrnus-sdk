@@ -37,11 +37,11 @@ namespace CavrnusSdk
 		}
 		
 		// Temporarily moved out of CavrnusHelpers to avoid missing dependency when using package samples.
-		private string PostSpawnObjectWithUniqueId(CavrnusSpaceConnection spaceConn, string uniqueId, CavrnusTransformData pos = null)
+		private string PostSpawnObjectWithUniqueId(CavrnusSpaceConnection spaceConn, string uniqueId, CavrnusTransformData pos)
 		{
 			string newContainerName = spaceConn.SpawnObject(uniqueId);
-			if(pos != null)
-				spaceConn.PostTransformPropertyUpdate(newContainerName, "Transform", pos);
+			
+			spaceConn.PostTransformPropertyUpdate(newContainerName, "Transform", pos);
 
 			return newContainerName;
 		}

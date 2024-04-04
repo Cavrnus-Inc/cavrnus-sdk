@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using FM.LiveSwitch.Dtmf;
 
 namespace CavrnusSdk.Setup.Editor
 {
@@ -41,9 +42,9 @@ namespace CavrnusSdk.Setup.Editor
 
         SerializedProperty AdditionalSettings;
 
-        void OnEnable()
+        private void OnEnable()
 		{
-			MyServer = serializedObject.FindProperty("MyServer");
+			MyServer = serializedObject.FindProperty(nameof(MyServer));
 
 			AuthenticationMethod = serializedObject.FindProperty(nameof(AuthenticationMethod));
 			MemberLoginMethod = serializedObject.FindProperty(nameof(MemberLoginMethod));
@@ -60,27 +61,25 @@ namespace CavrnusSdk.Setup.Editor
 			SaveUserToken = serializedObject.FindProperty(nameof(SaveUserToken));
 			SaveGuestToken = serializedObject.FindProperty(nameof(SaveGuestToken));
 
-			SpaceJoinMethod = serializedObject.FindProperty("SpaceJoinMethod");
+			SpaceJoinMethod = serializedObject.FindProperty(nameof(SpaceJoinMethod));
 
-			SpacesListMenu = serializedObject.FindProperty("SpacesListMenu");
+			SpacesListMenu = serializedObject.FindProperty(nameof(SpacesListMenu));
 
-			AutomaticSpaceJoinId = serializedObject.FindProperty("AutomaticSpaceJoinId");
+			AutomaticSpaceJoinId = serializedObject.FindProperty(nameof(AutomaticSpaceJoinId));
 
-			LoadingMenus = serializedObject.FindProperty("LoadingMenus");
+			LoadingMenus = serializedObject.FindProperty(nameof(LoadingMenus));
 
-			SpaceMenus = serializedObject.FindProperty("SpaceMenus");
+			SpaceMenus = serializedObject.FindProperty(nameof(SpaceMenus));
 
-			RemoteUserAvatar = serializedObject.FindProperty("RemoteUserAvatar");
+			RemoteUserAvatar = serializedObject.FindProperty(nameof(RemoteUserAvatar));
 
-			UiCanvas = serializedObject.FindProperty("UiCanvas");
+			UiCanvas = serializedObject.FindProperty(nameof(UiCanvas));
 
-			SpawnableObjects = serializedObject.FindProperty("SpawnableObjects");
+			SpawnableObjects = serializedObject.FindProperty(nameof(SpawnableObjects));
 
-            AdditionalSettings = serializedObject.FindProperty("AdditionalSettings");
+            AdditionalSettings = serializedObject.FindProperty(nameof(AdditionalSettings));
         }
 
-        private string memberPassword = "";
-        private bool passwordVis = false;
 		public override void OnInspectorGUI()
 		{
 			serializedObject.Update();
@@ -167,8 +166,8 @@ namespace CavrnusSdk.Setup.Editor
 				
 				EditorGUILayout.Space();
 				EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("User accounts can be created and managed in the Admin Portal:");
-				AdminPortalButton();
+				EditorGUILayout.LabelField("User accounts can be created and managed in the Web Console:");
+				WebConsoleButton();
 				EditorGUILayout.EndHorizontal();
 			}
 			else if (AuthenticationMethod.enumValueFlag == 2) //None
@@ -191,13 +190,13 @@ namespace CavrnusSdk.Setup.Editor
 
 			if (SpaceJoinMethod.enumValueFlag == 0) //Automatic
 			{
-				EditorGUILayout.LabelField("Automatically join the given space:");
+				EditorGUILayout.LabelField("Automatically use the given join config:");
 
 				EditorGUILayout.PropertyField(AutomaticSpaceJoinId);
 
 				EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Spaces can be created and managed from the Admin Portal:");
-				AdminPortalButton();
+				EditorGUILayout.LabelField("Spaces can be created and managed from the Web Console:");
+				WebConsoleButton();
 				EditorGUILayout.EndHorizontal();
 				
 				// Auto Auth
@@ -335,11 +334,14 @@ namespace CavrnusSdk.Setup.Editor
 			EditorGUILayout.Space();
 		}
 
-		private void AdminPortalButton()
+		//TODO: Update this to be the console!!!
+		private void WebConsoleButton()
 		{
-			if (EditorGUILayout.LinkButton("Admin Portal"))
-			{
-				if (string.IsNullOrEmpty(MyServer.stringValue))
+			if (EditorGUILayout.LinkButton("Web Console"))
+			{				
+				Application.OpenURL("https://console.dev.cavrn.us/spaces");
+
+				/*if (string.IsNullOrEmpty(MyServer.stringValue))
 				{
 					//TODO: Pop something up in their faces
 					Debug.LogError("No Server specified!");
@@ -351,7 +353,7 @@ namespace CavrnusSdk.Setup.Editor
 						server = "http://" + server + "/admin/spaces";
 
 					Application.OpenURL(server);
-				}
+				}*/
 			}
 		}
 	}

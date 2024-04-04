@@ -33,12 +33,12 @@ namespace CavrnusSdk.Setup.Editor
 
 			var ob = PrefabUtility.InstantiatePrefab(corePrefab);
 
-			(ob as CavrnusSpatialConnector).transform.SetAsFirstSibling();
+			(ob as CavrnusSpatialConnector).MyServer = EditorPrefs.GetString("CavrnusServer");
 
 			Selection.SetActiveObjectWithContext(ob, ob);
 
 			string canvasPackagesPath = "Packages/com.cavrnus.csc/CavrnusSdk/Runtime/Prefabs/Cavrnus UI Canvas.prefab";
-			string canvasAssetsPath = "Assets/com.cavrnus.cscCavrnusSdk/Runtime/Prefabs/Cavrnus UI Canvas.prefab";
+			string canvasAssetsPath = "Assets/com.cavrnus.csc/CavrnusSdk/Runtime/Prefabs/Cavrnus UI Canvas.prefab";
 
             var canvasPrefab = AssetDatabase.LoadAssetAtPath<Canvas>(canvasPackagesPath);
 
@@ -54,6 +54,9 @@ namespace CavrnusSdk.Setup.Editor
 
             var canvasOb = PrefabUtility.InstantiatePrefab(canvasPrefab);
             (ob as CavrnusSpatialConnector).UiCanvas = (canvasOb as Canvas);
+
+			(canvasOb as Canvas).transform.SetAsFirstSibling();
+			(ob as CavrnusSpatialConnector).transform.SetAsFirstSibling();
 
 			Debug.Log("Cavrnus UI will spawn under the Cavrnus UI Canvas object.  To change this, select your desired canvas and click \"Cavrnus->Spawn Cavrnus UI in Selected Canvas\"");
 		}

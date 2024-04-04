@@ -30,7 +30,7 @@ namespace CavrnusSdk.StreamBoards
             
             var ctx = Instantiate(ctxMenuPrefab, null);
             
-            ctx.GetComponentInChildren<CavrnusStreamContextMenu>().Setup(CavrnusFunctionLibrary.GetCurrentSpaceUsers(spaceConn), user => {
+            ctx.GetComponentInChildren<CavrnusStreamContextMenu>().Setup(spaceConn.GetCurrentSpaceUsers(), user => {
                 board.UpdateAndBindUserTexture(user);
 
                 Destroy(ctx.gameObject);

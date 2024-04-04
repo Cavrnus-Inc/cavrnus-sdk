@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CavrnusSdk.PropertySynchronizers.CommonImplementations
 {
-	public class SyncMaterialInstanceColor : CavrnusColorPropertySynchronizer
+	public class SyncMaterialInstanceColor : CavrnusValueSyncColor
 	{
 		public override Color GetValue() { return GetComponent<MeshRenderer>().material.color; }
 

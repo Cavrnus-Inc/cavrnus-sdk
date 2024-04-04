@@ -1,6 +1,6 @@
 namespace CavrnusSdk.PropertySynchronizers.CommonImplementations
 {
-	public class SyncVisibility : CavrnusBooleanPropertySynchronizer
+	public class SyncVisibility : CavrnusValueSyncBool
 	{
 		public override bool GetValue() { return gameObject.activeSelf; }
 

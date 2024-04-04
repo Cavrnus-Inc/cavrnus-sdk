@@ -69,9 +69,9 @@ namespace CavrnusSdk.API
 		}
 
         //Connects to a Space; joining voice & video and receiving/processing the journal
-        public static void JoinSpace(string spaceId, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure)
+        public static void JoinSpace(string joinId, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure)
 		{
-			CavrnusSpaceHelpers.JoinSpace(spaceId.Trim(), CavrnusSpatialConnector.Instance.SpawnableObjects, onConnected, onFailure);
+			CavrnusSpaceHelpers.JoinSpace(joinId.Trim(), CavrnusSpatialConnector.Instance.SpawnableObjects, onConnected, onFailure);
 		}
 
         //Triggers when you begin attempting to join a space, returning the ID of the space being joined
@@ -328,13 +328,18 @@ namespace CavrnusSdk.API
         // ============================================
 
         //Instantiates the given object with no set properties (note you will need to pull the Container ID out of the Spawned Object and assign property values to it)
-        public static string SpawnObject(this CavrnusSpaceConnection spaceConn, string uniqueIdentifier)
+        public static string SpawnObject(this CavrnusSpaceConnection spaceConn, string uniqueIdentifier, Action<CavrnusSpawnedObject, GameObject> onObjectCreated = null)
 		{
 			var newId = spaceConn.RoomSystem.Comm.CreateNewUniqueObjectId();
 			var creatorId = spaceConn.RoomSystem.Comm.LocalCommUser.Value.ConnectionId;
 			var contentType = new ContentTypeWellKnownId(uniqueIdentifier);
 
 			var createOp = new OpCreateObjectLive(null, newId, creatorId, contentType).ToOp();
+
+			if(onObjectCreated != null)
+			{
+				spaceConn.CreationHandler.SpawnCallbacks.Add(newId, onObjectCreated);
+			}
 
 			spaceConn.RoomSystem.Comm.SendJournalEntry(createOp, null);
 

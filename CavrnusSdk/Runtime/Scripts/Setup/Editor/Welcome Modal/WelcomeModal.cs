@@ -8,15 +8,18 @@ namespace CavrnusSdk.Setup.Editor
 {
     public class WelcomeModal : EditorWindow
     {
-        private static readonly Vector2 WindowSize = new Vector2(600, 500);
-        private readonly Vector2 mainButtonSize = new Vector2(270, 40);
+        private static readonly Vector2 WindowSize = new Vector2(600, 540);
+		private readonly Vector2 textInputSize = new Vector2(270, 20);
+		private readonly Vector2 mainButtonSize = new Vector2(270, 40);
         private readonly Vector2 smallerButtonSize = new Vector2(140, 27);
         
         private const float Space = 10;
         private const int Padding = 10;
 
         private static bool shouldAutoOpen = true;
-        private static WelcomeModal window;
+		private static string CustomerServer = "";
+
+		private static WelcomeModal window;
 
         [MenuItem("Cavrnus/Welcome")]
         public static void Init()
@@ -26,7 +29,8 @@ namespace CavrnusSdk.Setup.Editor
 
         private static void ShowWindow()
         {
-            window = GetWindow<WelcomeModal>();
+			CustomerServer = EditorPrefs.GetString("CavrnusServer");
+			window = GetWindow<WelcomeModal>();
             window.CreateCenteredWindow("Cavrnus Spatial Connector", WindowSize);
             window.CenterOnMainWin();
 
@@ -73,7 +77,15 @@ namespace CavrnusSdk.Setup.Editor
             
             GUILayout.BeginVertical();
 
-            CreateLargeButton("Set up your Scene", mainButtonSize, CavrnusSetupHelpers.SetupSceneForCavrnus);
+            CreateTextInput("Input Your Server:", textInputSize, () => CustomerServer, (server) =>
+            {
+				if (server != CustomerServer && !server.StartsWith(".") && !server.EndsWith("."))
+				{
+					EditorPrefs.SetString("CavrnusServer", server);
+				}
+				CustomerServer = server;
+			});
+			CreateLargeButton("Set up your Scene", mainButtonSize, CavrnusSetupHelpers.SetupSceneForCavrnus);
             CreateLargeButton("Web Console",  mainButtonSize,()=> Application.OpenURL("https://app.cavrn.us/"));
             
             CustomEditorUtilities.AddSpace(5);
@@ -137,7 +149,7 @@ namespace CavrnusSdk.Setup.Editor
                     fontSize = 30,
                 };
                 
-                const string assetsPath = "Assets/CavrnusSdk/Runtime/Scripts/Setup/Editor/Welcome Modal/cav-logo.png";
+                const string assetsPath = "Assets/com.cavrnus.csc/CavrnusSdk/Runtime/Scripts/Setup/Editor/Welcome Modal/cav-logo.png";
                 const string packagePath = "Packages/com.cavrnus.csc/CavrnusSdk/Runtime/Scripts/Setup/Editor/Welcome Modal/cav-logo.png";
                 var path = File.Exists(assetsPath) ? assetsPath : packagePath;
 
@@ -148,8 +160,22 @@ namespace CavrnusSdk.Setup.Editor
 
             GUILayout.EndVertical();
         }
-        
-        private void CreateLargeButton(string text, Vector2 size, Action onClick)
+
+        private void CreateTextInput(string text, Vector2 size, Func<string> getString, Action<string> onEdit)
+        {
+			GUILayout.BeginHorizontal();
+			GUILayout.FlexibleSpace();
+			GUILayout.BeginVertical();
+
+			string res = CustomEditorUtilities.CreateTextFieldWithLabel(getString(), text, 10, (int)size.x);
+			onEdit(res);
+
+			GUILayout.EndVertical();
+			GUILayout.FlexibleSpace();
+			GUILayout.EndHorizontal();
+		}
+
+		private void CreateLargeButton(string text, Vector2 size, Action onClick)
         {
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
@@ -176,9 +202,10 @@ namespace CavrnusSdk.Setup.Editor
         private static string GetPackageVersion()
         {
             var result = "";
-            const string assetsPath = "Assets/package.json";
-            const string packagePath = "Packages/com.cavrnus.csc/package.json";
-
+            
+            var assetsPath = "Assets/com.cavrnus.csc/package.json";
+            var packagePath = "Packages/com.cavrnus.csc/package.json";
+            
             var path = File.Exists(assetsPath) ? assetsPath : packagePath;
                 
             if (File.Exists(path)) {

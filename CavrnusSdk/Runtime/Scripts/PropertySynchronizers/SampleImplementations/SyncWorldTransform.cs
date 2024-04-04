@@ -2,7 +2,7 @@ using CavrnusSdk.API;
 
 namespace CavrnusSdk.PropertySynchronizers.CommonImplementations
 {
-    public class SyncWorldTransform : CavrnusTransformPropertySynchronizer
+    public class SyncWorldTransform : CavrnusValueSyncTransform
     {
         public override CavrnusTransformData GetValue()
         {

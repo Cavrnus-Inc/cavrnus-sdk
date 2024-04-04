@@ -19,16 +19,14 @@ namespace CavrnusCore
 	{
 		internal static List<CavrnusSpaceConnection> SpaceConnections = new List<CavrnusSpaceConnection>();
 
-		internal static async void JoinSpace(string roomId, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure)
+		internal static async void JoinSpace(string joinId, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure)
 		{
 			if (onLoadingEvents.Count > 0)
 			{
 				foreach (var onLoadingEvent in onLoadingEvents)
-					onLoadingEvent?.Invoke(roomId);
+					onLoadingEvent?.Invoke(joinId);
 				onLoadingEvents.Clear();
 			}
-
-			await CavrnusStatics.Notify.RoomsSystem.StartListeningSpecificAsync(roomId);
 
 			var contentManager = new ServerContentCacheManager(new FrameworkNetworkRequestImplementation());
 			contentManager.SetEndpoint(CavrnusAuthHelpers.CurrentAuthentication.Endpoint);
@@ -49,7 +47,7 @@ namespace CavrnusCore
 
 			RoomSystem rs = new RoomSystem(CavrnusStatics.RtcContext, CavrnusStatics.Scheduler.BaseScheduler, liveObjectContext, null, null, env, null);
 
-			rs.InitializeConnection(CavrnusAuthHelpers.CurrentAuthentication.Endpoint, roomId);
+			rs.InitializeConnection(CavrnusAuthHelpers.CurrentAuthentication.Endpoint, joinId);
 
 			await rs.AwaitJournalProcessed();
 
