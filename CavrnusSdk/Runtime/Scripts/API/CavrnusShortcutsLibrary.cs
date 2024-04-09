@@ -8,40 +8,45 @@ namespace CavrnusSdk.API
 {
     public static class CavrnusShortcutsLibrary
     {
-        public static IDisposable BindUserSpeaking(this CavrnusUser user, Action<bool> onSpeakingChanged)
+		public static bool GetUserSpeaking(this CavrnusUser user)
+		{
+			return user.SpaceConnection.GetBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Speaking);
+		}
+
+		public static IDisposable BindUserSpeaking(this CavrnusUser user, Action<bool> onSpeakingChanged)
         {
             return user.SpaceConnection.BindBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Speaking, onSpeakingChanged);
         }
 
-        public static bool GetUserMuted(this CavrnusUser user)
+		public static bool GetUserMuted(this CavrnusUser user)
         {
             return user.SpaceConnection.GetBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Muted);
         }
+
+		public static IDisposable BindUserMuted(this CavrnusUser user, Action<bool> onMutedChanged)
+		{
+			return user.SpaceConnection.BindBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Muted, onMutedChanged);
+		}
+
+		public static bool GetUserStreaming(this CavrnusUser user)
+		{
+			return user.SpaceConnection.GetBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Streaming);
+		}
+
+		public static IDisposable BindUserStreaming(this CavrnusUser user, Action<bool> onStreamingChanged)
+		{
+			return user.SpaceConnection.BindBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Streaming, onStreamingChanged);
+		}
 
 		public static string GetUserName(this CavrnusUser user)
 		{
 			return user.SpaceConnection.GetStringPropertyValue(user.ContainerId, UserPropertyDefs.Users_Name);
 		}
 
-		public static IDisposable BindUserMuted(this CavrnusUser user, Action<bool> onMutedChanged)
-        {
-            return user.SpaceConnection.BindBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Muted, onMutedChanged);
-        }
-
-        public static bool GetUserStreaming(this CavrnusUser user)
-        {
-            return user.SpaceConnection.GetBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Streaming);
-        }
-
-        public static IDisposable BindUserStreaming(this CavrnusUser user, Action<bool> onStreamingChanged)
-        {
-            return user.SpaceConnection.BindBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Streaming, onStreamingChanged);
-        }
-
-        public static IDisposable BindUserName(this CavrnusUser user, Action<string> onNameChanged)
-        {
-            return user.SpaceConnection.BindStringPropertyValue(user.ContainerId, UserPropertyDefs.Users_Name, onNameChanged);
-        }
+		public static IDisposable BindUserName(this CavrnusUser user, Action<string> onNameChanged)
+		{
+			return user.SpaceConnection.BindStringPropertyValue(user.ContainerId, UserPropertyDefs.Users_Name, onNameChanged);
+		}       
 
         public static IDisposable BindProfilePic(this CavrnusUser user, MonoBehaviour ob, Action<Sprite> onProfilePicChanged)
         {

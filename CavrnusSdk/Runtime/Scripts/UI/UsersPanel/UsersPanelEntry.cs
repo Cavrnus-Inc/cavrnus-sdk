@@ -62,9 +62,10 @@ namespace CavrnusSdk.UI
 			videoStreamImage.uvRect = tex.UVRect;
 		}
 		
-		void OnDestroy()
+		private void OnDestroy()
 		{
-			foreach (var disp in disposables) disp.Dispose();
+			foreach (var disp in disposables) 
+				disp.Dispose();
 		}
 	}
 }

@@ -9,8 +9,6 @@ using Collab.Proxy.Comm;
 using Collab.Proxy.Comm.NotifyApi;
 using Collab.RtcCommon;
 using Collab.Base.Collections;
-using CavrnusSdk;
-using CavrnusSdk.Setup;
 using static CavrnusSdk.Setup.CavrnusSpatialConnector;
 using System.IO;
 using System;

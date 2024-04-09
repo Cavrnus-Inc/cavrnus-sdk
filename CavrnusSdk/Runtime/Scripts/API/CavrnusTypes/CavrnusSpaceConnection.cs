@@ -19,8 +19,7 @@ namespace CavrnusSdk.API
 			RoomSystem = roomSystem;
 			CreationHandler = new CavrnusObjectCreationHandler(spawnableObjects, this);
 
-			timeUpdater = HelperFunctions.ExecInMainThreadRepeatingEachFrame(CavrnusStatics.Scheduler,
-				() => RoomSystem.DateTimeProperties.Update(Time.realtimeSinceStartupAsDouble));
+			timeUpdater = CavrnusStatics.Scheduler.ExecInMainThreadRepeatingEachFrame(() => RoomSystem.DateTimeProperties.Update(Time.realtimeSinceStartupAsDouble));
 		}
 
 		public void Dispose()

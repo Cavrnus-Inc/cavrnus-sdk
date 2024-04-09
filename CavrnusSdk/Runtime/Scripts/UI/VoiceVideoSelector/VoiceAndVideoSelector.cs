@@ -12,7 +12,7 @@ namespace CavrnusSdk.UI
 		[SerializeField] private TMP_Dropdown AudioInputs;
 		[SerializeField] private TMP_Dropdown VideoInputs;
 
-		void Start()
+		private void Start()
 		{
 			CavrnusFunctionLibrary.AwaitAnySpaceConnection(OnSpaceConnection);
 		}

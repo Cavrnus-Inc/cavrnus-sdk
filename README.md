@@ -22,9 +22,7 @@ The Cavrnus Spatial Connector (CSC) for Unity™ connects Unity’s powerful int
 
 ## Install
 
-<details>
-<summary>Scoped Registry Deployment</summary>
-<br>
+### Scoped Registry Deployment
 
 1. Open Project Settings
      
@@ -61,13 +59,6 @@ The Cavrnus Spatial Connector (CSC) for Unity™ connects Unity’s powerful int
 
 6. Cavrnus Spatial Connector is now ready to be used.
 
-</details>
-
-<details>
-<summary>Git Deployment</summary>
-<br>
-</details>
-
 ## Features
 * Persistence
 * Multi-user Copresence
@@ -81,7 +72,7 @@ The Cavrnus Spatial Connector (CSC) for Unity™ connects Unity’s powerful int
 * On-premises
 
 ## Documentation
-Robust documenation can be found <a><a href="https://cavrnus.atlassian.net/servicedesk/customer/portal/1/article/827457539">here.</a>.
+Robust documenation can be found <a><a href="https://cavrnus.atlassian.net/servicedesk/customer/portal/1/article/827457539">here</a>.
 
 ## Support
-Do you need help? Have you found a bug? Reach out through our <a><a href="https://cavrnus.atlassian.net/servicedesk/customer/portal/1">Customer Service Portal.</a>.
+Do you need help? Have you found a bug? Reach out through our <a><a href="https://cavrnus.atlassian.net/servicedesk/customer/portal/1">Customer Service Portal</a>.

@@ -1,4 +1,3 @@
-using System;
 using CavrnusSdk.API;
 using CavrnusSdk.PropertySynchronizers.CommonImplementations;
 using Collab.Base.Collections;

@@ -1,4 +1,3 @@
-using UnityBase;
 using UnityEditor;
 using UnityEngine;
 using CavrnusSdk.PropertySynchronizers.CommonImplementations;

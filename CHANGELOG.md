@@ -449,3 +449,9 @@
 - Sample scene cleanup. Updated out of date components.
 - Fix builds breaking. Add Unity scripting symbols around custom property drawers.
 - Fix broken XR menus due to deprecated code.
+
+
+## [2.7.1] - 2024-04-09
+
+### Added
+- Add more examples to main demo scene

@@ -10,7 +10,6 @@ using Collab.Base.Collections;
 using Collab.Proxy.Comm.NotifyApi;
 using Collab.Proxy.Comm.LiveTypes;
 using CavrnusSdk.API;
-using CavrnusSdk;
 using CavrnusSdk.Setup;
 
 namespace CavrnusCore

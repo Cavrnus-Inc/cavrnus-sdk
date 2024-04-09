@@ -2,8 +2,5 @@
 
 namespace CavrnusSdk.Editor.PropertyDrawers
 {
-    public class PasswordFieldAttribute : PropertyAttribute
-    {
-        
-    }
+    public class PasswordFieldAttribute : PropertyAttribute { }
 }

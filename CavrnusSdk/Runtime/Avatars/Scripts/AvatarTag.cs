@@ -1,10 +1,7 @@
-using System;
-using CavrnusSdk.API;
 using CavrnusSdk.UI;
 using UnityBase;
 using UnityEngine;
 using CavrnusSdk.Setup;
-using TMPro;
 
 namespace CavrnusSdk.Avatars
 {

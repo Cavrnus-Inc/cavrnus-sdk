@@ -32,8 +32,14 @@ namespace CavrnusSdk.API
 			vidProvider = new UserVideoTextureProvider(user);
 		}
 
-        internal IDisposable BindLatestCoPresence(Action<CoPresenceLive> act) { return user.LatestCoPresence.Bind(act); }
+		internal IDisposable BindLatestCoPresence(Action<CoPresenceLive> act)
+		{
+			return user.LatestCoPresence.Bind(act);
+		}
 
-        public void Dispose() { userVidHook.Release(); }
+        public void Dispose()
+        {
+	        userVidHook.Release();
+        }
 	}
 }
