@@ -455,3 +455,9 @@
 
 ### Added
 - Add more examples to main demo scene
+
+
+## [2.7.2] - 2024-04-09
+
+### Fixed
+- Fix Collaboration Samples pathing
