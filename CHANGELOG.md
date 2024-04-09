@@ -461,3 +461,9 @@
 
 ### Fixed
 - Fix Collaboration Samples pathing
+
+
+## [2.7.3] - 2024-04-09
+
+### Fixed
+- Fixed missing icons and demo scene setup.
