@@ -10,6 +10,8 @@ on:
 
 jobs:
   publish:
+    name: Publish to Verdaccio
+    if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     steps:
       - name: Delete .github folder
