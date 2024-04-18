@@ -15,7 +15,7 @@ namespace CavrnusSdk.CollaborationExamples
         
         [Header("Components")]
         [SerializeField] private GameObject lightContainer;
-        [SerializeField] private Light light;
+        [SerializeField] private Light targetLight;
         
         [Header("UI")]
         [SerializeField] private UISliderWrapper rotationSlider;
@@ -51,9 +51,9 @@ namespace CavrnusSdk.CollaborationExamples
                 rotationSlider.OnEndDragging += RotationDragEnd;
                 
                 // Shadow Strength
-                spaceConn.DefineFloatPropertyDefaultValue(containerName, shadowPropertyName, light.shadowStrength);
+                spaceConn.DefineFloatPropertyDefaultValue(containerName, shadowPropertyName, targetLight.shadowStrength);
                 disposables.Add(spaceConn.BindFloatPropertyValue(containerName, shadowPropertyName, strength => {
-                    light.shadowStrength = strength;
+                    targetLight.shadowStrength = strength;
                     shadowSlider.Slider.SetValueWithoutNotify(strength);
                 }));
                 shadowSlider.OnValueUpdated += ShadowValueChanged;

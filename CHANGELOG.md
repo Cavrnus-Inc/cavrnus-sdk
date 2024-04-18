@@ -467,3 +467,13 @@
 
 ### Fixed
 - Fixed missing icons and demo scene setup.
+
+
+## [2.8.0] - 2024-04-17
+
+### Added
+- Added SyncMaterialColor script with direct reference to material.
+- New version of CollabPlugins including RoomSystem & general object loading refactor.
+
+### Removed
+- Removed unneeded SyncMaterialInstance and SyncMaterialShared scripts.

@@ -30,21 +30,27 @@ namespace CavrnusCore
 			var contentManager = new ServerContentCacheManager(new FrameworkNetworkRequestImplementation());
 			contentManager.SetEndpoint(CavrnusAuthHelpers.CurrentAuthentication.Endpoint);
 
-			LiveObjectManagementContext liveObjectContext = new LiveObjectManagementContext()
-			{
-				EngineConnector = null, //engineConnector,
-				Notify = CavrnusStatics.Notify,
-				Scheduler = CavrnusStatics.Scheduler.BaseScheduler,
-				ServerContentManager = contentManager,
+			var rsOptions = new RoomSystemOptions {
+				CopresenceToProperties = false,
+				LoadObjectsChats = false,
+				LoadContentAssetsMetadata = false,
+				LoadContentAssetsTextures = false,
+				LoadContentObjectsMetadata = true,
+				LoadContentObjectsScripts = true,
+				LoadObjectsArTrackers = false,
+				LoadContentObjects2DContent = false,
+				LoadContentObjectsHoloContent = false,
+				TranslationLanguage = null
 			};
 
 			var env = new RoomSystemEnvironment()
 			{
 				PolicyEvaluator = CavrnusStatics.LivePolicyEvaluator,
 				RolesMaintainer = CavrnusStatics.Notify.ContextualRoles,
+				Scheduler = CavrnusStatics.Scheduler.BaseScheduler
 			};
 
-			RoomSystem rs = new RoomSystem(CavrnusStatics.RtcContext, CavrnusStatics.Scheduler.BaseScheduler, liveObjectContext, null, null, env, null);
+			RoomSystem rs = new RoomSystem(CavrnusStatics.RtcContext, env, rsOptions);
 
 			rs.InitializeConnection(CavrnusAuthHelpers.CurrentAuthentication.Endpoint, joinId);
 

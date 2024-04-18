@@ -1,6 +1,8 @@
 using Collab.Base.Collections;
 using System;
 using CavrnusSdk.API;
+using Collab.Base.Core;
+using Collab.Proxy.Comm;
 
 namespace CavrnusCore
 {
@@ -8,10 +10,24 @@ namespace CavrnusCore
 	{
 		internal static IDisposable BindSpaceUsers(CavrnusSpaceConnection spaceConn, Action<CavrnusUser> userAdded, Action<CavrnusUser> userRemoved)
 		{
-			userAdded(new CavrnusUser(spaceConn.RoomSystem.Comm.LocalCommUser.Value, spaceConn));
+			CavrnusUser lcu = null;
+			var lcuBind = spaceConn.RoomSystem.Comm.LocalCommUser.Bind(lu => {
+				if (lcu != null) {
+					userRemoved?.Invoke(lcu);
+					lcu = null;
+				}
 
-            return spaceConn.RoomSystem.Comm.ConnectedUsers.BindAll(u => userAdded(new CavrnusUser(u, spaceConn)), u => userRemoved(new CavrnusUser(u, spaceConn)));
+				if (lu != null) {
+					lcu = new CavrnusUser(lu, spaceConn);
+					userAdded?.Invoke(lcu);
+				}
+			});
+			
+			var mapper = new NotifyListMapper<ISessionCommunicationRemoteUser, CavrnusUser>(spaceConn.RoomSystem.Comm.ConnectedUsers);
+			mapper.BeginMapping(ru => new CavrnusUser(ru, spaceConn));
+			var mapBind = mapper.Result.BindAll(userAdded, userRemoved);
+			
+			return lcuBind.AlsoDispose(mapBind).AlsoDispose(mapper);
 		}
 	}
-
 }

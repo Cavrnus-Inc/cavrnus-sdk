@@ -73,6 +73,11 @@ namespace CavrnusSdk.UI
 		}
 
 		void OnDestroy() { Disposed?.Invoke(); }
+
+		public void Dispose()
+		{
+			Disposed?.Invoke(); 
+		}
 	}
 
 	//Copied from CavrnusRelayNet

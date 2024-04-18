@@ -23,13 +23,11 @@ namespace CavrnusCore
 				CavrnusStatics.Scheduler.ExecInMainThread(() => progress(ps.currentMessage, ps.overallProgress));
 			}, 0);
 
-			await spaceConn.RoomSystem.ObjectContext.ServerContentManager.GetAndDecryptObject<bool>(ndo.ToUoiDeprecateMe(), asset, async (uoi2, stream, len, pf2) =>
+			await spaceConn.RoomSystem.Environment.ServerContentManager.GetAndDecryptObject<bool>(ndo.ToUoiDeprecateMe(), asset, async (uoi2, stream, len, pf2) =>
 			{
 				await onStreamLoaded(stream, len);
 				return true;
 			}, pf);
-
-			
 		}
 
 		internal static async void FetchAllUploadedContent(Action<List<CavrnusRemoteContent>> onCurrentContentArrived)
