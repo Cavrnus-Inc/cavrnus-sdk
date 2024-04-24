@@ -11,6 +11,7 @@ using Collab.Proxy.Comm.NotifyApi;
 using Collab.Proxy.Comm.LiveTypes;
 using CavrnusSdk.API;
 using CavrnusSdk.Setup;
+using Collab.LiveRoomSystem.GameEngineConnector;
 
 namespace CavrnusCore
 {
@@ -32,7 +33,7 @@ namespace CavrnusCore
 
 			var rsOptions = new RoomSystemOptions {
 				CopresenceToProperties = false,
-				LoadObjectsChats = false,
+				LoadObjectsChats = true,
 				LoadContentAssetsMetadata = false,
 				LoadContentAssetsTextures = false,
 				LoadContentObjectsMetadata = true,
@@ -40,14 +41,17 @@ namespace CavrnusCore
 				LoadObjectsArTrackers = false,
 				LoadContentObjects2DContent = false,
 				LoadContentObjectsHoloContent = false,
-				TranslationLanguage = null
+				TranslationLanguage = null,
+				LivePropertiesPermissiveness = ResponseLivePropertyCapabilities.Types.V1.Types.LivePropertyCapabilityEnum.Eager
 			};
 
 			var env = new RoomSystemEnvironment()
 			{
 				PolicyEvaluator = CavrnusStatics.LivePolicyEvaluator,
 				RolesMaintainer = CavrnusStatics.Notify.ContextualRoles,
-				Scheduler = CavrnusStatics.Scheduler.BaseScheduler
+				Scheduler = CavrnusStatics.Scheduler.BaseScheduler,
+				NotifySystem = CavrnusStatics.Notify,
+				EngineConnector = new EmptyGameEngineConnector()
 			};
 
 			RoomSystem rs = new RoomSystem(CavrnusStatics.RtcContext, env, rsOptions);

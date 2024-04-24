@@ -8,6 +8,13 @@ using CavrnusSdk.Setup;
 using UnityBase;
 using System.IO;
 using System.Threading.Tasks;
+using Collab.Base.Core;
+using Collab.LiveRoomSystem.LiveObjectManagement.ObjectTypeManagers;
+using Collab.LiveRoomSystem.Views;
+using Collab.Proxy.Comm.LiveTypes;
+using Collab.Proxy.Prop.StringProp;
+using StringEditingMetadata = Collab.Proxy.Prop.StringProp.StringEditingMetadata;
+using StringPropertyMetadata = Collab.Proxy.Prop.StringProp.StringPropertyMetadata;
 
 namespace CavrnusSdk.API
 {
@@ -18,6 +25,27 @@ namespace CavrnusSdk.API
 		{
 			CavrnusStatics.Setup(CavrnusSpatialConnector.Instance.AdditionalSettings);
 		}
+
+        #region Chats
+
+        public static IDisposable BindChatMessages(this CavrnusSpaceConnection spaceConn, Action<IChatViewModel> chatAdded, Action<IChatViewModel> chatRemoved, bool includeChats = true, bool includeTranscriptions = true)
+        {
+	        var csv = new ChatStreamView(spaceConn.RoomSystem, new ChatStreamViewOptions {includeChats = includeChats, includeTranscriptions = includeTranscriptions});
+	        return csv.Messages.BindAll(chatAdded, chatRemoved);
+        }
+        
+        public static void PostChatMessage(this CavrnusSpaceConnection spaceConn, CavrnusUser localUser, string message)
+        {
+	        var chat = new ContentTypeChatEntry(message, DateTimeCache.UtcNow, localUser.UserId, ChatMessageSourceTypeEnum.Chat);
+	        var newId = spaceConn.RoomSystem.Comm.CreateNewUniqueObjectId();
+	        
+	        var op = spaceConn.RoomSystem.LiveOpsSys.Create(new OpCreateObjectLive(null, newId, localUser.UserId, chat));
+	        op.OpData.CreatorId = localUser.UserId;
+	        op.OpData.ExecMode = Operation.Types.OperationExecutionModeEnum.Standard;
+	        op.PostAndComplete();
+		}
+
+        #endregion
 
 		#region Authentication
 
@@ -208,7 +236,22 @@ namespace CavrnusSdk.API
 		{
 			CavrnusPropertyHelpers.DefineStringPropertyDefaultValue(spaceConn, containerName, propertyName, propertyValue);
 		}
+        
+        public static void DefineStringPropertyDefinition(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, string displayName, string description, bool readOnly = false, List<StringEditingEnumerationOption> enumOptions = null)
+        {
+	        var definition = new StringPropertyMetadata {
+		        Name = displayName, 
+		        Description = description,
+		        Readonly = readOnly,
+		        Edit = new StringEditingMetadata
+		        {
+			        EnumerationOptions = enumOptions
+		        }
+	        };
 
+	        CavrnusPropertyHelpers.DefineStringPropertyDefinition(spaceConn, containerName, propertyName, definition);
+        }
+        
         //Gets the current property value, whether the default or the one currently set
         public static string GetStringPropertyValue(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName)
 		{

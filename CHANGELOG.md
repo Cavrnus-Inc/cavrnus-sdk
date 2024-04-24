@@ -477,3 +477,12 @@
 
 ### Removed
 - Removed unneeded SyncMaterialInstance and SyncMaterialShared scripts.
+
+
+## [2.8.1] - 2024-04-24
+
+### Added
+- Added support for chat via post and bind messages calls.
+
+### Changed
+- Cleaned up sample scene container names.

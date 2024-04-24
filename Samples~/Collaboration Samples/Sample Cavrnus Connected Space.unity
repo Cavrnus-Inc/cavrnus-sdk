@@ -4607,7 +4607,7 @@ MonoBehaviour:
   rotationPropertyName: SunlightRotation
   shadowPropertyName: ShadowStrength
   lightContainer: {fileID: 1758232318}
-  light: {fileID: 2111665234}
+  targetLight: {fileID: 2111665234}
   rotationSlider: {fileID: 57467502}
   shadowSlider: {fileID: 194621073}
 --- !u!114 &832791217
@@ -4779,7 +4779,7 @@ GameObject:
   m_Component:
   - component: {fileID: 888745235}
   m_Layer: 0
-  m_Name: Cube - Sync Visiblility
+  m_Name: Torus - Sync Visiblility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5550,7 +5550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e724c140dc23a418b8365b0907f9ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UniqueContainerName: Capsule
+  UniqueContainerName: CapsuleDrag
 --- !u!1 &1029713212
 GameObject:
   m_ObjectHideFlags: 0
@@ -7589,7 +7589,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1686192492}
   m_Layer: 0
-  m_Name: Sync Visibility
+  m_Name: Sync Torus Visibility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9661,7 +9661,7 @@ GameObject:
   - component: {fileID: 2879596648343340543}
   - component: {fileID: 7927023065315382315}
   m_Layer: 5
-  m_Name: Cube Vis Toggle Menu
+  m_Name: Torus Vis Toggle Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10474,7 +10474,7 @@ MonoBehaviour:
   toggle: {fileID: 262388658}
   toggleGameObjects:
   - {fileID: 1715764596}
-  targetContainerName: Container
+  targetContainerName: Torus
   targetPropertyName: Visible
 --- !u!224 &8216678235248604197
 RectTransform:

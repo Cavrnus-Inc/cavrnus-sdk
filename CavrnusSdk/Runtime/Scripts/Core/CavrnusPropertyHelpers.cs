@@ -8,6 +8,7 @@ using UnityBase;
 using UnityEngine;
 using CavrnusSdk.API;
 using CavrnusSdk.PropertySynchronizers;
+using StringPropertyMetadata = Collab.Proxy.Prop.StringProp.StringPropertyMetadata;
 
 namespace CavrnusCore
 {
@@ -54,8 +55,7 @@ namespace CavrnusCore
             }
 		}
 
-		private static void CheckCommonErrors(CavrnusSpaceConnection spaceConn, string containerId,
-		                                      string propertyId)
+		private static void CheckCommonErrors(CavrnusSpaceConnection spaceConn, string containerId, string propertyId)
 		{
 			if (spaceConn == null)
 				throw new ArgumentException("RoomConnection is null!  Has the space finished loading yet?");
@@ -191,6 +191,21 @@ namespace CavrnusCore
 			                                        new Collab.Proxy.Prop.StringProp.StringPropertyMetadata() {
 				                                        Name = propertyId
 													});
+		}
+		
+		internal static void DefineStringPropertyDefinition(CavrnusSpaceConnection spaceConn, string containerId, string propertyId, StringPropertyMetadata stringPropertyMetadata)
+		{
+			CheckCommonErrors(spaceConn, containerId, propertyId);
+			ResolveContainerPath(ref propertyId, ref containerId);
+
+			var myContainer = MyContainer(spaceConn, containerId);
+
+			if (myContainer.GetStringProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
+			{
+				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
+			}
+			
+			myContainer.DefineStringProperty(propertyId, propertyId, stringPropertyMetadata);
 		}
 
 		internal static string GetStringPropertyValue(CavrnusSpaceConnection spaceConn, string containerId,

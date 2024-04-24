@@ -9,9 +9,10 @@ namespace CavrnusSdk.API
 {
 	public class CavrnusUser : IDisposable
 	{
-		public bool IsLocalUser;
+		public bool IsLocalUser{ get; private set; }
 
-		public string ContainerId;
+		public string ContainerId { get; private set; }
+		public string UserId { get; private set; }
 
 		public CavrnusSpaceConnection SpaceConnection;
 
@@ -24,6 +25,8 @@ namespace CavrnusSdk.API
 		{
 			this.user = user;
 			SpaceConnection = spaceConn;
+
+			UserId = user.User.Id;
 
 			ContainerId = $"/users/{user.ConnectionId}";
 
