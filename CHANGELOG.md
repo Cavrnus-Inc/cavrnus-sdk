@@ -486,3 +486,9 @@
 
 ### Changed
 - Cleaned up sample scene container names.
+
+
+## [2.9.0] - 2024-04-24
+
+### Added
+- Add updated core modules
