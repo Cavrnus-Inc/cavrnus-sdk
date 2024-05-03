@@ -507,14 +507,37 @@ namespace CavrnusSdk.API
 
 		#region Remote Content
 
-		public static void FetchFileById(CavrnusSpaceConnection spaceConn, string id, Action<string, float> progress, Func<Stream, long, Task> onStreamLoaded)
+		public static void FetchFileById(string id, Action<string, float> progress, Func<Stream, long, Task> onStreamLoaded)
 		{
-			CavrnusContentHelpers.FetchFileById(spaceConn, id, progress, onStreamLoaded);
+			if(!IsLoggedIn())
+			{
+				Debug.LogError("You must be logged in to access uploaded Content");
+				return;
+			}
+
+			CavrnusContentHelpers.FetchFileById(id, progress, onStreamLoaded);
 		}
 
 		public static void FetchAllUploadedContent(Action<List<CavrnusRemoteContent>> onCurrentContentArrived)
 		{
+			if (!IsLoggedIn())
+			{
+				Debug.LogError("You must be logged in to access uploaded Content");
+				return;
+			}
+
 			CavrnusContentHelpers.FetchAllUploadedContent(onCurrentContentArrived);
+		}
+
+		public static void UploadContent(string localFilePath, Dictionary<string, string> tags, Action<CavrnusRemoteContent> onUploadComplete)
+		{
+			if (!IsLoggedIn())
+			{
+				Debug.LogError("You must be logged in to access uploaded Content");
+				return;
+			}
+
+			CavrnusContentHelpers.UploadContent(localFilePath, tags, onUploadComplete);
 		}
 
 		#endregion

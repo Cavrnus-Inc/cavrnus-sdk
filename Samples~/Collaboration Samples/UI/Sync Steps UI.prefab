@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81fc425f49f74ec9b988d1d67c68a04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  propertyContainer: ExampleProcedure
-  propertyNameProgress: PropertyNameProgress
+  propertyContainer: StepsSync
+  propertyNameProgress: Steps
   steps:
   - StepName: Step 1
   - StepName: Step 2

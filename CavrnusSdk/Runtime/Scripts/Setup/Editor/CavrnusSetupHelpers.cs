@@ -6,7 +6,7 @@ namespace CavrnusSdk.Setup.Editor
 {
 	public static class CavrnusSetupHelpers
 	{
-		[MenuItem("Cavrnus/Setup Scene for Cavrnus", false, 0)]
+		[MenuItem("Tools/Cavrnus/Setup Scene for Cavrnus", false, 0)]
 		public static void SetupSceneForCavrnus()
 	    {
 			if(GameObject.Find("Cavrnus Spatial Connector") != null)
@@ -60,7 +60,7 @@ namespace CavrnusSdk.Setup.Editor
 			Debug.Log("Cavrnus UI will spawn under the Cavrnus UI Canvas object.  To change this, select your desired canvas and click \"Cavrnus->Spawn Cavrnus UI in Selected Canvas\"");
 		}
 
-        [MenuItem("Cavrnus/Spawn Cavrnus UI in Selected Canvas", false, 10)]
+        [MenuItem("Tools/Cavrnus/Spawn Cavrnus UI in Selected Canvas", false, 10)]
 		public static void SpawnCavrnusUiInSelectedCanvas()
 		{
             if (GameObject.Find("Cavrnus Spatial Connector") == null)
@@ -85,7 +85,7 @@ namespace CavrnusSdk.Setup.Editor
             }
         }
 
-        [MenuItem("Cavrnus/Set Selected Object As Local User", false, 10)]
+        [MenuItem("Tools/Cavrnus/Set Selected Object As Local User", false, 10)]
 		public static void SetSelectedObjectAsLocalUser()
 		{
 			if (Selection.activeGameObject == null)

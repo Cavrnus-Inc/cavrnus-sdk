@@ -12,6 +12,7 @@ using Collab.Base.Collections;
 using static CavrnusSdk.Setup.CavrnusSpatialConnector;
 using System.IO;
 using System;
+using Collab.Proxy.Content;
 
 namespace CavrnusCore
 {
@@ -32,6 +33,7 @@ namespace CavrnusCore
 		private static UnityScheduler scheduler = null;
 		internal static NotifyCommunication Notify { get; private set; }
 		internal static LivePolicyEvaluator LivePolicyEvaluator { get; private set; }
+		internal static ServerContentCacheManager ContentManager { get; private set; }
 
 		internal static MultiTranslatingSetting<bool, bool, bool> NotifyPoliciesAndRolesFullyLoaded{ get; set; }
 
@@ -49,6 +51,8 @@ namespace CavrnusCore
 			HandlePlatformsSetup();
 
 			NetworkRequestImpl = new FrameworkNetworkRequestImplementation();
+
+			ContentManager = new ServerContentCacheManager(new FrameworkNetworkRequestImplementation());
 
 			Notify = new NotifyCommunication(() => new NotifyWebsocket(Scheduler.BaseScheduler), Scheduler.BaseScheduler);
 			LivePolicyEvaluator = new LivePolicyEvaluator(Notify.PoliciesSystem.AllPolicies, Notify.PoliciesSystem.IsActive);

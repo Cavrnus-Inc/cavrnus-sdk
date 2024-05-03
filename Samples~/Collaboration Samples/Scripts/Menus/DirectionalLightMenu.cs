@@ -46,6 +46,7 @@ namespace CavrnusSdk.CollaborationExamples
                     lightContainer.transform.localRotation = Quaternion.Euler(new Vector3(0, -rotation, 0));
                     rotationSlider.Slider.SetValueWithoutNotify(rotation);
                 }));
+                
                 rotationSlider.OnValueUpdated += RotationValueChanged;
                 rotationSlider.OnBeginDragging += RotationDragBegin;
                 rotationSlider.OnEndDragging += RotationDragEnd;

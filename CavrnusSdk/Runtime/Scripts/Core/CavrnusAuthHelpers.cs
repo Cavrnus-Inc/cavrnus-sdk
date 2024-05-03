@@ -7,6 +7,8 @@ using CavrnusSdk.API;
 using UnityEngine;
 using System.Threading.Tasks;
 using CavrnusSdk.Setup;
+using Collab.Proxy.Comm.NotifyApi;
+using Collab.Base.Collections;
 
 namespace CavrnusCore
 {
@@ -46,6 +48,8 @@ namespace CavrnusCore
 
 			NotifySetup();
 
+			await Task.WhenAny(CavrnusStatics.Notify.UsersSystem.ConnectedUser.AwaitPredicate((INotifyDataUser lu) => lu != null));
+
 			HandleAuth(CurrentAuthentication);
 			return CurrentAuthentication;
 		}
@@ -65,6 +69,8 @@ namespace CavrnusCore
 			CurrentAuthentication = new CavrnusAuthentication(endpoint.WithAuthorization(token.token), token.token);
 
 			NotifySetup();
+
+			await Task.WhenAny(CavrnusStatics.Notify.UsersSystem.ConnectedUser.AwaitPredicate((INotifyDataUser lu) => lu != null));
 
 			HandleAuth(CurrentAuthentication);
 			onSuccess(CurrentAuthentication);
@@ -87,6 +93,8 @@ namespace CavrnusCore
 
 			NotifySetup();
 
+			await Task.WhenAny(CavrnusStatics.Notify.UsersSystem.ConnectedUser.AwaitPredicate((INotifyDataUser lu) => lu != null));
+
 			HandleAuth(CurrentAuthentication);
 			onSuccess(CurrentAuthentication);
 		}
@@ -98,6 +106,8 @@ namespace CavrnusCore
 			CavrnusStatics.Notify.PoliciesSystem.StartListeningAll(null, err => DebugOutput.Error(err.ToString()));
 			CavrnusStatics.Notify.RolesSystem.StartListeningAll(null, err => DebugOutput.Error(err.ToString()));
 			CavrnusStatics.Notify.UsersSystem.StartListening(null, err => DebugOutput.Error(err.ToString()));
+
+			CavrnusStatics.ContentManager.SetEndpoint(CurrentAuthentication.Endpoint);
 		}
 
 		private static void HandleAuth(CavrnusAuthentication auth)

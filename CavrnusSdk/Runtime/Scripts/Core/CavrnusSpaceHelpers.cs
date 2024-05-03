@@ -28,9 +28,6 @@ namespace CavrnusCore
 				onLoadingEvents.Clear();
 			}
 
-			var contentManager = new ServerContentCacheManager(new FrameworkNetworkRequestImplementation());
-			contentManager.SetEndpoint(CavrnusAuthHelpers.CurrentAuthentication.Endpoint);
-
 			var rsOptions = new RoomSystemOptions {
 				CopresenceToProperties = false,
 				LoadObjectsChats = true,
@@ -51,7 +48,8 @@ namespace CavrnusCore
 				RolesMaintainer = CavrnusStatics.Notify.ContextualRoles,
 				Scheduler = CavrnusStatics.Scheduler.BaseScheduler,
 				NotifySystem = CavrnusStatics.Notify,
-				EngineConnector = new EmptyGameEngineConnector()
+				EngineConnector = new EmptyGameEngineConnector(),
+				ServerContentManager = CavrnusStatics.ContentManager,
 			};
 
 			RoomSystem rs = new RoomSystem(CavrnusStatics.RtcContext, env, rsOptions);

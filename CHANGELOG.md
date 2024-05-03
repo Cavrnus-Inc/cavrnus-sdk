@@ -492,3 +492,13 @@
 
 ### Added
 - Add updated core modules
+
+
+## [2.10.0] - 2024-05-02
+
+### Added
+- Various updates to sample scene to coincide with Unreal demo scene.
+- Remote avatars automatically hidden at spawn until movement data is received.
+
+### Fixed
+- Fixed chat removal bug. Using the correct owner Id now.

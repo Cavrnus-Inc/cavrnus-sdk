@@ -67,7 +67,7 @@ namespace CavrnusSdk.CollaborationExamples
 
                 for (var index = 0; index < steps.Count; index++) {
                     var stepInfo = steps[index];
-                    stepInfo.Setup(spaceConn, propertyContainer, index.ToString());
+                    stepInfo.Setup(spaceConn, propertyContainer, $"Step{index + 1}");
 
                     var go = Instantiate(syncStepsItemPrefab, syncStepsItemContainer);
                     var item = go.GetComponent<SyncStepsItem>();

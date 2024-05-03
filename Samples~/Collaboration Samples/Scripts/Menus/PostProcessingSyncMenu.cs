@@ -16,41 +16,40 @@ namespace CavrnusSdk.CollaborationExamples
         [SerializeField] private string containerName = "PostProcessing";
 
         [Header("Saturation")]
-        [SerializeField] private string saturationEnabledPropertyName = "SaturationVisibility";
-        [SerializeField] private string saturationValuePropertyName = "SaturationValue";
+        [SerializeField] private string saturationEnabledPropertyName = "SaturationEnabled";
+        [SerializeField] private string saturationValuePropertyName = "Saturation";
         [SerializeField] private Toggle saturationToggle;
         [SerializeField] private UISliderWrapper saturationSlider;
         private CavrnusLivePropertyUpdate<float> liveContrastUpdate = null;
         
         [Header("Saturation")]
-        [SerializeField] private string hueShiftEnabledPropertyName = "HueShiftVisibility";
-        [SerializeField] private string hueShiftValuePropertyName = "HueShiftValue";
-        [SerializeField] private Toggle hueShiftToggle;
-        [SerializeField] private UISliderWrapper hueShiftSlider;
-        private CavrnusLivePropertyUpdate<float> liveHueShiftUpdate = null;
+        [SerializeField] private string bloomEnabledPropertyName = "BloomEnabled";
+        [SerializeField] private string bloomValuePropertyName = "Bloom";
+        [SerializeField] private Toggle bloomShiftToggle;
+        [SerializeField] private UISliderWrapper bloomShiftSlider;
+        private CavrnusLivePropertyUpdate<float> liveBloomShiftUpdate = null;
 
         private CavrnusSpaceConnection spaceConn;
         private List<IDisposable> disposables = new List<IDisposable>();
-
+        
         private void Start()
         {
             CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceConn => {
                 this.spaceConn = spaceConn;
 
-                if (volume.profile.TryGet(out ColorAdjustments ca)) {
+                if (volume.profile.TryGet(out ColorAdjustments ca))
                     SetupSaturationProperties(spaceConn, ca);
-                    SetupHueShiftProperties(spaceConn, ca);
-                }
+                
+                if (volume.profile.TryGet(out Bloom b))
+                    SetupBloomShiftProperties(spaceConn, b);
             });
         }
-
+        
         #region Saturation Property
         
         private void SetupSaturationProperties(CavrnusSpaceConnection spaceConn, ColorAdjustments ca)
         {
-            saturationSlider.Slider.minValue = -100f;
-            saturationSlider.Slider.maxValue = 100f;
-
+            saturationSlider.Setup(spaceConn, containerName, saturationValuePropertyName, new Vector2(-100, 100));
             saturationToggle.onValueChanged.AddListener(SaturationToggleUIUpdated);
 
             spaceConn.DefineBoolPropertyDefaultValue(containerName, saturationEnabledPropertyName, ca.saturation.overrideState);
@@ -64,10 +63,6 @@ namespace CavrnusSdk.CollaborationExamples
                 ca.saturation.value = val;
                 saturationSlider.Slider.SetValueWithoutNotify(val);
             }));
-
-            saturationSlider.OnValueUpdated += SaturationValueChanged;
-            saturationSlider.OnBeginDragging += SaturationDragBegin;
-            saturationSlider.OnEndDragging += SaturationDragEnd;
         }
 
         private void SaturationToggleUIUpdated(bool val)
@@ -75,69 +70,31 @@ namespace CavrnusSdk.CollaborationExamples
             spaceConn?.PostBoolPropertyUpdate(containerName, saturationEnabledPropertyName, val);
         }
 
-        private void SaturationDragBegin(float val) 
-        {
-            liveContrastUpdate ??= spaceConn.BeginTransientFloatPropertyUpdate(containerName, saturationValuePropertyName, val);
-        }
-
-        private void SaturationValueChanged(float val) 
-        {
-            liveContrastUpdate?.UpdateWithNewData(val);
-        }
-
-        private void SaturationDragEnd(float val) 
-        {
-            liveContrastUpdate?.Finish();
-            liveContrastUpdate = null;
-        }
-        
         #endregion
 
-        #region Hue Shift Property
+        #region Bloom Property
 
-        private void SetupHueShiftProperties(CavrnusSpaceConnection spaceConn, ColorAdjustments ca)
+        private void SetupBloomShiftProperties(CavrnusSpaceConnection spaceConn, Bloom bloom)
         {
-            hueShiftSlider.Slider.minValue = -100f;
-            hueShiftSlider.Slider.maxValue = 100f;
+            bloomShiftSlider.Setup(spaceConn, containerName, bloomValuePropertyName, new Vector2(-100, 100));
+            bloomShiftToggle.onValueChanged.AddListener(BloomShiftToggleUpdated);
 
-            hueShiftToggle.onValueChanged.AddListener(HueShiftToggleUpdated);
-
-            spaceConn.DefineBoolPropertyDefaultValue(containerName, hueShiftEnabledPropertyName, ca.hueShift.overrideState);
-            disposables.Add(spaceConn.BindBoolPropertyValue(containerName, hueShiftEnabledPropertyName, val => {
-                ca.hueShift.overrideState = val;
-                hueShiftToggle.SetIsOnWithoutNotify(val);
+            spaceConn.DefineBoolPropertyDefaultValue(containerName, bloomEnabledPropertyName, bloom.active);
+            disposables.Add(spaceConn.BindBoolPropertyValue(containerName, bloomEnabledPropertyName, val => {
+                bloom.active = val;
+                bloomShiftToggle.SetIsOnWithoutNotify(val);
             }));
 
-            spaceConn.DefineFloatPropertyDefaultValue(containerName, hueShiftValuePropertyName, ca.hueShift.value);
-            disposables.Add(spaceConn.BindFloatPropertyValue(containerName, hueShiftValuePropertyName, val => {
-                ca.hueShift.value = val;
-                hueShiftSlider.Slider.SetValueWithoutNotify(val);
+            spaceConn.DefineFloatPropertyDefaultValue(containerName, bloomValuePropertyName, bloom.intensity.value);
+            disposables.Add(spaceConn.BindFloatPropertyValue(containerName, bloomValuePropertyName, val => {
+                bloom.intensity.value = val;
+                bloomShiftSlider.Slider.SetValueWithoutNotify(val);
             }));
-
-            hueShiftSlider.OnValueUpdated += HueShiftSliderValueUpdated;
-            hueShiftSlider.OnBeginDragging += HueShiftDragBegin;
-            hueShiftSlider.OnEndDragging += HueShiftDragEnd;
         }
-        
-        private void HueShiftDragBegin(float val)
+   
+        private void BloomShiftToggleUpdated(bool val)
         {
-            liveHueShiftUpdate ??= spaceConn.BeginTransientFloatPropertyUpdate(containerName, hueShiftValuePropertyName, val);
-        }
-
-        private void HueShiftSliderValueUpdated(float val)
-        {
-            liveHueShiftUpdate?.UpdateWithNewData(val);
-        }
-        
-        private void HueShiftDragEnd(float val)
-        {
-            liveHueShiftUpdate?.Finish();
-            liveHueShiftUpdate = null;
-        }
-
-        private void HueShiftToggleUpdated(bool val)
-        {
-            spaceConn?.PostBoolPropertyUpdate(containerName, hueShiftEnabledPropertyName, val);
+            spaceConn?.PostBoolPropertyUpdate(containerName, bloomEnabledPropertyName, val);
         }
         
         #endregion
@@ -147,13 +104,8 @@ namespace CavrnusSdk.CollaborationExamples
             foreach (var disposable in disposables)
                 disposable.Dispose();
             
-            saturationSlider.OnValueUpdated -= SaturationValueChanged;
-            saturationSlider.OnBeginDragging -= SaturationDragBegin;
-            saturationSlider.OnEndDragging -= SaturationDragEnd;
-            
-            hueShiftSlider.OnValueUpdated -= HueShiftSliderValueUpdated;
-            hueShiftSlider.OnBeginDragging -= HueShiftDragBegin;
-            hueShiftSlider.OnEndDragging -= HueShiftDragEnd;
+            bloomShiftToggle.onValueChanged.RemoveListener(BloomShiftToggleUpdated);
+            saturationToggle.onValueChanged.RemoveListener(SaturationToggleUIUpdated);
         }
     }
 }

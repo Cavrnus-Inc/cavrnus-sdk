@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.044545047, g: 0.15019956, b: 0.45055187, a: 1}
+  m_IndirectSpecularColor: {r: 0.044570982, g: 0.15024826, b: 0.45058662, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 19355577}
   - component: {fileID: 19355576}
   - component: {fileID: 19355581}
-  - component: {fileID: 19355580}
+  - component: {fileID: 19355582}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -230,21 +230,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 675914072}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &19355580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19355575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 801a741e9715aea48af244bccc50f0b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PropertyName: Color
-  SendMyChanges: 1
-  RecieveChanges: 1
 --- !u!114 &19355581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +243,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UniqueContainerName: Sphere
+--- !u!114 &19355582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19355575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8822946aebaf4d6ab645ff70abf43c0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: Color
+  SendMyChanges: 1
+  RecieveChanges: 1
+  colorPropertyName: _BaseColor
+  TargetMaterial: {fileID: 2100000, guid: 4235949adbde381469c17b2ac3c50f02, type: 2}
 --- !u!1 &21309363
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,8 +889,8 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0.7215077, b: 0.35283017, a: 1}
-  m_Intensity: 100
+  m_Color: {r: 1, g: 0.750343, b: 0.4198113, a: 1}
+  m_Intensity: 50
   m_Range: 3.1
   m_SpotAngle: 176.24506
   m_InnerSpotAngle: 0
@@ -4375,6 +4377,37 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &731364695
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 731364696}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &731364696
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731364695}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.9774473, y: 4.3086834, z: -9.322086}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &733133999
 GameObject:
   m_ObjectHideFlags: 0
@@ -5550,7 +5583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e724c140dc23a418b8365b0907f9ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UniqueContainerName: CapsuleDrag
+  UniqueContainerName: ObjectDrag
 --- !u!1 &1029713212
 GameObject:
   m_ObjectHideFlags: 0
@@ -6098,7 +6131,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f82026ef40cdc7e43b553ea5be57bdc0, type: 2}
+  - {fileID: 2100000, guid: de9cf14877585ba46a572f27a2681fd7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9366,7 +9399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AutomaticSpaceJoinId
-      value: SampleSpaceJoinConfig
+      value: Sample-Space
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AutomaticLoginPassword
@@ -9728,19 +9761,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1204556719}
     m_Modifications:
-    - target: {fileID: 564672542659454760, guid: 06180708a2809c246a077e70070c7e04, type: 3}
-      propertyPath: propertyName
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3169404562197087901, guid: 06180708a2809c246a077e70070c7e04, type: 3}
-      propertyPath: propertyName
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5242924093465731997, guid: 06180708a2809c246a077e70070c7e04, type: 3}
       propertyPath: m_Name
       value: Board
       objectReference: {fileID: 0}
     - target: {fileID: 5242924093465731997, guid: 06180708a2809c246a077e70070c7e04, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109729272432322484, guid: 06180708a2809c246a077e70070c7e04, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -9784,20 +9813,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6802691919317636974, guid: 06180708a2809c246a077e70070c7e04, type: 3}
-      propertyPath: propertyName
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7785911808892847478, guid: 06180708a2809c246a077e70070c7e04, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7785911808892847478, guid: 06180708a2809c246a077e70070c7e04, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8519296802782795990, guid: 06180708a2809c246a077e70070c7e04, type: 3}
-      propertyPath: propertyName
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8522136288940591038, guid: 06180708a2809c246a077e70070c7e04, type: 3}
@@ -10474,7 +10495,7 @@ MonoBehaviour:
   toggle: {fileID: 262388658}
   toggleGameObjects:
   - {fileID: 1715764596}
-  targetContainerName: Torus
+  targetContainerName: Container
   targetPropertyName: Visible
 --- !u!224 &8216678235248604197
 RectTransform:
@@ -11556,3 +11577,4 @@ SceneRoots:
   - {fileID: 1007971587}
   - {fileID: 917030675}
   - {fileID: 1599169540}
+  - {fileID: 731364696}

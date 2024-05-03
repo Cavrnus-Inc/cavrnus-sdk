@@ -21,7 +21,7 @@ namespace CavrnusSdk.Setup.Editor
 
 		private static WelcomeModal window;
 
-        [MenuItem("Cavrnus/Welcome")]
+        [MenuItem("Tools/Cavrnus/Welcome")]
         public static void Init()
         {
             ShowWindow();

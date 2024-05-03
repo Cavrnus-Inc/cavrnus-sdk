@@ -12,7 +12,7 @@ namespace CavrnusSdk.CollaborationExamples
         [SerializeField] private Button removeButton;
         [SerializeField] private TextMeshProUGUI tmPro;
 
-        private readonly string containerName = "StringExample";
+        private readonly string containerName = "StringSync";
         private readonly string propertyName = "String";
 
         private CavrnusSpaceConnection spaceConn;

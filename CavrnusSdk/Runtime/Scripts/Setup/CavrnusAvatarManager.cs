@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using CavrnusSdk.API;
 using CavrnusSdk.PropertySynchronizers;
 using CavrnusCore;
+using CavrnusSdk.PropertySynchronizers.CommonImplementations;
 
 namespace CavrnusSdk.Setup
 {
@@ -17,7 +19,6 @@ namespace CavrnusSdk.Setup
 	    {
 			this.remoteAvatarPrefab = remoteAvatarPrefab;
 
-
 			if (remoteAvatarPrefab == null)
 		    {
 			    Debug.LogError("No Avatar Prefab has been assigned.  Shutting down CoPresence display system.");
@@ -25,10 +26,11 @@ namespace CavrnusSdk.Setup
 		    }
 
 			CavrnusFunctionLibrary.AwaitAnySpaceConnection(OnSpaceConnection);
-
 		}
 
 		private CavrnusSpaceConnection cavrnusSpaceConnection = null;
+		private IDisposable hasMovedBind;
+
 		private void OnSpaceConnection(CavrnusSpaceConnection obj)
 		{
 			cavrnusSpaceConnection = obj;
@@ -48,6 +50,18 @@ namespace CavrnusSdk.Setup
 			var avatar = GameObject.Instantiate(remoteAvatarPrefab, initialTransform.Position, Quaternion.Euler(initialTransform.EulerAngles));
             avatar.AddComponent<CavrnusUserFlag>().User = user;
 			avatar.name = $"{user.ContainerId} ({user.GetUserName()}'s Avatar)";
+			
+			avatar.SetActive(false);
+			avatar.AddComponent<SyncVisibility>().PropertyName = "AvatarVis";
+			hasMovedBind = user.SpaceConnection.BindTransformPropertyValue(user.ContainerId, "Transform", data => {
+				if (HasTransformChanged(initialTransform, data)) {
+					if (avatar != null) {
+						avatar.SetActive(true);
+					}
+					
+					hasMovedBind?.Dispose();
+				}
+			});
 
             CavrnusPropertyHelpers.ResetLiveHierarchyRootName(avatar, $"{user.ContainerId}");
 
@@ -65,6 +79,12 @@ namespace CavrnusSdk.Setup
 				sync.SendMyChanges = false;
 
 			avatarInstances[user.ContainerId] = avatar;
+		}
+		
+		private static bool HasTransformChanged(CavrnusTransformData initialTransform, CavrnusTransformData data, float positionThreshold = 0.1f, float rotationThreshold = 0.1f)
+		{
+			return Vector3.Distance(initialTransform.Position, data.Position) > positionThreshold ||
+			       Vector3.Distance(initialTransform.EulerAngles, data.EulerAngles) > rotationThreshold;
 		}
 
 		//Destroy them when we lose that user

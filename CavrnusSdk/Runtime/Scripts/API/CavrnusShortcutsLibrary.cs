@@ -1,6 +1,7 @@
 using System;
 using Collab.Proxy.Prop.JournalInterop;
 using System.Collections;
+using CavrnusCore;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -50,9 +51,8 @@ namespace CavrnusSdk.API
 
         public static IDisposable BindProfilePic(this CavrnusUser user, MonoBehaviour ob, Action<Sprite> onProfilePicChanged)
         {
-            var disp = user.SpaceConnection.BindStringPropertyValue(user.ContainerId, UserPropertyDefs.Users_Profile_ProfilePicture, (pp) =>
-            {
-                ob.StartCoroutine(LoadProfilePic(pp, onProfilePicChanged));
+            var disp = user.SpaceConnection.BindStringPropertyValue(user.ContainerId, UserPropertyDefs.Users_Profile_ProfilePicture, (pp) => {
+	            CavrnusStatics.Scheduler.ExecCoRoutine(LoadProfilePic(pp, onProfilePicChanged));
             });
             return disp;
         }
