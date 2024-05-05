@@ -502,3 +502,10 @@
 
 ### Fixed
 - Fixed chat removal bug. Using the correct owner Id now.
+
+
+## [2.10.1] - 2024-05-04
+
+### Fixed
+- Fixed double auth issue when save token is enabled for either member or guest.
+

@@ -37,6 +37,15 @@ namespace CavrnusSdk.CollaborationExamples
             CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceConn => {
                 this.spaceConn = spaceConn;
 
+                if (volume == null) {
+                    volume = FindObjectOfType<Volume>();
+
+                    if (volume == null) {
+                        Debug.LogWarning($"Missing PostProcessing Volume in Scene!");
+                        return;
+                    }
+                }
+           
                 if (volume.profile.TryGet(out ColorAdjustments ca))
                     SetupSaturationProperties(spaceConn, ca);
                 

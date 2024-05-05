@@ -8,7 +8,6 @@ namespace CavrnusSdk.UI
     public class TabSelectableNavigator : MonoBehaviour
     {
         [SerializeField] private List<Selectable> selectables;
-        [SerializeField] private Button ctaButton;
         
         private EventSystem eventSystem;
 
@@ -24,11 +23,6 @@ namespace CavrnusSdk.UI
                         break;
                     }
                 }
-            }
-
-            if (Input.GetKeyDown(KeyCode.KeypadEnter)) {
-                if (ctaButton != null)
-                    ExecuteEvents.Execute(ctaButton.gameObject, new BaseEventData(eventSystem), ExecuteEvents.submitHandler);
             }
         }
     }

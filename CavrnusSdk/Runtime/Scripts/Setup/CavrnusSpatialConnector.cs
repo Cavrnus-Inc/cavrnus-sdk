@@ -151,8 +151,7 @@ namespace CavrnusSdk.Setup
 					if (SaveUserToken) {
 						var valid = await IsTokenValid("MemberCavrnusAuthToken");
 						if (valid) {
-							SetupJoinSpace();
-							return;
+							return; // Escape early, if auth is successful then SetupJoinSpace() will be called from above await
 						}
 					}
 					else {
@@ -182,8 +181,7 @@ namespace CavrnusSdk.Setup
 					if (SaveGuestToken) {
 						var valid = await IsTokenValid("GuestCavrnusAuthToken");
 						if (valid) {
-							SetupJoinSpace();
-							return;
+							return; // Escape early, if auth is successful then SetupJoinSpace() will be called from above await
 						}
 					}
 					else {
