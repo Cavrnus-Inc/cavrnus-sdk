@@ -509,3 +509,9 @@
 ### Fixed
 - Fixed double auth issue when save token is enabled for either member or guest.
 
+
+
+## [2.10.2] - 2024-05-06
+
+### Fixed
+- Rebuilt base modules to include chat fixes
