@@ -40,8 +40,7 @@ namespace CavrnusSdk.CollaborationExamples
             CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceConn => {
                 this.spaceConn = spaceConn;
 
-                intensityUISlider.Slider.minValue = intensityMinMax.x;
-                intensityUISlider.Slider.maxValue = intensityMinMax.y;
+                intensityUISlider.Setup(spaceConn, containerName, intensityPropertyName, intensityMinMax);
                 
                 // Setup UI
                 foreach (var color in colors) {
@@ -67,27 +66,7 @@ namespace CavrnusSdk.CollaborationExamples
                     lightComponent.intensity = intensity;
                     intensityUISlider.Slider.SetValueWithoutNotify(intensity);
                 }));
-                
-                intensityUISlider.OnValueUpdated += IntensityValueChanged;
-                intensityUISlider.OnBeginDragging += IntensityDragBegin;
-                intensityUISlider.OnEndDragging += IntensityDragEnd;
             });
-        }
-        
-        private void IntensityDragBegin(float val)
-        {
-            liveIntensityUpdate ??= spaceConn.BeginTransientFloatPropertyUpdate(containerName, intensityPropertyName, val);
-        }
-
-        private void IntensityDragEnd(float val)
-        {
-            liveIntensityUpdate?.Finish();
-            liveIntensityUpdate = null;
-        }
-
-        private void IntensityValueChanged(float val)
-        {
-            liveIntensityUpdate?.UpdateWithNewData(val);
         }
 
         private void ColorSelected(Color color)
@@ -104,13 +83,8 @@ namespace CavrnusSdk.CollaborationExamples
 
         private void OnDestroy()
         {
-            foreach (var disposable in disposables) {
+            foreach (var disposable in disposables)
                 disposable.Dispose();
-            }
-            
-            intensityUISlider.OnValueUpdated -= IntensityValueChanged;
-            intensityUISlider.OnBeginDragging -= IntensityDragBegin;
-            intensityUISlider.OnEndDragging -= IntensityDragEnd;
         }
     }
 }

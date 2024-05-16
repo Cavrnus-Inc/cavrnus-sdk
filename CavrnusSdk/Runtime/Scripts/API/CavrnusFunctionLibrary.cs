@@ -529,7 +529,7 @@ namespace CavrnusSdk.API
 			CavrnusContentHelpers.FetchAllUploadedContent(onCurrentContentArrived);
 		}
 
-		public static void UploadContent(string localFilePath, Dictionary<string, string> tags, Action<CavrnusRemoteContent> onUploadComplete)
+		public static void UploadContent(string localFilePath,  Action<CavrnusRemoteContent> onUploadComplete, Dictionary<string, string> tags = null)
 		{
 			if (!IsLoggedIn())
 			{
@@ -537,7 +537,7 @@ namespace CavrnusSdk.API
 				return;
 			}
 
-			CavrnusContentHelpers.UploadContent(localFilePath, tags, onUploadComplete);
+			CavrnusContentHelpers.UploadContent(localFilePath, onUploadComplete, tags);
 		}
 
 		#endregion

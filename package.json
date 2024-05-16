@@ -5,7 +5,7 @@
   },
   "name": "com.cavrnus.csc",
   "displayName": "Cavrnus Spatial Connector",
-  "version": "2.10.2",
+  "version": "2.10.3",
   "unity": "2022.3",
   "description": "Cavrnus enhances 3D workflows by providing developers a seamless drag-and-drop toolkit for embedding collaborative features directly into Unity projects.",
   "repository": {
@@ -30,6 +30,11 @@
       "displayName": "Streamboard Examples",
       "description": "Examples demonstrating how user streams can be used on textures.",
       "path": "Samples~/StreamBoards"
+    },
+    {
+      "displayName": "Library Sample",
+      "description": "Example providing a functional library to upload and download content. ImageLoader provided as example.",
+      "path": "Samples~/Library"
     }
   ]
 }

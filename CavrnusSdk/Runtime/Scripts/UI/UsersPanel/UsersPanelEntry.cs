@@ -30,6 +30,10 @@ namespace CavrnusSdk.UI
 
             var picDisp = user.BindProfilePic(this, profilePic =>
             {
+	            if (profilePicImage == null) {
+		            return;
+	            }
+
                 profilePicImage.sprite = profilePic;
                 if (profilePic != null)
                     profilePicImage.GetComponent<AspectRatioFitter>().aspectRatio =

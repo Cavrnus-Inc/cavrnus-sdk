@@ -12,6 +12,7 @@ using Collab.Proxy.Comm.LiveTypes;
 using CavrnusSdk.API;
 using CavrnusSdk.Setup;
 using Collab.LiveRoomSystem.GameEngineConnector;
+using UnityEngine;
 
 namespace CavrnusCore
 {
@@ -52,7 +53,17 @@ namespace CavrnusCore
 				ServerContentManager = CavrnusStatics.ContentManager,
 			};
 
-			RoomSystem rs = new RoomSystem(CavrnusStatics.RtcContext, env, rsOptions);
+			var integrationInfo = new ClientProvidedIntegrationInfo()
+			{
+				ApplicationId = Application.productName,
+				ApplicationVersion = Application.version,
+				EngineId = "Unity",
+				EngineVersion = Application.unityVersion,
+				DeviceId = Application.platform.ToString(),
+				DeviceMode = "desktop"
+			};
+
+			RoomSystem rs = new RoomSystem(CavrnusStatics.RtcContext, env, rsOptions, null, integrationInfo);
 
 			rs.InitializeConnection(CavrnusAuthHelpers.CurrentAuthentication.Endpoint, joinId);
 

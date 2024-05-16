@@ -30,7 +30,7 @@ namespace CavrnusCore
 
 			var creationHandler = spaceConn.RoomSystem.LiveJournal.GetObjectCreationReciever();
 
-			var visibleObjectOps = creationHandler.GetMultiEntryWatcher<OpCreateObjectLive>().VisibleOps;
+			var visibleObjectOps = creationHandler.GetMultiEntryWatcher<OpCreateObjectLive>().ActiveOps;
 
 			//We have the delay to allow for the new objct's properties to arrive.  This way there's less weird "pop-in" of values
 			disp = visibleObjectOps.BindAll(op => CavrnusStatics.Scheduler.ExecInMainThreadAfterFrames(3, () => ObjectCreated(op)), ObjectRemoved);

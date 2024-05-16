@@ -515,3 +515,14 @@
 
 ### Fixed
 - Rebuilt base modules to include chat fixes
+
+
+## [2.10.3] - 2024-05-15
+
+### Added
+- Added new version of device info to work with current SDK
+- Chat UI integrated into XR rig
+- Updated base plugins
+
+### Fixed
+- Object creation handler fix

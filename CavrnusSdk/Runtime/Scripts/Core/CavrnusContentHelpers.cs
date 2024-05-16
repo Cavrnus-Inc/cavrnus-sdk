@@ -45,7 +45,7 @@ namespace CavrnusCore
 			CavrnusStatics.Scheduler.ExecInMainThread(() => onCurrentContentArrived(content));
 		}
 
-		internal static async void UploadContent(string localFilePath, Dictionary<string, string> tags, Action<CavrnusRemoteContent> onUploadComplete)
+		internal static async void UploadContent(string localFilePath, Action<CavrnusRemoteContent> onUploadComplete, Dictionary<string, string> tags = null)
 		{
 			var uploadProcess = new ProcessTask<string>("Upload new Content");
 
