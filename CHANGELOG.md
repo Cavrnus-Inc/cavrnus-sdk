@@ -526,3 +526,9 @@
 
 ### Fixed
 - Object creation handler fix
+
+
+## [2.10.4] - 2024-05-21
+
+### Fixed
+- Fixed Avatar vis. Only posts vis bool update now.

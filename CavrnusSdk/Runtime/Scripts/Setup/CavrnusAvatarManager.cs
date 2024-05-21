@@ -42,8 +42,11 @@ namespace CavrnusSdk.Setup
 		private void UserAdded(CavrnusUser user)
 		{
 			//This list contains the player.  But we don't wanna show their avatar via this system.
-			if (user.IsLocalUser)
+			if (user.IsLocalUser) {
+				user.SpaceConnection.PostBoolPropertyUpdate(user.ContainerId, "AvatarVis", true);
+				
 				return;
+			}
 
 			var initialTransform = user.SpaceConnection.GetTransformPropertyValue(user.ContainerId, "Transform");
 
@@ -51,16 +54,9 @@ namespace CavrnusSdk.Setup
             avatar.AddComponent<CavrnusUserFlag>().User = user;
 			avatar.name = $"{user.ContainerId} ({user.GetUserName()}'s Avatar)";
 			
-			avatar.SetActive(false);
-			avatar.AddComponent<SyncVisibility>().PropertyName = "AvatarVis";
-			hasMovedBind = user.SpaceConnection.BindTransformPropertyValue(user.ContainerId, "Transform", data => {
-				if (HasTransformChanged(initialTransform, data)) {
-					if (avatar != null) {
-						avatar.SetActive(true);
-					}
-					
-					hasMovedBind?.Dispose();
-				}
+			user.SpaceConnection.DefineBoolPropertyDefaultValue(user.ContainerId, "AvatarVis", false);
+			hasMovedBind = user.SpaceConnection.BindBoolPropertyValue(user.ContainerId, "AvatarVis", vis => {
+				avatar.SetActive(vis);
 			});
 
             CavrnusPropertyHelpers.ResetLiveHierarchyRootName(avatar, $"{user.ContainerId}");
