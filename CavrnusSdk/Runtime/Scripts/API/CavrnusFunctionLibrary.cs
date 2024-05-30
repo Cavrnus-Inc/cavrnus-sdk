@@ -84,10 +84,9 @@ namespace CavrnusSdk.API
 		}
 
         //Triggers when spaces become available to you that you can join, or when their metadata changes
-        public static IDisposable BindJoinableSpaces(Action<CavrnusSpaceInfo> spaceAdded, Action<CavrnusSpaceInfo> spaceUpdated, Action<CavrnusSpaceInfo> spaceRemoved)
+        public static IDisposable BindJoinableSpaces(Action<CavrnusSpaceInfo> spaceAdded, Action<CavrnusSpaceInfo> spaceRemoved)
 		{
-			//TODO: FIX SPACEUPDATED SO IT GETS HIT!  (Or have space data in properties...)
-			return CavrnusSpaceHelpers.BindAllAvailableSpaces(spaceAdded, spaceUpdated, spaceRemoved);
+			return CavrnusSpaceHelpers.BindAllAvailableSpaces(spaceAdded, spaceRemoved);
 		}
 
         //Checks if there is any active connection to a space

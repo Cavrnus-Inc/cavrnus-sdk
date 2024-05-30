@@ -73,7 +73,7 @@ namespace CavrnusSdk.UI
 		private void UpdatePagination(List<CavrnusSpaceInfo> spaces)
 		{
 			var options = new List<IListElement>();
-			spaces.Sort((x, y) => String.Compare(x.Name.ToLowerInvariant(), y.Name.ToLowerInvariant(), StringComparison.Ordinal));
+			spaces.Sort((x, y) => DateTime.Compare(y.LastAccessedTime, x.LastAccessedTime));
 			spaces.ForEach(s => options.Add(new SpacePickerOption(s, JoinSelectedSpace)));
 
 			pagination.NewPagination(spacePickerPrefab, options);

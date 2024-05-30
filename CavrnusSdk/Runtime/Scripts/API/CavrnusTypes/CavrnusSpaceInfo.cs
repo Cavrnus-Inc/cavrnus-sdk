@@ -1,20 +1,20 @@
+using Collab.Proxy.Comm.NotifyApi;
 using System;
 
 namespace CavrnusSdk.API
 {
 	public class CavrnusSpaceInfo
 	{
-		public string Name;
-		public string Id;
-		public DateTime LastAccessedTime;
-		public string ThumbnailUrl;
+		public string Name => room.Name.Value;
+		public string Id => room.Id;
+		public DateTime LastAccessedTime => room.ConnectedMember?.Value?.LastAccess?.Value ?? new DateTime(0L, DateTimeKind.Utc);
+		public string ThumbnailUrl => room.ThumbnailUrl.Value?.ToString();
 
-		internal CavrnusSpaceInfo(string name, string id, DateTime lastAccessedTime, string thumbnailUrl)
+		private INotifyDataRoom room;
+
+		internal CavrnusSpaceInfo(INotifyDataRoom room)
 		{
-			Name = name;
-			Id = id;
-			LastAccessedTime = lastAccessedTime;
-			ThumbnailUrl = thumbnailUrl;
+			this.room = room;
 		}
 	}
 }

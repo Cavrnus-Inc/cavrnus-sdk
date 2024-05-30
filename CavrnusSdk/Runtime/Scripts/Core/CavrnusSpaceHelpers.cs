@@ -118,14 +118,19 @@ namespace CavrnusCore
 			DebugOutput.Info($"Fetched rooms list: {uri.rooms.Length} rooms.");
 
 			var res = new List<CavrnusSpaceInfo>();
-			foreach (var room in uri.rooms) res.Add(new CavrnusSpaceInfo(room.name, room._id, room.modifiedAt, room.thumbnailContentUrl));
+			foreach (var room in uri.rooms)
+			{
+				INotifyDataRoom notifyRoom = await CavrnusStatics.Notify.RoomsSystem.StartListeningSpecificAsync(room._id);
+
+				res.Add(new CavrnusSpaceInfo(notifyRoom));
+			}
 
 			res.Sort((x, y) => DateTime.Compare(x.LastAccessedTime, y.LastAccessedTime));
 
 			onRecvCurrentJoinableSpaces(res);
 		}
 
-		internal static IDisposable BindAllAvailableSpaces(Action<CavrnusSpaceInfo> spaceAdded, Action<CavrnusSpaceInfo> spaceUpdated, Action<CavrnusSpaceInfo> spaceRemoved)
+		internal static IDisposable BindAllAvailableSpaces(Action<CavrnusSpaceInfo> spaceAdded, Action<CavrnusSpaceInfo> spaceRemoved)
 		{
 			List<IDisposable> disposables = new List<IDisposable>();
 
@@ -157,7 +162,7 @@ namespace CavrnusCore
 
 			NotifyDictionaryListMapper<string, INotifyDataRoom, CavrnusSpaceInfo> mapper =
 				new NotifyDictionaryListMapper<string, INotifyDataRoom, CavrnusSpaceInfo>(archivedFilter.Result,
-					(s, ile) => new CavrnusSpaceInfo(ile.Name.Value, ile.Id, ile.ConnectedMember.Value.LastAccess.Value.Value, ile.ThumbnailUrl.Value.ToString()),
+					(s, ile) => new CavrnusSpaceInfo(ile),
 					(a, b) => Comparer<DateTime?>.Default.Compare(b.LastAccessedTime, a.LastAccessedTime));
 			disposables.Add(mapper);
 

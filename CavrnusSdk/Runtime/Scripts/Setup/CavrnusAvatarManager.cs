@@ -43,7 +43,7 @@ namespace CavrnusSdk.Setup
 		{
 			//This list contains the player.  But we don't wanna show their avatar via this system.
 			if (user.IsLocalUser) {
-				user.SpaceConnection.PostBoolPropertyUpdate(user.ContainerId, "AvatarVis", true);
+				user.SpaceConnection.BeginTransientBoolPropertyUpdate(user.ContainerId, "AvatarVis", true);
 				
 				return;
 			}

@@ -532,3 +532,13 @@
 
 ### Fixed
 - Fixed Avatar vis. Only posts vis bool update now.
+
+
+## [2.10.5] - 2024-05-30
+
+### Changed
+- SpaceInfo is now more responsive
+- SpaceList filtered by LastVisited
+
+### Fixed
+- AvatarVis is now transient bool
