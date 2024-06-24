@@ -58,7 +58,7 @@ MonoBehaviour:
   SaveGuestToken: 1
   SpaceJoinMethod: 0
   SpacesListMenu: {fileID: 7566173827213273048, guid: 3bff16a09419a114ead151503f2b596c, type: 3}
-  AutomaticSpaceJoinConfig: SampleSpaceJoinConfig
+  AutomaticSpaceJoinId: SampleSpaceJoinConfig
   LoadingMenus:
   - {fileID: 1949255927169078816, guid: 7e23f7d438cebea40b14760457be7be7, type: 3}
   SpaceMenus:

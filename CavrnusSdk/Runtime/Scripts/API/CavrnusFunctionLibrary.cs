@@ -15,9 +15,16 @@ using Collab.Proxy.Comm.LiveTypes;
 using Collab.Proxy.Prop.StringProp;
 using StringEditingMetadata = Collab.Proxy.Prop.StringProp.StringEditingMetadata;
 using StringPropertyMetadata = Collab.Proxy.Prop.StringProp.StringPropertyMetadata;
+using Collab.Proxy.Prop;
+using Collab.Proxy.Prop.JournalInterop;
 
 namespace CavrnusSdk.API
 {
+	public class PropertyPostOptions
+	{
+		public bool smoothed = true;
+	}
+
 	public static class CavrnusFunctionLibrary
 	{
         //Sets up all static helpers and systems required for Cavrnus to run
@@ -39,7 +46,7 @@ namespace CavrnusSdk.API
 	        var chat = new ContentTypeChatEntry(message, DateTimeCache.UtcNow, localUser.UserId, ChatMessageSourceTypeEnum.Chat);
 	        var newId = spaceConn.RoomSystem.Comm.CreateNewUniqueObjectId();
 	        
-	        var op = spaceConn.RoomSystem.LiveOpsSys.Create(new OpCreateObjectLive(null, newId, localUser.UserId, chat));
+	        var op = spaceConn.RoomSystem.LiveOpsSys.Create(new OpCreateObjectLive(null, PropertyDefs.ChatContainer.Push(newId), localUser.UserId, chat));
 	        op.OpData.CreatorId = localUser.UserId;
 	        op.OpData.ExecMode = Operation.Types.OperationExecutionModeEnum.Standard;
 	        op.PostAndComplete();
@@ -332,15 +339,15 @@ namespace CavrnusSdk.API
 		}
 
         //Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
-        public static CavrnusLivePropertyUpdate<CavrnusTransformData> BeginTransientTransformPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, CavrnusTransformData propertyValue)
+        public static CavrnusLivePropertyUpdate<CavrnusTransformData> BeginTransientTransformPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, CavrnusTransformData propertyValue, PropertyPostOptions options = null)
 		{
-			return CavrnusPropertyHelpers.BeginContinuousPropertyUpdate(spaceConn, containerName, propertyName, propertyValue);
+			return CavrnusPropertyHelpers.BeginContinuousPropertyUpdate(spaceConn, containerName, propertyName, propertyValue, options);
 		}
 
         //Updates the property value at the given path and synchronizes the data to the server
-        public static void PostTransformPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, CavrnusTransformData propertyValue)
+        public static void PostTransformPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, CavrnusTransformData propertyValue, PropertyPostOptions options = null)
 		{
-			CavrnusPropertyHelpers.UpdateTransformProperty(spaceConn, containerName, propertyName, propertyValue.Position, propertyValue.EulerAngles, propertyValue.Scale);
+			CavrnusPropertyHelpers.UpdateTransformProperty(spaceConn, containerName, propertyName, propertyValue.Position, propertyValue.EulerAngles, propertyValue.Scale, options);
 		}
 
         #endregion
@@ -376,7 +383,7 @@ namespace CavrnusSdk.API
 			var creatorId = spaceConn.RoomSystem.Comm.LocalCommUser.Value.ConnectionId;
 			var contentType = new ContentTypeWellKnownId(uniqueIdentifier);
 
-			var createOp = new OpCreateObjectLive(null, newId, creatorId, contentType).ToOp();
+			var createOp = new OpCreateObjectLive(null, PropertyId.FromAbsoluteStack(newId), creatorId, contentType).ToOp();
 
 			if(onObjectCreated != null)
 			{

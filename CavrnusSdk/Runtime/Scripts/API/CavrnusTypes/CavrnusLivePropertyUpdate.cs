@@ -18,9 +18,13 @@ namespace CavrnusSdk.API
 		private LiveOpHandler<OpPropertyUpdateLive> handler;
 		private ITransformProperty specialTransformProp;
 
+		private bool smoothed;
+
 		internal CavrnusLivePropertyUpdate(CavrnusSpaceConnection spaceConn, string pathToContainer,
-		                                       string propertyId, T data)
+		                                       string propertyId, T data, bool smoothed = true)
 		{
+			this.smoothed = smoothed;
+
 			var myContainerId = new PropertyId(pathToContainer);
 			var myContainer = spaceConn.RoomSystem.PropertiesRoot.SearchForContainer(myContainerId);
 
@@ -82,16 +86,18 @@ namespace CavrnusSdk.API
 				{
 					AssignmentId = "-",
 					Priority = 0,
-					SetGeneratorPb = BuildApproachTransform(t),
+					SetGeneratorPb = smoothed ? BuildApproachTransform(t) : BuildFixedTransform(t),
 				};
-				specialTransformProp = spaceConn.RoomSystem.PropertiesRoot.SearchForTransformProperty(op.Property);
-				specialTransformProp.UpdateValue("moverTmp", 1, new TransformSetGeneratorSrt(
-					new VectorGeneratorConst(t.Position.ToFloat4()),
-					new VectorGeneratorConst(t.EulerAngles.ToFloat4()),
-					new VectorGeneratorConst(t.Scale.ToFloat4())));
-			}
 
-			
+				if(smoothed)
+				{
+					specialTransformProp = spaceConn.RoomSystem.PropertiesRoot.SearchForTransformProperty(op.Property);
+					specialTransformProp.UpdateValue("moverTmp", 1, new TransformSetGeneratorSrt(
+						new VectorGeneratorConst(t.Position.ToFloat4()),
+						new VectorGeneratorConst(t.EulerAngles.ToFloat4()),
+						new VectorGeneratorConst(t.Scale.ToFloat4())));
+				}
+			}
 
 			handler = spaceConn.RoomSystem.LiveOpsSys.Create(op);
 			//Debug.Log("Posting First Transient " + Time.time);
@@ -125,17 +131,33 @@ namespace CavrnusSdk.API
 				handler.OpData.Assignment = new TransformPropertyAssignmentLive()
 				{
 					AssignmentId = "-",
-					SetGeneratorPb = BuildApproachTransform(t),
+					SetGeneratorPb = smoothed ? BuildApproachTransform(t) : BuildFixedTransform(t),
 				};
 
-				specialTransformProp.UpdateValue("moverTmp", 1, new TransformSetGeneratorSrt(
+				if (smoothed)
+				{
+					specialTransformProp.UpdateValue("moverTmp", 1, new TransformSetGeneratorSrt(
 					new VectorGeneratorConst(t.Position.ToFloat4()),
 					new VectorGeneratorConst(t.EulerAngles.ToFloat4()),
 					new VectorGeneratorConst(t.Scale.ToFloat4())));
+				}
 			}
 			//Debug.Log("Posting Transient " + handler.OpData + ", " + Time.time);
 
 			handler.PostAsTransient();
+		}
+
+		private TransformSet BuildFixedTransform(CavrnusTransformData t)
+		{
+			return new TransformSet()
+			{
+				Srt = new TransformSetSRT()
+				{
+					TransformPos = new VectorPropertyValue() { Constant = t.Position.ToFloat4().ToPb() },
+					RotationEuler = new VectorPropertyValue() { Constant = t.EulerAngles.ToFloat4().ToPb() },
+					Scale = new VectorPropertyValue() { Constant = t.Scale.ToFloat4().ToPb() },
+				}
+			};
 		}
 
 		private TransformSet BuildApproachTransform(CavrnusTransformData t)
@@ -161,7 +183,7 @@ namespace CavrnusSdk.API
 
 		public void Finish()
 		{
-			if(specialTransformProp != null)
+			if(smoothed && specialTransformProp != null)
 			{
 				specialTransformProp.ClearValue("moverTmp");
 			}

@@ -41,7 +41,7 @@ namespace CavrnusCore
 		internal void ObjectCreated(OpInfo<OpCreateObjectLive> createOp)
 		{
 			//Since we waited, this should be here if they already set it
-			var initialTransform = spaceConn.GetTransformPropertyValue(createOp.Op.NewObjectId, "Transform");
+			var initialTransform = spaceConn.GetTransformPropertyValue(createOp.Op.ObjectContextPath.ToString(), "Transform");
 
 			if (createOp.Op.ObjectType is ContentTypeWellKnownId cId) 
 			{
@@ -50,16 +50,16 @@ namespace CavrnusCore
 					var prefab = spawnablePrefabs.FirstOrDefault(sp => sp.UniqueId == cId.WellKnownId)?.Object;
 					
                     var ob = GameObject.Instantiate(prefab, initialTransform.Position, Quaternion.Euler(initialTransform.EulerAngles));
-					createdObjects[createOp.Op.NewObjectId] = ob.gameObject;
-					ob.gameObject.name = $"{createOp.Op.NewObjectId} ({prefab.name})";
-					var spawnedObject = new CavrnusSpawnedObject(createOp.Op.NewObjectId, createOp.Id, spaceConn);
+					createdObjects[createOp.Op.ObjectContextPath.ToString()] = ob.gameObject;
+					ob.gameObject.name = $"{createOp.Op.ObjectContextPath.ToString()} ({prefab.name})";
+					var spawnedObject = new CavrnusSpawnedObject(createOp.Op.ObjectContextPath.ToString(), ob, createOp.Id, spaceConn);
 					ob.gameObject.AddComponent<CavrnusSpawnedObjectFlag>().Init(spawnedObject);
-					CavrnusPropertyHelpers.ResetLiveHierarchyRootName(ob.gameObject, createOp.Op.NewObjectId);
+					CavrnusPropertyHelpers.ResetLiveHierarchyRootName(ob.gameObject, createOp.Op.ObjectContextPath.ToString());
 
-					if(SpawnCallbacks.ContainsKey(createOp.Op.NewObjectId))
+					if(SpawnCallbacks.ContainsKey(createOp.Op.ObjectContextPath.ToString()))
 					{
-						SpawnCallbacks[createOp.Op.NewObjectId].Invoke(spawnedObject, ob);
-						SpawnCallbacks.Remove(createOp.Op.NewObjectId);
+						SpawnCallbacks[createOp.Op.ObjectContextPath.ToString()].Invoke(spawnedObject, ob);
+						SpawnCallbacks.Remove(createOp.Op.ObjectContextPath.ToString());
 					}
 				}
 				else {
@@ -93,9 +93,9 @@ namespace CavrnusCore
 
 		internal void ObjectRemoved(OpInfo<OpCreateObjectLive> createOp)
 		{
-			if (createdObjects.ContainsKey(createOp.Op.NewObjectId)) {
-				GameObject.Destroy(createdObjects[createOp.Op.NewObjectId]);
-				createdObjects.Remove(createOp.Op.NewObjectId);
+			if (createdObjects.ContainsKey(createOp.Op.ObjectContextPath.ToString())) {
+				GameObject.Destroy(createdObjects[createOp.Op.ObjectContextPath.ToString()]);
+				createdObjects.Remove(createOp.Op.ObjectContextPath.ToString());
 			}
 		}
 	}

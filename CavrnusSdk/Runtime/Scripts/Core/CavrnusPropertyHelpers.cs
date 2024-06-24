@@ -9,6 +9,8 @@ using UnityEngine;
 using CavrnusSdk.API;
 using CavrnusSdk.PropertySynchronizers;
 using StringPropertyMetadata = Collab.Proxy.Prop.StringProp.StringPropertyMetadata;
+using Google.Protobuf.WellKnownTypes;
+using Collab.LiveRoomSystem;
 
 namespace CavrnusCore
 {
@@ -16,6 +18,7 @@ namespace CavrnusCore
 	{
 		private class MiniFakeDisposable : IDisposable
 		{
+			public static MiniFakeDisposable Instance = new MiniFakeDisposable();
 			public void Dispose(){}
 		}
 
@@ -69,12 +72,38 @@ namespace CavrnusCore
 
 		internal static CavrnusLivePropertyUpdate<T> BeginContinuousPropertyUpdate<T>(
 			CavrnusSpaceConnection spaceConn, string containerId,
-			string propertyId, T val)
+			string propertyId, T val, PropertyPostOptions options = null)
 		{
 			CheckCommonErrors(spaceConn, containerId, propertyId);
 			ResolveContainerPath(ref propertyId, ref containerId);
 
-			return new CavrnusLivePropertyUpdate<T>(spaceConn, containerId, propertyId, val);
+			options = options ?? new PropertyPostOptions();
+
+			return new CavrnusLivePropertyUpdate<T>(spaceConn, containerId, propertyId, val, options.smoothed);
+		}
+
+		private static string PostLocalTransient(RoomSystem space, Operation op)
+		{
+			string uniqueTransientId = Guid.NewGuid().ToString();
+			var entry = new TransientEntry()
+			{
+				ConnectionId = space.Comm.LocalCommUser.Value.ConnectionId ?? "",
+				Time = Timestamp.FromDateTime(space.LiveJournal.EstimateCurrServerTimestamp()),
+				Ev = new TransientEvent()
+				{
+					TransientJournalUpdate = new EvTransientJournalUpdate()
+					{
+						V1 = new EvTransientJournalUpdate.Types.V1()
+						{
+							UniqueId = uniqueTransientId,
+							UpdatePropertyValue = op.UpdatePropertyValue,
+						}
+					}
+				},
+			};
+			space.LiveJournal.RecvTransient(entry);
+
+			return uniqueTransientId;
 		}
 
 		#region Color Props
@@ -100,7 +129,7 @@ namespace CavrnusCore
 			if (myContainer.GetColorProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
 			{
 				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
-				return new MiniFakeDisposable();
+				return MiniFakeDisposable.Instance;
 			}
 
 			return myContainer.DefineColorProperty(propertyId, defaultVal.ToColor4F(),
@@ -155,7 +184,8 @@ namespace CavrnusCore
 				                                                       Constant = value.ToColor4().ToPb()
 			                                                       });
 
-			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), null);
+			var transId = PostLocalTransient(spaceConn.RoomSystem, op.ToOp());
+			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
 		}
 
 		#endregion
@@ -184,7 +214,7 @@ namespace CavrnusCore
 			if (myContainer.GetStringProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
 			{
 				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
-				return new MiniFakeDisposable();
+				return MiniFakeDisposable.Instance;
 			}
 
 			return myContainer.DefineStringProperty(propertyId, defaultVal,
@@ -252,7 +282,8 @@ namespace CavrnusCore
 			var op = PropertyOperationHelpers.BuildStringPropertyOp(myProp.AbsoluteId,
 			                                                        new StringPropertyValue() {Constant = value});
 
-			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), null);
+			var transId = PostLocalTransient(spaceConn.RoomSystem, op.ToOp());
+			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
 		}
 
 		#endregion
@@ -281,7 +312,7 @@ namespace CavrnusCore
 			if (myContainer.GetBooleanProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
 			{
 				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
-				return new MiniFakeDisposable();
+				return MiniFakeDisposable.Instance;
 			}
 
 			return myContainer.DefineBooleanProperty(propertyId, defaultVal,
@@ -334,7 +365,8 @@ namespace CavrnusCore
 			var op = PropertyOperationHelpers.BuildBoolPropertyOp(myProp.AbsoluteId,
 			                                                      new BooleanPropertyValue() {Constant = value});
 
-			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), null);
+			var transId = PostLocalTransient(spaceConn.RoomSystem, op.ToOp());
+			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
 		}
 
 		#endregion
@@ -363,7 +395,7 @@ namespace CavrnusCore
 			if (myContainer.GetScalarProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
 			{
 				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
-				return new MiniFakeDisposable();
+				return MiniFakeDisposable.Instance;
 			}
 
 			return myContainer.DefineScalarProperty(propertyId, defaultVal,
@@ -416,7 +448,8 @@ namespace CavrnusCore
 			var op = PropertyOperationHelpers.BuildScalarPropertyOp(myProp.AbsoluteId,
 			                                                        new ScalarPropertyValue() {Constant = value});
 
-			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), null);
+			var transId = PostLocalTransient(spaceConn.RoomSystem, op.ToOp());
+			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
 		}
 
 		#endregion
@@ -445,7 +478,7 @@ namespace CavrnusCore
 			if (myContainer.GetVectorProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
 			{
 				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
-				return new MiniFakeDisposable();
+				return MiniFakeDisposable.Instance;
 			}
 
 			return myContainer.DefineVectorProperty(propertyId, defaultVal.ToFloat4(),
@@ -500,7 +533,8 @@ namespace CavrnusCore
 				                                                        Constant = value.ToFloat4().ToPb()
 			                                                        });
 
-			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), null);
+			var transId = PostLocalTransient(spaceConn.RoomSystem, op.ToOp());
+			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
 		}
 
 		#endregion
@@ -530,7 +564,7 @@ namespace CavrnusCore
 			if (myContainer.GetTransformProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
 			{
 				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
-				return new MiniFakeDisposable();
+				return MiniFakeDisposable.Instance;
 			}
 
 			var defaultTrans = new TransformComplete() {
@@ -590,25 +624,55 @@ namespace CavrnusCore
 
 		internal static void UpdateTransformProperty(CavrnusSpaceConnection spaceConn, string containerId,
 		                                               string propertyId, Vector3 localPos, Vector3 localRot,
-		                                               Vector3 localScl)
+		                                               Vector3 localScl, PropertyPostOptions options = null)
 		{
 			CheckCommonErrors(spaceConn, containerId, propertyId);
 			ResolveContainerPath(ref propertyId, ref containerId);
+			options = options ?? new PropertyPostOptions();
 
 			var myContainer = MyContainer(spaceConn, containerId);
 			var myProp = myContainer.SearchForTransformProperty(new PropertyId(propertyId));
 
-			TransformSet trns = new TransformSet() {
-				Srt = new TransformSetSRT() {
-					TransformPos = new VectorPropertyValue() {Constant = localPos.ToFloat4().ToPb()},
-					RotationEuler = new VectorPropertyValue() {Constant = localRot.ToFloat4().ToPb()},
-					Scale = new VectorPropertyValue() {Constant = localScl.ToFloat4().ToPb()},
-				}
-			};
+			TransformSet trns;
+			if (options.smoothed)
+			{
+				trns = new TransformSet()
+				{
+					Approach = new TransformSetApproach()
+					{
+						To = new TransformSet()
+						{
+							Srt = new TransformSetSRT()
+							{
+								TransformPos = new VectorPropertyValue() { Constant = localPos.ToFloat4().ToPb() },
+								RotationEuler = new VectorPropertyValue() { Constant = localRot.ToFloat4().ToPb() },
+								Scale = new VectorPropertyValue() { Constant = localScl.ToFloat4().ToPb() },
+							}
+						},
+						TimeToHalf = new ScalarPropertyValue() { Constant = .1f },
+						T = new ScalarPropertyValue() { Ref = new PropertyIdentifier() { Id = "t" } },
+					},
+				};
+			}
+			else
+			{
+				trns = new TransformSet()
+				{
+					Srt = new TransformSetSRT()
+					{
+						TransformPos = new VectorPropertyValue() { Constant = localPos.ToFloat4().ToPb() },
+						RotationEuler = new VectorPropertyValue() { Constant = localRot.ToFloat4().ToPb() },
+						Scale = new VectorPropertyValue() { Constant = localScl.ToFloat4().ToPb() },
+					}
+				};
+			}
+
+			
 
 			var op = PropertyOperationHelpers.BuildTransformPropertyOp(myProp.AbsoluteId, trns);
 
-			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), null);
+			var transId = PostLocalTransient(spaceConn.RoomSystem, op.ToOp());
+			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
 		}
 
 		#endregion

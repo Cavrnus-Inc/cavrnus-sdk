@@ -286,15 +286,6 @@
 ### Added
 - Added a new feature
 
-### Changed
-- 
-
-### Deprecated
-- 
-
-### Removed
-- 
-
 ### Fixed
 - Fixed problems when locally cached user token is invalid
 
@@ -311,11 +302,8 @@
 - Changed several menus to be visually consistent rest of UI
 
 
-
 ## [2.4.10] - 2024-03-07
 
-## [2.4.10] - 2024-03-07
-
 ### Changed
 
 - User login flow to account for member and guest auth tokens
@@ -327,7 +315,7 @@
 
 - Space picker menu results are now sorted alphabetically.
 
-- Space picker menu always shows available spaces.
+- Space picker menu always shows available spaces.
 
 
 ## [2.4.11] - 2024-03-11
@@ -358,48 +346,6 @@
 
 ### Fixed
 - Fixed user transients accidentally finalizing, causing unexpected properties to show
-
-
-## [2.4.17] - 2024-03-19
-
-### Added
-- Added a new feature
-
-### Changed
-- 
-
-### Deprecated
-- 
-
-### Removed
-- 
-
-### Fixed
-- 
-
-### Security
--
-
-
-## [2.4.18] - 2024-03-19
-
-### Added
-- Added a new feature
-
-### Changed
-- 
-
-### Deprecated
-- 
-
-### Removed
-- 
-
-### Fixed
-- 
-
-### Security
--
 
 
 ## [2.5.0] - 2024-03-20
@@ -542,3 +488,39 @@
 
 ### Fixed
 - AvatarVis is now transient bool
+
+
+## [2.11] - 2024-06-11
+
+### Added
+- Added smoothing options to Transform Props
+
+
+## [2.11.1] - 2024-06-12
+
+### Fixed
+- Fixed Auto Space JoinID
+
+
+## [2.11.2] - 2024-06-13
+
+### Added
+- Added spawned object instance to CavrnusSpawnedObject struct
+
+
+## [2.11.3] - 2024-06-14
+
+### Changed
+- Posted operations now show the new local value immediately
+
+
+## [2.12] - 2024-06-17
+
+### Added
+- Upgraded protocol to support journal caching
+
+
+## [2.12.1] - 2024-06-24
+
+### Added
+- Added more robust Readme to that includes more info to getting started

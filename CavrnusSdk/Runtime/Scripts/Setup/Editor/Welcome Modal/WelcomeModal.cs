@@ -85,6 +85,7 @@ namespace CavrnusSdk.Setup.Editor
 				}
 				CustomerServer = server;
 			});
+            
 			CreateLargeButton("Set up your Scene", mainButtonSize, CavrnusSetupHelpers.SetupSceneForCavrnus);
             CreateLargeButton("Web Console",  mainButtonSize,()=> Application.OpenURL("https://app.cavrn.us/"));
             
@@ -93,7 +94,13 @@ namespace CavrnusSdk.Setup.Editor
             CustomEditorUtilities.CreateLabel("Need help with getting started?", 12, false, TextAnchor.MiddleCenter);
             CustomEditorUtilities.AddSpace(5);
 
-            CreateLargeButton("Visit Documentation",  smallerButtonSize,()=> Application.OpenURL("https://cavrnus.atlassian.net/servicedesk/customer/portal/1/article/827457539"));
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            CreateMediumButton("Visit Documentation",  smallerButtonSize,()=> Application.OpenURL("https://cavrnus.atlassian.net/servicedesk/customer/portal/1/article/827457539"));
+            CreateMediumButton("Join Discord",  smallerButtonSize,()=> Application.OpenURL("https://discord.gg/AzgenDT7Ez"));
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            
 
             GUILayout.EndVertical();
 
@@ -186,6 +193,15 @@ namespace CavrnusSdk.Setup.Editor
             GUILayout.Space(10);
             GUILayout.EndVertical();
             GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+        }
+        
+        private void CreateMediumButton(string text, Vector2 size, Action onClick)
+        {
+            GUILayout.BeginHorizontal();
+            
+            CustomEditorUtilities.CreateLargeButton(text, size,0, onClick);
+            
             GUILayout.EndHorizontal();
         }
 
