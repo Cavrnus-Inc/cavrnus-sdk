@@ -18,39 +18,21 @@
     <img src="https://img.shields.io/badge/Cavrnus_Twitter-label?style=flat&logo=x&logoColor=black&labelColor=white&color=white&link=https%3A%2F%2Fwww.youtube.com%2F%40cavrnus
     " alt="twitter" style="height: 20px;"></a>
     <a href="https://discord.gg/AzgenDT7Ez">
-    <img src="https://img.shields.io/badge/Cavrnus_Discord-label?style=flat&logo=discord&labelColor=white&color=white&link=https%3A%2F%2Fdiscord.gg%2FAzgenDT7Ez
+    <img src="https://img.shields.io/badge/Cavrnus_Support-label?style=flat&logo=discord&labelColor=white&color=white&link=https%3A%2F%2Fdiscord.gg%2FAzgenDT7Ez
     " alt="discord" style="height: 20px;"></a>
 </h4>
 
 <h4 align="center">
-    <img src="https://img.shields.io/badge/version-2.12.1-label?style=flat&labelColor=blue&color=white&link=https%3A%2F%2Fwww.cavrnus.com%2F
+    <img src="https://img.shields.io/badge/Version-2.12.2-label?style=flat&labelColor=blue&color=white&link=https%3A%2F%2Fwww.cavrnus.com%2F
     " alt="discord" style="height: 20px;"></a>
     </h4>
 
     
-## Package Information
-**Product Name:** Cavrnus Spatial Connector     
+## Package Information  
 **Version:** 2.12.1    
-**Date:** 2024-06-24    
-**Company:** Cavrnus Inc.    
-**Website:** [Cavrnus.com](https://www.cavrnus.com/)  
-**Support:** [Cavrnus Discord](https://discord.gg/AzgenDT7Ez)   
+**Last Updated:** 2024-06-24    
 **Documentation:** [Cavrnus Spatial Connector Unity Documentation](https://cavrnus.atlassian.net/wiki/spaces/CSM/overview?homepageId=410615958)     
 
-## Table of Contents
-1. [Introduction](#introduction)
-   1. [Overview](#overview)
-   2. [Requirements](#requirements)
-2. [Getting Started](#getting-started)
-   1. [Installation](#installation)
-   2. [Quick Start Guide](#quick-start-guide)
-3. [Feature Guide](#feature-guide)
-   1. [Multi-User Copresence](#multi-user-copresence)
-   2. [No-Code Components](#no-code-components)
-   3. [Full API Reference](#full-api-reference)
-4. [Support and Feedback](#support-and-feedback)
-   1. [Contact Information](#contact-information)
-   2. [Bug Reporting](#bug-reporting)
 
 ## Introduction
 

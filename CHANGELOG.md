@@ -524,3 +524,8 @@
 
 ### Added
 - Added more robust Readme to that includes more info to getting started
+
+## [2.12.2] - 2024-06-24
+
+### Changed
+- Formatting changes in README.md file
