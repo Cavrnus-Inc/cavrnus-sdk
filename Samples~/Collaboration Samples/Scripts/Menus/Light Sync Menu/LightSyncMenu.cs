@@ -33,8 +33,6 @@ namespace CavrnusSdk.CollaborationExamples
         private CavrnusSpaceConnection spaceConn;
         private List<IDisposable> disposables = new List<IDisposable>();
         
-        private CavrnusLivePropertyUpdate<float> liveIntensityUpdate = null;
-
         private void Start()
         {
             CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceConn => {

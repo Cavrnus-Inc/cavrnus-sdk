@@ -20,14 +20,12 @@ namespace CavrnusSdk.CollaborationExamples
         [SerializeField] private string saturationValuePropertyName = "Saturation";
         [SerializeField] private Toggle saturationToggle;
         [SerializeField] private UISliderWrapper saturationSlider;
-        private CavrnusLivePropertyUpdate<float> liveContrastUpdate = null;
         
         [Header("Saturation")]
         [SerializeField] private string bloomEnabledPropertyName = "BloomEnabled";
         [SerializeField] private string bloomValuePropertyName = "Bloom";
         [SerializeField] private Toggle bloomShiftToggle;
         [SerializeField] private UISliderWrapper bloomShiftSlider;
-        private CavrnusLivePropertyUpdate<float> liveBloomShiftUpdate = null;
 
         private CavrnusSpaceConnection spaceConn;
         private List<IDisposable> disposables = new List<IDisposable>();

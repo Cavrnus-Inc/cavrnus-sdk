@@ -14,7 +14,7 @@ using Collab.LiveRoomSystem;
 
 namespace CavrnusCore
 {
-	internal class CavrnusPropertyHelpers : MonoBehaviour
+	internal static class CavrnusPropertyHelpers
 	{
 		private class MiniFakeDisposable : IDisposable
 		{

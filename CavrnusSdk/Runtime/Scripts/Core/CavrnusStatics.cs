@@ -35,8 +35,6 @@ namespace CavrnusCore
 		internal static LivePolicyEvaluator LivePolicyEvaluator { get; private set; }
 		internal static ServerContentCacheManager ContentManager { get; private set; }
 
-		internal static MultiTranslatingSetting<bool, bool, bool> NotifyPoliciesAndRolesFullyLoaded{ get; set; }
-
 		internal static INetworkRequestImplementation NetworkRequestImpl;
 		internal static IRtcContext RtcContext;
 

@@ -12,7 +12,8 @@ namespace CavrnusSdk.API
 		public bool IsLocalUser{ get; private set; }
 
 		public string ContainerId { get; private set; }
-		public string UserId { get; private set; }
+
+		public string UserAccountId { get; private set; }
 
 		public CavrnusSpaceConnection SpaceConnection;
 
@@ -26,7 +27,7 @@ namespace CavrnusSdk.API
 			this.user = user;
 			SpaceConnection = spaceConn;
 
-			UserId = user.User.Id;
+			UserAccountId = user.User.Id;
 
 			ContainerId = $"/users/{user.ConnectionId}";
 

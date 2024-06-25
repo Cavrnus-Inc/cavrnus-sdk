@@ -525,7 +525,44 @@
 ### Added
 - Added more robust Readme to that includes more info to getting started
 
+
+## [2.12.2] - 2024-06-25
+
+### Added
+- Added a new feature
+
+### Changed
+- 
+
+### Deprecated
+- 
+
+### Removed
+- 
+
+### Fixed
+- 
+
+### Security
+-
+
+
 ## [2.12.2] - 2024-06-24
 
 ### Changed
 - Formatting changes in README.md file
+
+
+## [2.12.3] - 2024-06-24
+
+### Changed
+- Renamed CavrnusUser UserId to UserAccountId for clarity
+
+
+## [2.12.4] - 2024-06-25
+
+### Changed
+- Renamed CavrnusUser UserId to UserAccountId for clarity
+
+### Fixed
+- ClientProvidedIntegrationInfo now checks for OSId null value. Caused spaces to hang when loading.

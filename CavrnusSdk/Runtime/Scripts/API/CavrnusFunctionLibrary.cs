@@ -43,11 +43,11 @@ namespace CavrnusSdk.API
         
         public static void PostChatMessage(this CavrnusSpaceConnection spaceConn, CavrnusUser localUser, string message)
         {
-	        var chat = new ContentTypeChatEntry(message, DateTimeCache.UtcNow, localUser.UserId, ChatMessageSourceTypeEnum.Chat);
+	        var chat = new ContentTypeChatEntry(message, DateTimeCache.UtcNow, localUser.UserAccountId, ChatMessageSourceTypeEnum.Chat);
 	        var newId = spaceConn.RoomSystem.Comm.CreateNewUniqueObjectId();
 	        
-	        var op = spaceConn.RoomSystem.LiveOpsSys.Create(new OpCreateObjectLive(null, PropertyDefs.ChatContainer.Push(newId), localUser.UserId, chat));
-	        op.OpData.CreatorId = localUser.UserId;
+	        var op = spaceConn.RoomSystem.LiveOpsSys.Create(new OpCreateObjectLive(null, PropertyDefs.ChatContainer.Push(newId), localUser.UserAccountId, chat));
+	        op.OpData.CreatorId = localUser.UserAccountId;
 	        op.OpData.ExecMode = Operation.Types.OperationExecutionModeEnum.Standard;
 	        op.PostAndComplete();
 		}
