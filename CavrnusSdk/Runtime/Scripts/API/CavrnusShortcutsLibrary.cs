@@ -49,7 +49,7 @@ namespace CavrnusSdk.API
 			return user.SpaceConnection.BindStringPropertyValue(user.ContainerId, UserPropertyDefs.Users_Name, onNameChanged);
 		}       
 
-        public static IDisposable BindProfilePic(this CavrnusUser user, MonoBehaviour ob, Action<Sprite> onProfilePicChanged)
+        public static IDisposable BindProfilePic(this CavrnusUser user, Action<Sprite> onProfilePicChanged)
         {
             var disp = user.SpaceConnection.BindStringPropertyValue(user.ContainerId, UserPropertyDefs.Users_Profile_ProfilePicture, (pp) => {
 	            CavrnusStatics.Scheduler.ExecCoRoutine(LoadProfilePic(pp, onProfilePicChanged));
@@ -57,14 +57,16 @@ namespace CavrnusSdk.API
             return disp;
         }
 
-        private static IEnumerator LoadProfilePic(string url, Action<Sprite> onProfilePicChanged)
+        public static IEnumerator LoadProfilePic(string url, Action<Sprite> onProfilePicChanged)
         {
+	        if (url == null) yield break;
+	        
             UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.Log(www.error);
+                Debug.LogError(www.error);
             }
             else
             {

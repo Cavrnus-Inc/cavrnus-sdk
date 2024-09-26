@@ -124,7 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebad06ab32d74084ad4ed7c08a91dd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 8670928021784918329}
 --- !u!1 &101504383737929333
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,8 +845,8 @@ MonoBehaviour:
   shadowPropertyName: ShadowStrength
   lightContainer: {fileID: 0}
   targetLight: {fileID: 0}
-  rotationSlider: {fileID: 3283362840714533921}
-  shadowSlider: {fileID: 8705561266509490899}
+  rotationPropertyUISlider: {fileID: 3283362840714533921}
+  shadowPropertyUISlider: {fileID: 8705561266509490899}
 --- !u!1 &3086520957548413382
 GameObject:
   m_ObjectHideFlags: 0
@@ -1747,7 +1746,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebad06ab32d74084ad4ed7c08a91dd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 4964872195179613806}
 --- !u!1 &8435041437825926786
 GameObject:
   m_ObjectHideFlags: 0

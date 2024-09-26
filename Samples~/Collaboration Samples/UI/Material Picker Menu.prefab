@@ -481,14 +481,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56cf6614db90a9d45b1cf2f0f41fa2aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnMaterialSelected:
+    m_PersistentCalls:
+      m_Calls: []
   containerName: MaterialSyncer
   propertyName: Material
   materials:
   - {fileID: 2100000, guid: de9cf14877585ba46a572f27a2681fd7, type: 2}
   - {fileID: 2100000, guid: 6cb5b2d9653a0d94e908ced6d4d78a8d, type: 2}
   - {fileID: 2100000, guid: f82026ef40cdc7e43b553ea5be57bdc0, type: 2}
-  displayItemPrefab: {fileID: 1306297434846978411, guid: 73cd7c69f511eae488a400d8392fc02b, type: 3}
-  displayItemsContainer: {fileID: 7223597350791895310}
+  materialPickerEntryPrefab: {fileID: 649233870097291183, guid: 73cd7c69f511eae488a400d8392fc02b, type: 3}
+  entriesContainer: {fileID: 7223597350791895310}
 --- !u!1 &7689996608136443818
 GameObject:
   m_ObjectHideFlags: 0

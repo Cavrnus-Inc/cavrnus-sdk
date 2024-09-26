@@ -14,7 +14,7 @@ namespace CavrnusSdk.UI
 
 		public void Setup(CavrnusUser cu)
 		{
-			profileDisposable = cu.BindProfilePic(this, profilePic =>
+			profileDisposable = cu.BindProfilePic(profilePic =>
 			{
                 image.sprite = profilePic;
                 if (profilePic != null)

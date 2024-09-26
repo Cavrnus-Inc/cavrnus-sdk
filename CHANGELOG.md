@@ -566,3 +566,27 @@
 
 ### Fixed
 - ClientProvidedIntegrationInfo now checks for OSId null value. Caused spaces to hang when loading.
+
+
+## [2.12.5] - 2024-07-09
+
+### Fixed
+- Better error messaging if the developer types in a bad Server/Join ID
+
+
+## [2.12.6] - 2024-07-10
+
+### Fixed
+- Chat Menu Entries now show correct names/pics for users not in the space.
+
+
+## [2.13.0] - 2024-09-25
+
+### Added
+- Added new minimal UI
+- Add latest CollabPlugins + Liveswitch updates
+- Add avatar swap sample
+
+### Changed
+- Many fixes to UI scripts
+- Reorganization of UI folder

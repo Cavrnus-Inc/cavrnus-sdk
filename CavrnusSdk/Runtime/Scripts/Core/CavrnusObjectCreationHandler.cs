@@ -86,6 +86,9 @@ namespace CavrnusCore
 			else if (createOp.Op.ObjectType is ContentTypeUrl cUrl) {
 				Debug.LogWarning($"ContentType URL coming soon...");
 			}
+			else if (createOp.Op.ObjectType is ContentTypeChatEntry chat) {
+				
+			}
 			else {
 				Debug.LogWarning($"ContentType {createOp.Op.ObjectType} is not currently supported by the Cavrnus SDK.");
 			}

@@ -25,5 +25,10 @@ namespace CavrnusSdk.API
 		}
 
 		public override int GetHashCode() { return HashCode.Combine(Position, EulerAngles, Scale); }
+
+		public override string ToString()
+		{
+			return $"Cavrnus Transform: pos-{Position}, eul-{EulerAngles}, scl-{Scale}";
+		}
 	}
 }

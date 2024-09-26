@@ -1,0 +1,116 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CavrnusSdk.API;
+using Collab.LiveRoomSystem.LiveObjectManagement.ObjectTypeManagers;
+using Collab.Proxy.Comm.LiveTypes;
+using UnityEngine;
+
+namespace Cavrnus.UI
+{
+    public class CavrnusTranscriptionHUD : MonoBehaviour
+    {
+        public event Action<bool> OnTranscriptionPropertyEnabled;
+        
+        [SerializeField] private Transform entriesContainer;
+        [SerializeField] private CavrnusTranscriptionHUDEntry entryPrefab;
+
+        [SerializeField] private float duration = 8f;
+        [SerializeField] private int maxEntriesVisible = 5;
+
+        private Dictionary<int, CavrnusTranscriptionHUDEntry> visibleEntries = new Dictionary<int, CavrnusTranscriptionHUDEntry>();
+        
+        private List<IDisposable> binds = new List<IDisposable>();
+        private IDisposable chatBinding;
+
+        private void Awake()
+        {
+            entriesContainer.gameObject.SetActive(false);
+        }
+
+        public void SetVis(bool vis)
+        {
+            entriesContainer.gameObject.SetActive(vis);
+
+            if (vis) {
+                CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceConn => {
+                    chatBinding = spaceConn.BindChatMessages(MessageAdded, MessagedRemoved);
+                });
+            }
+            else {
+                chatBinding?.Dispose();
+            }
+        }
+
+        private void Start()
+        {
+            CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceConn => {
+                binds.Add(spaceConn.BindBoolPropertyValue("room/transcription", "enabled", isEnabled => {
+                    if (!isEnabled)
+                        gameObject.SetActive(false);
+                    
+                    OnTranscriptionPropertyEnabled?.Invoke(isEnabled);
+                }));
+            });
+        }
+
+        private int countId;
+        private void MessageAdded(IChatViewModel chat)
+        {
+            // if (chat.ChatType != ChatMessageSourceTypeEnum.Transcription) 
+            //     return;
+                
+            var entry = Instantiate(entryPrefab, entriesContainer);
+            entry.Setup(countId, chat, duration);
+            
+            entry.OnMessageCompleted += OnMessageCompleted;
+            entry.OnDurationExpired += OnMessageDurationExpired;
+
+            if (visibleEntries.Count >= maxEntriesVisible) {
+                var oldestEntry = visibleEntries[visibleEntries.Count - 1];
+                oldestEntry.OnMessageCompleted -= OnMessageCompleted;
+                oldestEntry.OnDurationExpired -= OnMessageDurationExpired;
+                Destroy(oldestEntry.gameObject);
+                visibleEntries.Remove(countId);
+            }
+            
+            visibleEntries.Add(countId, entry);
+            
+            // Here we sort and adjust the sibling indices
+            SortEntries();
+            
+            countId++;
+        }
+    
+        private void OnMessageCompleted(CavrnusTranscriptionHUDEntry obj)
+        {
+            SortEntries();
+        }
+        
+        private void MessagedRemoved(IChatViewModel chat)
+        {
+            if (chat.ChatType != ChatMessageSourceTypeEnum.Transcription) 
+                return;
+        }
+        
+        private void OnMessageDurationExpired(CavrnusTranscriptionHUDEntry entry)
+        {
+            Destroy(entry.gameObject);
+            visibleEntries.Remove(entry.Id);
+        }
+        
+        private void SortEntries()
+        {
+            visibleEntries.ToList().Sort((a, b) => DateTime.Compare(a.Value.ChatData.CreateTime.Value, b.Value.ChatData.CreateTime.Value));
+            for (var i = 0; i < visibleEntries.Count; i++) {
+                if (visibleEntries[i] != null && visibleEntries[i].gameObject != null)
+                    visibleEntries[i].transform.SetSiblingIndex(i);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            binds?.ForEach(b => b?.Dispose());
+        }
+    }
+}

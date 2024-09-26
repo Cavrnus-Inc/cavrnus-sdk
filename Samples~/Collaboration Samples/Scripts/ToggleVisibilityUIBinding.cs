@@ -33,7 +33,7 @@ namespace CavrnusSdk.CollaborationExamples
 
         private void ToggleValueChanged(bool newValue)
         {
-            spaceConn.PostBoolPropertyUpdate(targetContainerName, targetPropertyName, newValue);
+            spaceConn?.PostBoolPropertyUpdate(targetContainerName, targetPropertyName, newValue);
         }
 
         private void OnDestroy()

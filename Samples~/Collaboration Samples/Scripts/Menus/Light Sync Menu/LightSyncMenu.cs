@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using CavrnusSdk.API;
-using UnityBase;
+using CavrnusSdk.PropertyUISynchronizers;
 using UnityEngine;
 
 namespace CavrnusSdk.CollaborationExamples
@@ -20,69 +19,25 @@ namespace CavrnusSdk.CollaborationExamples
         [SerializeField] private Light lightComponent;
         
         [Header("UI")]
-        [SerializeField] private UISliderWrapper intensityUISlider;
+        [SerializeField] private CavrnusPropertyUISlider intensityCavrnusPropertyUISlider;
         [SerializeField] private Vector2 intensityMinMax = new Vector2(10f, 150f);
 
-        [Header("Color Options")]
-        [SerializeField] private List<Color> colors;
-        [SerializeField] private GameObject colorPrefab;
-        [SerializeField] private Transform container;
-
-        private List<LightSyncColorItem> lightColorItems = new List<LightSyncColorItem>();
-
-        private CavrnusSpaceConnection spaceConn;
-        private List<IDisposable> disposables = new List<IDisposable>();
+        private IDisposable disposable;
         
         private void Start()
         {
             CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceConn => {
-                this.spaceConn = spaceConn;
-
-                intensityUISlider.Setup(spaceConn, containerName, intensityPropertyName, intensityMinMax);
+                intensityCavrnusPropertyUISlider.Setup(containerName, intensityPropertyName, intensityMinMax, val => {
+                    lightComponent.intensity = val;
+                });
                 
-                // Setup UI
-                foreach (var color in colors) {
-                    var go = Instantiate(colorPrefab, container);
-                    var colorItem = go.GetComponent<LightSyncColorItem>();
-                    lightColorItems.Add(colorItem);
-                    
-                    colorItem.Setup(color, ColorSelected);
-                }
-                
-                // Setup Bindings
                 spaceConn.DefineColorPropertyDefaultValue(containerName, colorPropertyName, lightComponent.color);
-                disposables.Add(spaceConn.BindColorPropertyValue(containerName, colorPropertyName, serverColor => {
+                disposable = spaceConn.BindColorPropertyValue(containerName, colorPropertyName, serverColor => {
                     lightComponent.color = serverColor;
-
-                    foreach (var item in lightColorItems) {
-                        item.SetSelectionState(ColorsEqual(item.Color, serverColor));
-                    }
-                }));
-                
-                spaceConn.DefineFloatPropertyDefaultValue(containerName, intensityPropertyName, lightComponent.intensity);
-                disposables.Add(spaceConn.BindFloatPropertyValue(containerName, intensityPropertyName, intensity => {
-                    lightComponent.intensity = intensity;
-                    intensityUISlider.Slider.SetValueWithoutNotify(intensity);
-                }));
+                });
             });
         }
 
-        private void ColorSelected(Color color)
-        {
-            spaceConn?.PostColorPropertyUpdate(containerName, colorPropertyName, color);
-        }
-        
-        private bool ColorsEqual(Color c1, Color c2, float tolerance = 0.1f)
-        {
-            return c1.r.AlmostEquals(c2.r, tolerance) &&
-                   c1.g.AlmostEquals(c2.g, tolerance) &&
-                   c1.b.AlmostEquals(c2.b, tolerance);
-        }
-
-        private void OnDestroy()
-        {
-            foreach (var disposable in disposables)
-                disposable.Dispose();
-        }
+        private void OnDestroy() => disposable?.Dispose();
     }
 }

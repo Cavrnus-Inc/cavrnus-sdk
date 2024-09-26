@@ -8,7 +8,6 @@ namespace CavrnusSdk.UI
 {
 	public class VoiceAndVideoSelector : MonoBehaviour
 	{
-		[SerializeField] private WidgetUserMic mic;
 		[SerializeField] private TMP_Dropdown AudioInputs;
 		[SerializeField] private TMP_Dropdown VideoInputs;
 
@@ -27,8 +26,6 @@ namespace CavrnusSdk.UI
 		private void OnSpaceConnection(CavrnusSpaceConnection spaceConn)
 		{
 			this.spaceConn = spaceConn;
-
-			spaceConn.AwaitLocalUser(lu => mic.Setup(lu));
 
 			//If we've already selected audio devices on a previous run, use those
 			string savedAudioInput = PlayerPrefs.GetString(PLAYERPREFS_AUDIOINPUT, null);

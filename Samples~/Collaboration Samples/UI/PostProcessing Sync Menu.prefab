@@ -1087,12 +1087,12 @@ MonoBehaviour:
   containerName: PostProcessing
   saturationEnabledPropertyName: SaturationVisibility
   saturationValuePropertyName: Saturation
-  saturationToggle: {fileID: 5676650562873005607}
-  saturationSlider: {fileID: 1874571796618370539}
+  saturationToggle: {fileID: 7234205322080186921}
+  saturationUISlider: {fileID: 1874571796618370539}
   bloomEnabledPropertyName: BloomEnabled
   bloomValuePropertyName: Bloom
-  bloomShiftToggle: {fileID: 4429609048411430347}
-  bloomShiftSlider: {fileID: 2747682420587663191}
+  bloomShiftToggle: {fileID: 3383762410767592434}
+  bloomShiftUISlider: {fileID: 2747682420587663191}
 --- !u!1 &5148838141164212425
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,6 +1140,7 @@ GameObject:
   - component: {fileID: 6888363102267573635}
   - component: {fileID: 5676650562873005607}
   - component: {fileID: 5050814790348284183}
+  - component: {fileID: 7234205322080186921}
   m_Layer: 5
   m_Name: Toggle Saturation
   m_TagString: Untagged
@@ -1235,6 +1236,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &7234205322080186921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5240657365320316477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 261309e24734c7646b947ea313eb58cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5353357455893948070
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,7 +1447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebad06ab32d74084ad4ed7c08a91dd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1463232865782927875}
 --- !u!1 &6341076516620269578
 GameObject:
   m_ObjectHideFlags: 0
@@ -1737,6 +1749,7 @@ GameObject:
   - component: {fileID: 8063782724331935078}
   - component: {fileID: 4429609048411430347}
   - component: {fileID: 5572029609032902657}
+  - component: {fileID: 3383762410767592434}
   m_Layer: 5
   m_Name: Toggle Bloom
   m_TagString: Untagged
@@ -1832,6 +1845,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &3383762410767592434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7743233715901992117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 261309e24734c7646b947ea313eb58cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7761645269477834692
 GameObject:
   m_ObjectHideFlags: 0
@@ -2107,7 +2132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebad06ab32d74084ad4ed7c08a91dd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 93553404568201916}
 --- !u!1 &8899617002125336256
 GameObject:
   m_ObjectHideFlags: 0

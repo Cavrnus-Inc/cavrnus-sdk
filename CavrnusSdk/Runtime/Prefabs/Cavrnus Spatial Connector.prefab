@@ -62,9 +62,8 @@ MonoBehaviour:
   LoadingMenus:
   - {fileID: 1949255927169078816, guid: 7e23f7d438cebea40b14760457be7be7, type: 3}
   SpaceMenus:
-  - {fileID: 1107540274462631947, guid: cdea8399efdd6d6408f3e72404bab8b6, type: 3}
   - {fileID: 5855605566567049347, guid: 04a855f9b4718e0429e4d14ab7bf24ef, type: 3}
-  RemoteUserAvatar: {fileID: 7655749332648085126, guid: 10dc195713eb0824283dedd9778869c9, type: 3}
+  RemoteUserAvatar: {fileID: 7693442957038673469, guid: 359ef14a5d0b53449b11cb20bb963643, type: 3}
   SpawnableObjects: []
   AdditionalSettings:
     DisableVoiceAndVideo: 0

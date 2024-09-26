@@ -2,6 +2,7 @@ using UnityEngine;
 using CavrnusSdk.API;
 using CavrnusSdk.PropertySynchronizers;
 using CavrnusCore;
+using UnityBase;
 
 namespace CavrnusSdk.Setup
 {
@@ -11,9 +12,13 @@ namespace CavrnusSdk.Setup
 	    {
 			CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceConn =>
 			{
+				if (HelperFunctions.NullOrDestroyed(this))	return;
+
 				spaceConn.AwaitLocalUser(localUser =>
 				{
-                    gameObject.AddComponent<CavrnusUserFlag>().User = localUser;
+					if (HelperFunctions.NullOrDestroyed(this)) return;
+
+					gameObject.AddComponent<CavrnusUserFlag>().User = localUser;
 
                     CavrnusPropertyHelpers.ResetLiveHierarchyRootName(gameObject, $"{localUser.ContainerId}");
 

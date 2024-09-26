@@ -858,6 +858,7 @@ GameObject:
   - component: {fileID: 6370084101517287381}
   - component: {fileID: 743311364220392603}
   - component: {fileID: 3928002241412542732}
+  - component: {fileID: 40271297249096213}
   m_Layer: 5
   m_Name: Light Sync Menu
   m_TagString: Untagged
@@ -957,18 +958,33 @@ MonoBehaviour:
   colorPropertyName: Color
   intensityPropertyName: Intensity
   lightComponent: {fileID: 0}
-  intensityUISlider: {fileID: 4234206564591103357}
+  intensityCavrnusPropertyUISlider: {fileID: 4234206564591103357}
   intensityMinMax: {x: 10, y: 150}
-  colors:
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 0.2999999, g: 0.7923967, b: 1, a: 1}
-  - {r: 0.87710017, g: 0.2980392, b: 1, a: 1}
-  - {r: 1, g: 0.216981, b: 0.5688245, a: 1}
-  - {r: 1, g: 0.21568626, b: 0.22521889, a: 1}
-  - {r: 1, g: 0.43758774, b: 0.30588233, a: 1}
-  - {r: 1, g: 0.95358944, b: 0.3075471, a: 1}
-  colorPrefab: {fileID: 932737121784049530, guid: ba90aafc2d35819429cc37fb57505b6e, type: 3}
+--- !u!114 &40271297249096213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5417758603131519392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dbebad7c25edf24794ae2436aa4022d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onColorUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+  containerName: LightColorMenu
+  propertyName: Color
+  colorPrefab: {fileID: 2078642803335105264, guid: ba90aafc2d35819429cc37fb57505b6e, type: 3}
   container: {fileID: 8187418485765598889}
+  colors:
+  - {r: 1, g: 0.216981, b: 0.216981, a: 1}
+  - {r: 1, g: 0.8815002, b: 0.21568626, a: 1}
+  - {r: 1, g: 0.21568626, b: 0.85394084, a: 1}
+  - {r: 0.49161097, g: 1, b: 0.21568626, a: 1}
+  - {r: 0.21568626, g: 0.8462823, b: 1, a: 1}
 --- !u!1 &5961744841942233674
 GameObject:
   m_ObjectHideFlags: 0
@@ -1350,7 +1366,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebad06ab32d74084ad4ed7c08a91dd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 8138056783652559790}
 --- !u!1 &8675701576121085084
 GameObject:
   m_ObjectHideFlags: 0

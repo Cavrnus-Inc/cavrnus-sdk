@@ -79,7 +79,7 @@ namespace CavrnusSdk.CollaborationExamples
 
         private void PostTransformUpdate(CavrnusTransformData data)
         {
-            spaceConnection.PostTransformPropertyUpdate(containerName, propertyName, data);
+            spaceConnection?.PostTransformPropertyUpdate(containerName, propertyName, data);
         }
 
         private void OnDestroy()

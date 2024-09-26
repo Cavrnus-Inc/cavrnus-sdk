@@ -33,9 +33,14 @@ namespace CavrnusSdk.API
 			CavrnusStatics.Setup(CavrnusSpatialConnector.Instance.AdditionalSettings);
 		}
 
-        #region Chats
+		public static void ShutdownCavrnus()
+		{
+			CavrnusStatics.Shutdown();
+		}
 
-        public static IDisposable BindChatMessages(this CavrnusSpaceConnection spaceConn, Action<IChatViewModel> chatAdded, Action<IChatViewModel> chatRemoved, bool includeChats = true, bool includeTranscriptions = true)
+		#region Chats
+
+		public static IDisposable BindChatMessages(this CavrnusSpaceConnection spaceConn, Action<IChatViewModel> chatAdded, Action<IChatViewModel> chatRemoved, bool includeChats = true, bool includeTranscriptions = true)
         {
 	        var csv = new ChatStreamView(spaceConn.RoomSystem, new ChatStreamViewOptions {includeChats = includeChats, includeTranscriptions = includeTranscriptions});
 	        return csv.Messages.BindAll(chatAdded, chatRemoved);
@@ -59,7 +64,7 @@ namespace CavrnusSdk.API
 		//Checks if you are logged in
 		public static bool IsLoggedIn()
 		{
-			return CavrnusAuthHelpers.CurrentAuthentication != null;
+			return CavrnusStatics.CurrentAuthentication != null;
 		}
 
         //Gets user credentials, allowing you to join valid spaces and make other requests
@@ -99,11 +104,17 @@ namespace CavrnusSdk.API
         //Checks if there is any active connection to a space
         public static bool IsConnectedToAnySpace()
 		{
-			return CavrnusSpaceHelpers.SpaceConnections.Count > 0;
+			return CavrnusStatics.SpaceConnections.Count > 0;
 		}
 
-        //Connects to a Space; joining voice & video and receiving/processing the journal
-        public static void JoinSpace(string joinId, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure)
+		//Creates a new Space
+		public static void CreateSpace(string spaceName, Action<CavrnusSpaceInfo> onCreationComplete, Action<string> onFailure)
+		{
+			CavrnusSpaceHelpers.CreateSpace(spaceName.Trim(), onCreationComplete);
+		}
+
+		//Connects to a Space; joining voice & video and receiving/processing the journal
+		public static void JoinSpace(string joinId, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure)
 		{
 			CavrnusSpaceHelpers.JoinSpace(joinId.Trim(), CavrnusSpatialConnector.Instance.SpawnableObjects, onConnected, onFailure);
 		}
@@ -123,7 +134,7 @@ namespace CavrnusSdk.API
         //Disconnects you from a given space.  You will stop receiving property updates, and lose user & voice connections
         public static void ExitSpace(this CavrnusSpaceConnection spaceConn)
 		{
-			CavrnusSpaceHelpers.SpaceConnections.Remove(spaceConn);
+			CavrnusStatics.SpaceConnections.Remove(spaceConn);
 			spaceConn.Dispose();
 		}
 

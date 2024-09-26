@@ -42,6 +42,8 @@ namespace CavrnusSdk.CollaborationExamples
 
         [SerializeField] private string propertyContainer = "ExampleProcedure";
         [SerializeField] private string propertyNameProgress = "PropertyNameProgress";
+        [SerializeField] private string propertyNameComplete = "IsComplete";
+        [SerializeField] private string propertyNameReset = "Reset";
         [SerializeField] private List<StepInfo> steps;
 
         [Space]
@@ -52,22 +54,31 @@ namespace CavrnusSdk.CollaborationExamples
         private CavrnusSpaceConnection spaceConn;
 
         private List<SyncStepsItem> syncUiItems = new List<SyncStepsItem>();
-        
-        private List<IDisposable> bindings = new List<IDisposable>();
+
+        private CavrnusLivePropertyUpdate<string> resetProcedureUpdater;
+        private readonly List<IDisposable> bindings = new List<IDisposable>();
         
         private void Start()
         {
-            CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceConn => {
-                this.spaceConn = spaceConn;
+            CavrnusFunctionLibrary.AwaitAnySpaceConnection(sc => {
+                spaceConn = sc;
                 
-                spaceConn.DefineBoolPropertyDefaultValue(propertyContainer, propertyNameProgress, false);
-                bindings.Add(spaceConn.BindBoolPropertyValue(propertyContainer, propertyNameProgress, isComplete => {
+                sc.DefineBoolPropertyDefaultValue(propertyContainer, propertyNameProgress, false);
+                bindings.Add(sc.BindBoolPropertyValue(propertyContainer, propertyNameProgress, isComplete => {
                     toolTip.SetActive(isComplete);
+                }));
+
+                //Reset
+                bindings.Add(sc.BindStringPropertyValue(propertyContainer, propertyNameReset, s => {
+                    if (s == "Reset") {
+                        syncUiItems.ForEach(stepsItem => stepsItem.ResetItem());
+                        spaceConn?.PostBoolPropertyUpdate(propertyContainer, propertyNameComplete, false);
+                    }
                 }));
 
                 for (var index = 0; index < steps.Count; index++) {
                     var stepInfo = steps[index];
-                    stepInfo.Setup(spaceConn, propertyContainer, $"Step{index + 1}");
+                    stepInfo.Setup(sc, propertyContainer, $"Step{index + 1}");
 
                     var go = Instantiate(syncStepsItemPrefab, syncStepsItemContainer);
                     var item = go.GetComponent<SyncStepsItem>();
@@ -80,18 +91,15 @@ namespace CavrnusSdk.CollaborationExamples
         private void StepCompleted(StepInfo obj)
         {
             // Here we can check if all steps are completed
-
             var allStepsComplete = syncUiItems.All(s => s.IsComplete());
-            spaceConn.PostBoolPropertyUpdate(propertyContainer, propertyNameProgress, allStepsComplete);
+            if (allStepsComplete)
+                spaceConn?.PostBoolPropertyUpdate(propertyContainer, propertyNameComplete, true);
         }
 
         public void ResetSteps()
         {
             // Overall progress reset
-            spaceConn.PostBoolPropertyUpdate(propertyContainer, propertyNameProgress, false);
-            
-            // Post default value for reach step
-            syncUiItems.ForEach(s => s.ResetItem());
+            spaceConn?.BeginTransientStringPropertyUpdate(propertyContainer, propertyNameReset, "Reset").Cancel();
         }
     }
 }

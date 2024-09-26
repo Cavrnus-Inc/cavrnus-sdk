@@ -18,7 +18,21 @@ namespace CavrnusCore
 {
 	internal static class CavrnusSpaceHelpers
 	{
-		internal static List<CavrnusSpaceConnection> SpaceConnections = new List<CavrnusSpaceConnection>();
+		internal static async void CreateSpace(string spaceName, Action<CavrnusSpaceInfo> onCreationComplete)
+		{
+			var roomComm = new RestRoomCommunication(CavrnusStatics.CurrentAuthentication.Endpoint, new FrameworkNetworkRequestImplementation());
+
+			RestRoomCommunication.CreateRoomRequest req = new RestRoomCommunication.CreateRoomRequest();
+			req.name = spaceName;
+			req.description = "";
+			req.environment = "";
+
+			var space = await roomComm.PostCreateRoomAsync(req);
+
+			INotifyDataRoom notifyRoom = await CavrnusStatics.Notify.RoomsSystem.StartListeningSpecificAsync(space._id);
+
+			onCreationComplete(new CavrnusSpaceInfo(notifyRoom));
+		}
 
 		internal static async void JoinSpace(string joinId, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure)
 		{
@@ -65,9 +79,14 @@ namespace CavrnusCore
 
 			RoomSystem rs = new RoomSystem(CavrnusStatics.RtcContext, env, rsOptions, null, integrationInfo);
 
-			rs.InitializeConnection(CavrnusAuthHelpers.CurrentAuthentication.Endpoint, joinId);
+			rs.InitializeConnection(CavrnusStatics.CurrentAuthentication.Endpoint, joinId);
 
 			await rs.AwaitJournalProcessed();
+
+			if (rs.SystemStatus.Value.Status == RoomSystemStatusEnum.Closed)
+				throw new ErrorInfo("Space connection is closed!");
+			if (rs.SystemStatus.Value.Status == RoomSystemStatusEnum.Error)
+				throw new ErrorInfo(rs.SystemStatus.Value.ErrorMessage);
 
 			var lu = await rs.AwaitLocalUser();
 
@@ -75,7 +94,7 @@ namespace CavrnusCore
 
 			var connection = new CavrnusSpaceConnection(rs, spawnableObjects);
 
-			SpaceConnections.Add(connection);
+			CavrnusStatics.SpaceConnections.Add(connection);
 
 			if(onConnectedEvents.Count > 0)
 			{
@@ -98,9 +117,9 @@ namespace CavrnusCore
 
 		internal static void AwaitAnySpaceConnection(Action<CavrnusSpaceConnection> onConnected)
 		{
-			if(SpaceConnections.Count > 0)
+			if(CavrnusStatics.SpaceConnections.Count > 0)
 			{
-				onConnected(SpaceConnections[0]);
+				onConnected(CavrnusStatics.SpaceConnections[0]);
 			}
 			else
 			{
@@ -111,7 +130,7 @@ namespace CavrnusCore
 		internal static async void GetCurrentlyAvailableSpaces(Action<List<CavrnusSpaceInfo>> onRecvCurrentJoinableSpaces)
 		{
 			RestRoomCommunication rrc =
-				new RestRoomCommunication(CavrnusAuthHelpers.CurrentAuthentication.Endpoint, new FrameworkNetworkRequestImplementation());
+				new RestRoomCommunication(CavrnusStatics.CurrentAuthentication.Endpoint, new FrameworkNetworkRequestImplementation());
 
 			var uri = await rrc.GetUserFullRoomsAndInvitesInfoAsync();
 

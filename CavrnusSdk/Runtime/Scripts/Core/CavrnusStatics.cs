@@ -13,6 +13,8 @@ using static CavrnusSdk.Setup.CavrnusSpatialConnector;
 using System.IO;
 using System;
 using Collab.Proxy.Content;
+using System.Collections.Generic;
+using CavrnusSdk.API;
 
 namespace CavrnusCore
 {
@@ -39,6 +41,9 @@ namespace CavrnusCore
 		internal static IRtcContext RtcContext;
 
 		internal static ISetting<RtcInputSource> DesiredVideoStream = new Setting<RtcInputSource>(null);
+
+		internal static List<CavrnusSpaceConnection> SpaceConnections = new List<CavrnusSpaceConnection>();
+		internal static CavrnusAuthentication CurrentAuthentication = null;
 
 		internal static void Setup(CavrnusSettings settings)
 		{
@@ -74,17 +79,15 @@ namespace CavrnusCore
 
 			RtcContext.Initialize(input, output, vidInput, RtcModeEnum.AudioVideo, RtcModeEnum.AudioVideo);
 
-			RtcContext.CurrentAudioInputSource.Bind(src =>
-				                                        DebugOutput.Info(
-					                                        "RTC Input Source is now '" + src?.ToJson() + "'."));
-			RtcContext.CurrentAudioOutputSink.Bind(src =>
-				                                       DebugOutput.Info(
-					                                       "RTC Output Sink is now '" + src?.ToJson() + "'."));
-			RtcContext.CurrentVideoInputSource.Bind(src =>
-				                                        DebugOutput.Info(
-					                                        "RTC Video Source is now '" + src?.ToJson() + "'."));
+			Scheduler.ExecOnApplicationQuit(() => Shutdown());
+		}
 
-			Scheduler.ExecOnApplicationQuit(() => RtcContext.Shutdown());
+		internal static void Shutdown()
+		{
+			RtcContext.Shutdown();
+			Notify.Shutdown();
+			SpaceConnections.Clear();
+			CurrentAuthentication = null;
 		}
 
 		private static void DoRecvMessage(string category, string message)

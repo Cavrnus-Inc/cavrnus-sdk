@@ -2173,8 +2173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49268d9e05fc48748a609da7d0ac55b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshRenderer:
+  primaryMeshRenderers:
   - {fileID: 7432566112208860653}
+  secondaryMeshRenderers: []
 --- !u!114 &5829776716824976431
 MonoBehaviour:
   m_ObjectHideFlags: 0
