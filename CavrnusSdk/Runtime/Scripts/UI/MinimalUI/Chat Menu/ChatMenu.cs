@@ -9,7 +9,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cavrnus.Chat
+namespace Cavrnus.UI
 {
     public class ChatMenu : MonoBehaviour
     {
@@ -46,12 +46,16 @@ namespace Cavrnus.Chat
                     
                     inputField.onValueChanged.AddListener(OnInputChanged);
                     inputFieldHelper.OnEndEdit.AddListener(OnInputFieldSubmit);
-                    resetButton.onClick.AddListener(OnResetButtonClicked);
-                    resetButton.gameObject.AddComponent<CanvasGroup>().alpha = 0f;
+
+                    if (resetButton) {
+                        resetButton.onClick.AddListener(OnResetButtonClicked);
+                        resetButton.gameObject.AddComponent<CanvasGroup>().alpha = 0f;
+                    }
                 });
             });
             
-            scrollBar.onValueChanged.AddListener(ScrollbarValueChanged);
+            if (scrollBar)
+                scrollBar.onValueChanged.AddListener(ScrollbarValueChanged);
         }
 
         private void OnEnable()
@@ -62,12 +66,15 @@ namespace Cavrnus.Chat
         private IEnumerator DelayedResetScrollbarRoutine()
         {
             yield return null;
-            scrollBar.value = 0f;
+            
+            if (scrollBar)
+                scrollBar.value = 0f;
         }
 
         private void OnResetButtonClicked()
         {
-            scrollBar.value = 0f;
+            if (scrollBar)
+                scrollBar.value = 0f;
         }
 
         private void ScrollbarValueChanged(float val)
@@ -83,7 +90,9 @@ namespace Cavrnus.Chat
                     this.DoFade(new List<CanvasGroup> {resetButton.gameObject.GetComponent<CanvasGroup>()}, 0.15f, isVis));
             }
 
-            resetButton.interactable = isVis; 
+            if (resetButton)
+                resetButton.interactable = isVis; 
+            
             currentButtonVis = isVis;
         }
 
@@ -100,7 +109,7 @@ namespace Cavrnus.Chat
         private void MessagesOnItemAddedEvent(IChatViewModel item)
         {
             var chatObj = Instantiate(chatEntryPrefab, chatEntryContainer);
-            chatObj.GetComponent<ChatMenuEntry>().Setup(spaceConn, item, DeleteChat);
+            chatObj.GetComponent<ChatMenuEntry>().Setup(item, DeleteChat);
             
             createdChats.Add(item.ObjectProperties.Id, chatObj);
         }
@@ -139,6 +148,9 @@ namespace Cavrnus.Chat
         {
             submitButton.onClick.RemoveListener(SubmitChat);
             inputField.onValueChanged.RemoveListener(OnInputChanged);
+            
+            if (resetButton)
+                resetButton.onClick.RemoveListener(OnResetButtonClicked);
         }
     }
 }

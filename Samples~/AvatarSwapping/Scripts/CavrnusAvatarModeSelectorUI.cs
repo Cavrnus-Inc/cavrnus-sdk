@@ -6,7 +6,6 @@ namespace CavrnusSdk.CollaborationExamples
     public class CavrnusAvatarModeSelectorUI : MonoBehaviour
     {
         private CavrnusLivePropertyUpdate<string> liveItemUpdater;
-        private CavrnusLivePropertyUpdate<Color> liveColorUpdater;
 
         private void Start()
         {

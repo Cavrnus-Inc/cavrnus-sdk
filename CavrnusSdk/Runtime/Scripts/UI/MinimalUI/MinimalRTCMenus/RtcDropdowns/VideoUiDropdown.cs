@@ -2,7 +2,7 @@
 using CavrnusSdk.API;
 using TMPro;
 
-namespace CavrnusSdk.UI.MinimalUI
+namespace CavrnusSdk.UI
 {
     public class VideoUiDropdown : RtcUiDropdownBase
     {

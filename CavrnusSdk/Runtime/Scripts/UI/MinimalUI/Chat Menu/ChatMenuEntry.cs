@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using CavrnusCore;
 using CavrnusSdk.API;
-using CavrnusSdk.UI;
 using Collab.Base.Collections;
 using Collab.LiveRoomSystem.LiveObjectManagement.ObjectTypeManagers;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Color = UnityEngine.Color;
 
-namespace Cavrnus.Chat
+namespace Cavrnus.UI
 {
     public class ChatMenuEntry : MonoBehaviour
     {
@@ -22,27 +18,15 @@ namespace Cavrnus.Chat
         [SerializeField] private TextMeshProUGUI message;
         [SerializeField] private Image profilePicImage;
         
-        [Header("Chat Visuals")]
-        [SerializeField] private Image chatBubbleBackground;
-        [SerializeField] private Color localUserColor;
-        
         [Header("Chat Hover")]
-        [SerializeField] private List<CanvasGroup> rootCanvasGroup;
         [SerializeField] private List<CanvasGroup> extraButtonsCanvasGroup;
-        
-        [Header("Layout Components")]
-        [SerializeField] private HorizontalOrVerticalLayoutGroup rootLayoutElement;
-        [SerializeField] private HorizontalOrVerticalLayoutGroup innerLayoutElement;
-        [SerializeField] private HorizontalOrVerticalLayoutGroup chatContentLayoutElement;
-        [SerializeField] private HorizontalOrVerticalLayoutGroup extrasContentLayoutElement;
-        [SerializeField] private HorizontalOrVerticalLayoutGroup metadataContainer;
         
         private readonly List<IDisposable> disposables = new List<IDisposable>();
         
         private IChatViewModel chat;
         private Action<IChatViewModel> onDelete;
         
-        public void Setup(CavrnusSpaceConnection spaceConn, IChatViewModel chat, Action<IChatViewModel> onDelete)
+        public void Setup(IChatViewModel chat, Action<IChatViewModel> onDelete)
         {
             this.chat = chat;
             this.onDelete = onDelete;

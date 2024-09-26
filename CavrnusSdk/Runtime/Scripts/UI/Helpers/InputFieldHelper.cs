@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Cavrnus.Chat
+namespace Cavrnus.UI
 {
     [RequireComponent(typeof(TMP_InputField))]
     public class InputFieldHelper : MonoBehaviour

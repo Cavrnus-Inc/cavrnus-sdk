@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace CavrnusSdk.UI.MinimalUI
+namespace CavrnusSdk.UI
 {
     public abstract class RtcUiDropdownBase : MonoBehaviour
     {

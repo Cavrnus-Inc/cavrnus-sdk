@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CavrnusCore;
 using CavrnusSdk.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +15,6 @@ namespace Cavrnus.UI
         private void Awake()
         {
             SetState(false);
-            
             focusModeToggle.onValueChanged.AddListener(OnToggleClicked);
         }
 
@@ -25,17 +25,12 @@ namespace Cavrnus.UI
 
         private void OnEnable()
         {
-            StartCoroutine(this.DoFade(new List<CanvasGroup> {canvasGroup}, 0.2f, true));
+            CavrnusStatics.Scheduler.ExecCoRoutine(this.DoFade(new List<CanvasGroup> {canvasGroup}, 0.2f, true));
         }
 
         public void SetState(bool state)
         {
             target.SetActive(state);
-
-            if (state) {
-                // disable character movement input and other in game stuff
-            }
-            
             focusModeToggle.isOn = state;
         }
 

@@ -2,7 +2,7 @@
 using CavrnusSdk.API;
 using UnityEngine;
 
-namespace CavrnusSdk.UI.MinimalUI
+namespace CavrnusSdk.UI
 {
     public class MinimalRtcButtonsMenu : MonoBehaviour
     {

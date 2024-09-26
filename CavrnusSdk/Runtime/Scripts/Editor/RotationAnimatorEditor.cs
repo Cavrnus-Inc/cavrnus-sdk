@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace CavrnusSdk.Editor.UI
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(CavrnusRotationAnimator))]
     public class RotationAnimatorEditor : UnityEditor.Editor
     {
@@ -21,4 +22,5 @@ namespace CavrnusSdk.Editor.UI
             }
         }
     }
+#endif
 }

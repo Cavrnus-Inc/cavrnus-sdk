@@ -590,3 +590,12 @@
 ### Changed
 - Many fixes to UI scripts
 - Reorganization of UI folder
+
+
+## [2.13.1] - 2024-09-26
+
+### Added
+- Editor XR helpers to simplify package and sample imports
+
+### Fixed
+- Add Editor defines to fix builds

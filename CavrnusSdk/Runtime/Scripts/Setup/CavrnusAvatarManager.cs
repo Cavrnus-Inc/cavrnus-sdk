@@ -4,7 +4,6 @@ using UnityEngine;
 using CavrnusSdk.API;
 using CavrnusSdk.PropertySynchronizers;
 using CavrnusCore;
-using CavrnusSdk.PropertySynchronizers.CommonImplementations;
 
 namespace CavrnusSdk.Setup
 {

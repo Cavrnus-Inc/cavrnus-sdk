@@ -4,7 +4,7 @@ using CavrnusSdk.API;
 using TMPro;
 using UnityEngine;
 
-namespace CavrnusSdk.UI.MinimalUI
+namespace CavrnusSdk.UI
 {
     public class AudioUiDropdown : RtcUiDropdownBase
     {

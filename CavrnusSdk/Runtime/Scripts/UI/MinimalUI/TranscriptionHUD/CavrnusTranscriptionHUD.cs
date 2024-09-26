@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CavrnusSdk.API;
+using Collab.Base.Collections;
 using Collab.LiveRoomSystem.LiveObjectManagement.ObjectTypeManagers;
 using Collab.Proxy.Comm.LiveTypes;
 using UnityEngine;
@@ -23,6 +24,8 @@ namespace Cavrnus.UI
         private List<IDisposable> binds = new List<IDisposable>();
         private IDisposable chatBinding;
 
+        private bool isActive;
+        
         private void Awake()
         {
             entriesContainer.gameObject.SetActive(false);
@@ -32,19 +35,22 @@ namespace Cavrnus.UI
         {
             entriesContainer.gameObject.SetActive(vis);
 
-            if (vis) {
-                CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceConn => {
-                    chatBinding = spaceConn.BindChatMessages(MessageAdded, MessagedRemoved);
+            if (!vis) {
+                visibleEntries.ForEach(entry => {
+                    if (entry.Value != null && entry.Value.gameObject != null)
+                        Destroy(entry.Value.gameObject);
                 });
+                
+                visibleEntries.Clear();
             }
-            else {
-                chatBinding?.Dispose();
-            }
+
+            isActive = vis;
         }
 
         private void Start()
         {
             CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceConn => {
+                chatBinding = spaceConn.BindChatMessages(MessageAdded, MessagedRemoved);
                 binds.Add(spaceConn.BindBoolPropertyValue("room/transcription", "enabled", isEnabled => {
                     if (!isEnabled)
                         gameObject.SetActive(false);
@@ -57,8 +63,10 @@ namespace Cavrnus.UI
         private int countId;
         private void MessageAdded(IChatViewModel chat)
         {
-            // if (chat.ChatType != ChatMessageSourceTypeEnum.Transcription) 
-            //     return;
+            if (!isActive) return;
+            
+            if (chat.ChatType != ChatMessageSourceTypeEnum.Transcription) 
+                return;
                 
             var entry = Instantiate(entryPrefab, entriesContainer);
             entry.Setup(countId, chat, duration);
@@ -84,27 +92,37 @@ namespace Cavrnus.UI
     
         private void OnMessageCompleted(CavrnusTranscriptionHUDEntry obj)
         {
+            if (!isActive) return;
+
             SortEntries();
         }
         
         private void MessagedRemoved(IChatViewModel chat)
         {
+            if (!isActive) return;
+
             if (chat.ChatType != ChatMessageSourceTypeEnum.Transcription) 
                 return;
         }
         
         private void OnMessageDurationExpired(CavrnusTranscriptionHUDEntry entry)
         {
+            if (!isActive) return;
+
             Destroy(entry.gameObject);
             visibleEntries.Remove(entry.Id);
         }
         
         private void SortEntries()
         {
+            if (!isActive) return;
+
             visibleEntries.ToList().Sort((a, b) => DateTime.Compare(a.Value.ChatData.CreateTime.Value, b.Value.ChatData.CreateTime.Value));
             for (var i = 0; i < visibleEntries.Count; i++) {
-                if (visibleEntries[i] != null && visibleEntries[i].gameObject != null)
-                    visibleEntries[i].transform.SetSiblingIndex(i);
+                if (visibleEntries.ContainsKey(i)) {
+                    if (visibleEntries[i] != null && visibleEntries[i].gameObject != null)
+                        visibleEntries[i].transform.SetSiblingIndex(i);
+                }
             }
         }
 

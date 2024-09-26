@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace CavrnusSdk.UI.MinimalUI
+namespace CavrnusSdk.UI
 {
     public class MinimalRtcDropdownButton : MonoBehaviour
     {
@@ -13,10 +13,10 @@ namespace CavrnusSdk.UI.MinimalUI
         [SerializeField] private RtcUiDropdownBase dropdown;
         [SerializeField] private GameObject arrowIconOn;
         [SerializeField] private GameObject arrowIconOff;
-
+        
         private string id;
         private bool currentState = false;
-
+        
         public void Setup(string id)
         {
             this.id = id;
@@ -25,12 +25,12 @@ namespace CavrnusSdk.UI.MinimalUI
             dropdownButton.onClick.AddListener(DropdownButtonClicked);
             dropdown.OnUserClickedOffThisDropdown += DropdownOnOnUserClickedOffThisDropdown;
         }
-
+        
         private void DropdownOnOnUserClickedOffThisDropdown()
         {
             DropdownButtonClicked();
         }
-
+        
         private void DropdownButtonClicked()
         {
             OnDropdownButtonClicked?.Invoke(this, currentState);
@@ -44,14 +44,14 @@ namespace CavrnusSdk.UI.MinimalUI
             
             currentState = state;
         }
-
+        
         private void Update()
         {
             if (currentState) {
                 DetectClickOutside();
             }
         }
-
+        
          private void DetectClickOutside()
          {
              // Check for mouse down
@@ -88,7 +88,7 @@ namespace CavrnusSdk.UI.MinimalUI
                  }
              }
          }
-
+         
          public override bool Equals(object other)
         {
             if (other is MinimalRtcDropdownButton otherButton)
@@ -96,12 +96,12 @@ namespace CavrnusSdk.UI.MinimalUI
             
             return false;
         }
-
+         
         public override int GetHashCode()
         {
             return id.GetHashCode();
         }
-
+        
         private void OnDestroy()
         {
             dropdownButton.onClick.RemoveListener(DropdownButtonClicked);
