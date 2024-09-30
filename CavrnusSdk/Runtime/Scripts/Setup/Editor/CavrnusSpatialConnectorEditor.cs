@@ -1,6 +1,7 @@
+#if UNITY_EDITOR
+
 using UnityEngine;
 using UnityEditor;
-using FM.LiveSwitch.Dtmf;
 
 namespace CavrnusSdk.Setup.Editor
 {
@@ -357,5 +358,5 @@ namespace CavrnusSdk.Setup.Editor
 			}
 		}
 	}
-
 }
+#endif

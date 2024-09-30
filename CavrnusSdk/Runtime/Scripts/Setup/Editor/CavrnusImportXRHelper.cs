@@ -1,4 +1,6 @@
-﻿using CavrnusSdk.Editor;
+﻿#if UNITY_EDITOR
+
+using CavrnusSdk.Editor;
 using UnityEditor;
 
 namespace CavrnusSdk.Setup
@@ -29,3 +31,4 @@ namespace CavrnusSdk.Setup
         }
     }
 }
+#endif

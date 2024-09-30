@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using CavrnusSdk.PropertySynchronizers.CommonImplementations;
@@ -118,3 +119,4 @@ namespace CavrnusSdk.Setup.Editor
 		}
 	}
 }
+#endif

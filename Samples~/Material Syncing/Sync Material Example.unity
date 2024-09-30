@@ -1186,6 +1186,10 @@ PrefabInstance:
       value: SampleSpaceJoinConfig
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: SpaceMenus.Array.data[0]
+      value: 
+      objectReference: {fileID: 340561381624702784, guid: f10378783a9aeea4bb86b1d604b12c82, type: 3}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AutomaticGuestJoinUsername
       value: Guest User
       objectReference: {fileID: 0}

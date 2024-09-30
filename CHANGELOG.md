@@ -199,7 +199,6 @@
 - Avatar nametag rotation and transform property names
 
 
-
 ## [2.2.17] - 2024-02-23
 
 ### Added
@@ -305,18 +304,12 @@
 ## [2.4.10] - 2024-03-07
 
 ### Changed
-
 - User login flow to account for member and guest auth tokens
 
-
 ### Fixed
-
 - Fixed missing icons in space picker menu.
-
 - Space picker menu results are now sorted alphabetically.
-
 - Space picker menu always shows available spaces.
-
 
 ## [2.4.11] - 2024-03-11
 
@@ -358,7 +351,6 @@
 
 ### Removed
 - Removed XR content out of this core package to dedicated com.cavrnus.xr package.
-
 
 
 ## [2.6.1] - 2024-03-20
@@ -456,7 +448,6 @@
 - Fixed double auth issue when save token is enabled for either member or guest.
 
 
-
 ## [2.10.2] - 2024-05-06
 
 ### Fixed
@@ -501,7 +492,6 @@
 ### Fixed
 - Fixed Auto Space JoinID
 
-
 ## [2.11.2] - 2024-06-13
 
 ### Added
@@ -514,7 +504,7 @@
 - Posted operations now show the new local value immediately
 
 
-## [2.12] - 2024-06-17
+## [2.12.0] - 2024-06-17
 
 ### Added
 - Upgraded protocol to support journal caching
@@ -530,24 +520,6 @@
 
 ### Added
 - Added a new feature
-
-### Changed
-- 
-
-### Deprecated
-- 
-
-### Removed
-- 
-
-### Fixed
-- 
-
-### Security
--
-
-
-## [2.12.2] - 2024-06-24
 
 ### Changed
 - Formatting changes in README.md file
@@ -567,8 +539,8 @@
 ### Fixed
 - ClientProvidedIntegrationInfo now checks for OSId null value. Caused spaces to hang when loading.
 
-
 ## [2.12.5] - 2024-07-09
+
 
 ### Fixed
 - Better error messaging if the developer types in a bad Server/Join ID
@@ -599,3 +571,8 @@
 
 ### Fixed
 - Add Editor defines to fix builds
+
+## [2.13.2] - 2024-09-30
+
+### Fixed
+- Fix namespaces that caused build errors

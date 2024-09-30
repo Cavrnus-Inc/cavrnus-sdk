@@ -1,6 +1,6 @@
+#if UNITY_EDITOR
 using System;
 using System.IO;
-using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -139,8 +139,8 @@ namespace CavrnusSdk.Setup.Editor
             GUILayout.EndArea();
 
             var textColor = Color.black;
-            CavrnusCustomEditorUtilities.CreateLabelAbsolutePos("Cavrnus Spatial Connector", new Rect(15, 10, 200, 20), textColor, 11, true);
-            CavrnusCustomEditorUtilities.CreateLabelAbsolutePos($"Version {GetPackageVersion()}", new Rect(WindowSize.x - 115, 10, 100, 20), textColor, 11, true, TextAnchor.MiddleRight);
+            CavrnusCustomEditorUtilities.CreateLabelAbsolutePos(CavrnusPackageInfo.Name, new Rect(15, 10, 200, 20), textColor, 11, true);
+            CavrnusCustomEditorUtilities.CreateLabelAbsolutePos($"Version {CavrnusPackageInfo.Version}", new Rect(WindowSize.x - 115, 10, 100, 20), textColor, 11, true, TextAnchor.MiddleRight);
         }
 
         private void ShowHeader()
@@ -214,30 +214,6 @@ namespace CavrnusSdk.Setup.Editor
         {
             EditorPrefs.SetBool("ShouldAutoOpen", shouldAutoOpen);
         }
-
-        private static string GetPackageVersion()
-        {
-            var result = "";
-            
-            var assetsPath = "Assets/com.cavrnus.csc/package.json";
-            var packagePath = "Packages/com.cavrnus.csc/package.json";
-            
-            var path = File.Exists(assetsPath) ? assetsPath : packagePath;
-                
-            if (File.Exists(path)) {
-                var data = File.ReadAllText(path);
-                var jData = JObject.Parse(data);
-            
-                if (jData["version"] != null)
-                    result = jData["version"].ToString();
-                else
-                    Debug.LogError($"Cannot find version Json entry in {path} file!"); 
-            }
-            else {
-                Debug.LogError($"Cannot find package path at {path}: ");
-            }
-
-            return result;
-        }
     }
 }
+#endif

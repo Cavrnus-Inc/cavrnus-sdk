@@ -2,47 +2,42 @@
 using System.Collections;
 using Random = UnityEngine.Random;
 
-public class MiniUserListSpeakingPulse : MonoBehaviour
+namespace Cavrnus.UI
 {
-    public CanvasGroup cg;
-    public bool IsSpeaking;
-
-    public float pulseSpeed = 1f; 
-    public float minAlpha = 0.2f; 
-
-    private Coroutine pulsingCoroutine;
-
-    private void Awake()
+    public class MiniUserListSpeakingPulse : MonoBehaviour
     {
-        cg.alpha = 0f;
-    }
+        public CanvasGroup cg;
+        public bool IsSpeaking;
 
-    private void Update()
-    {
-        if (IsSpeaking && pulsingCoroutine == null)
+        public float pulseSpeed = 1f;
+        public float minAlpha = 0.2f;
+
+        private Coroutine pulsingCoroutine;
+
+        private void Awake() { cg.alpha = 0f; }
+
+        private void Update()
         {
-            pulsingCoroutine = StartCoroutine(PulseCanvasGroup());
+            if (IsSpeaking && pulsingCoroutine == null) { pulsingCoroutine = StartCoroutine(PulseCanvasGroup()); }
+            else if (!IsSpeaking && pulsingCoroutine != null) {
+                StopCoroutine(pulsingCoroutine);
+                pulsingCoroutine = null;
+
+                cg.alpha = 0f;
+            }
         }
-        else if (!IsSpeaking && pulsingCoroutine != null)
+
+        private IEnumerator PulseCanvasGroup()
         {
-            StopCoroutine(pulsingCoroutine);
-            pulsingCoroutine = null;
+            var timeOffset = Random.Range(0f, 1f); // Random time offset for variety in pulsing
 
-            cg.alpha = 0f;
-        }
-    }
+            while (true) {
+                // Pulsing effect starting from 0 alpha
+                var targetAlpha = minAlpha + Mathf.PingPong((Time.time + timeOffset) * pulseSpeed, 1f - minAlpha);
+                cg.alpha = targetAlpha;
 
-    private IEnumerator PulseCanvasGroup()
-    {
-        var timeOffset = Random.Range(0f, 1f); // Random time offset for variety in pulsing
-
-        while (true)
-        {
-            // Pulsing effect starting from 0 alpha
-            var targetAlpha = minAlpha + Mathf.PingPong((Time.time + timeOffset) * pulseSpeed, 1f - minAlpha);
-            cg.alpha = targetAlpha;
-
-            yield return null; // Wait for the next frame
+                yield return null; // Wait for the next frame
+            }
         }
     }
 }

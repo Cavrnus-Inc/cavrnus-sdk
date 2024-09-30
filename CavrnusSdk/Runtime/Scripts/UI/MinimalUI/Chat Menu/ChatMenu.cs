@@ -16,7 +16,7 @@ namespace Cavrnus.UI
         [Header("UI Components")]
         [SerializeField] private TMP_InputField inputField;
         [SerializeField] private Button submitButton;
-        [SerializeField] private InputFieldHelper inputFieldHelper;
+        [SerializeField] private CavrnusInputFieldHelper cavrnusInputFieldHelper;
         [SerializeField] private Scrollbar scrollBar;
 
         [SerializeField] private Button resetButton;
@@ -45,7 +45,7 @@ namespace Cavrnus.UI
                     submitButton.onClick.AddListener(SubmitChat);
                     
                     inputField.onValueChanged.AddListener(OnInputChanged);
-                    inputFieldHelper.OnEndEdit.AddListener(OnInputFieldSubmit);
+                    cavrnusInputFieldHelper.OnEndEdit.AddListener(OnInputFieldSubmit);
 
                     if (resetButton) {
                         resetButton.onClick.AddListener(OnResetButtonClicked);

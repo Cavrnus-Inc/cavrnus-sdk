@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.PackageManager;
@@ -102,3 +103,4 @@ namespace CavrnusSdk.Editor
         }
     }
 }
+#endif

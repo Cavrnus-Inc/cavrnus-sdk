@@ -5,7 +5,7 @@ using UnityEngine.Events;
 namespace Cavrnus.UI
 {
     [RequireComponent(typeof(TMP_InputField))]
-    public class InputFieldHelper : MonoBehaviour
+    public class CavrnusInputFieldHelper : MonoBehaviour
     {
         public UnityEvent<string> OnEndEdit;
         

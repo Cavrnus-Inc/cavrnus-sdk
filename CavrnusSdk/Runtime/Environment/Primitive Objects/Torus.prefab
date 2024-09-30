@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &506385638909826810
+--- !u!1 &4527219666698921719
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,86 +8,57 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3890485181344958351}
-  - component: {fileID: -3210277315233974394}
-  - component: {fileID: -4738773425461231492}
+  - component: {fileID: 751493640044557711}
   m_Layer: 0
-  m_Name: WholeMaterialSync
+  m_Name: Torus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3890485181344958351
+--- !u!4 &751493640044557711
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506385638909826810}
+  m_GameObject: {fileID: 4527219666698921719}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2263360842709890253}
+  - {fileID: 6167422456353084218}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3210277315233974394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506385638909826810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19e724c140dc23a418b8365b0907f9ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UniqueContainerName: SyncMat
---- !u!114 &-4738773425461231492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506385638909826810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: daa791f569ed2914c806510265a7fb93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Material: {fileID: 2100000, guid: 6b3ebed10703953449e369b7b5e64bd1, type: 2}
-  SendMyChanges: 1
---- !u!1001 &1793465972153979686
+--- !u!1001 &5917078386576733393
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 3890485181344958351}
+    m_TransformParent: {fileID: 751493640044557711}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a083f7d8b3538454083d5e7729fae938, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5162
+      value: 0.56159
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a083f7d8b3538454083d5e7729fae938, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5162
+      value: 0.56159
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a083f7d8b3538454083d5e7729fae938, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.5162
+      value: 0.56159
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a083f7d8b3538454083d5e7729fae938, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.000000089407
+      value: -0.000000089407
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a083f7d8b3538454083d5e7729fae938, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.108
+      value: 0.532
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a083f7d8b3538454083d5e7729fae938, type: 3}
       propertyPath: m_LocalPosition.z
@@ -124,7 +95,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: a083f7d8b3538454083d5e7729fae938, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 6b3ebed10703953449e369b7b5e64bd1, type: 2}
+      objectReference: {fileID: 2100000, guid: 2e20e47ce1791d24c94579363eb7b138, type: 2}
     - target: {fileID: 919132149155446097, guid: a083f7d8b3538454083d5e7729fae938, type: 3}
       propertyPath: m_Name
       value: Primitive_Torus
@@ -134,8 +105,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a083f7d8b3538454083d5e7729fae938, type: 3}
---- !u!4 &2263360842709890253 stripped
+--- !u!4 &6167422456353084218 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a083f7d8b3538454083d5e7729fae938, type: 3}
-  m_PrefabInstance: {fileID: 1793465972153979686}
+  m_PrefabInstance: {fileID: 5917078386576733393}
   m_PrefabAsset: {fileID: 0}
