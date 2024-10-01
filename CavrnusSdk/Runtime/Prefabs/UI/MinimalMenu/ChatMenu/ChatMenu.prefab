@@ -477,7 +477,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputField: {fileID: 8880159396660179465}
   submitButton: {fileID: 906648294567147153}
-  inputFieldHelper: {fileID: 4140822258682628643}
+  cavrnusInputFieldHelper: {fileID: 4140822258682628643}
   scrollBar: {fileID: 2111970189420790512}
   resetButton: {fileID: 6075065975294991685}
   chatEntryContainer: {fileID: 3150756859684468509}

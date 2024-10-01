@@ -576,3 +576,9 @@
 
 ### Fixed
 - Fix namespaces that caused build errors
+
+
+## [2.13.3] - 2024-09-30
+
+### Fixed
+- Fix missing refernce in ChatMenu
