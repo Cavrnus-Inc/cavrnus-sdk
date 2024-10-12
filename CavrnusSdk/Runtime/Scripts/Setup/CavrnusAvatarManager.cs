@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using CavrnusSdk.API;
@@ -10,17 +9,18 @@ namespace CavrnusSdk.Setup
 	public class CavrnusAvatarManager 
 	{
 		private GameObject remoteAvatarPrefab;
+		private bool showLocalUser;
 
 	    private Dictionary<string, GameObject> avatarInstances = new Dictionary<string, GameObject>();
 
-		// Start is called before the first frame update
-		public void Setup(GameObject remoteAvatarPrefab)
+		public void Setup(GameObject remoteAvatarPrefab, bool showLocalUser)
 	    {
 			this.remoteAvatarPrefab = remoteAvatarPrefab;
+			this.showLocalUser = showLocalUser;
 
 			if (remoteAvatarPrefab == null)
 		    {
-			    Debug.LogError("No Avatar Prefab has been assigned.  Shutting down CoPresence display system.");
+			    Debug.LogError("No Avatar Prefab has been assigned. Shutting down CoPresence display system.");
 				return;
 		    }
 
@@ -28,12 +28,10 @@ namespace CavrnusSdk.Setup
 		}
 
 		private CavrnusSpaceConnection cavrnusSpaceConnection = null;
-		private IDisposable hasMovedBind;
 
 		private void OnSpaceConnection(CavrnusSpaceConnection obj)
 		{
 			cavrnusSpaceConnection = obj;
-
 			cavrnusSpaceConnection.BindSpaceUsers((u) => CavrnusStatics.Scheduler.ExecInMainThreadAfterFrames(3, () => UserAdded(u)), UserRemoved);
 		}
 
@@ -42,22 +40,23 @@ namespace CavrnusSdk.Setup
 		{
 			//This list contains the player.  But we don't wanna show their avatar via this system.
 			if (user.IsLocalUser) {
-				user.SpaceConnection.BeginTransientBoolPropertyUpdate(user.ContainerId, "AvatarVis", true);
+				user.SpaceConnection.BeginTransientBoolPropertyUpdate(user.ContainerId, "AvatarVis", showLocalUser);
 				
 				return;
 			}
 
 			var initialTransform = user.SpaceConnection.GetTransformPropertyValue(user.ContainerId, "Transform");
 
-			var avatar = GameObject.Instantiate(remoteAvatarPrefab, initialTransform.Position, Quaternion.Euler(initialTransform.EulerAngles));
+			var avatar = Object.Instantiate(remoteAvatarPrefab, initialTransform.Position, Quaternion.Euler(initialTransform.EulerAngles));
             avatar.AddComponent<CavrnusUserFlag>().User = user;
 			avatar.name = $"{user.ContainerId} ({user.GetUserName()}'s Avatar)";
 			
 			user.SpaceConnection.DefineBoolPropertyDefaultValue(user.ContainerId, "AvatarVis", false);
-			hasMovedBind = user.SpaceConnection.BindBoolPropertyValue(user.ContainerId, "AvatarVis", vis => {
-				avatar.SetActive(vis);
+			user.SpaceConnection.BindBoolPropertyValue(user.ContainerId, "AvatarVis", vis => {
+				if (avatar != null)
+					avatar.SetActive(vis);
 			});
-
+			
             CavrnusPropertyHelpers.ResetLiveHierarchyRootName(avatar, $"{user.ContainerId}");
 
             foreach (var sync in avatar.GetComponentsInChildren<CavrnusValueSync<bool>>())
@@ -75,19 +74,13 @@ namespace CavrnusSdk.Setup
 
 			avatarInstances[user.ContainerId] = avatar;
 		}
-		
-		private static bool HasTransformChanged(CavrnusTransformData initialTransform, CavrnusTransformData data, float positionThreshold = 0.1f, float rotationThreshold = 0.1f)
-		{
-			return Vector3.Distance(initialTransform.Position, data.Position) > positionThreshold ||
-			       Vector3.Distance(initialTransform.EulerAngles, data.EulerAngles) > rotationThreshold;
-		}
 
 		//Destroy them when we lose that user
 		private void UserRemoved(CavrnusUser user)
 		{
 			if (avatarInstances.ContainsKey(user.ContainerId))
 			{
-				GameObject.Destroy(avatarInstances[user.ContainerId].gameObject);
+				Object.Destroy(avatarInstances[user.ContainerId].gameObject);
 				avatarInstances.Remove(user.ContainerId);
 			}
 		}

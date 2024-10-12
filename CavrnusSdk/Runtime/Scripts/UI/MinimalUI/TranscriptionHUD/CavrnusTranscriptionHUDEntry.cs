@@ -10,7 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
     public class CavrnusTranscriptionHUDEntry : MonoBehaviour
     {
@@ -61,7 +61,7 @@ namespace Cavrnus.UI
                     }
                 }
             }));
-            CavrnusStatics.Scheduler.StartCoroutine(this.DoFade(new List<CanvasGroup> { cg }, 0.3f, true));
+            gameObject.DoFade(new List<CanvasGroup> { cg }, 0.3f, true);
         }
 
         private IEnumerator DurationRoutine(float duration)

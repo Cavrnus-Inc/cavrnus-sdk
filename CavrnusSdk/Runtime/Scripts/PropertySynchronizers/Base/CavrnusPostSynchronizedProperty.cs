@@ -31,6 +31,10 @@ namespace CavrnusSdk.PropertySynchronizers
 		//Only really for CoPresence
 		public void ForceBeginTransientUpdate()
 		{
+			if (spaceConn == null) {
+				Debug.LogError("SpaceConn is null!!!");
+				return;
+			}
 			transientUpdater = CavrnusPropertyHelpers.BeginContinuousPropertyUpdate<T>(spaceConn,
 					sync.Context.UniqueContainerName, sync.PropName,
 					sync.GetValue());

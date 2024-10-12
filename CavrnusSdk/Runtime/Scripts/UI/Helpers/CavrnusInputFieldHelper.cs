@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
     [RequireComponent(typeof(TMP_InputField))]
     public class CavrnusInputFieldHelper : MonoBehaviour

@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
     public class CavrnusUIActiveTracker : MonoBehaviour
     {

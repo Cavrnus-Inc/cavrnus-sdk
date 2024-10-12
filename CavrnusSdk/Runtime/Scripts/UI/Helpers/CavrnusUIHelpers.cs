@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using CavrnusCore;
 using CavrnusSdk.API;
 using UnityBase;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
     public static class CavrnusUIHelpers
     {
@@ -15,7 +14,9 @@ namespace Cavrnus.UI
         {
             var picDisp = user.BindProfilePic(profilePic =>
             {
-                image.sprite = profilePic;
+                if (image != null) {
+                    image.sprite = profilePic;
+                }
                 if (profilePic != null) {
                     ratioFitter.aspectRatio = (float)profilePic.texture.width / (float)profilePic.texture.height;
                 }

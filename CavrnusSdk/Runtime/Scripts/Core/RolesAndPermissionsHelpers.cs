@@ -43,15 +43,15 @@ namespace CavrnusCore
 		
 		private static RoleHash GetLocalRoomRoles(CavrnusSpaceConnection conn)
 		{
-			return CavrnusStatics.Notify.ContextualRoles.GetRolesForContext(CavrnusStatics.Notify.UsersSystem.ConnectedUser.Value.Id, conn.RoomSystem.Comm.SessionId);
+			return CavrnusStatics.Notify.ContextualRoles.GetRolesForContext(CavrnusStatics.Notify.UsersSystem.ConnectedUser.Value.Id, conn.CurrentSpaceConnection.Value.RoomSystem.Comm.SessionId);
 		}
 
 		private static bool RoomIsOwnedByLocalUser(CavrnusSpaceConnection conn)
 		{
 			var ownedByLocalUser = false;
 
-			var roomId = conn.RoomSystem.Comm.SessionId;
-			var userId = conn.RoomSystem.Comm.LocalCommUser.Value.User.Id;
+			var roomId = conn.CurrentSpaceConnection.Value.RoomSystem.Comm.SessionId;
+			var userId = conn.CurrentSpaceConnection.Value.RoomSystem.Comm.LocalCommUser.Value.User.Id;
 			
 			if (CavrnusStatics.Notify.RoomsSystem.RoomsInfo.TryGetValue(roomId, out var value))
 				ownedByLocalUser = value.OwnerId == userId;

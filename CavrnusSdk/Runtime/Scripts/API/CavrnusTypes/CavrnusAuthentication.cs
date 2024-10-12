@@ -4,11 +4,13 @@ namespace CavrnusSdk.API
 {
 	public class CavrnusAuthentication
 	{
+		internal RestUserCommunication RestUserComm;
 		internal RestApiEndpoint Endpoint;
 		public string Token;
 
-		internal CavrnusAuthentication(RestApiEndpoint endpoint, string token)
+		internal CavrnusAuthentication(RestUserCommunication ruc, RestApiEndpoint endpoint, string token)
 		{
+			RestUserComm = ruc;
 			Endpoint = endpoint;
 			Token = token;
 		}

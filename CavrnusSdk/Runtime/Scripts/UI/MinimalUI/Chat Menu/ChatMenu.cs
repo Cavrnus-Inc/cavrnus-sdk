@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using CavrnusCore;
 using CavrnusSdk.API;
-using CavrnusSdk.UI;
 using Collab.LiveRoomSystem.LiveObjectManagement.ObjectTypeManagers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
     public class ChatMenu : MonoBehaviour
     {
@@ -86,8 +85,7 @@ namespace Cavrnus.UI
         private void SetResetButtonVis(bool isVis)
         {
             if (currentButtonVis != isVis) {
-                CavrnusStatics.Scheduler.ExecCoRoutine(
-                    this.DoFade(new List<CanvasGroup> {resetButton.gameObject.GetComponent<CanvasGroup>()}, 0.15f, isVis));
+                gameObject.DoFade(new List<CanvasGroup> {resetButton.gameObject.GetComponent<CanvasGroup>()}, 0.15f, isVis);
             }
 
             if (resetButton)

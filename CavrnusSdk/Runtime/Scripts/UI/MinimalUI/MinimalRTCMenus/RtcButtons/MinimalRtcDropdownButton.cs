@@ -23,7 +23,6 @@ namespace CavrnusSdk.UI
             SetDropdownActiveState(false);
             
             dropdownButton.onClick.AddListener(DropdownButtonClicked);
-            dropdown.OnUserClickedOffThisDropdown += DropdownOnOnUserClickedOffThisDropdown;
         }
         
         private void DropdownOnOnUserClickedOffThisDropdown()
@@ -105,7 +104,6 @@ namespace CavrnusSdk.UI
         private void OnDestroy()
         {
             dropdownButton.onClick.RemoveListener(DropdownButtonClicked);
-            dropdown.OnUserClickedOffThisDropdown -= DropdownOnOnUserClickedOffThisDropdown;
         }
     }
 }

@@ -13,7 +13,6 @@ using static CavrnusSdk.Setup.CavrnusSpatialConnector;
 using System.IO;
 using System;
 using Collab.Proxy.Content;
-using System.Collections.Generic;
 using CavrnusSdk.API;
 
 namespace CavrnusCore
@@ -42,7 +41,6 @@ namespace CavrnusCore
 
 		internal static ISetting<RtcInputSource> DesiredVideoStream = new Setting<RtcInputSource>(null);
 
-		internal static List<CavrnusSpaceConnection> SpaceConnections = new List<CavrnusSpaceConnection>();
 		internal static CavrnusAuthentication CurrentAuthentication = null;
 
 		internal static void Setup(CavrnusSettings settings)
@@ -84,10 +82,10 @@ namespace CavrnusCore
 
 		internal static void Shutdown()
 		{
-			RtcContext.Shutdown();
-			Notify.Shutdown();
-			SpaceConnections.Clear();
 			CurrentAuthentication = null;
+			Notify.Shutdown();
+			RtcContext.Shutdown();
+			CavrnusSpaceConnectionManager.Shutdown();
 		}
 
 		private static void DoRecvMessage(string category, string message)

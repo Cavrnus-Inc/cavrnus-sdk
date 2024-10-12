@@ -7,7 +7,7 @@ using Collab.LiveRoomSystem.LiveObjectManagement.ObjectTypeManagers;
 using Collab.Proxy.Comm.LiveTypes;
 using UnityEngine;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
     public class CavrnusTranscriptionHUD : MonoBehaviour
     {

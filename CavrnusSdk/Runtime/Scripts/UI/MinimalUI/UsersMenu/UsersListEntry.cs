@@ -1,7 +1,7 @@
 using CavrnusSdk.API;
 using System;
 using System.Collections.Generic;
-using Cavrnus.UI;
+using CavrnusSdk.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -85,7 +85,7 @@ namespace CavrnusSdk.UI
 		private void OnDestroy()
 		{
 			foreach (var disp in disposables) 
-				disp.Dispose();
+				disp?.Dispose();
 		}
 	}
 }

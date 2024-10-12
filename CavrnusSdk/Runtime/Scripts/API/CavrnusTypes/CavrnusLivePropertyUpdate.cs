@@ -4,12 +4,14 @@ using Collab.Proxy.Prop;
 using Collab.Proxy.Prop.ColorProp;
 using Collab.Proxy.Comm.LiveTypes;
 using Collab.Proxy.Prop.BooleanProp;
+using Collab.Proxy.Prop.JsonProp;
 using Collab.Proxy.Prop.ScalarProp;
 using Collab.Proxy.Prop.StringProp;
 using Collab.Proxy.Prop.VectorProp;
 using UnityBase;
 using UnityEngine;
 using Collab.Proxy.Prop.TransformProp;
+using Newtonsoft.Json.Linq;
 
 namespace CavrnusSdk.API
 {
@@ -26,7 +28,7 @@ namespace CavrnusSdk.API
 			this.smoothed = smoothed;
 
 			var myContainerId = new PropertyId(pathToContainer);
-			var myContainer = spaceConn.RoomSystem.PropertiesRoot.SearchForContainer(myContainerId);
+			var myContainer = spaceConn.CurrentSpaceConnection.Value.RoomSystem.PropertiesRoot.SearchForContainer(myContainerId);
 
 			OpPropertyUpdateLive op = new OpPropertyUpdateLive();
 			op.Property = myContainer.AbsoluteId.Push(propertyId);
@@ -80,6 +82,13 @@ namespace CavrnusSdk.API
 					Priority = 0,
 					GeneratorPb = new VectorGeneratorConst(new Vector4(v2.x, v2.y).ToFloat4()).ToPb(),
 				};
+			else if (data is JObject json)
+				op.Assignment = new JsonPropertyAssignmentLive()
+				{
+					AssignmentId = "-",
+					Priority = 0,
+					GeneratorPb = new JsonGeneratorConst(json.ToString()).ToPb()
+				};
 			else if (data is CavrnusTransformData t)
 			{
 				op.Assignment = new TransformPropertyAssignmentLive()
@@ -91,7 +100,7 @@ namespace CavrnusSdk.API
 
 				if(smoothed)
 				{
-					specialTransformProp = spaceConn.RoomSystem.PropertiesRoot.SearchForTransformProperty(op.Property);
+					specialTransformProp = spaceConn.CurrentSpaceConnection.Value.RoomSystem.PropertiesRoot.SearchForTransformProperty(op.Property);
 					specialTransformProp.UpdateValue("moverTmp", 1, new TransformSetGeneratorSrt(
 						new VectorGeneratorConst(t.Position.ToFloat4()),
 						new VectorGeneratorConst(t.EulerAngles.ToFloat4()),
@@ -99,7 +108,7 @@ namespace CavrnusSdk.API
 				}
 			}
 
-			handler = spaceConn.RoomSystem.LiveOpsSys.Create(op);
+			handler = spaceConn.CurrentSpaceConnection.Value.RoomSystem.LiveOpsSys.Create(op);
 			//Debug.Log("Posting First Transient " + Time.time);
 			handler.PostAsTransient();
 		}

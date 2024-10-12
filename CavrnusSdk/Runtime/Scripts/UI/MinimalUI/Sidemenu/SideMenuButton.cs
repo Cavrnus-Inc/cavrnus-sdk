@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
     public class SideMenuButton : MonoBehaviour
     {
@@ -16,7 +16,7 @@ namespace Cavrnus.UI
 
         private int menuId;
         
-        public void Setup(int id, MinimalUIManager.SideMenuData data)
+        public void Setup(int id, CavrnusSideMenuData data)
         {
             menuId = id;
             image.sprite = data.MenuIcon;

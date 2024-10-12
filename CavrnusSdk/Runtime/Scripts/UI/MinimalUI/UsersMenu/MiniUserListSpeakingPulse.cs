@@ -2,7 +2,7 @@
 using System.Collections;
 using Random = UnityEngine.Random;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
     public class MiniUserListSpeakingPulse : MonoBehaviour
     {

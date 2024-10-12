@@ -67,6 +67,8 @@ namespace CavrnusSdk.Setup
 		public List<GameObject> SpaceMenus;
 
 		public GameObject RemoteUserAvatar;
+		public bool SpawnRemoteAvatars = true;
+		public bool ShowLocalUser = true;
 		
 		[System.Serializable]
 		public class CavrnusSpawnableObject
@@ -98,7 +100,10 @@ namespace CavrnusSdk.Setup
 
 			CavrnusFunctionLibrary.InitializeCavrnus();
 
-			SetupAuthenticate();			
+			SetupAuthenticate();
+
+			if (SpawnRemoteAvatars)
+				new CavrnusAvatarManager().Setup(RemoteUserAvatar, ShowLocalUser);
 		}
 
 		private HashSet<string> spawnedObjectUniqueIds = new HashSet<string>();
@@ -202,7 +207,8 @@ namespace CavrnusSdk.Setup
 		private void SetupJoinSpace()
 		{
 			foreach (var ui in CurrentAuthenticationUi)
-				GameObject.Destroy(ui);
+				Destroy(ui);
+			
 			CurrentAuthenticationUi.Clear();
 
 			if (SpaceJoinMethod == SpaceJoinOption.JoinId)
@@ -212,7 +218,9 @@ namespace CavrnusSdk.Setup
 				if (string.IsNullOrEmpty(AutomaticSpaceJoinId))
 					throw new System.Exception("Error on Cavrnus Spatial Connector object: No Automatic Space Join ID specified!");
 
-				CavrnusFunctionLibrary.JoinSpace(AutomaticSpaceJoinId, spaceConn => { }, err => Debug.LogError(err));
+				CavrnusFunctionLibrary.JoinSpace(AutomaticSpaceJoinId, spaceConn => {
+					print("test");
+				});
 			}
 			else if (SpaceJoinMethod == SpaceJoinOption.SpacesList)
 			{
@@ -248,18 +256,13 @@ namespace CavrnusSdk.Setup
 						CurrentSpaceLoadingUi.Add(Instantiate(ui, UiCanvas.transform));
 			}
 
-			CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceId => FinalizeSpaceJoin(spaceId, required));
+			CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceId => FinalizeSpaceJoin(required));
 		}
-
-		private CavrnusAvatarManager avatarManager;
-
+		
 		private readonly List<GameObject> currentSpaceUi = new List<GameObject>();
-		private void FinalizeSpaceJoin(CavrnusSpaceConnection conn, bool required)
+		private void FinalizeSpaceJoin(bool required)
 		{
-			avatarManager = new CavrnusAvatarManager();
-			avatarManager.Setup(RemoteUserAvatar);
-
-
+			
 			if (required && UiCanvas == null)
 				throw new System.Exception("Error on Cavrnus Spatial Connector object: No Canvas has been specified to contain the spawned UI!");
 

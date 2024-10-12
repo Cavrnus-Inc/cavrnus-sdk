@@ -19,26 +19,31 @@ namespace CavrnusCore
 
         private Dictionary<string, GameObject> createdObjects = new Dictionary<string, GameObject>();
 
-		private IDisposable disp;
+		private List<IDisposable> disp = new List<IDisposable>();
 
 		private CavrnusSpaceConnection spaceConn;
 
 		public CavrnusObjectCreationHandler(List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnablePrefabs, CavrnusSpaceConnection spaceConn)
 		{
-			this.spaceConn = spaceConn;
-			this.spawnablePrefabs = spawnablePrefabs;
+			disp.Add(spaceConn.CurrentSpaceConnection.Bind(sc => {
+				if (sc == null)
+					return;
+				
+				var creationHandler = spaceConn.CurrentSpaceConnection.Value.RoomSystem.LiveJournal.GetObjectCreationReciever();
 
-			var creationHandler = spaceConn.RoomSystem.LiveJournal.GetObjectCreationReciever();
+				this.spaceConn = spaceConn;
+				this.spawnablePrefabs = spawnablePrefabs;
 
-			var visibleObjectOps = creationHandler.GetMultiEntryWatcher<OpCreateObjectLive>().ActiveOps;
+				var visibleObjectOps = creationHandler.GetMultiEntryWatcher<OpCreateObjectLive>().ActiveOps;
 
-			//We have the delay to allow for the new objct's properties to arrive.  This way there's less weird "pop-in" of values
-			disp = visibleObjectOps.BindAll(op => CavrnusStatics.Scheduler.ExecInMainThreadAfterFrames(3, () => ObjectCreated(op)), ObjectRemoved);
+				//We have the delay to allow for the new objct's properties to arrive.  This way there's less weird "pop-in" of values
+				disp.Add(visibleObjectOps.BindAll(
+					         op => CavrnusStatics.Scheduler.ExecInMainThreadAfterFrames(3, () => ObjectCreated(op)),
+					         ObjectRemoved));
+			}));
 		}
 
-		public void Dispose() { disp.Dispose(); }
-
-		internal void ObjectCreated(OpInfo<OpCreateObjectLive> createOp)
+		private void ObjectCreated(OpInfo<OpCreateObjectLive> createOp)
 		{
 			//Since we waited, this should be here if they already set it
 			var initialTransform = spaceConn.GetTransformPropertyValue(createOp.Op.ObjectContextPath.ToString(), "Transform");
@@ -56,10 +61,11 @@ namespace CavrnusCore
 					ob.gameObject.AddComponent<CavrnusSpawnedObjectFlag>().Init(spawnedObject);
 					CavrnusPropertyHelpers.ResetLiveHierarchyRootName(ob.gameObject, createOp.Op.ObjectContextPath.ToString());
 
-					if(SpawnCallbacks.ContainsKey(createOp.Op.ObjectContextPath.ToString()))
+					var key = createOp.Op.ObjectContextPath.ToString().TrimStart('/');
+					if(SpawnCallbacks.ContainsKey(key))
 					{
-						SpawnCallbacks[createOp.Op.ObjectContextPath.ToString()].Invoke(spawnedObject, ob);
-						SpawnCallbacks.Remove(createOp.Op.ObjectContextPath.ToString());
+						SpawnCallbacks[key].Invoke(spawnedObject, ob);
+						SpawnCallbacks.Remove(key);
 					}
 				}
 				else {
@@ -100,6 +106,11 @@ namespace CavrnusCore
 				GameObject.Destroy(createdObjects[createOp.Op.ObjectContextPath.ToString()]);
 				createdObjects.Remove(createOp.Op.ObjectContextPath.ToString());
 			}
+		}
+		
+		public void Dispose()
+		{
+			disp.ForEach(d => d?.Dispose());
 		}
 	}
 }

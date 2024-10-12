@@ -954,9 +954,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e341cd75704a0d8500cebac454c807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerName: LightColorMenu
-  colorPropertyName: Color
-  intensityPropertyName: Intensity
+  containerName: Sample
+  colorPropertyName: LightColor
+  intensityPropertyName: LightIntensity
   lightComponent: {fileID: 0}
   intensityCavrnusPropertyUISlider: {fileID: 4234206564591103357}
   intensityMinMax: {x: 10, y: 150}
@@ -975,8 +975,8 @@ MonoBehaviour:
   onColorUpdated:
     m_PersistentCalls:
       m_Calls: []
-  containerName: LightColorMenu
-  propertyName: Color
+  containerName: Sample
+  propertyName: LightColor
   colorPrefab: {fileID: 2078642803335105264, guid: ba90aafc2d35819429cc37fb57505b6e, type: 3}
   container: {fileID: 8187418485765598889}
   colors:

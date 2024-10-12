@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using CavrnusSdk.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
     public class SideMenuContainer : MonoBehaviour
     {
@@ -28,7 +27,7 @@ namespace Cavrnus.UI
             buttonClose.onClick.AddListener(OnButtonCloseClicked);
         }
 
-        public void AddMenuToContainer(MinimalUIManager.SideMenuData md)
+        public void AddMenuToContainer(CavrnusSideMenuData md)
         {
             childrenMenus.Add(md.Menu);
             md.Menu.transform.SetParent(menuContainer);
@@ -46,7 +45,7 @@ namespace Cavrnus.UI
             md.Menu.SetActive(false);
         }
 
-        public void SetTargetMenuVisibility(int menuId, MinimalUIManager.SideMenuData data, bool vis)
+        public void SetTargetMenuVisibility(int menuId, CavrnusSideMenuData data, bool vis)
         {
             if (vis) {
                 childrenMenus.ForEach(m => m.SetActive(false));
@@ -67,7 +66,7 @@ namespace Cavrnus.UI
             gameObject.SetActive(state);
 
             if (state)
-                StartCoroutine(this.DoFade(new List<CanvasGroup> {canvasGroup}, 0.1f, true));
+                gameObject.DoFade(new List<CanvasGroup> {canvasGroup}, 0.1f, true);
         }
         
         private void OnButtonCloseClicked()

@@ -2,29 +2,23 @@ using System.Collections.Generic;
 using CavrnusSdk.API;
 using UnityEngine;
 
-public class CavrnusEnableComponentsOnSpaceJoin : MonoBehaviour
+namespace CavrnusSdk.UI
 {
-    [SerializeField] private List<Component> components;
-
-    private void Awake()
+    public class CavrnusEnableComponentsOnSpaceJoin : MonoBehaviour
     {
-        SetComponentsEnabled(false);
-    }
+        [SerializeField] private List<Component> components;
 
-    private void Start()
-    {
-        CavrnusFunctionLibrary.AwaitAnySpaceConnection(csc => {
-            SetComponentsEnabled(true);
-        });
-    }
+        private void Awake() { SetComponentsEnabled(false); }
 
-    private void SetComponentsEnabled(bool enabled)
-    {
-        foreach (var component in components)
+        private void Start() { CavrnusFunctionLibrary.AwaitAnySpaceConnection(csc => { SetComponentsEnabled(true); }); }
+
+        private void SetComponentsEnabled(bool enabled)
         {
-            if (component != null)
-                if (component is Behaviour behaviour)
-                    behaviour.enabled = enabled;
+            foreach (var component in components) {
+                if (component != null)
+                    if (component is Behaviour behaviour)
+                        behaviour.enabled = enabled;
+            }
         }
     }
 }

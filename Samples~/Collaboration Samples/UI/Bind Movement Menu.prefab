@@ -1808,8 +1808,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   moveAmount: 0.5
-  containerName: MoveObject
-  propertyName: Transform
+  containerName: Sample
+  propertyName: ObjectTransform
   buttonUp: {fileID: 773416020536941389}
   buttonDown: {fileID: 5671813751617024486}
   buttonLeft: {fileID: 7236443702530309793}

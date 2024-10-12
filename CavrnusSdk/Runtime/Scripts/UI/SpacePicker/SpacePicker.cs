@@ -84,7 +84,7 @@ namespace CavrnusSdk.UI
 			CavrnusFunctionLibrary.JoinSpace(csi.Id, (spaceConn) => {
 				/*The Post-Load cleanup is done by the Cavrnus Spatial Connector.
 				 If you did you own version though, you would need to implement this*/
-			}, err => Debug.LogError(err));
+			});
 		}
 
 		private void OnDestroy()

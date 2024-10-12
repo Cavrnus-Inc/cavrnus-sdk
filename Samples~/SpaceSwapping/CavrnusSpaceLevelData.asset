@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92fefb70a6764cfdb8b9fb2e2d206b74, type: 3}
+  m_Name: CavrnusSpaceLevelData
+  m_EditorClassIdentifier: 
+  levels:
+  - Tag: 
+    SpaceDisplayName: Space A
+    CavrnusSpaceJoinId: space-a
+    Scene: {fileID: 102900000, guid: c6f754ffdda2db746b17a207deeacfdc, type: 3}
+    IncludeRtc: 0
+  - Tag: 
+    SpaceDisplayName: Space B
+    CavrnusSpaceJoinId: space-b
+    Scene: {fileID: 102900000, guid: 908b5ffabea60f04584922741eda78be, type: 3}
+    IncludeRtc: 1
+  - Tag: TagC
+    SpaceDisplayName: Space C
+    CavrnusSpaceJoinId: space-c
+    Scene: {fileID: 102900000, guid: 683f3bde9af24a84f876342d72d08189, type: 3}
+    IncludeRtc: 1

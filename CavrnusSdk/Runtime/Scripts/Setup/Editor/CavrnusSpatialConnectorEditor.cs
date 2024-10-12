@@ -42,7 +42,10 @@ namespace CavrnusSdk.Setup.Editor
         SerializedProperty SpawnableObjects;
 
         SerializedProperty AdditionalSettings;
-
+        
+        SerializedProperty SpawnRemoteAvatars;
+        SerializedProperty ShowLocalUser;
+        
         private void OnEnable()
 		{
 			MyServer = serializedObject.FindProperty(nameof(MyServer));
@@ -53,32 +56,27 @@ namespace CavrnusSdk.Setup.Editor
 
 			GuestJoinMenu = serializedObject.FindProperty(nameof(GuestJoinMenu));
 			MemberLoginMenu = serializedObject.FindProperty(nameof(MemberLoginMenu));
-
 			MemberEmail = serializedObject.FindProperty(nameof(MemberEmail));
 			MemberPassword = serializedObject.FindProperty(nameof(MemberPassword));
-
 			GuestName = serializedObject.FindProperty(nameof(GuestName));
 
 			SaveUserToken = serializedObject.FindProperty(nameof(SaveUserToken));
 			SaveGuestToken = serializedObject.FindProperty(nameof(SaveGuestToken));
 
 			SpaceJoinMethod = serializedObject.FindProperty(nameof(SpaceJoinMethod));
-
 			SpacesListMenu = serializedObject.FindProperty(nameof(SpacesListMenu));
-
 			AutomaticSpaceJoinId = serializedObject.FindProperty(nameof(AutomaticSpaceJoinId));
 
 			LoadingMenus = serializedObject.FindProperty(nameof(LoadingMenus));
-
 			SpaceMenus = serializedObject.FindProperty(nameof(SpaceMenus));
-
-			RemoteUserAvatar = serializedObject.FindProperty(nameof(RemoteUserAvatar));
-
 			UiCanvas = serializedObject.FindProperty(nameof(UiCanvas));
 
 			SpawnableObjects = serializedObject.FindProperty(nameof(SpawnableObjects));
-
             AdditionalSettings = serializedObject.FindProperty(nameof(AdditionalSettings));
+            
+            RemoteUserAvatar = serializedObject.FindProperty(nameof(RemoteUserAvatar));
+            SpawnRemoteAvatars = serializedObject.FindProperty(nameof(SpawnRemoteAvatars));
+            ShowLocalUser = serializedObject.FindProperty(nameof(ShowLocalUser));
         }
 
 		public override void OnInspectorGUI()
@@ -228,8 +226,6 @@ namespace CavrnusSdk.Setup.Editor
 				}				
 
 				serializedObject.ApplyModifiedProperties();
-
-				return;
 			}
 
 			EditorGUILayout.Space();
@@ -237,14 +233,30 @@ namespace CavrnusSdk.Setup.Editor
 			EditorGUILayout.Space();
 			EditorGUILayout.Space();
 			
-			EditorGUILayout.LabelField("What should be the remote user's Avatar?", EditorStyles.boldLabel);
-			EditorGUILayout.LabelField("Leave blank to not spawn CoPresence.");
-			EditorGUILayout.PropertyField(RemoteUserAvatar);
-
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
+			EditorGUILayout.LabelField("Would you like to show the local user to clients?", EditorStyles.boldLabel);
+			EditorGUILayout.PropertyField(ShowLocalUser);
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+			
+			EditorGUILayout.LabelField("Would you like to use the default remote avatar display system?", EditorStyles.boldLabel);
+			EditorGUILayout.PropertyField(SpawnRemoteAvatars);
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+			
+			if (SpawnRemoteAvatars.boolValue) {
+				EditorGUILayout.LabelField("What should be the remote user's Avatar?", EditorStyles.boldLabel);
+				EditorGUILayout.LabelField("Leave blank to not spawn CoPresence.");
+				EditorGUILayout.PropertyField(RemoteUserAvatar);
+				
+				EditorGUILayout.Space();
+				EditorGUILayout.Space();
+				EditorGUILayout.Space();
+				EditorGUILayout.Space();
+			}
 
             EditorGUILayout.LabelField("Which objects does your Application know how to spawn?", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(SpawnableObjects);

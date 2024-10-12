@@ -242,7 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e724c140dc23a418b8365b0907f9ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UniqueContainerName: SphereColor
+  UniqueContainerName: Sample
 --- !u!114 &19355582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8822946aebaf4d6ab645ff70abf43c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PropertyName: Color
+  PropertyName: ObjectColor
   SendMyChanges: 1
   RecieveChanges: 1
   colorPropertyName: _BaseColor
@@ -434,7 +434,7 @@ Transform:
   m_GameObject: {fileID: 183683874}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.5, y: 0.5, z: 3.764}
+  m_LocalPosition: {x: -8.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -786,10 +786,6 @@ PrefabInstance:
       propertyPath: targetMaterial
       value: 
       objectReference: {fileID: 2100000, guid: 4235949adbde381469c17b2ac3c50f02, type: 2}
-    - target: {fileID: 8999245661233753525, guid: 27f773cf0a7cb8a419b609436207bc26, type: 3}
-      propertyPath: onColorUpdated.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8999245661233753525, guid: 27f773cf0a7cb8a419b609436207bc26, type: 3}
       propertyPath: onColorUpdated.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1884,7 +1880,7 @@ Transform:
   m_GameObject: {fileID: 917030674}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 0.5, z: 3.75}
+  m_LocalPosition: {x: 8, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1918,7 +1914,7 @@ Transform:
   m_GameObject: {fileID: 1007971586}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 0.5, z: 3.75}
+  m_LocalPosition: {x: 4, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2329,7 +2325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e724c140dc23a418b8365b0907f9ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UniqueContainerName: SphereMaterialSync
+  UniqueContainerName: Sample
 --- !u!1 &1271080129
 GameObject:
   m_ObjectHideFlags: 0
@@ -2355,7 +2351,7 @@ Transform:
   m_GameObject: {fileID: 1271080129}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.5, y: 0.5, z: 3.756}
+  m_LocalPosition: {x: -4.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2777,7 +2773,7 @@ Transform:
   m_GameObject: {fileID: 1599169539}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12, y: 0.5, z: 3.75}
+  m_LocalPosition: {x: 12, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2930,7 +2926,7 @@ Transform:
   m_GameObject: {fileID: 1686192491}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0.5, z: 3.75}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3636,11 +3632,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AuthenticationMethod
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AutomaticSpaceJoinId
-      value: csc-dev
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: SpaceMenus.Array.size
@@ -5072,10 +5068,6 @@ PrefabInstance:
     - target: {fileID: 4395184084548147390, guid: 0eb3fcfcd28e51948a808c011c8c6f25, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6319403584903556932, guid: 0eb3fcfcd28e51948a808c011c8c6f25, type: 3}
-      propertyPath: containerName
-      value: SphereMaterialSync
       objectReference: {fileID: 0}
     - target: {fileID: 7223597350791895310, guid: 0eb3fcfcd28e51948a808c011c8c6f25, type: 3}
       propertyPath: m_AnchorMax.y

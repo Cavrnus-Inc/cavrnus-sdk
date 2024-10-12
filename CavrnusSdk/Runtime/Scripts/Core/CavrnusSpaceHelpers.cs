@@ -3,9 +3,7 @@ using Collab.Proxy.Comm.RestApi;
 using Collab.Proxy.Comm;
 using System.Collections.Generic;
 using System;
-using Collab.LiveRoomSystem.LiveObjectManagement;
 using Collab.LiveRoomSystem;
-using Collab.Proxy.Content;
 using Collab.Base.Collections;
 using Collab.Proxy.Comm.NotifyApi;
 using Collab.Proxy.Comm.LiveTypes;
@@ -22,27 +20,24 @@ namespace CavrnusCore
 		{
 			var roomComm = new RestRoomCommunication(CavrnusStatics.CurrentAuthentication.Endpoint, new FrameworkNetworkRequestImplementation());
 
-			RestRoomCommunication.CreateRoomRequest req = new RestRoomCommunication.CreateRoomRequest();
-			req.name = spaceName;
-			req.description = "";
-			req.environment = "";
+			var req = new RestRoomCommunication.CreateRoomRequest {
+				name = spaceName, description = "",
+				environment = ""
+			};
 
 			var space = await roomComm.PostCreateRoomAsync(req);
-
 			INotifyDataRoom notifyRoom = await CavrnusStatics.Notify.RoomsSystem.StartListeningSpecificAsync(space._id);
 
 			onCreationComplete(new CavrnusSpaceInfo(notifyRoom));
 		}
-
-		internal static async void JoinSpace(string joinId, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure)
+		
+		internal static async void JoinSpace(string joinId, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects,
+		                                     Action<CavrnusSpaceConnection> onConnected, SpaceConnectionConfig config)
 		{
-			if (onLoadingEvents.Count > 0)
-			{
-				foreach (var onLoadingEvent in onLoadingEvents)
-					onLoadingEvent?.Invoke(joinId);
-				onLoadingEvents.Clear();
-			}
-
+			config ??= new SpaceConnectionConfig();
+			var spaceConnection = CavrnusSpaceConnectionManager.GetSpaceConnectionByTag(config.Tag);
+			spaceConnection.DoLoadingEvents(joinId);
+			
 			var rsOptions = new RoomSystemOptions {
 				CopresenceToProperties = false,
 				LoadObjectsChats = true,
@@ -57,8 +52,7 @@ namespace CavrnusCore
 				LivePropertiesPermissiveness = ResponseLivePropertyCapabilities.Types.V1.Types.LivePropertyCapabilityEnum.Eager
 			};
 
-			var env = new RoomSystemEnvironment()
-			{
+			var env = new RoomSystemEnvironment {
 				PolicyEvaluator = CavrnusStatics.LivePolicyEvaluator,
 				RolesMaintainer = CavrnusStatics.Notify.ContextualRoles,
 				Scheduler = CavrnusStatics.Scheduler.BaseScheduler,
@@ -67,8 +61,7 @@ namespace CavrnusCore
 				ServerContentManager = CavrnusStatics.ContentManager,
 			};
 
-			var integrationInfo = new ClientProvidedIntegrationInfo()
-			{
+			var integrationInfo = new ClientProvidedIntegrationInfo {
 				ApplicationId = Application.productName,
 				ApplicationVersion = Application.version,
 				EngineId = "Unity",
@@ -77,8 +70,11 @@ namespace CavrnusCore
 				DeviceMode = "desktop"
 			};
 
-			RoomSystem rs = new RoomSystem(CavrnusStatics.RtcContext, env, rsOptions, null, integrationInfo);
+			//Okay so, RTC should be isolated to tagged-spaces where RTC is allowed
+			//Provide fake RtcContext if not allowed?
+			// var rtcContext = config.IncludeRtc ? CavrnusStatics.RtcContext : new FakeRtcContext();
 
+			var rs = new RoomSystem(CavrnusStatics.RtcContext, env, rsOptions, null, integrationInfo);
 			rs.InitializeConnection(CavrnusStatics.CurrentAuthentication.Endpoint, joinId);
 
 			await rs.AwaitJournalProcessed();
@@ -88,43 +84,22 @@ namespace CavrnusCore
 			if (rs.SystemStatus.Value.Status == RoomSystemStatusEnum.Error)
 				throw new ErrorInfo(rs.SystemStatus.Value.ErrorMessage);
 
-			var lu = await rs.AwaitLocalUser();
-
+			await rs.AwaitLocalUser();
+			
 			rs.Comm.LocalCommUser.Value.SetupVideoSources(CavrnusStatics.DesiredVideoStream, CavrnusStatics.DesiredVideoStream);
 
-			var connection = new CavrnusSpaceConnection(rs, spawnableObjects);
-
-			CavrnusStatics.SpaceConnections.Add(connection);
-
-			if(onConnectedEvents.Count > 0)
-			{
-				foreach (var onConnectedEvent in onConnectedEvents)
-					onConnectedEvent?.Invoke(connection);
-				onConnectedEvents.Clear();
-			}
-
-			onConnected(connection);
+			spaceConnection.Update(rs, spawnableObjects, config);
+			onConnected(spaceConnection);
+		}
+		
+		internal static void AwaitAnySpaceBeginLoading(Action<string> onLoading, string tag)
+		{
+			CavrnusSpaceConnectionManager.GetSpaceConnectionByTag(tag).TrackLoadingEvent(onLoading);
 		}
 
-		private static List<Action<string>> onLoadingEvents = new List<Action<string>>();
-
-		internal static void AwaitAnySpaceBeginLoading(Action<string> onLoading)
+		internal static void AwaitAnySpaceConnection(Action<CavrnusSpaceConnection> onConnected, string tag)
 		{
-			onLoadingEvents.Add(onLoading);
-		}
-
-		private static List<Action<CavrnusSpaceConnection>> onConnectedEvents = new List<Action<CavrnusSpaceConnection>>();
-
-		internal static void AwaitAnySpaceConnection(Action<CavrnusSpaceConnection> onConnected)
-		{
-			if(CavrnusStatics.SpaceConnections.Count > 0)
-			{
-				onConnected(CavrnusStatics.SpaceConnections[0]);
-			}
-			else
-			{
-				onConnectedEvents.Add(onConnected);
-			}
+			CavrnusSpaceConnectionManager.GetSpaceConnectionByTag(tag).TrackConnectedEvent(onConnected);
 		}
 
 		internal static async void GetCurrentlyAvailableSpaces(Action<List<CavrnusSpaceInfo>> onRecvCurrentJoinableSpaces)

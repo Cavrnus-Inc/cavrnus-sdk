@@ -582,3 +582,14 @@
 
 ### Fixed
 - Fix missing refernce in ChatMenu
+
+
+## [2.14.0] - 2024-10-11
+
+### Added
+- Support for multi-space connections and rejoining spaces in a single session now added
+- Added sample showing how to load images from URL as loader objects.
+- Added extra avatar visibility options in CSC gameobject.
+
+### Fixed
+- Fixed various CSC gameobject login flows that were broken.

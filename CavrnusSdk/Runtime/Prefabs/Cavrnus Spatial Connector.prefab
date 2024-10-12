@@ -61,9 +61,10 @@ MonoBehaviour:
   AutomaticSpaceJoinId: SampleSpaceJoinConfig
   LoadingMenus:
   - {fileID: 1949255927169078816, guid: 7e23f7d438cebea40b14760457be7be7, type: 3}
-  SpaceMenus:
-  - {fileID: 5855605566567049347, guid: 04a855f9b4718e0429e4d14ab7bf24ef, type: 3}
+  SpaceMenus: []
   RemoteUserAvatar: {fileID: 7693442957038673469, guid: 359ef14a5d0b53449b11cb20bb963643, type: 3}
+  SpawnRemoteAvatars: 1
+  ShowLocalUser: 1
   SpawnableObjects: []
   AdditionalSettings:
     DisableVoiceAndVideo: 0

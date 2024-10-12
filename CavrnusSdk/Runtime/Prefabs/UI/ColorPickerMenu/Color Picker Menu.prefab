@@ -387,21 +387,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onColorUpdated:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  containerName: SphereColor
-  propertyName: Color
+      m_Calls: []
+  containerName: Sample
+  propertyName: ObjectColor
   colorPrefab: {fileID: 7131203123465281781, guid: b65d918002c8674449d62b330365ceda, type: 3}
   container: {fileID: 7861382474650939251}
   colors:

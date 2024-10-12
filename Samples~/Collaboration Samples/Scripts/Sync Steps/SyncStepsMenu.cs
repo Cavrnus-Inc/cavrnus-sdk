@@ -40,8 +40,8 @@ namespace CavrnusSdk.CollaborationExamples
             }
         }
 
-        [SerializeField] private string propertyContainer = "ExampleProcedure";
-        [SerializeField] private string propertyNameProgress = "PropertyNameProgress";
+        [SerializeField] private string propertyContainer = "StepsSync";
+        [SerializeField] private string propertyNameProgress = "Steps";
         [SerializeField] private string propertyNameComplete = "IsComplete";
         [SerializeField] private string propertyNameReset = "Reset";
         [SerializeField] private List<StepInfo> steps;
@@ -90,6 +90,9 @@ namespace CavrnusSdk.CollaborationExamples
 
         private void StepCompleted(StepInfo obj)
         {
+            if (syncUiItems.Count == 0) 
+                return;
+            
             // Here we can check if all steps are completed
             var allStepsComplete = syncUiItems.All(s => s.IsComplete());
             if (allStepsComplete)

@@ -1,7 +1,7 @@
 ﻿using CavrnusSdk.API;
 using UnityEngine;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
     public class UserJoinedNotificationMenu : MonoBehaviour
     {

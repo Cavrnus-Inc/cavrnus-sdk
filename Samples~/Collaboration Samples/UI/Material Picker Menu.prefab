@@ -484,7 +484,7 @@ MonoBehaviour:
   OnMaterialSelected:
     m_PersistentCalls:
       m_Calls: []
-  containerName: MaterialSyncer
+  containerName: Sample
   propertyName: Material
   materials:
   - {fileID: 2100000, guid: de9cf14877585ba46a572f27a2681fd7, type: 2}

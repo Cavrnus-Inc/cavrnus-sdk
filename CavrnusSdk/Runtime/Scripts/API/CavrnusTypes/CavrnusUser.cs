@@ -1,49 +1,57 @@
 using Collab.Base.Collections;
 using Collab.Proxy.Comm;
-using Collab.Proxy.Comm.LocalTypes;
 using System;
-using UnityBase;
 using CavrnusCore;
 
 namespace CavrnusSdk.API
 {
 	public class CavrnusUser : IDisposable
 	{
-		public bool IsLocalUser{ get; private set; }
+		public bool IsLocalUser{ get; }
 
-		public string ContainerId { get; private set; }
+		public string ContainerId => containerIdSetting?.Value;
+		public string UserAccountId => userAccountIdSetting?.Value;
+		
+		public CavrnusSpaceConnection SpaceConnection{ get; private set; }
 
-		public string UserAccountId { get; private set; }
+		internal IReadonlySetting<string> ContainerIdSetting => containerIdSetting;
+		private readonly ISetting<string> containerIdSetting = new Setting<string>();
+		
+		private readonly ISetting<string> userAccountIdSetting = new Setting<string>();
+		private readonly ISetting<UserVideoTextureProvider> vidProviderSetting = new Setting<UserVideoTextureProvider>();
 
-		public CavrnusSpaceConnection SpaceConnection;
+		internal UserVideoTextureProvider VidProvider => vidProviderSetting?.Value;
+		private ISessionCommunicationUser commUser;
+		
+		private readonly IDisposable spaceBind;
 
-		internal UserVideoTextureProvider vidProvider;
-
-        private ISessionCommunicationUser user;
-		private IRegistrationHook<TextureWithUVs, int> userVidHook;
-
-		internal CavrnusUser(ISessionCommunicationUser user, CavrnusSpaceConnection spaceConn)
+		internal CavrnusUser(ISessionCommunicationUser commUser, CavrnusSpaceConnection spaceConn)
 		{
-			this.user = user;
+			this.commUser = commUser;
 			SpaceConnection = spaceConn;
 
-			UserAccountId = user.User.Id;
+			userAccountIdSetting.Value = commUser.User.Id;
+			containerIdSetting.Value = $"/users/{commUser.ConnectionId}";
+			vidProviderSetting.Value = new UserVideoTextureProvider(commUser);
 
-			ContainerId = $"/users/{user.ConnectionId}";
+			IsLocalUser = commUser is ISessionCommunicationLocalUser;
 
-			IsLocalUser = user is ISessionCommunicationLocalUser;
+			if (IsLocalUser) {
+				spaceBind = spaceConn.CurrentLocalUserSetting.Bind(lu => {
+					if (lu == null)
+						return;
 
-			vidProvider = new UserVideoTextureProvider(user);
-		}
-
-		internal IDisposable BindLatestCoPresence(Action<CoPresenceLive> act)
-		{
-			return user.LatestCoPresence.Bind(act);
+					this.commUser = lu.commUser;
+					userAccountIdSetting.Value = lu.commUser.User.Id;
+					containerIdSetting.Value = $"/users/{lu.commUser.ConnectionId}";
+					vidProviderSetting.Value = new UserVideoTextureProvider(lu.commUser);
+				});
+			}
 		}
 
         public void Dispose()
         {
-	        userVidHook.Release();
+	        spaceBind?.Dispose();
         }
 	}
 }

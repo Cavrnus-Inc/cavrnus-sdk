@@ -84,12 +84,18 @@ namespace CavrnusSdk.UI
 
 		private IEnumerator FadeRoutine(bool speaking)
 		{
+			if (mainCg == null) 
+				yield break;
+			
 			var target = speaking ? 1 : 0;
 			var start = mainCg.alpha;
 
 			var elapsed = 0f;
 			while (elapsed < 0.3f)
 			{
+				if (mainCg == null)
+					yield break;
+				
 				mainCg.alpha = Mathf.Lerp(start, target, elapsed / fadeVisibilitySpeed);
 				elapsed += Time.deltaTime;
 

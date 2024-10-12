@@ -4,7 +4,7 @@ using Collab.Base.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
     public class CavrnusImageSelector : MonoBehaviour
     {

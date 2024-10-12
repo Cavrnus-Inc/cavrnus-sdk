@@ -13,11 +13,13 @@ using Collab.Proxy.Prop.TransformProp;
 using Collab.Proxy.Prop.VectorProp;
 using UnityBase;
 using CavrnusSdk.API;
+using Collab.Proxy.Prop.JsonProp;
 
 namespace CavrnusSdk.UI
 {
 	public class PropertiesDebugger : MonoBehaviour, IDisposedElement
 	{
+		
 		[SerializeField] private PropertiesDebuggerEntry entryPrefab;
 		[SerializeField] private Transform contentParent;
 
@@ -36,7 +38,7 @@ namespace CavrnusSdk.UI
 			NotifyDictionary<string, string> allLivePropVals = new NotifyDictionary<string, string>();
 
 			PropertyTreeNode root =
-				new PropertyTreeNode(cavrnusSpaceConnection.RoomSystem.PropertiesRoot, allLivePropVals);
+				new PropertyTreeNode(cavrnusSpaceConnection.CurrentSpaceConnection.Value.RoomSystem.PropertiesRoot, allLivePropVals);
 
 			NotifyDictionaryListMapper<string, string, Pair<string, string>> mapper =
 				new NotifyDictionaryListMapper<string, string, Pair<string, string>>(allLivePropVals,
@@ -106,8 +108,8 @@ namespace CavrnusSdk.UI
 			else if (prop is IVectorProperty vp)
 				disp = vp.Current.Bind(v => currPropValuesDisplay[prop.AbsoluteId.ToString()] = v.Value.ToString());
 			//TODO: Fix Json Prop Bind!!!!!!!!!!!!!!
-			// else if (prop is IJsonProperty jp)
-			// 	disp = jp.Current.Bind(v => currPropValuesDisplay[prop.AbsoluteId.ToString()] = v.Value.ToString());
+			else if (prop is IJsonProperty jp)
+				disp = jp.Current.Bind(v => currPropValuesDisplay[prop.AbsoluteId.ToString()] = v.Value.ToString());
 			else if (prop is ILinkProperty lp)
 				disp = lp.Current.Bind(v => currPropValuesDisplay[prop.AbsoluteId.ToString()] = v.Value.ToString());
 			else

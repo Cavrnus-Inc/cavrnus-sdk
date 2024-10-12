@@ -1084,13 +1084,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volume: {fileID: 0}
-  containerName: PostProcessing
-  saturationEnabledPropertyName: SaturationVisibility
-  saturationValuePropertyName: Saturation
+  containerName: Sample
+  saturationEnabledPropertyName: PostProcessingSaturationEnabled
+  saturationValuePropertyName: PostProcessingSaturationAmount
   saturationToggle: {fileID: 7234205322080186921}
   saturationUISlider: {fileID: 1874571796618370539}
-  bloomEnabledPropertyName: BloomEnabled
-  bloomValuePropertyName: Bloom
+  bloomEnabledPropertyName: PostProcessingBloomEnabled
+  bloomValuePropertyName: PostProcessingBloomAmount
   bloomShiftToggle: {fileID: 3383762410767592434}
   bloomShiftUISlider: {fileID: 2747682420587663191}
 --- !u!1 &5148838141164212425

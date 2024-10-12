@@ -3,15 +3,13 @@ using CavrnusSdk.API;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace CavrnusSdk.UI
 {
-    [RequireComponent(typeof(Button))]
     public class LibraryMenuItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private TextMeshProUGUI itemName;
-        [SerializeField] private GameObject downloadButton;
+        [SerializeField] private GameObject downloadButtonIcon;
         
         private CavrnusRemoteContent content;
         private Action<CavrnusRemoteContent> onSelected;
@@ -23,19 +21,19 @@ namespace CavrnusSdk.UI
 
             itemName.text = content.FileName;
             
-            downloadButton.gameObject.SetActive(false);
+            downloadButtonIcon.gameObject.SetActive(false);
         }
 
         public void Select() => onSelected?.Invoke(content);
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            downloadButton.gameObject.SetActive(true);
+            downloadButtonIcon.SetActive(true);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            downloadButton.gameObject.SetActive(false);
+            downloadButtonIcon.SetActive(false);
         }
     }
 }

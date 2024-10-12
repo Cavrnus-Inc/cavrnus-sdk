@@ -8,12 +8,12 @@ namespace CavrnusSdk.CollaborationExamples
 {
     public class BindStringMenu : MonoBehaviour
     {
+        [SerializeField] private string containerName = "Sample";
+        [SerializeField] private string propertyName = "StringValue";
+        
         [SerializeField] private Button addButton;
         [SerializeField] private Button removeButton;
         [SerializeField] private TextMeshProUGUI tmPro;
-
-        private readonly string containerName = "StringSync";
-        private readonly string propertyName = "String";
 
         private CavrnusSpaceConnection spaceConn;
 

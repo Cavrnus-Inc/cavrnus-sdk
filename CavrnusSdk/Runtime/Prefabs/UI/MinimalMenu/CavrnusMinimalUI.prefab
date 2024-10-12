@@ -278,7 +278,7 @@ MonoBehaviour:
   focusModeManager: {fileID: 6285997392257895145}
   transcriptionHUD: {fileID: 6321251169249672133}
   transcriptionVisToggle: {fileID: 9066624656459836941}
-  maximizedUserManager: {fileID: 2954688848415086527}
+  MaximizedUserManager: {fileID: 2954688848415086527}
 --- !u!114 &8818792569879607245
 MonoBehaviour:
   m_ObjectHideFlags: 0

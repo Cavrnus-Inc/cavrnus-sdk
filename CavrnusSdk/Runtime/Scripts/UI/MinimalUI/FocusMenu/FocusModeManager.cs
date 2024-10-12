@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using CavrnusCore;
-using CavrnusSdk.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
     public class FocusModeManager : MonoBehaviour
     {
@@ -25,7 +23,7 @@ namespace Cavrnus.UI
 
         private void OnEnable()
         {
-            CavrnusStatics.Scheduler.ExecCoRoutine(this.DoFade(new List<CanvasGroup> {canvasGroup}, 0.2f, true));
+            gameObject.DoFade(new List<CanvasGroup> {canvasGroup}, 0.2f, true);
         }
 
         public void SetState(bool state)

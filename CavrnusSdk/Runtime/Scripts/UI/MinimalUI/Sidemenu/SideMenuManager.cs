@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
     public class SideMenuManager : MonoBehaviour
     {
@@ -14,29 +14,32 @@ namespace Cavrnus.UI
         private int currentOpenMenuId = -1;
         
         // Created UI Elements
-        private readonly List<MinimalUIManager.SideMenuData> instantiatedMenus = new List<MinimalUIManager.SideMenuData>();
-        private readonly List<SideMenuButton> instantiatedButtons = new List<SideMenuButton>();
+        private readonly List<CavrnusSideMenuData> instantiatedMenus = new ();
+        private readonly List<SideMenuButton> instantiatedButtons = new();
 
-        public void Setup(List<MinimalUIManager.SideMenuData> menuData)
+        private void Awake()
         {
-            menuData.ForEach(data => {
-                instantiatedMenus.Add(new MinimalUIManager.SideMenuData {
-                    Title = data.Title, 
-                    MenuIcon = data.MenuIcon, 
-                    Menu = Instantiate(data.Menu)
-                });
-            });
-
-            for (var i = 0; i < instantiatedMenus.Count; i++) {
-                var button = Instantiate(buttonPrefab, buttonsContainer, false);
-                button.Setup(i, instantiatedMenus[i]);
-                button.ButtonSelected += ButtonOnButtonSelected;
-                instantiatedButtons.Add(button);
-                
-                sideMenuContainer.AddMenuToContainer(instantiatedMenus[i]);
-            }
-            
             sideMenuContainer.ManuallyClosed += SideMenuContainerOnManuallyClosed;
+        }
+        
+        public void SetupMenus(List<CavrnusSideMenuData> menuData)
+        {
+            menuData.ForEach(SetupMenu);
+        }
+
+        public void SetupMenu(CavrnusSideMenuData menuData)
+        {
+            var instantiatedMenu = Instantiate(menuData.Menu);
+            menuData.Menu = instantiatedMenu;
+            instantiatedMenus.Add(menuData);
+            
+            var button = Instantiate(buttonPrefab, buttonsContainer, false);
+            instantiatedButtons.Add(button);
+
+            button.Setup(instantiatedButtons.Count - 1, menuData);
+            button.ButtonSelected += ButtonOnButtonSelected;
+            
+            sideMenuContainer.AddMenuToContainer(menuData);
         }
 
         private void SideMenuContainerOnManuallyClosed()

@@ -21,9 +21,11 @@ namespace CavrnusCore
 			RestApiEndpoint endpoint = RestApiEndpoint.ParseFromHostname(server).WithAuthorization(token);
 
 			RestUserCommunication ruc = new RestUserCommunication(endpoint, new FrameworkNetworkRequestImplementation());
+			
 			try
 			{
-				await ruc.GetUserProfileAsync();
+				var t = await ruc.GetUserProfileAsync();
+				Debug.LogWarning(t.email);
 			}
 			catch (ErrorInfo e)
 			{
@@ -44,7 +46,7 @@ namespace CavrnusCore
 				return null;
 			}
 
-			CavrnusStatics.CurrentAuthentication = new CavrnusAuthentication(endpoint, token);
+			CavrnusStatics.CurrentAuthentication = new CavrnusAuthentication(ruc, endpoint, token);
 
 			NotifySetup();
 
@@ -66,6 +68,8 @@ namespace CavrnusCore
 			TokenResult token = null;
 			try
 			{
+				// Debug.LogWarning(t.email);
+
 				token = await ruc.PostLocalAccountLoginAsync(req);
 			}
 			catch (NetworkRequestException e)
@@ -101,7 +105,7 @@ namespace CavrnusCore
 
 			DebugOutput.Info("Logged in as User, token: " + token.token);
 
-			CavrnusStatics.CurrentAuthentication = new CavrnusAuthentication(endpoint.WithAuthorization(token.token), token.token);
+			CavrnusStatics.CurrentAuthentication = new CavrnusAuthentication(ruc, endpoint.WithAuthorization(token.token), token.token);
 
 			NotifySetup();
 
@@ -147,9 +151,7 @@ namespace CavrnusCore
 
 			DebugOutput.Info("Logged in as Guest, token: " + token);
 
-			CavrnusStatics.CurrentAuthentication = new CavrnusAuthentication(endpoint.WithAuthorization(token), token);
-
-			NotifySetup();
+			CavrnusStatics.CurrentAuthentication = new CavrnusAuthentication(ruc, endpoint.WithAuthorization(token), token);
 
 			await Task.WhenAny(CavrnusStatics.Notify.UsersSystem.ConnectedUser.AwaitPredicate((INotifyDataUser lu) => lu != null));
 
@@ -159,6 +161,7 @@ namespace CavrnusCore
 
 		private static void NotifySetup()
 		{
+			
 			CavrnusStatics.Notify.Initialize(CavrnusStatics.CurrentAuthentication.Endpoint, true);
 			CavrnusStatics.Notify.ObjectsSystem.StartListeningAll(null, err => DebugOutput.Error(err.ToString()));
 			CavrnusStatics.Notify.PoliciesSystem.StartListeningAll(null, err => DebugOutput.Error(err.ToString()));

@@ -249,8 +249,8 @@ GameObject:
   - component: {fileID: 8909801016965352507}
   - component: {fileID: 3201421363140892369}
   - component: {fileID: 5097464981392324945}
-  - component: {fileID: 6226277543569049047}
   - component: {fileID: 2696251957753906756}
+  - component: {fileID: 7048074075629189306}
   m_Layer: 5
   m_Name: LibrayItemEntry
   m_TagString: Untagged
@@ -344,8 +344,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6226277543569049047}
-        m_TargetAssemblyTypeName: HoloLibraryItem, Assembly-CSharp
+      - m_Target: {fileID: 7048074075629189306}
+        m_TargetAssemblyTypeName: CavrnusSdk.UI.LibraryMenuItem, Cavrnus.Sdk
         m_MethodName: Select
         m_Mode: 1
         m_Arguments:
@@ -382,20 +382,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &6226277543569049047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8365300090950719935}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d63df732781b104a8db7b4f947fdd63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: {fileID: 5455456340927746667}
-  downloadButton: {fileID: 29622338673560415}
 --- !u!114 &2696251957753906756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,6 +402,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &7048074075629189306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8365300090950719935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d63df732781b104a8db7b4f947fdd63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: {fileID: 5455456340927746667}
+  downloadButtonIcon: {fileID: 29622338673560415}
 --- !u!1 &8588081811888239419
 GameObject:
   m_ObjectHideFlags: 0

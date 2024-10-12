@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using CavrnusCore;
 using UnityEngine;
 
 namespace CavrnusSdk.UI
 {
     public static class CavrnusCanvasGroupFader
     {
+        public static void DoFade(this GameObject go, List<CanvasGroup> cgs, float duration, bool fadeIn, Action onComplete = null)
+        {
+            CavrnusStatics.Scheduler.StartCoroutine(DoFadeRoutine(go, cgs, duration, fadeIn, onComplete));
+        }
         
-        public static IEnumerator DoFade(this MonoBehaviour go, List<CanvasGroup> cgs, float duration, bool fadeIn, Action onComplete = null)
+        public static IEnumerator DoFadeRoutine(GameObject go, List<CanvasGroup> cgs, float duration, bool fadeIn, Action onComplete = null)
         {
             var animationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 

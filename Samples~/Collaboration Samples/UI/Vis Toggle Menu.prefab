@@ -682,5 +682,5 @@ MonoBehaviour:
   toggle: {fileID: 4616445045601412909}
   toggleGameObjects:
   - {fileID: 0}
-  targetContainerName: Container
-  targetPropertyName: Visible
+  targetContainerName: Sample
+  targetPropertyName: ObjectVisibility

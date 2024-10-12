@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.044563122, g: 0.15021038, b: 0.45051497, a: 1}
+  m_IndirectSpecularColor: {r: 0.044545047, g: 0.15019956, b: 0.45055187, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -615,7 +615,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: MyServer
-      value: cav.dev.cavrn.us
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: UiCanvas
@@ -659,11 +659,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AutomaticSpaceJoinId
-      value: LibrarySpace
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: SpaceMenus.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: AutomaticLoginPassword
@@ -673,6 +673,14 @@ PrefabInstance:
       propertyPath: AutomaticSpaceJoinConfig
       value: SampleSpaceJoinConfig
       objectReference: {fileID: 0}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: SpaceMenus.Array.data[0]
+      value: 
+      objectReference: {fileID: 340561381624702784, guid: f10378783a9aeea4bb86b1d604b12c82, type: 3}
+    - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
+      propertyPath: SpaceMenus.Array.data[1]
+      value: 
+      objectReference: {fileID: 7130258550062427134, guid: 48f36d9cc00a5c348bcf75921df97197, type: 3}
     - target: {fileID: 3843911914220772793, guid: bc329ed98d4c9a44a967d563bb09778d, type: 3}
       propertyPath: SpaceMenus.Array.data[2]
       value: 

@@ -17,12 +17,20 @@ using StringEditingMetadata = Collab.Proxy.Prop.StringProp.StringEditingMetadata
 using StringPropertyMetadata = Collab.Proxy.Prop.StringProp.StringPropertyMetadata;
 using Collab.Proxy.Prop;
 using Collab.Proxy.Prop.JournalInterop;
+using Newtonsoft.Json.Linq;
 
 namespace CavrnusSdk.API
 {
 	public class PropertyPostOptions
 	{
 		public bool smoothed = true;
+	}
+
+	public class SpaceConnectionConfig
+	{
+		public string Tag = "";
+		// public bool IncludeRtc = true;
+		// maybe split a/v input/output
 	}
 
 	public static class CavrnusFunctionLibrary
@@ -41,17 +49,32 @@ namespace CavrnusSdk.API
 		#region Chats
 
 		public static IDisposable BindChatMessages(this CavrnusSpaceConnection spaceConn, Action<IChatViewModel> chatAdded, Action<IChatViewModel> chatRemoved, bool includeChats = true, bool includeTranscriptions = true)
-        {
-	        var csv = new ChatStreamView(spaceConn.RoomSystem, new ChatStreamViewOptions {includeChats = includeChats, includeTranscriptions = includeTranscriptions});
-	        return csv.Messages.BindAll(chatAdded, chatRemoved);
-        }
+		{
+			IDisposable internalBinding = null;
+
+			var spaceBinding = spaceConn.CurrentSpaceConnection.Bind(scd => {
+				internalBinding?.Dispose();
+				internalBinding = null;
+
+				if (scd == null)
+					return;
+				
+				var csv = new ChatStreamView(scd.RoomSystem, new ChatStreamViewOptions {includeChats = includeChats, includeTranscriptions = includeTranscriptions});
+				internalBinding = csv.Messages.BindAll(chatAdded, chatRemoved);
+			});
+
+			return new DelegatedDisposalHelper(() => {
+				internalBinding?.Dispose();
+				spaceBinding?.Dispose();
+			});
+		}
         
         public static void PostChatMessage(this CavrnusSpaceConnection spaceConn, CavrnusUser localUser, string message)
         {
 	        var chat = new ContentTypeChatEntry(message, DateTimeCache.UtcNow, localUser.UserAccountId, ChatMessageSourceTypeEnum.Chat);
-	        var newId = spaceConn.RoomSystem.Comm.CreateNewUniqueObjectId();
+	        var newId = spaceConn.CurrentSpaceConnection.Value.RoomSystem.Comm.CreateNewUniqueObjectId();
 	        
-	        var op = spaceConn.RoomSystem.LiveOpsSys.Create(new OpCreateObjectLive(null, PropertyDefs.ChatContainer.Push(newId), localUser.UserAccountId, chat));
+	        var op = spaceConn.CurrentSpaceConnection.Value.RoomSystem.LiveOpsSys.Create(new OpCreateObjectLive(null, PropertyDefs.ChatContainer.Push(newId), localUser.UserAccountId, chat));
 	        op.OpData.CreatorId = localUser.UserAccountId;
 	        op.OpData.ExecMode = Operation.Types.OperationExecutionModeEnum.Standard;
 	        op.PostAndComplete();
@@ -104,7 +127,7 @@ namespace CavrnusSdk.API
         //Checks if there is any active connection to a space
         public static bool IsConnectedToAnySpace()
 		{
-			return CavrnusStatics.SpaceConnections.Count > 0;
+			return CavrnusSpaceConnectionManager.TaggedConnections.Count > 0;
 		}
 
 		//Creates a new Space
@@ -114,28 +137,42 @@ namespace CavrnusSdk.API
 		}
 
 		//Connects to a Space; joining voice & video and receiving/processing the journal
-		public static void JoinSpace(string joinId, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure)
+		public static void JoinSpace(string joinId, Action<CavrnusSpaceConnection> onConnected, SpaceConnectionConfig config = null)
 		{
-			CavrnusSpaceHelpers.JoinSpace(joinId.Trim(), CavrnusSpatialConnector.Instance.SpawnableObjects, onConnected, onFailure);
+			CavrnusSpaceHelpers.JoinSpace(joinId.Trim(), CavrnusSpatialConnector.Instance.SpawnableObjects, onConnected, config);
 		}
-
+		
+		public static void JoinSpaceWithOptions(string joinId, SpaceConnectionConfig config, Action<CavrnusSpaceConnection> onConnected)
+		{
+			JoinSpace(joinId.Trim(), onConnected, config);
+		}
+		
         //Triggers when you begin attempting to join a space, returning the ID of the space being joined
-        public static void AwaitAnySpaceBeginLoading(Action<string> onBeginLoading)
+        public static void AwaitAnySpaceBeginLoading(Action<string> onBeginLoading, string tag = null)
         {
-            CavrnusSpaceHelpers.AwaitAnySpaceBeginLoading(onBeginLoading);
+            CavrnusSpaceHelpers.AwaitAnySpaceBeginLoading(onBeginLoading, tag);
+        }
+        
+        public static void AwaitSpaceBeginLoadingByTag(string tag, Action<string> onBeginLoading)
+        {
+	        AwaitAnySpaceBeginLoading(onBeginLoading, tag);
         }
 
         //Triggers immediately if you are already in a space, otherwise triggers as soon as you connect
-        public static void AwaitAnySpaceConnection(Action<CavrnusSpaceConnection> onConnected)
-		{
-			CavrnusSpaceHelpers.AwaitAnySpaceConnection(onConnected);
-		}
-
+        public static void AwaitAnySpaceConnection(Action<CavrnusSpaceConnection> onConnected, string tag = null)
+        {
+	        CavrnusSpaceHelpers.AwaitAnySpaceConnection(onConnected, tag);
+        }
+        
+        public static void AwaitSpaceConnectionByTag(string tag, Action<CavrnusSpaceConnection> onConnected)
+        {
+	        AwaitAnySpaceConnection(onConnected, tag);
+        }
+        
         //Disconnects you from a given space.  You will stop receiving property updates, and lose user & voice connections
         public static void ExitSpace(this CavrnusSpaceConnection spaceConn)
 		{
-			CavrnusStatics.SpaceConnections.Remove(spaceConn);
-			spaceConn.Dispose();
+			CavrnusSpaceConnectionManager.ExitSpace(spaceConn);
 		}
 
         #endregion
@@ -360,6 +397,40 @@ namespace CavrnusSdk.API
 		{
 			CavrnusPropertyHelpers.UpdateTransformProperty(spaceConn, containerName, propertyName, propertyValue.Position, propertyValue.EulerAngles, propertyValue.Scale, options);
 		}
+        
+        // ============================================
+        // JSON Property Functions
+        // ============================================
+        
+        //Defines what the application will show if a new prop value has not been assigned
+        public static void DefineJsonPropertyDefaultValue(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, JObject propertyValue)
+		{
+			CavrnusPropertyHelpers.DefineJsonPropertyDefaultValue(spaceConn, containerName, propertyName, propertyValue);
+		}
+
+        //Gets the current property value, whether the default or the one currently set
+        public static JObject GetJsonPropertyValue(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName)
+		{
+			return CavrnusPropertyHelpers.GetJsonPropertyValue(spaceConn, containerName, propertyName);
+		}
+
+        //Triggers an event when the property changes, plus an initial event when first bound.
+        public static IDisposable BindJsonPropertyValue(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, Action<JObject> onPropertyUpdated)
+		{
+			return CavrnusPropertyHelpers.BindToJsonProperty(spaceConn, containerName, propertyName, onPropertyUpdated);
+		}
+
+        //Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
+        public static CavrnusLivePropertyUpdate<JObject> BeginTransientJsonPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, JObject propertyValue)
+		{
+			return CavrnusPropertyHelpers.BeginContinuousPropertyUpdate(spaceConn, containerName, propertyName, propertyValue);
+		}
+
+        //Updates the property value at the given path and synchronizes the data to the server
+        public static void PostJsonPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, JObject propertyValue)
+		{
+			CavrnusPropertyHelpers.UpdateJsonProperty(spaceConn, containerName, propertyName, propertyValue);
+		}
 
         #endregion
 
@@ -390,18 +461,18 @@ namespace CavrnusSdk.API
         //Instantiates the given object with no set properties (note you will need to pull the Container ID out of the Spawned Object and assign property values to it)
         public static string SpawnObject(this CavrnusSpaceConnection spaceConn, string uniqueIdentifier, Action<CavrnusSpawnedObject, GameObject> onObjectCreated = null)
 		{
-			var newId = spaceConn.RoomSystem.Comm.CreateNewUniqueObjectId();
-			var creatorId = spaceConn.RoomSystem.Comm.LocalCommUser.Value.ConnectionId;
+			var newId = spaceConn.CurrentSpaceConnection.Value.RoomSystem.Comm.CreateNewUniqueObjectId();
+			var creatorId = spaceConn.CurrentSpaceConnection.Value.RoomSystem.Comm.LocalCommUser.Value.ConnectionId;
 			var contentType = new ContentTypeWellKnownId(uniqueIdentifier);
 
 			var createOp = new OpCreateObjectLive(null, PropertyId.FromAbsoluteStack(newId), creatorId, contentType).ToOp();
 
 			if(onObjectCreated != null)
 			{
-				spaceConn.CreationHandler.SpawnCallbacks.Add(newId, onObjectCreated);
+				spaceConn.CurrentSpaceConnection.Value.CreationHandler.SpawnCallbacks.Add(newId, onObjectCreated);
 			}
 
-			spaceConn.RoomSystem.Comm.SendJournalEntry(createOp, null);
+			spaceConn.CurrentSpaceConnection.Value.RoomSystem.Comm.SendJournalEntry(createOp, null);
 
 			return newId;
 		}
@@ -415,7 +486,7 @@ namespace CavrnusSdk.API
 
 			var deleteOp = new OpRemoveOpsLive(OpRemoveOpsLive.RemovalTypes.None) { OpsToRemove = singles };
 
-            spawnedObject.spaceConnection.RoomSystem.Comm.SendJournalEntry(deleteOp.ToOp(), null);
+            spawnedObject.spaceConnection.CurrentSpaceConnection.Value.RoomSystem.Comm.SendJournalEntry(deleteOp.ToOp(), null);
 		}
 
 		#endregion
@@ -423,18 +494,16 @@ namespace CavrnusSdk.API
 		#region Space Users
 
 		//Throws an event when the local CavrnusUser arrives in the space
-		public static async void AwaitLocalUser(this CavrnusSpaceConnection spaceConnection, Action<CavrnusUser> localUserArrived)
+		public static void AwaitLocalUser(this CavrnusSpaceConnection spaceConnection, Action<CavrnusUser> localUserArrived)
 		{
-			var lu = await spaceConnection.RoomSystem.AwaitLocalUser();
-
-			localUserArrived(new CavrnusUser(lu, spaceConnection));
+			spaceConnection.AwaitLocalUser(localUserArrived);
 		}
 
         //Gives the list of current users in a space
         public static List<CavrnusUser> GetCurrentSpaceUsers(this CavrnusSpaceConnection spaceConn)
         {
             List<CavrnusUser> res = new List<CavrnusUser>();
-            foreach (var user in spaceConn.RoomSystem.Comm.ConnectedUsers)
+            foreach (var user in spaceConn.CurrentSpaceConnection.Value.RoomSystem.Comm.ConnectedUsers)
             {
                 res.Add(new CavrnusUser(user, spaceConn));
             }
@@ -451,7 +520,7 @@ namespace CavrnusSdk.API
 		//Throws an event with the user's current stream image
         public static IDisposable BindUserVideoFrames(this CavrnusUser user, Action<TextureWithUVs> userFrameArrived)
         {
-            return user.vidProvider.providedTexture.Bind(frame =>
+            return user.VidProvider.providedTexture.Bind(frame =>
 			{
                 if (frame == null)
 					return;
@@ -467,13 +536,13 @@ namespace CavrnusSdk.API
         //Sets muted state for local user
         public static void SetLocalUserMutedState(this CavrnusSpaceConnection spaceConnection, bool muted)
 		{
-			spaceConnection.RoomSystem.Comm.LocalCommUser.Value.Rtc.Muted.Value = muted;
+			spaceConnection.CurrentSpaceConnection.Value.RoomSystem.Comm.LocalCommUser.Value.Rtc.Muted.Value = muted;
 		}
 
         //Sets streaming state for local user
         public static void SetLocalUserStreamingState(this CavrnusSpaceConnection spaceConnection, bool streaming)
 		{
-			spaceConnection.RoomSystem.Comm.LocalCommUser.Value.UpdateLocalUserCameraStreamState(streaming);
+			spaceConnection.CurrentSpaceConnection.Value.RoomSystem.Comm.LocalCommUser.Value.UpdateLocalUserCameraStreamState(streaming);
 		}
 
         //Gets available microphones

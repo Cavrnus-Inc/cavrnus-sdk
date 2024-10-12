@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Collab.Proxy.Comm.LiveTypes;
 using Collab.Proxy.Prop;
@@ -8,9 +9,13 @@ using UnityBase;
 using UnityEngine;
 using CavrnusSdk.API;
 using CavrnusSdk.PropertySynchronizers;
+using Collab.Base.Collections;
+using Collab.Base.Core;
 using StringPropertyMetadata = Collab.Proxy.Prop.StringProp.StringPropertyMetadata;
 using Google.Protobuf.WellKnownTypes;
 using Collab.LiveRoomSystem;
+using Collab.Proxy.Comm.RestApi;
+using Newtonsoft.Json.Linq;
 
 namespace CavrnusCore
 {
@@ -20,6 +25,24 @@ namespace CavrnusCore
 		{
 			public static MiniFakeDisposable Instance = new MiniFakeDisposable();
 			public void Dispose(){}
+		}
+		
+		public static async void GetLocalUserMetadata(this CavrnusUser localUser, string value, Action<string> onFound)
+		{
+		}
+
+		public static async void DeleteLocalUserMetadataByKey(string key)
+		{
+			await CavrnusStatics.CurrentAuthentication.RestUserComm.DeleteSelfUserMetadataAsync(new RestUserCommunication.DeleteUserMetadataRequest() { keys = new[] { key } });
+		}
+		
+		public static async void UpdateLocalUserMetadata(string key, string value)
+		{
+			await CavrnusStatics.CurrentAuthentication.RestUserComm.SetSelfUserMetadataAsync(
+				new RestUserCommunication.UpdateUserMetadataRequest {
+					userMetadata =
+						new Dictionary<string, string> {{key, String.IsNullOrWhiteSpace(value) ? " " : value}}
+				});
 		}
 
 		public static void ResetLiveHierarchyRootName(GameObject root, string newRootName)
@@ -67,7 +90,7 @@ namespace CavrnusCore
 		private static PropertySetManager MyContainer(CavrnusSpaceConnection spaceConn, string containerId)
 		{
 			var myContainerId = new PropertyId(containerId);
-			return spaceConn.RoomSystem.PropertiesRoot.SearchForContainer(myContainerId);
+			return spaceConn.CurrentSpaceConnection.Value.RoomSystem.PropertiesRoot.SearchForContainer(myContainerId);
 		}
 
 		internal static CavrnusLivePropertyUpdate<T> BeginContinuousPropertyUpdate<T>(
@@ -77,7 +100,7 @@ namespace CavrnusCore
 			CheckCommonErrors(spaceConn, containerId, propertyId);
 			ResolveContainerPath(ref propertyId, ref containerId);
 
-			options = options ?? new PropertyPostOptions();
+			options ??= new PropertyPostOptions();
 
 			return new CavrnusLivePropertyUpdate<T>(spaceConn, containerId, propertyId, val, options.smoothed);
 		}
@@ -138,8 +161,7 @@ namespace CavrnusCore
 												   });
 		}
 
-		internal static Color GetColorPropertyValue(CavrnusSpaceConnection spaceConn, string containerId,
-		                                          string propertyId)
+		internal static Color GetColorPropertyValue(CavrnusSpaceConnection spaceConn, string containerId, string propertyId)
 		{
 			CheckCommonErrors(spaceConn, containerId, propertyId);
 			ResolveContainerPath(ref propertyId, ref containerId);
@@ -152,12 +174,27 @@ namespace CavrnusCore
 		internal static IDisposable BindToColorProperty(CavrnusSpaceConnection spaceConn, string containerId,
 		                                              string propertyId, Action<Color> onValueChanged)
 		{
-			CheckCommonErrors(spaceConn, containerId, propertyId);
-			ResolveContainerPath(ref propertyId, ref containerId);
+			IDisposable internalBind = null;
 
-			var myContainer = MyContainer(spaceConn, containerId);
+			var spaceBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
+				internalBind?.Dispose();
+				internalBind = null;
+				
+				if (sc == null) 
+					return;
+				
+				CheckCommonErrors(spaceConn, containerId, propertyId);
+				ResolveContainerPath(ref propertyId, ref containerId);
 
-			return myContainer.GetColorProperty(propertyId).Bind(c => onValueChanged(c.ToColor()));
+				var myContainer = MyContainer(spaceConn, containerId);
+
+				internalBind = myContainer.GetColorProperty(propertyId).Bind(c => onValueChanged(c.ToColor()));
+			});
+			
+			return new DelegatedDisposalHelper(() => {
+				spaceBind?.Dispose();
+				internalBind?.Dispose();
+			});
 		}
 
 		internal static CavrnusLivePropertyUpdate<Color> LiveUpdateColorProperty(
@@ -184,8 +221,8 @@ namespace CavrnusCore
 				                                                       Constant = value.ToColor4().ToPb()
 			                                                       });
 
-			var transId = PostLocalTransient(spaceConn.RoomSystem, op.ToOp());
-			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
+			var transId = PostLocalTransient(spaceConn.CurrentSpaceConnection.Value.RoomSystem, op.ToOp());
+			spaceConn.CurrentSpaceConnection.Value.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
 		}
 
 		#endregion
@@ -252,12 +289,27 @@ namespace CavrnusCore
 		internal static IDisposable BindToStringProperty(CavrnusSpaceConnection spaceConn, string containerId,
 		                                               string propertyId, Action<string> onValueChanged)
 		{
-			CheckCommonErrors(spaceConn, containerId, propertyId);
-			ResolveContainerPath(ref propertyId, ref containerId);
+			IDisposable internalBind = null;
 
-			var myContainer = MyContainer(spaceConn, containerId);
+			var spaceBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
+				internalBind?.Dispose();
+				internalBind = null;
+				
+				if (sc == null) 
+					return;
+				
+				CheckCommonErrors(spaceConn, containerId, propertyId);
+				ResolveContainerPath(ref propertyId, ref containerId);
 
-			return myContainer.GetStringProperty(propertyId).Bind(c => { onValueChanged(c); });
+				var myContainer = MyContainer(spaceConn, containerId);
+
+				internalBind = myContainer.GetStringProperty(propertyId).Bind(c => { onValueChanged(c); });
+			});
+			
+			return new DelegatedDisposalHelper(() => {
+				spaceBind?.Dispose();
+				internalBind?.Dispose();
+			});
 		}
 
 		internal static CavrnusLivePropertyUpdate<string> LiveUpdateStringProperty(
@@ -282,8 +334,8 @@ namespace CavrnusCore
 			var op = PropertyOperationHelpers.BuildStringPropertyOp(myProp.AbsoluteId,
 			                                                        new StringPropertyValue() {Constant = value});
 
-			var transId = PostLocalTransient(spaceConn.RoomSystem, op.ToOp());
-			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
+			var transId = PostLocalTransient(spaceConn.CurrentSpaceConnection.Value.RoomSystem, op.ToOp());
+			spaceConn.CurrentSpaceConnection.Value.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
 		}
 
 		#endregion
@@ -301,24 +353,39 @@ namespace CavrnusCore
 			return myContainer.SearchForBooleanProperty(new PropertyId(propertyId)).IsDefined();
 		}
 
-		internal static IDisposable DefineBooleanPropertyDefaultValue(CavrnusSpaceConnection spaceConn, string containerId,
-		                                             string propertyId, bool defaultVal)
+		internal static IDisposable DefineBooleanPropertyDefaultValue(CavrnusSpaceConnection spaceConn, string containerId, string propertyId, bool defaultVal)
 		{
-			CheckCommonErrors(spaceConn, containerId, propertyId);
-			ResolveContainerPath(ref propertyId, ref containerId);
+			IDisposable internalBind = null;
 
-			var myContainer = MyContainer(spaceConn, containerId);
+			var spaceBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
+				internalBind?.Dispose();
+				internalBind = null;
+				
+				if (sc == null) 
+					return;
+				
+				CheckCommonErrors(spaceConn, containerId, propertyId);
+				ResolveContainerPath(ref propertyId, ref containerId);
 
-			if (myContainer.GetBooleanProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
-			{
-				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
-				return MiniFakeDisposable.Instance;
-			}
-
-			return myContainer.DefineBooleanProperty(propertyId, defaultVal,
-			                                         new Collab.Proxy.Prop.BooleanProp.BooleanPropertyMetadata() {
-				                                         Name = propertyId
-													 });
+				var myContainer = MyContainer(spaceConn, containerId);
+				if (myContainer.GetBooleanProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
+				{
+					Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
+					internalBind = MiniFakeDisposable.Instance;
+				}
+				else
+				{
+					internalBind = myContainer.DefineBooleanProperty(propertyId, defaultVal,
+						new Collab.Proxy.Prop.BooleanProp.BooleanPropertyMetadata {
+							Name = propertyId
+						});
+				}
+			});
+			
+			return new DelegatedDisposalHelper(() => {
+				spaceBind?.Dispose();
+				internalBind?.Dispose();
+			});
 		}
 
 		internal static bool GetBooleanPropertyValue(CavrnusSpaceConnection spaceConn, string containerId,
@@ -331,16 +398,29 @@ namespace CavrnusCore
 
 			return myContainer.GetBooleanProperty(propertyId).Current.Value.Value;
 		}
-
-		internal static IDisposable BindToBooleanProperty(CavrnusSpaceConnection spaceConn, string containerId,
-		                                             string propertyId, Action<bool> onValueChanged)
+		
+		internal static IDisposable BindToBooleanProperty(CavrnusSpaceConnection spaceConn, string containerId, string propertyId, Action<bool> onValueChanged)
 		{
-			CheckCommonErrors(spaceConn, containerId, propertyId);
-			ResolveContainerPath(ref propertyId, ref containerId);
+			IDisposable internalBind = null;
 
-			var myContainer = MyContainer(spaceConn, containerId);
+			var spaceBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
+				internalBind?.Dispose();
+				internalBind = null;
+				
+				if (sc == null) 
+					return;
+				
+				CheckCommonErrors(spaceConn, containerId, propertyId);
+				ResolveContainerPath(ref propertyId, ref containerId);
 
-			return myContainer.GetBooleanProperty(propertyId).Bind(c => onValueChanged(c));
+				var myContainer = MyContainer(spaceConn, containerId);
+				internalBind = myContainer.GetBooleanProperty(propertyId).Bind(onValueChanged);
+			});
+			
+			return new DelegatedDisposalHelper(() => {
+				spaceBind?.Dispose();
+				internalBind?.Dispose();
+			});
 		}
 
 		internal static CavrnusLivePropertyUpdate<bool> LiveUpdateBooleanProperty(
@@ -352,9 +432,8 @@ namespace CavrnusCore
 
 			return new CavrnusLivePropertyUpdate<bool>(spaceConn, containerId, propertyId, val);
 		}
-
-		internal static void UpdateBooleanProperty(CavrnusSpaceConnection spaceConn, string containerId,
-		                                          string propertyId, bool value)
+		
+		internal static void UpdateBooleanProperty(CavrnusSpaceConnection spaceConn, string containerId, string propertyId, bool value)
 		{
 			CheckCommonErrors(spaceConn, containerId, propertyId);
 			ResolveContainerPath(ref propertyId, ref containerId);
@@ -365,8 +444,8 @@ namespace CavrnusCore
 			var op = PropertyOperationHelpers.BuildBoolPropertyOp(myProp.AbsoluteId,
 			                                                      new BooleanPropertyValue() {Constant = value});
 
-			var transId = PostLocalTransient(spaceConn.RoomSystem, op.ToOp());
-			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
+			var transId = PostLocalTransient(spaceConn.CurrentSpaceConnection.Value.RoomSystem, op.ToOp());
+			spaceConn.CurrentSpaceConnection.Value.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
 		}
 
 		#endregion
@@ -384,24 +463,39 @@ namespace CavrnusCore
 			return myContainer.SearchForScalarProperty(new PropertyId(propertyId)).IsDefined();
 		}
 
-		internal static IDisposable DefineFloatPropertyDefaultValue(CavrnusSpaceConnection spaceConn, string containerId,
-		                                              string propertyId, float defaultVal)
+		internal static IDisposable DefineFloatPropertyDefaultValue(CavrnusSpaceConnection spaceConn, string containerId, string propertyId, float defaultVal)
 		{
-			CheckCommonErrors(spaceConn, containerId, propertyId);
-			ResolveContainerPath(ref propertyId, ref containerId);
+			IDisposable internalBind = null;
 
-			var myContainer = MyContainer(spaceConn, containerId);
+			var spaceBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
+				internalBind?.Dispose();
+				internalBind = null;
+				
+				if (sc == null) 
+					return;
+				
+				CheckCommonErrors(spaceConn, containerId, propertyId);
+				ResolveContainerPath(ref propertyId, ref containerId);
 
-			if (myContainer.GetScalarProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
-			{
-				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
-				return MiniFakeDisposable.Instance;
-			}
-
-			return myContainer.DefineScalarProperty(propertyId, defaultVal,
-			                                        new Collab.Proxy.Prop.ScalarProp.ScalarPropertyMetadata() {
-				                                        Name = propertyId
-													});
+				var myContainer = MyContainer(spaceConn, containerId);
+				if (myContainer.GetScalarProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
+				{
+					Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
+					internalBind = MiniFakeDisposable.Instance;
+				}
+				else
+				{
+					internalBind = myContainer.DefineScalarProperty(propertyId, defaultVal,
+					                                                new Collab.Proxy.Prop.ScalarProp.ScalarPropertyMetadata() {
+						                                                Name = propertyId
+					                                                });
+				}
+			});
+			
+			return new DelegatedDisposalHelper(() => {
+				spaceBind?.Dispose();
+				internalBind?.Dispose();
+			});
 		}
 
 		internal static float GetFloatPropertyValue(CavrnusSpaceConnection spaceConn, string containerId,
@@ -418,12 +512,27 @@ namespace CavrnusCore
 		internal static IDisposable BindToFloatProperty(CavrnusSpaceConnection spaceConn, string containerId,
 		                                              string propertyId, Action<float> onValueChanged)
 		{
-			CheckCommonErrors(spaceConn, containerId, propertyId);
-			ResolveContainerPath(ref propertyId, ref containerId);
+			IDisposable internalBind = null;
 
-			var myContainer = MyContainer(spaceConn, containerId);
+			var spaceBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
+				internalBind?.Dispose();
+				internalBind = null;
+				
+				if (sc == null) 
+					return;
+				
+				CheckCommonErrors(spaceConn, containerId, propertyId);
+				ResolveContainerPath(ref propertyId, ref containerId);
 
-			return myContainer.GetScalarProperty(propertyId).Bind(c => onValueChanged((float) c));
+				var myContainer = MyContainer(spaceConn, containerId);
+
+				internalBind = myContainer.GetScalarProperty(propertyId).Bind(c => onValueChanged((float) c));
+			});
+			
+			return new DelegatedDisposalHelper(() => {
+				spaceBind?.Dispose();
+				internalBind?.Dispose();
+			});
 		}
 
 		internal static CavrnusLivePropertyUpdate<float> LiveUpdateFloatProperty(
@@ -448,8 +557,8 @@ namespace CavrnusCore
 			var op = PropertyOperationHelpers.BuildScalarPropertyOp(myProp.AbsoluteId,
 			                                                        new ScalarPropertyValue() {Constant = value});
 
-			var transId = PostLocalTransient(spaceConn.RoomSystem, op.ToOp());
-			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
+			var transId = PostLocalTransient(spaceConn.CurrentSpaceConnection.Value.RoomSystem, op.ToOp());
+			spaceConn.CurrentSpaceConnection.Value.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
 		}
 
 		#endregion
@@ -467,24 +576,39 @@ namespace CavrnusCore
 			return myContainer.SearchForVectorProperty(new PropertyId(propertyId)).IsDefined();
 		}
 
-		internal static IDisposable DefineVectorPropertyDefaultValue(CavrnusSpaceConnection spaceConn, string containerId,
-		                                               string propertyId, Vector4 defaultVal)
+		internal static IDisposable DefineVectorPropertyDefaultValue(CavrnusSpaceConnection spaceConn, string containerId, string propertyId, Vector4 defaultVal)
 		{
-			CheckCommonErrors(spaceConn, containerId, propertyId);
-			ResolveContainerPath(ref propertyId, ref containerId);
+			IDisposable internalBind = null;
 
-			var myContainer = MyContainer(spaceConn, containerId);
+			var spaceBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
+				internalBind?.Dispose();
+				internalBind = null;
+				
+				if (sc == null) 
+					return;
+				
+				CheckCommonErrors(spaceConn, containerId, propertyId);
+				ResolveContainerPath(ref propertyId, ref containerId);
 
-			if (myContainer.GetVectorProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
-			{
-				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
-				return MiniFakeDisposable.Instance;
-			}
-
-			return myContainer.DefineVectorProperty(propertyId, defaultVal.ToFloat4(),
-			                                        new Collab.Proxy.Prop.VectorProp.VectorPropertyMetadata() {
-				                                        Name = propertyId
-													});
+				var myContainer = MyContainer(spaceConn, containerId);
+				if (myContainer.GetVectorProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
+				{
+					Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
+					internalBind = MiniFakeDisposable.Instance;
+				}
+				else
+				{
+					internalBind = myContainer.DefineVectorProperty(propertyId, defaultVal.ToFloat4(),
+					                                                new Collab.Proxy.Prop.VectorProp.VectorPropertyMetadata() {
+						                                                Name = propertyId
+					                                                });
+				}
+			});
+			
+			return new DelegatedDisposalHelper(() => {
+				spaceBind?.Dispose();
+				internalBind?.Dispose();
+			});
 		}
 
 		internal static Vector4 GetVectorPropertyValue(CavrnusSpaceConnection spaceConn, string containerId,
@@ -501,12 +625,27 @@ namespace CavrnusCore
 		internal static IDisposable BindToVectorProperty(CavrnusSpaceConnection spaceConn, string containerId,
 		                                               string propertyId, Action<Vector4> onValueChanged)
 		{
-			CheckCommonErrors(spaceConn, containerId, propertyId);
-			ResolveContainerPath(ref propertyId, ref containerId);
+			IDisposable internalBind = null;
 
-			var myContainer = MyContainer(spaceConn, containerId);
+			var spaceBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
+				internalBind?.Dispose();
+				internalBind = null;
+				
+				if (sc == null) 
+					return;
+				
+				CheckCommonErrors(spaceConn, containerId, propertyId);
+				ResolveContainerPath(ref propertyId, ref containerId);
 
-			return myContainer.GetVectorProperty(propertyId).Bind(c => onValueChanged(c.ToVec4()));
+				var myContainer = MyContainer(spaceConn, containerId);
+
+				internalBind = myContainer.GetVectorProperty(propertyId).Bind(c => onValueChanged(c.ToVec4()));
+			});
+			
+			return new DelegatedDisposalHelper(() => {
+				spaceBind?.Dispose();
+				internalBind?.Dispose();
+			});
 		}
 
 		internal static CavrnusLivePropertyUpdate<Vector4> LiveUpdateVectorProperty(
@@ -533,16 +672,15 @@ namespace CavrnusCore
 				                                                        Constant = value.ToFloat4().ToPb()
 			                                                        });
 
-			var transId = PostLocalTransient(spaceConn.RoomSystem, op.ToOp());
-			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
+			var transId = PostLocalTransient(spaceConn.CurrentSpaceConnection.Value.RoomSystem, op.ToOp());
+			spaceConn.CurrentSpaceConnection.Value.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
 		}
 
 		#endregion
 
 		#region Transform Props
 
-		internal static bool TransformPropertyHasDefaultValue(CavrnusSpaceConnection spaceConn, string containerId,
-		                                          string propertyId)
+		internal static bool TransformPropertyHasDefaultValue(CavrnusSpaceConnection spaceConn, string containerId, string propertyId)
 		{
 			CheckCommonErrors(spaceConn, containerId, propertyId);
 			ResolveContainerPath(ref propertyId, ref containerId);
@@ -556,31 +694,46 @@ namespace CavrnusCore
 		                                                  string propertyId, Vector3 defaultPos,
 		                                                  Vector3 defaultRot, Vector3 defaultScl)
 		{
-			CheckCommonErrors(spaceConn, containerId, propertyId);
-			ResolveContainerPath(ref propertyId, ref containerId);
+			IDisposable internalBind = null;
 
-			var myContainer = MyContainer(spaceConn, containerId);
+			var spaceBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
+				internalBind?.Dispose();
+				internalBind = null;
+				
+				if (sc == null) 
+					return;
+				
+				CheckCommonErrors(spaceConn, containerId, propertyId);
+				ResolveContainerPath(ref propertyId, ref containerId);
 
-			if (myContainer.GetTransformProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
-			{
-				Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
-				return MiniFakeDisposable.Instance;
-			}
-
-			var defaultTrans = new TransformComplete() {
-				startData = new TransformDataSRT() {
-					translation = defaultPos.ToFloat3(), euler = defaultRot.ToFloat3(), scale = defaultScl.ToFloat3(),
+				var myContainer = MyContainer(spaceConn, containerId);
+				if (myContainer.GetTransformProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
+				{
+					Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
+					internalBind = MiniFakeDisposable.Instance;
 				}
-			};
+				else
+				{
+					var defaultTrans = new TransformComplete() {
+						startData = new TransformDataSRT() {
+							translation = defaultPos.ToFloat3(), euler = defaultRot.ToFloat3(), scale = defaultScl.ToFloat3(),
+						}
+					};
 
-			return myContainer.DefineTransformProperty(propertyId, defaultTrans,
-			                                           new Collab.Proxy.Prop.TransformProp.TransformPropertyMetadata() {
-				                                           Name = propertyId
-													   });
+					internalBind = myContainer.DefineTransformProperty(propertyId, defaultTrans,
+					                                           new Collab.Proxy.Prop.TransformProp.TransformPropertyMetadata() {
+						                                           Name = propertyId
+					                                           });
+				}
+			});
+			
+			return new DelegatedDisposalHelper(() => {
+				spaceBind?.Dispose();
+				internalBind?.Dispose();
+			});
 		}
 
-		internal static CavrnusTransformData GetTransformPropertyValue(CavrnusSpaceConnection spaceConn,
-		                                                      string containerId, string propertyId)
+		internal static CavrnusTransformData GetTransformPropertyValue(CavrnusSpaceConnection spaceConn, string containerId, string propertyId)
 		{
 			CheckCommonErrors(spaceConn, containerId, propertyId);
 			ResolveContainerPath(ref propertyId, ref containerId);
@@ -589,8 +742,7 @@ namespace CavrnusCore
 
 			var val = myContainer.GetTransformProperty(propertyId).Current.Value.Value;
 
-			CavrnusTransformData res = new CavrnusTransformData(val.ResolveTranslation().ToVec3(), val.ResolveEuler().ToVec3(),
-			                                      val.ResolveScaleVector().ToVec3());
+			var res = new CavrnusTransformData(val.ResolveTranslation().ToVec3(), val.ResolveEuler().ToVec3(), val.ResolveScaleVector().ToVec3());
 			return res;
 		}
 
@@ -598,18 +750,32 @@ namespace CavrnusCore
 		                                                  string propertyId,
 		                                                  Action<CavrnusTransformData> onValueChanged)
 		{
-			CheckCommonErrors(spaceConn, containerId, propertyId);
-			ResolveContainerPath(ref propertyId, ref containerId);
+			IDisposable internalBind = null;
 
-			var myContainer = MyContainer(spaceConn, containerId);
+			var spaceBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
+				internalBind?.Dispose();
+				internalBind = null;
 
-			return myContainer.GetTransformProperty(propertyId).Bind(t => {
-				onValueChanged(new CavrnusTransformData(t.ResolveTranslation().ToVec3(), t.ResolveEuler().ToVec3(),
-				               t.ResolveScaleVector().ToVec3()));
+				if (sc == null) return;
+
+				CheckCommonErrors(spaceConn, containerId, propertyId);
+				ResolveContainerPath(ref propertyId, ref containerId);
+
+				var myContainer = MyContainer(spaceConn, containerId);
+
+				internalBind = myContainer.GetTransformProperty(propertyId).Bind(t => {
+					onValueChanged(new CavrnusTransformData(t.ResolveTranslation().ToVec3(),
+					                                        t.ResolveEuler().ToVec3(),
+					                                        t.ResolveScaleVector().ToVec3()));
+				});
+			});
+			
+			return new DelegatedDisposalHelper(() => {
+				spaceBind?.Dispose();
+				internalBind?.Dispose();
 			});
 		}
 
-		
 
 		internal static CavrnusLivePropertyUpdate<CavrnusTransformData> LiveUpdateTransformProperty(
 			CavrnusSpaceConnection spaceConn, string containerId,
@@ -671,11 +837,114 @@ namespace CavrnusCore
 
 			var op = PropertyOperationHelpers.BuildTransformPropertyOp(myProp.AbsoluteId, trns);
 
-			var transId = PostLocalTransient(spaceConn.RoomSystem, op.ToOp());
-			spaceConn.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
+			var transId = PostLocalTransient(spaceConn.CurrentSpaceConnection.Value.RoomSystem, op.ToOp());
+			spaceConn.CurrentSpaceConnection.Value.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
 		}
 
 		#endregion
 
+		#region JSON Props
+
+		internal static bool JsonPropertyHasDefaultValue(CavrnusSpaceConnection spaceConn, string containerId, string propertyId)
+		{
+			CheckCommonErrors(spaceConn, containerId, propertyId);
+			ResolveContainerPath(ref propertyId, ref containerId);
+
+			var myContainer = MyContainer(spaceConn, containerId);
+
+			return myContainer.SearchForJsonProperty(new PropertyId(propertyId)).IsDefined();
+		}
+
+		internal static IDisposable DefineJsonPropertyDefaultValue(CavrnusSpaceConnection spaceConn, string containerId, string propertyId, JObject defaultVal)
+		{
+			IDisposable internalBind = null;
+
+			var spaceBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
+				internalBind?.Dispose();
+				internalBind = null;
+				
+				if (sc == null) 
+					return;
+				
+				CheckCommonErrors(spaceConn, containerId, propertyId);
+				ResolveContainerPath(ref propertyId, ref containerId);
+
+				var myContainer = MyContainer(spaceConn, containerId);
+				if (myContainer.GetJsonProperty(propertyId)?.Meta?.Value?.StaticDefinition ?? false)
+				{
+					Debug.Log($"Cannot redefine a default for {propertyId}, since it is statically defined");
+					internalBind = MiniFakeDisposable.Instance;
+				}
+				else
+				{
+					internalBind = myContainer.DefineJsonProperty(propertyId, defaultVal,
+						new Collab.Proxy.Prop.JsonProp.JsonPropertyMetadata() {
+							Name = propertyId
+						});
+				}
+			});
+			
+			return new DelegatedDisposalHelper(() => {
+				spaceBind?.Dispose();
+				internalBind?.Dispose();
+			});
+		}
+
+		internal static JObject GetJsonPropertyValue(CavrnusSpaceConnection spaceConn, string containerId, string propertyId)
+		{
+			CheckCommonErrors(spaceConn, containerId, propertyId);
+			ResolveContainerPath(ref propertyId, ref containerId);
+
+			var myContainer = MyContainer(spaceConn, containerId);
+			return myContainer.GetJsonProperty(propertyId).Current.Value.Value;
+		}
+		
+		internal static IDisposable BindToJsonProperty(CavrnusSpaceConnection spaceConn, string containerId, string propertyId, Action<JObject> onValueChanged)
+		{
+			IDisposable internalBind = null;
+
+			var spaceBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
+				internalBind?.Dispose();
+				internalBind = null;
+				
+				if (sc == null) 
+					return;
+				
+				CheckCommonErrors(spaceConn, containerId, propertyId);
+				ResolveContainerPath(ref propertyId, ref containerId);
+
+				var myContainer = MyContainer(spaceConn, containerId);
+				internalBind = myContainer.GetJsonProperty(propertyId).Bind(onValueChanged);
+			});
+			
+			return new DelegatedDisposalHelper(() => {
+				spaceBind?.Dispose();
+				internalBind?.Dispose();
+			});
+		}
+
+		internal static CavrnusLivePropertyUpdate<JObject> LiveUpdateJsonProperty(CavrnusSpaceConnection spaceConn, string containerId, string propertyId, JObject val)
+		{
+			CheckCommonErrors(spaceConn, containerId, propertyId);
+			ResolveContainerPath(ref propertyId, ref containerId);
+
+			return new CavrnusLivePropertyUpdate<JObject>(spaceConn, containerId, propertyId, val);
+		}
+		
+		internal static void UpdateJsonProperty(CavrnusSpaceConnection spaceConn, string containerId, string propertyId, JObject value)
+		{
+			CheckCommonErrors(spaceConn, containerId, propertyId);
+			ResolveContainerPath(ref propertyId, ref containerId);
+
+			var myContainer = MyContainer(spaceConn, containerId);
+			var myProp = myContainer.SearchForJsonProperty(new PropertyId(propertyId));
+
+			var op = PropertyOperationHelpers.BuildJsonPropertyOp(myProp.AbsoluteId, new JsonPropertyValue() {ConstantJson = value.ToString()});
+
+			var transId = PostLocalTransient(spaceConn.CurrentSpaceConnection.Value.RoomSystem, op.ToOp());
+			spaceConn.CurrentSpaceConnection.Value.RoomSystem.Comm.SendJournalEntry(op.ToOp(), transId);
+		}
+		
+		#endregion
 	}
 }

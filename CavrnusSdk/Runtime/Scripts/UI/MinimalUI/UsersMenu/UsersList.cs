@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Cavrnus.UI;
+using CavrnusSdk.UI;
 using UnityEngine;
 using CavrnusSdk.API;
 
@@ -36,8 +36,8 @@ namespace CavrnusSdk.UI
         {
             SelectedUser?.Invoke(user);
 
-            if (MinimalUIManager.Instance != null) {
-                MinimalUIManager.Instance.maximizedUserManager.LoadUser(user);
+            if (CavrnusMainMenuManager.Instance != null) {
+                CavrnusMainMenuManager.Instance.MaximizedUserManager.LoadUser(user);
             }
         }
 

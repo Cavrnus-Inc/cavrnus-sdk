@@ -5,7 +5,7 @@ using CavrnusSdk.API;
 using Collab.Proxy.Prop.StringProp;
 using UnityEngine;
 
-namespace CavrnusSdk.UI.MinimalUI
+namespace CavrnusSdk.UI
 {
     public class UiColorToMaterialPickerEnumChanger : MonoBehaviour
     {

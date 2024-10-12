@@ -1,38 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cavrnus.UI
+namespace CavrnusSdk.UI
 {
-    public class MinimalUIManager : MonoBehaviour
+    public class CavrnusMainMenuManager : MonoBehaviour
     {
-        [Serializable]
-        public class SideMenuData
-        {
-            public string Title;
-            public GameObject Menu;
-            public Sprite MenuIcon;
-            
-            public override bool Equals(object obj)
-            {
-                if (obj is SideMenuData otherMenuData)
-                    return Title == otherMenuData.Title;
-                
-                return false;
-            }
+        public static CavrnusMainMenuManager Instance{ get; private set; }
+        public SideMenuManager SideMenuManager => sideMenuManager;
 
-            public override int GetHashCode()
-            {
-                return Title != null ? Title.GetHashCode() : 0;
-            }
-        }
-
-        public static MinimalUIManager Instance{ get; private set; }
-        
         [Header("SideMenuContainer")]
         [SerializeField] private SideMenuManager sideMenuManager;
-        [SerializeField] private List<SideMenuData> sideMenus = new ();
+        [SerializeField] private List<CavrnusSideMenuData> sideMenus = new ();
 
         [Header("FocusMode")]
         [SerializeField] private FocusModeManager focusModeManager;
@@ -42,16 +21,23 @@ namespace Cavrnus.UI
         [SerializeField] private Toggle transcriptionVisToggle;
         
         [Header("MaximizedUserManager")]
-        [SerializeField] public MaximizedUserManager maximizedUserManager;
-        
-        // Add UI show/hide bindings
+        [SerializeField] public MaximizedUserManager MaximizedUserManager;
 
-        private void Awake()
+        private RtcUiDropdownBase[] dropdowns;
+
+        private void Start()
         {
             Instance = this;
-            sideMenuManager.Setup(sideMenus);
+            sideMenuManager.SetupMenus(sideMenus);
+
+            dropdowns = GetComponentsInChildren<RtcUiDropdownBase>(true);
+            if (dropdowns.Length > 0) {
+                foreach (var d in dropdowns) {
+                    d.Setup();
+                }
+            }
             
-            maximizedUserManager.OnVisChanged += MaximizedUserManagerOnOnVisChanged;
+            MaximizedUserManager.OnVisChanged += MaximizedUserManagerOnOnVisChanged;
             
             transcriptionHUD.OnTranscriptionPropertyEnabled += TranscriptionEnabled;
             transcriptionVisToggle.onValueChanged.AddListener(TranscriptionToggleValChanged);
@@ -74,7 +60,7 @@ namespace Cavrnus.UI
 
         private void OnDestroy()
         {
-            maximizedUserManager.OnVisChanged -= MaximizedUserManagerOnOnVisChanged;
+            MaximizedUserManager.OnVisChanged -= MaximizedUserManagerOnOnVisChanged;
             
             transcriptionHUD.OnTranscriptionPropertyEnabled -= TranscriptionEnabled;
             transcriptionVisToggle.onValueChanged.RemoveListener(TranscriptionToggleValChanged);

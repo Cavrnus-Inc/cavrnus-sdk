@@ -63,7 +63,7 @@ namespace CavrnusSdk.CollaborationExamples
 
         private void SetupBloomShiftProperties(CavrnusSpaceConnection spaceConn, Bloom bloom)
         {
-            bloomShiftUISlider.Setup(containerName, bloomValuePropertyName, new Vector2(-100, 100), val => {
+            bloomShiftUISlider.Setup(containerName, bloomValuePropertyName, new Vector2(0, 20), val => {
                 bloom.intensity.value = val;
             });
             bloomShiftToggle.Setup(spaceConn, containerName, bloomEnabledPropertyName, false, val => {
