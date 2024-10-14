@@ -220,6 +220,9 @@ namespace CavrnusSdk.Setup
 
 				CavrnusFunctionLibrary.JoinSpace(AutomaticSpaceJoinId, spaceConn => {
 					print("test");
+				}, onFailure =>
+				{
+					
 				});
 			}
 			else if (SpaceJoinMethod == SpaceJoinOption.SpacesList)

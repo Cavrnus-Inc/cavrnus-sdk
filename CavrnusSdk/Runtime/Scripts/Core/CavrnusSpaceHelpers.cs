@@ -32,7 +32,7 @@ namespace CavrnusCore
 		}
 		
 		internal static async void JoinSpace(string joinId, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects,
-		                                     Action<CavrnusSpaceConnection> onConnected, SpaceConnectionConfig config)
+		                                     Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure, SpaceConnectionConfig config)
 		{
 			config ??= new SpaceConnectionConfig();
 			var spaceConnection = CavrnusSpaceConnectionManager.GetSpaceConnectionByTag(config.Tag);
@@ -79,11 +79,16 @@ namespace CavrnusCore
 
 			await rs.AwaitJournalProcessed();
 
-			if (rs.SystemStatus.Value.Status == RoomSystemStatusEnum.Closed)
-				throw new ErrorInfo("Space connection is closed!");
-			if (rs.SystemStatus.Value.Status == RoomSystemStatusEnum.Error)
-				throw new ErrorInfo(rs.SystemStatus.Value.ErrorMessage);
-
+			switch (rs.SystemStatus.Value.Status)
+			{
+				case RoomSystemStatusEnum.Closed:
+					onFailure?.Invoke("Space connection is closed!");
+					throw new ErrorInfo("Space connection is closed!");
+				case RoomSystemStatusEnum.Error:
+					onFailure?.Invoke(rs.SystemStatus.Value.ErrorMessage);
+					throw new ErrorInfo(rs.SystemStatus.Value.ErrorMessage);
+			}
+			
 			await rs.AwaitLocalUser();
 			
 			rs.Comm.LocalCommUser.Value.SetupVideoSources(CavrnusStatics.DesiredVideoStream, CavrnusStatics.DesiredVideoStream);

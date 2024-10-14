@@ -137,14 +137,14 @@ namespace CavrnusSdk.API
 		}
 
 		//Connects to a Space; joining voice & video and receiving/processing the journal
-		public static void JoinSpace(string joinId, Action<CavrnusSpaceConnection> onConnected, SpaceConnectionConfig config = null)
+		public static void JoinSpace(string joinId, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure, SpaceConnectionConfig config = null)
 		{
-			CavrnusSpaceHelpers.JoinSpace(joinId.Trim(), CavrnusSpatialConnector.Instance.SpawnableObjects, onConnected, config);
+			CavrnusSpaceHelpers.JoinSpace(joinId.Trim(), CavrnusSpatialConnector.Instance.SpawnableObjects, onConnected, onFailure, config);
 		}
 		
-		public static void JoinSpaceWithOptions(string joinId, SpaceConnectionConfig config, Action<CavrnusSpaceConnection> onConnected)
+		public static void JoinSpaceWithOptions(string joinId, SpaceConnectionConfig config, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure)
 		{
-			JoinSpace(joinId.Trim(), onConnected, config);
+			JoinSpace(joinId.Trim(), onConnected, onFailure, config);
 		}
 		
         //Triggers when you begin attempting to join a space, returning the ID of the space being joined

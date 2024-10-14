@@ -593,3 +593,12 @@
 
 ### Fixed
 - Fixed various CSC gameobject login flows that were broken.
+
+
+## [2.14.1] - 2024-10-13
+
+### Added
+- Added space swapping sample to package
+
+### Fixed
+- Fix JoinSpace backwards compatibility

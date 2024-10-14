@@ -54,6 +54,9 @@ namespace CavrnusSdk.CollaborationExamples
                 CheckSuccessfulJoin();
                 
                 Debug.Log($"Joined new space!: {data.CavrnusSpaceJoinId}");
+            }, onFailure =>
+            {
+                
             });
             
             return;
