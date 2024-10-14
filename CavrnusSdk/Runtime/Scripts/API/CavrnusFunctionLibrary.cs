@@ -627,5 +627,73 @@ namespace CavrnusSdk.API
 		}
 
 		#endregion
+
+		#region UserMetadata
+		
+		public static void FetchLocalUserMetadata(string key, Action<string> onSuccess = null, Action<string> onFailure = null)
+		{
+			CavrnusPropertyHelpers.FetchLocalUserMetadata(key, onSuccess, onFailure);
+		}
+		
+		public static void DeleteLocalUserMetadataString(string key, Action<string> onSuccess = null, Action<string> onFailure = null)
+		{
+			CavrnusPropertyHelpers.DeleteLocalUserMetadataByKey(key, onSuccess, onFailure);
+		}
+		
+		public static void UpdateLocalUserMetadataString(string key, string value, Action<string> onSuccess = null, Action<string> onFailure = null)
+		{
+			CavrnusPropertyHelpers.UpdateLocalUserMetadata(key, value, onSuccess, onFailure);
+		}
+		
+		public static void UpdateLocalUserMetadataJson(string key, JObject jValue, Action<string> onSuccess = null, Action<string> onFailure = null)
+		{
+			CavrnusPropertyHelpers.UpdateLocalUserMetadata(key, jValue.ToString(), onSuccess, onFailure);
+		}
+
+		public static IDisposable BindToLocalUserMetadataString(this CavrnusUser user, string key, Action<string> onMetadataChanged)
+		{
+			IDisposable internalBinding = null;
+			
+			var userBind = user.ContainerIdSetting.Bind(containerId => {
+				internalBinding?.Dispose();
+				internalBinding = null;
+				
+				if (containerId == null) 
+					return;
+
+				internalBinding = user.SpaceConnection.BindStringPropertyValue($"{containerId}/meta/", key, onMetadataChanged);
+			});
+
+			return new DelegatedDisposalHelper(() => {
+				userBind?.Dispose();
+				internalBinding?.Dispose();
+			});
+		}
+		
+		public static IDisposable BindToLocalUserMetadataJson(this CavrnusUser user, string key, Action<JObject> onMetadataChanged)
+		{
+			IDisposable internalBinding = null;
+
+			var userBind = user.ContainerIdSetting.Bind(containerId =>
+			{
+				internalBinding?.Dispose();
+				internalBinding = null;
+
+				if (containerId == null)
+					return;
+
+				internalBinding = user.SpaceConnection.BindJsonPropertyValue($"{containerId}/meta/", key, propValue => {
+					onMetadataChanged?.Invoke(propValue);
+				});
+			});
+
+			return new DelegatedDisposalHelper(() =>
+			{
+				userBind?.Dispose();
+				internalBinding?.Dispose();
+			});
+		}
+
+		#endregion
 	}
 }

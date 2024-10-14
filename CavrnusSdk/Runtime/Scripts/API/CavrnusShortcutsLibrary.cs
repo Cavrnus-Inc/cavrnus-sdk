@@ -17,65 +17,6 @@ namespace CavrnusSdk.API
 			return user.SpaceConnection.GetBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Speaking);
 		}
 
-		public static void DeleteLocalUserMetadataString(this CavrnusSpaceConnection user, string key)
-		{
-			CavrnusPropertyHelpers.DeleteLocalUserMetadataByKey(key);
-		}
-		
-		public static void UpdateLocalUserMetadataString(this CavrnusUser user, string key, string value)
-		{
-			CavrnusPropertyHelpers.UpdateLocalUserMetadata(key, value);
-		}
-		
-		public static void UpdateLocalUserMetadataJson(this CavrnusSpaceConnection spaceConnection, string key, JObject jValue)
-		{
-			CavrnusPropertyHelpers.UpdateLocalUserMetadata(key, jValue.ToString());
-		}
-
-		public static IDisposable BindToLocalUserMetadataString(this CavrnusUser user, string key, Action<string> onMetadataChanged)
-		{
-			IDisposable internalBinding = null;
-			
-			var userBind = user.ContainerIdSetting.Bind(containerId => {
-				internalBinding?.Dispose();
-				internalBinding = null;
-				
-				if (containerId == null) 
-					return;
-
-				internalBinding = user.SpaceConnection.BindStringPropertyValue($"{containerId}/meta/", key, onMetadataChanged);
-			});
-
-			return new DelegatedDisposalHelper(() => {
-				userBind?.Dispose();
-				internalBinding?.Dispose();
-			});
-		}
-		
-		public static IDisposable BindToLocalUserMetadataJson(this CavrnusUser user, string key, Action<JObject> onMetadataChanged)
-		{
-			IDisposable internalBinding = null;
-
-			var userBind = user.ContainerIdSetting.Bind(containerId =>
-			{
-				internalBinding?.Dispose();
-				internalBinding = null;
-
-				if (containerId == null)
-					return;
-
-				internalBinding = user.SpaceConnection.BindJsonPropertyValue($"{containerId}/meta/", key, propValue => {
-					onMetadataChanged?.Invoke(propValue);
-				});
-			});
-
-			return new DelegatedDisposalHelper(() =>
-			{
-				userBind?.Dispose();
-				internalBinding?.Dispose();
-			});
-		}
-
 		public static IDisposable BindUserSpeaking(this CavrnusUser user, Action<bool> onSpeakingChanged)
 		{
 			IDisposable internalBinding = null;

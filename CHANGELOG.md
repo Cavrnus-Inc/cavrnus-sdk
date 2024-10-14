@@ -602,3 +602,10 @@
 
 ### Fixed
 - Fix JoinSpace backwards compatibility
+
+
+## [2.14.2] - 2024-10-14
+
+### Added
+- Added status callbacks to metada calls
+- Add Newtonsoft [com.unity.nuget.newtonsoft-json] 3.2.1 dependency

@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using CavrnusSdk.Setup;
 using Collab.Proxy.Comm.NotifyApi;
 using Collab.Base.Collections;
+using Newtonsoft.Json.Linq;
+
 [assembly: InternalsVisibleTo("Tests")]
 
 namespace CavrnusCore
@@ -24,8 +26,7 @@ namespace CavrnusCore
 			
 			try
 			{
-				var t = await ruc.GetUserProfileAsync();
-				Debug.LogWarning(t.email);
+				await ruc.GetUserProfileAsync();
 			}
 			catch (ErrorInfo e)
 			{
@@ -68,8 +69,6 @@ namespace CavrnusCore
 			TokenResult token = null;
 			try
 			{
-				// Debug.LogWarning(t.email);
-
 				token = await ruc.PostLocalAccountLoginAsync(req);
 			}
 			catch (NetworkRequestException e)
@@ -153,7 +152,14 @@ namespace CavrnusCore
 
 			CavrnusStatics.CurrentAuthentication = new CavrnusAuthentication(ruc, endpoint.WithAuthorization(token), token);
 
-			await Task.WhenAny(CavrnusStatics.Notify.UsersSystem.ConnectedUser.AwaitPredicate((INotifyDataUser lu) => lu != null));
+			await Task.WhenAny(CavrnusStatics.Notify.UsersSystem.ConnectedUser.AwaitPredicate(lu => {
+				if (lu != null) {
+					
+					return true;
+				}
+
+				return false;
+			}));
 
 			HandleAuth(CavrnusStatics.CurrentAuthentication);
 			onSuccess(CavrnusStatics.CurrentAuthentication);
@@ -183,18 +189,18 @@ namespace CavrnusCore
 				PlayerPrefs.SetString("GuestCavrnusAuthToken", auth.Token);
 			}
 
-			if(onAuthActions.Count > 0)
+			if(OnAuthActions.Count > 0)
 			{
-				foreach(var action in onAuthActions)
+				foreach(var action in OnAuthActions)
 				{
 					action?.Invoke(auth);
 				}
 
-				onAuthActions.Clear();
+				OnAuthActions.Clear();
 			}
 		}
 
-		private static List<Action<CavrnusAuthentication>> onAuthActions = new List<Action<CavrnusAuthentication>>();
+		private static readonly List<Action<CavrnusAuthentication>> OnAuthActions = new List<Action<CavrnusAuthentication>>();
 
 		internal static void AwaitAuthentication(Action<CavrnusAuthentication> onAuth)
 		{
@@ -204,7 +210,7 @@ namespace CavrnusCore
 			}
 			else
 			{
-				onAuthActions.Add(onAuth);
+				OnAuthActions.Add(onAuth);
 			}
 		}
 	}

@@ -27,22 +27,51 @@ namespace CavrnusCore
 			public void Dispose(){}
 		}
 		
-		public static async void GetLocalUserMetadata(this CavrnusUser localUser, string value, Action<string> onFound)
+		public static async void FetchLocalUserMetadata(string key, Action<string> onMetadataValue, Action<string> onFailure)
 		{
+			try
+			{
+				var lu = await CavrnusStatics.CurrentAuthentication.RestUserComm.GetUserProfileAsync();
+				if (lu.userMetadata.TryGetValue(key, out var val)) {
+					onMetadataValue?.Invoke(lu.userMetadata[val]);
+				}
+				else {
+					onFailure?.Invoke($"The metadata key: {key} is not found!");
+				}
+			}
+			catch (ErrorInfo e)
+			{
+				onFailure?.Invoke($"Error fetching metadata: {e.message}");
+			}
 		}
 
-		public static async void DeleteLocalUserMetadataByKey(string key)
+		public static async void DeleteLocalUserMetadataByKey(string key, Action<string> onSuccess = null, Action<string> onFailure = null)
 		{
-			await CavrnusStatics.CurrentAuthentication.RestUserComm.DeleteSelfUserMetadataAsync(new RestUserCommunication.DeleteUserMetadataRequest() { keys = new[] { key } });
+			try {
+				await CavrnusStatics.CurrentAuthentication.RestUserComm.DeleteSelfUserMetadataAsync(
+					new RestUserCommunication.DeleteUserMetadataRequest {keys = new[] {key}});
+				
+				onSuccess?.Invoke($"Successfully deleted metadata by key: {key}");
+			}
+			catch (ErrorInfo e) {
+				onFailure?.Invoke($"Failed to delete metadata by key: {e.message}");
+			}
 		}
-		
-		public static async void UpdateLocalUserMetadata(string key, string value)
+
+		public static async void UpdateLocalUserMetadata(string key, string value, Action<string> onSuccess = null, Action<string> onFailure = null)
 		{
-			await CavrnusStatics.CurrentAuthentication.RestUserComm.SetSelfUserMetadataAsync(
-				new RestUserCommunication.UpdateUserMetadataRequest {
-					userMetadata =
-						new Dictionary<string, string> {{key, String.IsNullOrWhiteSpace(value) ? " " : value}}
-				});
+			try {
+				await CavrnusStatics.CurrentAuthentication.RestUserComm.SetSelfUserMetadataAsync(
+					new RestUserCommunication.UpdateUserMetadataRequest {
+						userMetadata =
+							new Dictionary<string, string> {{key, String.IsNullOrWhiteSpace(value) ? " " : value}}
+					});
+				
+				onSuccess?.Invoke($"User metadata successfully updated with key: {key} and value: {value}");
+			}
+			catch (ErrorInfo e) {
+				onFailure?.Invoke($"User metadata failed to update: {e.message}");
+			}
 		}
 
 		public static void ResetLiveHierarchyRootName(GameObject root, string newRootName)
