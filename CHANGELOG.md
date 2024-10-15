@@ -615,3 +615,9 @@
 
 ### Added
 - Added a more robust sample for multispace connections
+
+
+## [2.14.4] - 2024-10-14
+
+### Fixed
+- Fix sample prefabs dependencies
