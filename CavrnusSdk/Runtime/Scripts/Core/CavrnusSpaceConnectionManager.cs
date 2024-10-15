@@ -15,7 +15,7 @@ namespace CavrnusCore
             if (TaggedConnections.TryGetValue(tag, out var foundConn))
                 return foundConn;
 
-            var newConnection = new CavrnusSpaceConnection(new SpaceConnectionConfig{Tag = tag});
+            var newConnection = new CavrnusSpaceConnection(new CavrnusSpaceConnectionConfig{Tag = tag});
             TaggedConnections.TryAdd(tag, newConnection);
 
             return newConnection;

@@ -609,3 +609,9 @@
 ### Added
 - Added status callbacks to metada calls
 - Add Newtonsoft [com.unity.nuget.newtonsoft-json] 3.2.1 dependency
+
+
+## [2.14.3] - 2024-10-14
+
+### Added
+- Added a more robust sample for multispace connections

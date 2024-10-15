@@ -684,3 +684,4 @@ MonoBehaviour:
   - {fileID: 0}
   targetContainerName: Sample
   targetPropertyName: ObjectVisibility
+  spaceTag: 

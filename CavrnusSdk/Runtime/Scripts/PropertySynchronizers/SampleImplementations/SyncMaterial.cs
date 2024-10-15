@@ -28,6 +28,8 @@ namespace CavrnusSdk.PropertySynchronizers.CommonImplementations
 
         public override void SetValue(string value)
         {
+            if (value == null) return;
+            
             if (materialLookup.TryGetValue(value, out var found))
                 rend.material = found;
         }

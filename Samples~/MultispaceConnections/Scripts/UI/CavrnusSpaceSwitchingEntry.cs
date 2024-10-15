@@ -8,7 +8,6 @@ namespace CavrnusSdk.CollaborationExamples
     public class CavrnusSpaceSwitchingEntry : MonoBehaviour
     {
         [SerializeField] private UnityEvent<bool> onSelectedUnityEvent;
-        
         [SerializeField] private TextMeshProUGUI displayName;
         
         public CavrnusSpaceLevelData.SpaceLevelInfo SpaceData{ get; private set; }

@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 751493640044557711}
+  - component: {fileID: 5501161783096159415}
+  - component: {fileID: 8083094058157449627}
   m_Layer: 0
   m_Name: Torus
   m_TagString: Untagged
@@ -32,6 +34,35 @@ Transform:
   - {fileID: 6167422456353084218}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5501161783096159415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4527219666698921719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e724c140dc23a418b8365b0907f9ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UniqueContainerName: Sample
+--- !u!114 &8083094058157449627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4527219666698921719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 493038ca33f1af64aa166c6e1d6e42ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: ObjectVisibility
+  SendMyChanges: 1
+  Tag: 
+  RecieveChanges: 1
 --- !u!1001 &5917078386576733393
 PrefabInstance:
   m_ObjectHideFlags: 0

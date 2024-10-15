@@ -26,7 +26,7 @@ namespace CavrnusSdk.API
 		public bool smoothed = true;
 	}
 
-	public class SpaceConnectionConfig
+	public class CavrnusSpaceConnectionConfig
 	{
 		public string Tag = "";
 		// public bool IncludeRtc = true;
@@ -137,12 +137,12 @@ namespace CavrnusSdk.API
 		}
 
 		//Connects to a Space; joining voice & video and receiving/processing the journal
-		public static void JoinSpace(string joinId, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure, SpaceConnectionConfig config = null)
+		public static void JoinSpace(string joinId, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure, CavrnusSpaceConnectionConfig config = null)
 		{
 			CavrnusSpaceHelpers.JoinSpace(joinId.Trim(), CavrnusSpatialConnector.Instance.SpawnableObjects, onConnected, onFailure, config);
 		}
 		
-		public static void JoinSpaceWithOptions(string joinId, SpaceConnectionConfig config, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure)
+		public static void JoinSpaceWithOptions(string joinId, CavrnusSpaceConnectionConfig config, Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure)
 		{
 			JoinSpace(joinId.Trim(), onConnected, onFailure, config);
 		}
@@ -635,7 +635,7 @@ namespace CavrnusSdk.API
 			CavrnusPropertyHelpers.FetchLocalUserMetadata(key, onSuccess, onFailure);
 		}
 		
-		public static void DeleteLocalUserMetadataString(string key, Action<string> onSuccess = null, Action<string> onFailure = null)
+		public static void DeleteLocalUserMetadata(string key, Action<string> onSuccess = null, Action<string> onFailure = null)
 		{
 			CavrnusPropertyHelpers.DeleteLocalUserMetadataByKey(key, onSuccess, onFailure);
 		}

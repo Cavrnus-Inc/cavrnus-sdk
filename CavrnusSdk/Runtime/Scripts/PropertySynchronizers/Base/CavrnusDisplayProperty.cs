@@ -13,12 +13,12 @@ namespace CavrnusSdk.PropertySynchronizers
 
 		private Func<bool> claimedByLocalTransient;
 
-		public CavrnusDisplayProperty(ICavrnusValueSync<T> sync, Func<bool> claimedByLocalTransient)
+		public CavrnusDisplayProperty(ICavrnusValueSync<T> sync, Func<bool> claimedByLocalTransient, string tag = "")
 		{
 			this.sync = sync;
 			this.claimedByLocalTransient = claimedByLocalTransient;
 
-			CavrnusFunctionLibrary.AwaitAnySpaceConnection(OnSpaceConnection);
+			CavrnusFunctionLibrary.AwaitSpaceConnectionByTag(tag, OnSpaceConnection);
 		}
 
 		private void OnSpaceConnection(CavrnusSpaceConnection spaceConn)

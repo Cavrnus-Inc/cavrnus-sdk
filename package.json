@@ -5,7 +5,7 @@
   },
   "name": "com.cavrnus.csc",
   "displayName": "Cavrnus Spatial Connector",
-  "version": "2.14.2",
+  "version": "2.14.3",
   "unity": "2022.3",
   "description": "Cavrnus enhances 3D workflows by providing developers a seamless drag-and-drop toolkit for embedding collaborative features directly into Unity projects.",
   "repository": {
@@ -27,9 +27,9 @@
       "path": "Samples~/AvatarSwapping"
     },
     {
-      "displayName": "Space Switcher",
-      "description": "Example providing a UI to join multiple spaces within a single session.",
-      "path": "Samples~/SpaceSwapping"
+      "displayName": "MultiSpace Connections",
+      "description": "Demonstrates how to use Tags in order to join multiple spaces concurrently and rejoin spaces.",
+      "path": "Samples~/MultispaceConnections"
     },
     {
       "displayName": "Image Url Loader",

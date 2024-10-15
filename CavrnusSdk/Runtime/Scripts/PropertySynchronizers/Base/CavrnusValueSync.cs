@@ -12,6 +12,9 @@ namespace CavrnusSdk.PropertySynchronizers
 
 		public bool SendMyChanges = true;
 
+		[Header("Assign Tag for multi-space sessions (optional).")]
+		public string Tag;
+
 		[HideInInspector]
 		public bool RecieveChanges = true;
 
@@ -42,7 +45,7 @@ namespace CavrnusSdk.PropertySynchronizers
 				sender = new CavrnusPostSynchronizedProperty<T>(this);
 
 			if (RecieveChanges)
-                displayer = new CavrnusDisplayProperty<T>(this, () => sender?.transientUpdater != null);            
+                displayer = new CavrnusDisplayProperty<T>(this, () => sender?.transientUpdater != null, Tag);            
         }
 
 		public void ForceBeginTransientUpdate()

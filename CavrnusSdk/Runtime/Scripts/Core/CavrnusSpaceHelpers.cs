@@ -32,9 +32,9 @@ namespace CavrnusCore
 		}
 		
 		internal static async void JoinSpace(string joinId, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects,
-		                                     Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure, SpaceConnectionConfig config)
+		                                     Action<CavrnusSpaceConnection> onConnected, Action<string> onFailure, CavrnusSpaceConnectionConfig config)
 		{
-			config ??= new SpaceConnectionConfig();
+			config ??= new CavrnusSpaceConnectionConfig();
 			var spaceConnection = CavrnusSpaceConnectionManager.GetSpaceConnectionByTag(config.Tag);
 			spaceConnection.DoLoadingEvents(joinId);
 			

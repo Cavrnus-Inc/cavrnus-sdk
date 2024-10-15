@@ -9,7 +9,7 @@ namespace CavrnusSdk.API
 {
 	public class CavrnusSpaceConnection : IDisposable
 	{
-		public SpaceConnectionConfig Config{ get; private set; }
+		public CavrnusSpaceConnectionConfig Config{ get; private set; }
 
 		internal IReadonlySetting<CavrnusSpaceConnectionData> CurrentSpaceConnection => currentSpaceConnection;
 		private readonly ISetting<CavrnusSpaceConnectionData> currentSpaceConnection = new Setting<CavrnusSpaceConnectionData>();
@@ -22,7 +22,7 @@ namespace CavrnusSdk.API
 
 		private readonly List<IDisposable> bindings = new ();
 		
-		public CavrnusSpaceConnection(SpaceConnectionConfig config)
+		public CavrnusSpaceConnection(CavrnusSpaceConnectionConfig config)
 		{
 			Config = config;
 			
@@ -58,7 +58,7 @@ namespace CavrnusSdk.API
 			}));
 		}
 		
-		internal void Update(RoomSystem roomSystem, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects, SpaceConnectionConfig config)
+		internal void Update(RoomSystem roomSystem, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects, CavrnusSpaceConnectionConfig config)
 		{
 			Config = config;
 			currentSpaceConnection.Value?.Dispose(); // exit space before rejoining

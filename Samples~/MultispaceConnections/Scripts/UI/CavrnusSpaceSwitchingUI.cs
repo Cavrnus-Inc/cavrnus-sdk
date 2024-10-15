@@ -16,7 +16,9 @@ namespace CavrnusSdk.CollaborationExamples
 
         public void Start()
         {
-            SetupUI();    
+            CavrnusFunctionLibrary.AwaitAuthentication(auth => {
+                SetupUI();    
+            });
         }
 
         private void SetupUI()
@@ -40,7 +42,7 @@ namespace CavrnusSdk.CollaborationExamples
 
         private void OnSpaceLevelLoaded()
         {
-            print("Hey we loaded a level and joined a cavrnus space!...NICE!");
+            
         }
     }
 }
