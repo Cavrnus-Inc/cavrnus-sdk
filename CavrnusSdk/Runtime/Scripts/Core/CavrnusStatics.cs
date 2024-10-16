@@ -37,11 +37,11 @@ namespace CavrnusCore
 		internal static ServerContentCacheManager ContentManager { get; private set; }
 
 		internal static INetworkRequestImplementation NetworkRequestImpl;
-		internal static IRtcContext RtcContext;
 
 		internal static ISetting<RtcInputSource> DesiredVideoStream = new Setting<RtcInputSource>(null);
 
 		internal static CavrnusAuthentication CurrentAuthentication = null;
+		private static IRtcSystem rtcSystem;
 
 		internal static void Setup(CavrnusSettings settings)
 		{
@@ -57,34 +57,32 @@ namespace CavrnusCore
 
 			Notify = new NotifyCommunication(() => new NotifyWebsocket(Scheduler.BaseScheduler), Scheduler.BaseScheduler);
 			LivePolicyEvaluator = new LivePolicyEvaluator(Notify.PoliciesSystem.AllPolicies, Notify.PoliciesSystem.IsActive);
-			
-			IRtcSystem rtcSystem;
-			
-			if (settings.DisableVoiceAndVideo) 
-			{ 
-				rtcSystem = new RtcSystemUnavailable(); 
-			}
-			else
-			{
-				rtcSystem = new RtcSystemUnity(Scheduler, settings.DisableAcousticEchoCancellation);
-			}
+	
+			rtcSystem = new RtcSystemUnity(Scheduler, settings.DisableAcousticEchoCancellation);
 
-			RtcContext = new RtcContext(rtcSystem, Scheduler.BaseScheduler);
+			Scheduler.ExecOnApplicationQuit(Shutdown);
+		}
 
+		internal static RtcContext CreateRtcContext(CavrnusSpaceConnectionConfig config)
+		{
 			var input = RtcInputSource.FromJson("");
 			var output = RtcOutputSink.FromJson("");
 			var vidInput = RtcInputSource.FromJson("");
 
-			RtcContext.Initialize(input, output, vidInput, RtcModeEnum.AudioVideo, RtcModeEnum.AudioVideo);
+			var sendMode = config.IncludeRtc ? RtcModeEnum.AudioVideo : RtcModeEnum.None;
+			var recvMode = config.IncludeRtc ? RtcModeEnum.AudioVideo : RtcModeEnum.None;
+			
+			var ctx = new RtcContext(rtcSystem, Scheduler.BaseScheduler);
+			ctx.Initialize(input, output, vidInput, sendMode, recvMode);
 
-			Scheduler.ExecOnApplicationQuit(() => Shutdown());
+			return ctx;
 		}
 
 		internal static void Shutdown()
 		{
 			CurrentAuthentication = null;
 			Notify.Shutdown();
-			RtcContext.Shutdown();
+			// RtcContext.Shutdown();
 			CavrnusSpaceConnectionManager.Shutdown();
 		}
 

@@ -5,9 +5,9 @@ using CavrnusCore;
 
 namespace CavrnusSdk.API
 {
-	public class CavrnusUser : IDisposable
+	public class CavrnusUser
 	{
-		public bool IsLocalUser{ get; }
+		public bool IsLocalUser{ get; private set; }
 
 		public string ContainerId => containerIdSetting?.Value;
 		public string UserAccountId => userAccountIdSetting?.Value;
@@ -23,35 +23,23 @@ namespace CavrnusSdk.API
 		internal UserVideoTextureProvider VidProvider => vidProviderSetting?.Value;
 		private ISessionCommunicationUser commUser;
 		
-		private readonly IDisposable spaceBind;
+		private readonly IDisposable localUserBind;
 
 		internal CavrnusUser(ISessionCommunicationUser commUser, CavrnusSpaceConnection spaceConn)
 		{
-			this.commUser = commUser;
 			SpaceConnection = spaceConn;
 
-			userAccountIdSetting.Value = commUser.User.Id;
-			containerIdSetting.Value = $"/users/{commUser.ConnectionId}";
-			vidProviderSetting.Value = new UserVideoTextureProvider(commUser);
-
-			IsLocalUser = commUser is ISessionCommunicationLocalUser;
-
-			if (IsLocalUser) {
-				spaceBind = spaceConn.CurrentLocalUserSetting.Bind(lu => {
-					if (lu == null)
-						return;
-
-					this.commUser = lu.commUser;
-					userAccountIdSetting.Value = lu.commUser.User.Id;
-					containerIdSetting.Value = $"/users/{lu.commUser.ConnectionId}";
-					vidProviderSetting.Value = new UserVideoTextureProvider(lu.commUser);
-				});
-			}
+			InitUser(commUser);
 		}
 
-        public void Dispose()
-        {
-	        spaceBind?.Dispose();
-        }
+		internal void InitUser(ISessionCommunicationUser cUser)
+		{
+			commUser = cUser;
+			
+			IsLocalUser = commUser is ISessionCommunicationLocalUser;
+			userAccountIdSetting.Value = cUser.User.Id;
+			containerIdSetting.Value = $"/users/{cUser.ConnectionId}";
+			vidProviderSetting.Value = new UserVideoTextureProvider(cUser);
+		}
 	}
 }

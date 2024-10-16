@@ -621,3 +621,15 @@
 
 ### Fixed
 - Fix sample prefabs dependencies
+
+
+## [2.15.0] - 2024-10-15
+
+### Added
+- Added IncludeRTC option in CavrnusSpaceJoinOptionsconfig object
+
+### Changed
+- RTC fetches/gets are now SpaceConnection specific. Calls are updated to use CavrnusSpaceConnection extension.
+
+### Fixed
+- Notify wasn't being setup for each auth path. Caused broken RTC for guests.

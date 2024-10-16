@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CavrnusSdk.API;
 using TMPro;
@@ -12,12 +13,14 @@ namespace CavrnusSdk.UI
         
         private const string PLAYERPREFS_AUDIOINPUT = "CavrnusAudioInput";
 
+        private IDisposable binding;
+
         protected override void OnSpaceConnected()
         {
             //If we've already selected audio devices on a previous run, use those
             var savedAudioInput = PlayerPrefs.GetString(PLAYERPREFS_AUDIOINPUT, null);
             
-            CavrnusFunctionLibrary.FetchAudioInputs(opts => {
+            binding = SpaceConnection.FetchAudioInputs(opts => {
                 foundInputs = opts;
 
                 Dropdown.ClearOptions();
@@ -34,12 +37,12 @@ namespace CavrnusSdk.UI
 
                     if (selection != null) {
                         Dropdown.value = foundInputs.ToList().IndexOf(selection);
-                        CavrnusFunctionLibrary.UpdateAudioInput(selection);
+                        SpaceConnection.UpdateAudioInput(selection);
                     }
                 }
                 else if (foundInputs.Count > 0) {
                     Dropdown.value = 0;
-                    CavrnusFunctionLibrary.UpdateAudioInput(foundInputs[0]);
+                    SpaceConnection.UpdateAudioInput(foundInputs[0]);
                 }
             });
         }
@@ -56,7 +59,12 @@ namespace CavrnusSdk.UI
             PlayerPrefs.SetString(PLAYERPREFS_AUDIOINPUT, foundInputs[inputId].Id);
             PlayerPrefs.Save();
 
-            CavrnusFunctionLibrary.UpdateAudioInput(foundInputs[inputId]);
+            SpaceConnection.UpdateAudioInput(foundInputs[inputId]);
+        }
+        
+        private void OnDestroy()
+        {
+            binding?.Dispose();
         }
     }
 }

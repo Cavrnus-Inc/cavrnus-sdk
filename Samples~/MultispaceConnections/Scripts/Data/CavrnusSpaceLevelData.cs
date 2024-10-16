@@ -14,6 +14,7 @@ namespace CavrnusSdk.CollaborationExamples
             public string Tag;
             public string SpaceDisplayName;
             public string CavrnusSpaceJoinId;
+            public bool IncludeRTC = true;
         }
 
         public List<SpaceLevelInfo> Levels => levels;
@@ -29,6 +30,7 @@ namespace CavrnusSdk.CollaborationExamples
             sc?.ExitSpace();
             CavrnusFunctionLibrary.JoinSpaceWithOptions(data.CavrnusSpaceJoinId, new CavrnusSpaceConnectionConfig {
                 Tag = data.Tag,
+                IncludeRtc = data.IncludeRTC,
             }, spaceConn => { 
                 Debug.Log($"Joined new space!: {data.CavrnusSpaceJoinId}");
                 

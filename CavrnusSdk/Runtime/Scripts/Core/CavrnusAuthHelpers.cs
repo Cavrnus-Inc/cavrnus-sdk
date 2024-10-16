@@ -49,8 +49,6 @@ namespace CavrnusCore
 
 			CavrnusStatics.CurrentAuthentication = new CavrnusAuthentication(ruc, endpoint, token);
 
-			NotifySetup();
-
 			await Task.WhenAny(CavrnusStatics.Notify.UsersSystem.ConnectedUser.AwaitPredicate((INotifyDataUser lu) => lu != null));
 
 			HandleAuth(CavrnusStatics.CurrentAuthentication);
@@ -105,8 +103,6 @@ namespace CavrnusCore
 			DebugOutput.Info("Logged in as User, token: " + token.token);
 
 			CavrnusStatics.CurrentAuthentication = new CavrnusAuthentication(ruc, endpoint.WithAuthorization(token.token), token.token);
-
-			NotifySetup();
 
 			await Task.WhenAny(CavrnusStatics.Notify.UsersSystem.ConnectedUser.AwaitPredicate((INotifyDataUser lu) => lu != null));
 
@@ -167,7 +163,6 @@ namespace CavrnusCore
 
 		private static void NotifySetup()
 		{
-			
 			CavrnusStatics.Notify.Initialize(CavrnusStatics.CurrentAuthentication.Endpoint, true);
 			CavrnusStatics.Notify.ObjectsSystem.StartListeningAll(null, err => DebugOutput.Error(err.ToString()));
 			CavrnusStatics.Notify.PoliciesSystem.StartListeningAll(null, err => DebugOutput.Error(err.ToString()));
@@ -179,6 +174,8 @@ namespace CavrnusCore
 
 		private static void HandleAuth(CavrnusAuthentication auth)
 		{
+			NotifySetup();
+			
 			if (CavrnusSpatialConnector.Instance.SaveUserToken)
 			{
 				PlayerPrefs.SetString("MemberCavrnusAuthToken", auth.Token);

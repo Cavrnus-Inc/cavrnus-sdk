@@ -30,7 +30,7 @@ namespace CavrnusSdk.UI
 			//If we've already selected audio devices on a previous run, use those
 			string savedAudioInput = PlayerPrefs.GetString(PLAYERPREFS_AUDIOINPUT, null);
 
-			CavrnusFunctionLibrary.FetchAudioInputs(opts => {
+			spaceConn.FetchAudioInputs(opts => {
 				//Store the fetched options to look up the selection
 				inputs = opts;
 
@@ -50,16 +50,16 @@ namespace CavrnusSdk.UI
 
 					if (selection != null) {
 						AudioInputs.value = inputs.ToList().IndexOf(selection);
-						CavrnusFunctionLibrary.UpdateAudioInput(selection);
+						spaceConn.UpdateAudioInput(selection);
 					}
 				}
 				else if (inputs.Count > 0) {
 					AudioInputs.value = 0;
-					CavrnusFunctionLibrary.UpdateAudioInput(inputs[0]);
+					spaceConn.UpdateAudioInput(inputs[0]);
 				}
 			});
 
-			CavrnusFunctionLibrary.FetchVideoInputs(opts => {
+			spaceConn.FetchVideoInputs(opts => {
 				//Store the fetched options to look up the selection
 				videoInputs = opts;
 
@@ -85,7 +85,7 @@ namespace CavrnusSdk.UI
 			PlayerPrefs.SetString(PLAYERPREFS_AUDIOINPUT, inputs[v].Id);
 			PlayerPrefs.Save();
 
-			CavrnusFunctionLibrary.UpdateAudioInput(inputs[v]);
+			spaceConn.UpdateAudioInput(inputs[v]);
 		}
 
 		public void VideoInputsChanged(int v)
@@ -97,7 +97,7 @@ namespace CavrnusSdk.UI
 				return;
 			}
 
-			CavrnusFunctionLibrary.UpdateVideoInput(videoInputs[v]);
+			spaceConn.UpdateVideoInput(videoInputs[v]);
 			
 			spaceConn.SetLocalUserStreamingState(true);
 		}

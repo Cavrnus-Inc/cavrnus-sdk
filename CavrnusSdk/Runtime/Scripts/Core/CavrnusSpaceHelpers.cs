@@ -70,28 +70,23 @@ namespace CavrnusCore
 				DeviceMode = "desktop"
 			};
 
-			//Okay so, RTC should be isolated to tagged-spaces where RTC is allowed
-			//Provide fake RtcContext if not allowed?
-			// var rtcContext = config.IncludeRtc ? CavrnusStatics.RtcContext : new FakeRtcContext();
-
-			var rs = new RoomSystem(CavrnusStatics.RtcContext, env, rsOptions, null, integrationInfo);
+			var rs = new RoomSystem(CavrnusStatics.CreateRtcContext(config), env, rsOptions, null, integrationInfo);
 			rs.InitializeConnection(CavrnusStatics.CurrentAuthentication.Endpoint, joinId);
 
 			await rs.AwaitJournalProcessed();
 
-			switch (rs.SystemStatus.Value.Status)
-			{
-				case RoomSystemStatusEnum.Closed:
-					onFailure?.Invoke("Space connection is closed!");
-					throw new ErrorInfo("Space connection is closed!");
-				case RoomSystemStatusEnum.Error:
-					onFailure?.Invoke(rs.SystemStatus.Value.ErrorMessage);
-					throw new ErrorInfo(rs.SystemStatus.Value.ErrorMessage);
+			if (rs.SystemStatus.Value.Status == RoomSystemStatusEnum.Closed) {
+				onFailure?.Invoke("Space connection is closed!");
+				throw new ErrorInfo("Space connection is closed!");
 			}
-			
-			await rs.AwaitLocalUser();
-			
-			rs.Comm.LocalCommUser.Value.SetupVideoSources(CavrnusStatics.DesiredVideoStream, CavrnusStatics.DesiredVideoStream);
+
+			if (rs.SystemStatus.Value.Status == RoomSystemStatusEnum.Error) {
+				onFailure?.Invoke(rs.SystemStatus.Value.ErrorMessage);
+				throw new ErrorInfo(rs.SystemStatus.Value.ErrorMessage);
+			}
+
+			var lu = await rs.AwaitLocalUser();
+			lu.SetupVideoSources(CavrnusStatics.DesiredVideoStream, CavrnusStatics.DesiredVideoStream);
 
 			spaceConnection.Update(rs, spawnableObjects, config);
 			onConnected(spaceConnection);

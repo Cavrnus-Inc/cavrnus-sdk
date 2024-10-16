@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CavrnusSdk.API;
 using TMPro;
 
@@ -8,9 +9,11 @@ namespace CavrnusSdk.UI
     {
         private List<CavrnusVideoInputDevice> foundVideoInputs = new List<CavrnusVideoInputDevice>();
 
+        private IDisposable binding;
+
         protected override void OnSpaceConnected()
         {
-            CavrnusFunctionLibrary.FetchVideoInputs(opts => {
+            binding = SpaceConnection.FetchVideoInputs(opts => {
                 //Store the fetched options to look up the selection
                 foundVideoInputs = opts;
 
@@ -45,8 +48,13 @@ namespace CavrnusSdk.UI
                 return;
             }
 
-            CavrnusFunctionLibrary.UpdateVideoInput(foundVideoInputs[inputId]);
+            SpaceConnection?.UpdateVideoInput(foundVideoInputs[inputId]);
             SpaceConnection?.SetLocalUserStreamingState(inputId != 0);
+        }
+
+        private void OnDestroy()
+        {
+            binding?.Dispose();
         }
     }
 }

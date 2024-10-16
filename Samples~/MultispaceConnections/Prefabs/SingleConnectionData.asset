@@ -13,15 +13,19 @@ MonoBehaviour:
   m_Name: SingleConnectionData
   m_EditorClassIdentifier: 
   levels:
-  - Tag: A
+  - Tag: 
     SpaceDisplayName: Space A
     CavrnusSpaceJoinId: space-a
-  - Tag: A
+    IncludeRTC: 1
+  - Tag: 
     SpaceDisplayName: Space B
     CavrnusSpaceJoinId: space-b
-  - Tag: A
+    IncludeRTC: 0
+  - Tag: 
     SpaceDisplayName: Space C
     CavrnusSpaceJoinId: space-c
-  - Tag: A
+    IncludeRTC: 1
+  - Tag: 
     SpaceDisplayName: Space D
     CavrnusSpaceJoinId: space-d
+    IncludeRTC: 0

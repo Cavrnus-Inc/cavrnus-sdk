@@ -631,7 +631,7 @@ public class RtcSystemUnity : IRtcSystem
 			rtcCallback.ResponseChangeVideoInputDevice(true, requestId, mediaContext.CurrentVideoInput.Value, "");
 			localVideoTex.Value = mediaContext.LocalMedia.View;
 
-			if (!input.IsBlankSource() && !liveUpStream.HasVideo)
+			if (liveUpStream != null && !input.IsBlankSource() && liveUpStream.HasVideo)
 			{
 				DebugOutput.Info($"Reconnecting upstream for video");
 				ReconnectUpstream();

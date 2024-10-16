@@ -50,6 +50,8 @@ namespace CavrnusSdk.UI
 				return;
 
 			disposable = user.BindUserSpeaking(speaking => {
+				if (!gameObject.activeSelf) return;
+				
 				StartCoroutine(FadeRoutine(speaking));
 
 				if (!speaking && pulseRoutine != null)

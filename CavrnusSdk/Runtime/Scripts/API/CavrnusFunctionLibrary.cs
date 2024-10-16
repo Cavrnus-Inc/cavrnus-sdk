@@ -29,8 +29,7 @@ namespace CavrnusSdk.API
 	public class CavrnusSpaceConnectionConfig
 	{
 		public string Tag = "";
-		// public bool IncludeRtc = true;
-		// maybe split a/v input/output
+		public bool IncludeRtc = true;
 	}
 
 	public static class CavrnusFunctionLibrary
@@ -546,45 +545,52 @@ namespace CavrnusSdk.API
 		}
 
         //Gets available microphones
-        public static void FetchAudioInputs(Action<List<CavrnusInputDevice>> onRecvDevices)
+        public static IDisposable FetchAudioInputs(this CavrnusSpaceConnection spaceConnection, Action<List<CavrnusInputDevice>> onRecvDevices)
 		{
-			CavrnusStatics.RtcContext.FetchAudioInputOptions(res => 
-			{
-				List<CavrnusInputDevice> devices = new List<CavrnusInputDevice>();
-				foreach (var device in res)
-				{
-					devices.Add(new CavrnusInputDevice(device.Name, device.Id));
-				}
-				CavrnusStatics.Scheduler.ExecInMainThread(() => onRecvDevices?.Invoke(devices));
+			return spaceConnection.CurrentRtcContext.Bind((ctx) => {
+				if (ctx == null) 
+					return;
+				
+				ctx.FetchAudioInputOptions(res => {
+					var devices = new List<CavrnusInputDevice>();
+					foreach (var device in res) {
+						devices.Add(new CavrnusInputDevice(device.Name, device.Id));
+					}
+
+					CavrnusStatics.Scheduler.ExecInMainThread(() => onRecvDevices?.Invoke(devices));
+				});
 			});
 		}
 
         //Sets which microphone to use
-        public static void UpdateAudioInput(CavrnusInputDevice device)
+        public static void UpdateAudioInput(this CavrnusSpaceConnection spaceConnection, CavrnusInputDevice device)
 		{
-			CavrnusStatics.RtcContext.ChangeAudioInputDevice(new Collab.RtcCommon.RtcInputSource() { Id = device.Id, Name = device.Name },
-																   (s) => Debug.Log("Changed audio input device to: " + s),
-																   err => Debug.LogError("Failed to change audio input device: " + err));
+			spaceConnection.CurrentRtcContext.Value.ChangeAudioInputDevice(new Collab.RtcCommon.RtcInputSource() { Id = device.Id, Name = device.Name },
+			                                       (s) => Debug.Log("Changed audio input device to: " + s),
+			                                       err => Debug.LogError("Failed to change audio input device: " + err));
 		}
 
         //Gets available camera/stream sources
-        public static void FetchVideoInputs(Action<List<CavrnusVideoInputDevice>> onRecvDevices)
-		{
-			CavrnusStatics.RtcContext.FetchVideoInputOptions(res =>
-			{
-				List<CavrnusVideoInputDevice> devices = new List<CavrnusVideoInputDevice>();
-				foreach (var device in res)
-				{
-					devices.Add(new CavrnusVideoInputDevice(device.Name, device.Id));
-				}
-				CavrnusStatics.Scheduler.ExecInMainThread(() => onRecvDevices?.Invoke(devices));
-			});
+        public static IDisposable FetchVideoInputs(this CavrnusSpaceConnection spaceConnection, Action<List<CavrnusVideoInputDevice>> onRecvDevices)
+        {
+	        return spaceConnection.CurrentRtcContext.Bind(ctx => {
+		        if (ctx == null) 
+			        return;
+		        
+		        ctx.FetchVideoInputOptions(res => {
+			        var devices = new List<CavrnusVideoInputDevice>();
+			        foreach (var device in res)
+				        devices.Add(new CavrnusVideoInputDevice(device.Name, device.Id));
+			        
+			        CavrnusStatics.Scheduler.ExecInMainThread(() => onRecvDevices?.Invoke(devices));
+		        });
+	        });
 		}
 
         //Sets which camera/stream source to use
-        public static void UpdateVideoInput(CavrnusVideoInputDevice device)
+        public static void UpdateVideoInput(this CavrnusSpaceConnection spaceConnection, CavrnusVideoInputDevice device)
 		{
-			CavrnusStatics.RtcContext.ChangeVideoInputDevice(new Collab.RtcCommon.RtcInputSource() { Id = device.Id, Name = device.Name },
+			spaceConnection.CurrentRtcContext.Value.ChangeVideoInputDevice(new Collab.RtcCommon.RtcInputSource() { Id = device.Id, Name = device.Name },
 																   (s) => Debug.Log("Changed video input device to: " + s),
 																   err => Debug.LogError("Failed to change video input device: " + err));
 		}

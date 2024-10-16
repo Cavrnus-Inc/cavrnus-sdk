@@ -13,6 +13,7 @@ using Collab.Proxy.Prop.TransformProp;
 using Collab.Proxy.Prop.VectorProp;
 using UnityBase;
 using CavrnusSdk.API;
+using Collab.Proxy;
 using Collab.Proxy.Prop.JsonProp;
 
 namespace CavrnusSdk.UI

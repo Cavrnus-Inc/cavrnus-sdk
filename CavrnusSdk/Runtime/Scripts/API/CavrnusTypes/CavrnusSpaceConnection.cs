@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CavrnusSdk.Setup;
 using Collab.Base.Collections;
 using Collab.LiveRoomSystem;
+using Collab.RtcCommon;
 
 namespace CavrnusSdk.API
 {
@@ -15,7 +16,10 @@ namespace CavrnusSdk.API
 		private readonly ISetting<CavrnusSpaceConnectionData> currentSpaceConnection = new Setting<CavrnusSpaceConnectionData>();
 		
 		internal IReadonlySetting<CavrnusUser> CurrentLocalUserSetting => currentLocalUserSetting;
-		private ISetting<CavrnusUser> currentLocalUserSetting = new Setting<CavrnusUser>();
+		private readonly ISetting<CavrnusUser> currentLocalUserSetting = new Setting<CavrnusUser>();
+		
+		internal IReadonlySetting<IRtcContext> CurrentRtcContext => currentRtcContext;
+		private readonly ISetting<IRtcContext> currentRtcContext = new Setting<IRtcContext>();
 		
 		private readonly List<Action<string>> onLoadingEvents = new();
 		private readonly NotifyList<Action<CavrnusSpaceConnection>> onConnectedEvents = new();
@@ -27,20 +31,36 @@ namespace CavrnusSdk.API
 			Config = config;
 			
 			bindings.Add(CurrentSpaceConnection.Bind(sc => {
+				if (sc == null) 
+					return;
+				
 				if (onConnectedEvents.Count > 0)
 					onConnectedEvents.ForEach(callback => callback?.Invoke(this));
 
-				_= GetLocalUserAsync();
-				
 				onConnectedEvents.Clear();
+				
+				_= GetLocalUserAsync(sc);
 			}));
-		}		
+		}	
 		
-		private async Task GetLocalUserAsync()
+		internal void Update(RoomSystem roomSystem, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects, CavrnusSpaceConnectionConfig config)
+		{
+			Config = config;
+			currentSpaceConnection.Value?.Dispose();
+			
+			currentSpaceConnection.Value = new CavrnusSpaceConnectionData(roomSystem, spawnableObjects, this);
+			currentRtcContext.Value = roomSystem.RtcContext;
+		}
+		
+		private async Task GetLocalUserAsync(CavrnusSpaceConnectionData scd)
 		{
 			try {
-				var user = await currentSpaceConnection.Value.RoomSystem.AwaitLocalUser();
-				currentLocalUserSetting.Value = new CavrnusUser(user, this);
+				var user = await scd.RoomSystem.AwaitLocalUser();
+
+				if (currentLocalUserSetting.Value == null)
+					currentLocalUserSetting.Value = new CavrnusUser(user, this);
+				else
+					currentLocalUserSetting.Value.InitUser(user);
 			}
 			catch (Exception ex)
 			{
@@ -50,20 +70,14 @@ namespace CavrnusSdk.API
 		
 		internal void AwaitLocalUser(Action<CavrnusUser> localUser)
 		{
-			bindings.Add(currentLocalUserSetting.Bind(lu => {
+			IDisposable binding = null;
+			binding = currentLocalUserSetting.Bind(lu => {
 				if (lu == null)
 					return;
-				
+
 				localUser?.Invoke(lu);
-			}));
-		}
-		
-		internal void Update(RoomSystem roomSystem, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects, CavrnusSpaceConnectionConfig config)
-		{
-			Config = config;
-			currentSpaceConnection.Value?.Dispose(); // exit space before rejoining
-			
-			currentSpaceConnection.Value = new CavrnusSpaceConnectionData(roomSystem, spawnableObjects, this);
+				binding?.Dispose();
+			});
 		}
 
 		internal void DoLoadingEvents(string joinId)

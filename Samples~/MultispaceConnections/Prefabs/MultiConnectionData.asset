@@ -16,12 +16,16 @@ MonoBehaviour:
   - Tag: A
     SpaceDisplayName: Space A
     CavrnusSpaceJoinId: space-a
+    IncludeRTC: 1
   - Tag: B
     SpaceDisplayName: Space B
     CavrnusSpaceJoinId: space-b
+    IncludeRTC: 0
   - Tag: C
     SpaceDisplayName: Space C
     CavrnusSpaceJoinId: space-c
+    IncludeRTC: 0
   - Tag: A
     SpaceDisplayName: Space D
     CavrnusSpaceJoinId: space-d
+    IncludeRTC: 0

@@ -45,7 +45,7 @@ namespace CavrnusSdk.UI
 				var nameDisposable = user.BindUserName(n => nameText.text = n);
 				disposables.Add(nameDisposable);
 			}
-			
+
 			var picDisp = CavrnusUIHelpers.BindUserPicToImage(user, profilePicImage, profilePicImage.GetComponent<AspectRatioFitter>());
             disposables.Add(picDisp);
             
@@ -60,7 +60,7 @@ namespace CavrnusSdk.UI
 			
             var videoDisp = CavrnusUIHelpers.BindUserStreamToRawImage(user, videoStreamImage, videoStreamImage.GetComponent<AspectRatioFitter>());
 			disposables.Add(videoDisp);
-			
+
 			var muted = user.BindUserMuted(isMuted => mutedGameObject.SetActive(isMuted));
 			disposables.Add(muted);
 		}
