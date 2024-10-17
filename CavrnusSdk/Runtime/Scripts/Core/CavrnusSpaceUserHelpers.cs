@@ -10,32 +10,21 @@ namespace CavrnusCore
 	{
 		internal static IDisposable BindSpaceUsers(CavrnusSpaceConnection spaceConn, Action<CavrnusUser> userAdded, Action<CavrnusUser> userRemoved)
 		{
-			CavrnusUser lcu = null;
-			IDisposable lcuBind = null;
 			IDisposable mapBind = null;
 			NotifyListMapper<ISessionCommunicationRemoteUser, CavrnusUser> mapper = null;
-			
-			var spaceBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
+
+			var luBind = spaceConn.CurrentLocalUserSetting.Bind((clu, oldlu) =>
+			{
+				if (oldlu != null)
+					userRemoved(oldlu);
+				if (clu != null)
+					userAdded(clu);
+			});
+
+			var spaceRemotesBind = spaceConn.CurrentSpaceConnection.Bind(sc => {
 				if (sc == null)
 					return;
-				
-				if (lcu != null) {
-					userRemoved?.Invoke(lcu);
-					lcu = null;
-				}
-				
-				lcuBind = sc.RoomSystem.Comm.LocalCommUser.Bind(lu => {
-					if (lcu != null) {
-						userRemoved?.Invoke(lcu);
-						lcu = null;
-					}
-				
-					if (lu != null) {
-						lcu = new CavrnusUser(lu, spaceConn);
-						userAdded?.Invoke(lcu);
-					}
-				});
-				
+	
 				mapper?.Dispose();
 				mapBind?.Dispose();
 				
@@ -44,7 +33,7 @@ namespace CavrnusCore
 				mapBind = mapper.Result.BindAll(userAdded, userRemoved);
 			});
 			
-			return mapper.AlsoDispose(mapBind).AlsoDispose(spaceBind).AlsoDispose(lcuBind);
+			return mapper.AlsoDispose(mapBind).AlsoDispose(spaceRemotesBind).AlsoDispose(luBind);
 		}
 	}
 }

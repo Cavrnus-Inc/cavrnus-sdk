@@ -7,7 +7,7 @@ namespace CavrnusSdk.API
 {
 	public class CavrnusUser
 	{
-		public bool IsLocalUser{ get; private set; }
+		public bool IsLocalUser { get; private set; }
 
 		public string ContainerId => containerIdSetting?.Value;
 		public string UserAccountId => userAccountIdSetting?.Value;
@@ -23,8 +23,6 @@ namespace CavrnusSdk.API
 		internal UserVideoTextureProvider VidProvider => vidProviderSetting?.Value;
 		private ISessionCommunicationUser commUser;
 		
-		private readonly IDisposable localUserBind;
-
 		internal CavrnusUser(ISessionCommunicationUser commUser, CavrnusSpaceConnection spaceConn)
 		{
 			SpaceConnection = spaceConn;

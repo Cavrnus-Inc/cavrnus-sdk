@@ -641,3 +641,15 @@
 - Fix localUser bindings.
 - Fix broken ui references in minimal ui
 - Add default no audio/video rtc option again
+
+
+## [2.15.2] - 2024-10-17
+
+### Fixed
+- Local user specific bindings will now remap when changing spaces.
+
+
+
+## [2.15.3] - 2024-10-17
+
+

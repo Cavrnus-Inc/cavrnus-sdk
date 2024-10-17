@@ -101,7 +101,7 @@ namespace CavrnusCore
 		{
 			CavrnusSpaceConnectionManager.GetSpaceConnectionByTag(tag).TrackConnectedEvent(onConnected);
 		}
-
+		
 		internal static async void GetCurrentlyAvailableSpaces(Action<List<CavrnusSpaceInfo>> onRecvCurrentJoinableSpaces)
 		{
 			RestRoomCommunication rrc =

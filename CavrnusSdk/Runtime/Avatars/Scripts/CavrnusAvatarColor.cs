@@ -16,13 +16,11 @@ namespace CavrnusSdk.Avatars
 
         private void Start()
         {
-            CavrnusFunctionLibrary.AwaitAnySpaceConnection(sc => {
-                var user = gameObject.GetComponentInAllParents<CavrnusUserFlag>().User;
-                if (user != null) {
-                    bindings.Add(sc.BindColorPropertyValue(user.ContainerId, "primaryColor", OnPrimaryColorUpdated));
-                    bindings.Add(sc.BindColorPropertyValue(user.ContainerId, "secondaryColor", OnSecondaryColorUpdated));
-                }
-            });
+            var user = gameObject.GetComponentInAllParents<CavrnusUserFlag>().User;
+            if (user != null) {
+                bindings.Add(user.BindColorPropertyValue("primaryColor", OnPrimaryColorUpdated));
+                bindings.Add(user.BindColorPropertyValue("secondaryColor", OnSecondaryColorUpdated));
+            }
         }
 
         private void OnPrimaryColorUpdated(Color val) => UpdateColor(primaryMeshRenderers, val);

@@ -8,6 +8,7 @@ using CavrnusSdk.Setup;
 using UnityBase;
 using System.IO;
 using System.Threading.Tasks;
+using Assets.com.cavrnus.csc.CavrnusSdk.Runtime.Scripts.Core;
 using Collab.Base.Core;
 using Collab.LiveRoomSystem.LiveObjectManagement.ObjectTypeManagers;
 using Collab.LiveRoomSystem.Views;
@@ -167,9 +168,9 @@ namespace CavrnusSdk.API
         {
 	        AwaitAnySpaceConnection(onConnected, tag);
         }
-        
-        //Disconnects you from a given space.  You will stop receiving property updates, and lose user & voice connections
-        public static void ExitSpace(this CavrnusSpaceConnection spaceConn)
+		
+		//Disconnects you from a given space.  You will stop receiving property updates, and lose user & voice connections
+		public static void ExitSpace(this CavrnusSpaceConnection spaceConn)
 		{
 			CavrnusSpaceConnectionManager.ExitSpace(spaceConn);
 		}
@@ -200,8 +201,14 @@ namespace CavrnusSdk.API
 			return CavrnusPropertyHelpers.BindToColorProperty(spaceConn, containerName, propertyName, onPropertyUpdated);
 		}
 
-        //Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
-        public static CavrnusLivePropertyUpdate<Color> BeginTransientColorPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, Color propertyValue)
+		//Triggers an event when the property changes, plus an initial event when first bound.
+		/*internal static IDisposable BindColorPropertyValue(this CavrnusSpaceConnection spaceConn, IReadonlySetting<string> containerName, string propertyName, Action<Color> onPropertyUpdated)
+		{
+			return containerName.SubBind((c) => BindColorPropertyValue(spaceConn, c, propertyName, onPropertyUpdated));
+		}*/
+
+		//Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
+		public static CavrnusLivePropertyUpdate<Color> BeginTransientColorPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, Color propertyValue)
 		{
 			return CavrnusPropertyHelpers.BeginContinuousPropertyUpdate(spaceConn, containerName, propertyName, propertyValue);
 		}
@@ -234,8 +241,14 @@ namespace CavrnusSdk.API
 			return CavrnusPropertyHelpers.BindToFloatProperty(spaceConn, containerName, propertyName, onPropertyUpdated);
 		}
 
-        //Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
-        public static CavrnusLivePropertyUpdate<float> BeginTransientFloatPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, float propertyValue)
+		//Triggers an event when the property changes, plus an initial event when first bound.
+		/*internal static IDisposable BindFloatPropertyValue(this CavrnusSpaceConnection spaceConn, IReadonlySetting<string> containerName, string propertyName, Action<float> onPropertyUpdated)
+		{
+			return containerName.SubBind(c=>CavrnusPropertyHelpers.BindToFloatProperty(spaceConn, c, propertyName, onPropertyUpdated));
+		}*/
+
+		//Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
+		public static CavrnusLivePropertyUpdate<float> BeginTransientFloatPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, float propertyValue)
 		{
 			return CavrnusPropertyHelpers.BeginContinuousPropertyUpdate(spaceConn, containerName, propertyName, propertyValue);
 		}
@@ -268,8 +281,14 @@ namespace CavrnusSdk.API
 			return CavrnusPropertyHelpers.BindToBooleanProperty(spaceConn, containerName, propertyName, onPropertyUpdated);
 		}
 
-        //Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
-        public static CavrnusLivePropertyUpdate<bool> BeginTransientBoolPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, bool propertyValue)
+		//Triggers an event when the property changes, plus an initial event when first bound.
+		/*internal static IDisposable BindBoolPropertyValue(this CavrnusSpaceConnection spaceConn, IReadonlySetting<string> containerName, string propertyName, Action<bool> onPropertyUpdated)
+		{
+			return containerName.SubBind(c=>CavrnusPropertyHelpers.BindToBooleanProperty(spaceConn, c, propertyName, onPropertyUpdated));
+		}*/
+
+		//Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
+		public static CavrnusLivePropertyUpdate<bool> BeginTransientBoolPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, bool propertyValue)
 		{
 			return CavrnusPropertyHelpers.BeginContinuousPropertyUpdate(spaceConn, containerName, propertyName, propertyValue);
 		}
@@ -317,8 +336,14 @@ namespace CavrnusSdk.API
 			return CavrnusPropertyHelpers.BindToStringProperty(spaceConn, containerName, propertyName, onPropertyUpdated);
 		}
 
-        //Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
-        public static CavrnusLivePropertyUpdate<string> BeginTransientStringPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, string propertyValue)
+		//Triggers an event when the property changes, plus an initial event when first bound.
+		/*internal static IDisposable BindStringPropertyValue(this CavrnusSpaceConnection spaceConn, IReadonlySetting<string> containerName, string propertyName, Action<string> onPropertyUpdated)
+		{
+			return containerName.SubBind(c=>CavrnusPropertyHelpers.BindToStringProperty(spaceConn, c, propertyName, onPropertyUpdated));
+		}*/
+
+		//Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
+		public static CavrnusLivePropertyUpdate<string> BeginTransientStringPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, string propertyValue)
 		{
 			return CavrnusPropertyHelpers.BeginContinuousPropertyUpdate(spaceConn, containerName, propertyName, propertyValue);
 		}
@@ -351,8 +376,14 @@ namespace CavrnusSdk.API
 			return CavrnusPropertyHelpers.BindToVectorProperty(spaceConn, containerName, propertyName, onPropertyUpdated);
 		}
 
-        //Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
-        public static CavrnusLivePropertyUpdate<Vector4> BeginTransientVectorPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, Vector4 propertyValue)
+		//Triggers an event when the property changes, plus an initial event when first bound.
+		/*internal static IDisposable BindVectorPropertyValue(this CavrnusSpaceConnection spaceConn, IReadonlySetting<string> containerName, string propertyName, Action<Vector4> onPropertyUpdated)
+		{
+			return containerName.SubBind(c=>CavrnusPropertyHelpers.BindToVectorProperty(spaceConn, c, propertyName, onPropertyUpdated));
+		}*/
+
+		//Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
+		public static CavrnusLivePropertyUpdate<Vector4> BeginTransientVectorPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, Vector4 propertyValue)
 		{
 			return CavrnusPropertyHelpers.BeginContinuousPropertyUpdate(spaceConn, containerName, propertyName, propertyValue);
 		}
@@ -385,8 +416,14 @@ namespace CavrnusSdk.API
 			return CavrnusPropertyHelpers.BindToTransformProperty(spaceConn, containerName, propertyName, onPropertyUpdated);
 		}
 
-        //Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
-        public static CavrnusLivePropertyUpdate<CavrnusTransformData> BeginTransientTransformPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, CavrnusTransformData propertyValue, PropertyPostOptions options = null)
+		//Triggers an event when the property changes, plus an initial event when first bound.
+		/*internal static IDisposable BindTransformPropertyValue(this CavrnusSpaceConnection spaceConn, IReadonlySetting<string> containerName, string propertyName, Action<CavrnusTransformData> onPropertyUpdated)
+		{
+			return containerName.SubBind(c=>CavrnusPropertyHelpers.BindToTransformProperty(spaceConn, c, propertyName, onPropertyUpdated));
+		}*/
+
+		//Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
+		public static CavrnusLivePropertyUpdate<CavrnusTransformData> BeginTransientTransformPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, CavrnusTransformData propertyValue, PropertyPostOptions options = null)
 		{
 			return CavrnusPropertyHelpers.BeginContinuousPropertyUpdate(spaceConn, containerName, propertyName, propertyValue, options);
 		}
@@ -419,8 +456,14 @@ namespace CavrnusSdk.API
 			return CavrnusPropertyHelpers.BindToJsonProperty(spaceConn, containerName, propertyName, onPropertyUpdated);
 		}
 
-        //Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
-        public static CavrnusLivePropertyUpdate<JObject> BeginTransientJsonPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, JObject propertyValue)
+		//Triggers an event when the property changes, plus an initial event when first bound.
+		/*internal static IDisposable BindJsonPropertyValue(this CavrnusSpaceConnection spaceConn, IReadonlySetting<string> containerName, string propertyName, Action<JObject> onPropertyUpdated)
+		{
+			return containerName.SubBind(c=>CavrnusPropertyHelpers.BindToJsonProperty(spaceConn, c, propertyName, onPropertyUpdated));
+		}*/
+
+		//Begins a temporary property update.  This can be updated with UpdateWithNewData() This will show for everyone in the space, but will not be saved unless you call Finish().
+		public static CavrnusLivePropertyUpdate<JObject> BeginTransientJsonPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, JObject propertyValue)
 		{
 			return CavrnusPropertyHelpers.BeginContinuousPropertyUpdate(spaceConn, containerName, propertyName, propertyValue);
 		}
@@ -658,46 +701,12 @@ namespace CavrnusSdk.API
 
 		public static IDisposable BindToLocalUserMetadataString(this CavrnusUser user, string key, Action<string> onMetadataChanged)
 		{
-			IDisposable internalBinding = null;
-			
-			var userBind = user.ContainerIdSetting.Bind(containerId => {
-				internalBinding?.Dispose();
-				internalBinding = null;
-				
-				if (containerId == null) 
-					return;
-
-				internalBinding = user.SpaceConnection.BindStringPropertyValue($"{containerId}/meta/", key, onMetadataChanged);
-			});
-
-			return new DelegatedDisposalHelper(() => {
-				userBind?.Dispose();
-				internalBinding?.Dispose();
-			});
+			return user.ContainerIdSetting.SubBind(c => c == null ? null : user.SpaceConnection.BindStringPropertyValue($"{c}/meta/", key, onMetadataChanged));
 		}
-		
+
 		public static IDisposable BindToLocalUserMetadataJson(this CavrnusUser user, string key, Action<JObject> onMetadataChanged)
 		{
-			IDisposable internalBinding = null;
-
-			var userBind = user.ContainerIdSetting.Bind(containerId =>
-			{
-				internalBinding?.Dispose();
-				internalBinding = null;
-
-				if (containerId == null)
-					return;
-
-				internalBinding = user.SpaceConnection.BindJsonPropertyValue($"{containerId}/meta/", key, propValue => {
-					onMetadataChanged?.Invoke(propValue);
-				});
-			});
-
-			return new DelegatedDisposalHelper(() =>
-			{
-				userBind?.Dispose();
-				internalBinding?.Dispose();
-			});
+			return user.ContainerIdSetting.SubBind(c => c == null ? null : user.SpaceConnection.BindJsonPropertyValue($"{c}/meta/", key, onMetadataChanged));
 		}
 
 		#endregion

@@ -30,7 +30,8 @@ namespace CavrnusSdk.API
 		{
 			Config = config;
 			
-			bindings.Add(CurrentSpaceConnection.Bind(sc => {
+			bindings.Add(CurrentSpaceConnection.Bind(sc =>
+			{
 				if (sc == null) 
 					return;
 				
@@ -39,7 +40,7 @@ namespace CavrnusSdk.API
 
 				onConnectedEvents.Clear();
 				
-				_= GetLocalUserAsync(sc);
+				_ = GetLocalUserAsync(sc);
 			}));
 		}	
 		
@@ -68,15 +69,23 @@ namespace CavrnusSdk.API
 			}
 		}
 		
-		internal void AwaitLocalUser(Action<CavrnusUser> localUser)
+		internal IDisposable AwaitLocalUser(Action<CavrnusUser> onLocalUser)
 		{
-			IDisposable binding = null;
-			binding = currentLocalUserSetting.Bind(lu => {
+			return currentLocalUserSetting.BindUntilTrue(lu => {
+				if (lu == null)
+					return false;
+
+				onLocalUser?.Invoke(lu);
+				return true;
+			});
+		}
+
+		internal IDisposable BindLocalUser(Action<CavrnusUser> onLocalUser)
+		{
+			return currentLocalUserSetting.Bind(lu => {
 				if (lu == null)
 					return;
-
-				localUser?.Invoke(lu);
-				binding?.Dispose();
+				onLocalUser?.Invoke(lu);
 			});
 		}
 
@@ -96,6 +105,14 @@ namespace CavrnusSdk.API
 				onConnectedEvents.Add(onConnected);
 			else
 				onConnected?.Invoke(this);
+		}
+
+		internal IDisposable BindConnection(Action<CavrnusSpaceConnection> onConnection)
+		{
+			return currentSpaceConnection.Bind((c) =>
+			{
+				if (c != null) onConnection(this);
+			});
 		}
 		
 		public void Dispose()

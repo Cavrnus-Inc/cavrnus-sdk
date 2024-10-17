@@ -49,7 +49,11 @@ namespace CavrnusSdk.Setup
 
 			var avatar = Object.Instantiate(remoteAvatarPrefab, initialTransform.Position, Quaternion.Euler(initialTransform.EulerAngles));
             avatar.AddComponent<CavrnusUserFlag>().User = user;
-			avatar.name = $"{user.ContainerId} ({user.GetUserName()}'s Avatar)";
+            user.BindUserName(n =>
+            {
+	            if (avatar != null) 
+		            avatar.name = $"{user.ContainerId} ({n}'s Avatar)";
+            });
 			
 			user.SpaceConnection.DefineBoolPropertyDefaultValue(user.ContainerId, "AvatarVis", false);
 			user.SpaceConnection.BindBoolPropertyValue(user.ContainerId, "AvatarVis", vis => {

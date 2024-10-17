@@ -23,14 +23,14 @@
 </h4>
 
 <h4 align="center">
-    <img src="https://img.shields.io/badge/Version-2.15.1-label?style=flat&labelColor=blue&color=white&link=https%3A%2F%2Fwww.cavrnus.com%2F
+    <img src="https://img.shields.io/badge/Version-2.15.3-label?style=flat&labelColor=blue&color=white&link=https%3A%2F%2Fwww.cavrnus.com%2F
     " alt="discord" style="height: 20px;"></a>
     </h4>
 
     
 ## Package Information  
-**Version:** 2.15.1    
-**Last Updated:** 2024-10-16    
+**Version:** 2.15.3    
+**Last Updated:** 2024-10-17    
 **Documentation:** [Cavrnus Spatial Connector Unity Documentation](https://cavrnus.atlassian.net/wiki/spaces/CSM/overview?homepageId=410615958)     
 
 

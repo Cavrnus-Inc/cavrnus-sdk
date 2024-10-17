@@ -1,6 +1,7 @@
 using System;
 using Collab.Proxy.Prop.JournalInterop;
 using System.Collections;
+using Assets.com.cavrnus.csc.CavrnusSdk.Runtime.Scripts.Core;
 using CavrnusCore;
 using Collab.Base.Collections;
 using Collab.Base.Core;
@@ -19,21 +20,7 @@ namespace CavrnusSdk.API
 
 		public static IDisposable BindUserSpeaking(this CavrnusUser user, Action<bool> onSpeakingChanged)
 		{
-			IDisposable internalBinding = null;
-			var userBind = user.ContainerIdSetting.Bind(containerId => {
-				internalBinding?.Dispose();
-				internalBinding = null;
-				
-				if (containerId == null) 
-					return;
-				
-				internalBinding = CavrnusPropertyHelpers.GetBoolPropertyBinding(user.SpaceConnection, containerId, UserPropertyDefs.User_Speaking, onSpeakingChanged);
-			});
-
-			return new DelegatedDisposalHelper(() => {
-				userBind?.Dispose();
-				internalBinding?.Dispose();
-			});
+			return user.ContainerIdSetting.SubBind(c => c == null ? null : CavrnusPropertyHelpers.GetBoolPropertyBinding(user.SpaceConnection, c, UserPropertyDefs.User_Speaking, onSpeakingChanged));
         }
 
 		public static bool GetUserMuted(this CavrnusUser user)
@@ -43,21 +30,7 @@ namespace CavrnusSdk.API
 
 		public static IDisposable BindUserMuted(this CavrnusUser user, Action<bool> onMutedChanged)
 		{
-			IDisposable internalBinding = null;
-			var userBind = user.ContainerIdSetting.Bind(containerId => {
-				internalBinding?.Dispose();
-				internalBinding = null;
-				
-				if (containerId == null) 
-					return;
-				
-				internalBinding = CavrnusPropertyHelpers.GetBoolPropertyBinding(user.SpaceConnection, containerId, UserPropertyDefs.User_Muted, onMutedChanged);
-			});
-
-			return new DelegatedDisposalHelper(() => {
-				userBind?.Dispose();
-				internalBinding?.Dispose();
-			});
+			return user.ContainerIdSetting.SubBind(c => c == null ? null : CavrnusPropertyHelpers.GetBoolPropertyBinding(user.SpaceConnection, c, UserPropertyDefs.User_Muted, onMutedChanged));
 		}
 
 		public static bool GetUserStreaming(this CavrnusUser user)
@@ -67,21 +40,7 @@ namespace CavrnusSdk.API
 
 		public static IDisposable BindUserStreaming(this CavrnusUser user, Action<bool> onStreamingChanged)
 		{
-			IDisposable internalBinding = null;
-			var userBind = user.ContainerIdSetting.Bind(containerId => {
-				internalBinding?.Dispose();
-				internalBinding = null;
-				
-				if (containerId == null) 
-					return;
-				
-				internalBinding = CavrnusPropertyHelpers.GetBoolPropertyBinding(user.SpaceConnection, containerId, UserPropertyDefs.User_Streaming, onStreamingChanged);
-			});
-
-			return new DelegatedDisposalHelper(() => {
-				userBind?.Dispose();
-				internalBinding?.Dispose();
-			});
+			return user.ContainerIdSetting.SubBind(c => c == null ? null : CavrnusPropertyHelpers.GetBoolPropertyBinding(user.SpaceConnection, c, UserPropertyDefs.User_Streaming, onStreamingChanged));
 		}
 
 		public static string GetUserName(this CavrnusUser user)
@@ -91,43 +50,16 @@ namespace CavrnusSdk.API
 
 		public static IDisposable BindUserName(this CavrnusUser user, Action<string> onNameChanged)
 		{
-			IDisposable internalBinding = null;
-			var userBind = user.ContainerIdSetting.Bind(containerId => {
-				internalBinding?.Dispose();
-				internalBinding = null;
-				
-				if (containerId == null) 
-					return;
-				
-				internalBinding = CavrnusPropertyHelpers.GetStringPropertyBinding(user.SpaceConnection, containerId, UserPropertyDefs.Users_Name, onNameChanged);
-			});
-
-			return new DelegatedDisposalHelper(() => {
-				userBind?.Dispose();
-				internalBinding?.Dispose();
-			});
+			return user.ContainerIdSetting.SubBind(c => c == null ? null : CavrnusPropertyHelpers.GetStringPropertyBinding(user.SpaceConnection, c, UserPropertyDefs.Users_Name, onNameChanged));
 		}       
 
         public static IDisposable BindProfilePic(this CavrnusUser user, Action<Sprite> onProfilePicChanged)
         {
-	        IDisposable internalBinding = null;
-	        var userBind = user.ContainerIdSetting.Bind(containerId => {
-		        internalBinding?.Dispose();
-		        internalBinding = null;
-
-		        if (containerId == null) 
-			        return;
-				
-		        internalBinding = CavrnusPropertyHelpers.GetStringPropertyBinding(user.SpaceConnection, containerId, UserPropertyDefs.Users_Profile_ProfilePicture,(pp) => {
+	        return user.ContainerIdSetting.SubBind(c => c == null ? null : 
+		        CavrnusPropertyHelpers.GetStringPropertyBinding(user.SpaceConnection, c, UserPropertyDefs.Users_Profile_ProfilePicture, (pp) =>
+		        {
 			        CavrnusStatics.Scheduler.ExecCoRoutine(LoadProfilePic(pp, onProfilePicChanged));
-
-		        });
-	        });
-
-	        return new DelegatedDisposalHelper(() => {
-		        userBind?.Dispose();
-		        internalBinding?.Dispose();
-	        });
+				}));
         }
 
         public static IEnumerator LoadProfilePic(string url, Action<Sprite> onProfilePicChanged)
@@ -152,101 +84,31 @@ namespace CavrnusSdk.API
 
         public static IDisposable BindBoolPropertyValue(this CavrnusUser user, string propertyName, Action<bool> onPropertyUpdated)
         {
-	        IDisposable internalBinding = null;
-	        var userBind = user.ContainerIdSetting.Bind(containerId => {
-		        internalBinding?.Dispose();
-		        internalBinding = null;
-				
-		        if (containerId == null) 
-			        return;
-				
-		        internalBinding = CavrnusPropertyHelpers.GetBoolPropertyBinding(user.SpaceConnection, containerId, propertyName, onPropertyUpdated);
-	        });
-
-	        return new DelegatedDisposalHelper(() => {
-		        userBind?.Dispose();
-		        internalBinding?.Dispose();
-	        });
+	        return user.ContainerIdSetting.SubBind(c => c == null ? null : CavrnusPropertyHelpers.GetBoolPropertyBinding(user.SpaceConnection, c, propertyName, onPropertyUpdated));
         }
         
         public static IDisposable BindStringPropertyValue(this CavrnusUser user, string propertyName, Action<string> onPropertyUpdated)
         {
-	        IDisposable internalBinding = null;
-	        var userBind = user.ContainerIdSetting.Bind(containerId => {
-		        internalBinding?.Dispose();
-		        internalBinding = null;
-				
-		        if (containerId == null) 
-			        return;
-				
-		        internalBinding = CavrnusPropertyHelpers.GetStringPropertyBinding(user.SpaceConnection, containerId, propertyName, onPropertyUpdated);
-
-	        });
-
-	        return new DelegatedDisposalHelper(() => {
-		        userBind?.Dispose();
-		        internalBinding?.Dispose();
-	        });
+	        return user.ContainerIdSetting.SubBind(c => c == null ? null : CavrnusPropertyHelpers.GetStringPropertyBinding(user.SpaceConnection, c, propertyName, onPropertyUpdated));
         }
-        
-        public static IDisposable BindColorPropertyValue(this CavrnusUser user, string propertyName, Action<Color> onPropertyUpdated)
+
+		public static IDisposable BindColorPropertyValue(this CavrnusUser user, string propertyName, Action<Color> onPropertyUpdated)
         {
-	        IDisposable internalBinding = null;
-	        var userBind = user.ContainerIdSetting.Bind(containerId => {
-		        internalBinding?.Dispose();
-		        internalBinding = null;
-				
-		        if (containerId == null) 
-			        return;
-				
-		        internalBinding = CavrnusPropertyHelpers.GetColorPropertyBinding(user.SpaceConnection, containerId, propertyName, onPropertyUpdated);
-	        });
+	        return user.ContainerIdSetting.SubBind(c => c == null ? null : CavrnusPropertyHelpers.GetColorPropertyBinding(user.SpaceConnection, c, propertyName, onPropertyUpdated));
 
-	        return new DelegatedDisposalHelper(() => {
-		        userBind?.Dispose();
-		        internalBinding?.Dispose();
-	        });
-        }
-        
-        public static IDisposable BindFloatPropertyValue(this CavrnusUser user, string propertyName, Action<float> onPropertyUpdated)
+		}
+
+		public static IDisposable BindFloatPropertyValue(this CavrnusUser user, string propertyName, Action<float> onPropertyUpdated)
         {
-	        IDisposable internalBinding = null;
-	        var userBind = user.ContainerIdSetting.Bind(containerId => {
-		        internalBinding?.Dispose();
-		        internalBinding = null;
-				
-		        if (containerId == null) 
-			        return;
-				
-		        internalBinding = CavrnusPropertyHelpers.GetFloatPropertyBinding(user.SpaceConnection, containerId, propertyName, onPropertyUpdated);
-	        });
-	        
-	        return new DelegatedDisposalHelper(() => {
-		        userBind?.Dispose();
-		        internalBinding?.Dispose();
-	        });
-        }
-        
-        public static IDisposable BindTransformPropertyValue(this CavrnusUser user, string propertyName, Action<CavrnusTransformData> onPropertyUpdated)
+	        return user.ContainerIdSetting.SubBind(c => c == null ? null : CavrnusPropertyHelpers.GetFloatPropertyBinding(user.SpaceConnection, c, propertyName, onPropertyUpdated));
+		}
+
+		public static IDisposable BindTransformPropertyValue(this CavrnusUser user, string propertyName, Action<CavrnusTransformData> onPropertyUpdated)
         {
-	        IDisposable internalBinding = null;
-	        var userBind = user.ContainerIdSetting.Bind(containerId => {
-		        internalBinding?.Dispose();
-		        internalBinding = null;
-				
-		        if (containerId == null) 
-			        return;
-				
-		        internalBinding = CavrnusPropertyHelpers.GetTransformPropertyBinding(user.SpaceConnection, containerId, propertyName, onPropertyUpdated);
-	        });
-	        
-	        return new DelegatedDisposalHelper(() => {
-		        userBind?.Dispose();
-		        internalBinding?.Dispose();
-	        });
+	        return user.ContainerIdSetting.SubBind(c => c == null ? null : CavrnusPropertyHelpers.GetTransformPropertyBinding(user.SpaceConnection, c, propertyName, onPropertyUpdated));
         }
 
-        public static void PostTransformPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, Vector3 pos, Vector3 rot, Vector3 scl)
+		public static void PostTransformPropertyUpdate(this CavrnusSpaceConnection spaceConn, string containerName, string propertyName, Vector3 pos, Vector3 rot, Vector3 scl)
         {
             spaceConn.PostTransformPropertyUpdate(containerName, propertyName, new CavrnusTransformData(pos, rot, scl));
         }
