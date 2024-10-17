@@ -633,3 +633,11 @@
 
 ### Fixed
 - Notify wasn't being setup for each auth path. Caused broken RTC for guests.
+
+
+## [2.15.1] - 2024-10-16
+
+### Fixed
+- Fix localUser bindings.
+- Fix broken ui references in minimal ui
+- Add default no audio/video rtc option again

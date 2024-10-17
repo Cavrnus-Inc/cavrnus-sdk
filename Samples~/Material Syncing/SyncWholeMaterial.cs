@@ -9,8 +9,10 @@ namespace CavrnusSdk.MaterialSyncing
 	public class SyncWholeMaterial : MonoBehaviour
 	{
 		public Material Material;
-
 		public bool SendMyChanges = true;
+
+		[Header("Optional tag to support multi-space connections.")]
+		public string Tag = "";
 
 		private List<IDisposable> disps = new List<IDisposable>();
 
@@ -88,7 +90,7 @@ namespace CavrnusSdk.MaterialSyncing
 					claimed = () => poster.transientUpdater != null;
 					disps.Add(poster);
 				}
-				disps.Add(new CavrnusDisplayProperty<Vector4>(new MatVectorDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>()), claimed));
+				disps.Add(new CavrnusDisplayProperty<Vector4>(new MatVectorDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>()), claimed, tag));
 				
 			}
 
@@ -101,7 +103,7 @@ namespace CavrnusSdk.MaterialSyncing
 					claimed = () => poster.transientUpdater != null;
 					disps.Add(poster);
 				}
-				disps.Add(new CavrnusDisplayProperty<float>(new MatScalerDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>(), false), claimed));
+				disps.Add(new CavrnusDisplayProperty<float>(new MatScalerDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>(), false), claimed, tag));
 			}
 
 			foreach (var vec in Material.GetPropertyNames(MaterialPropertyType.Int))
@@ -113,7 +115,7 @@ namespace CavrnusSdk.MaterialSyncing
 					claimed = () => poster.transientUpdater != null;
 					disps.Add(poster);
 				}
-				disps.Add(new CavrnusDisplayProperty<float>(new MatScalerDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>(), true), claimed));
+				disps.Add(new CavrnusDisplayProperty<float>(new MatScalerDisplayer(Material, vec, GetComponent<CavrnusPropertiesContainer>(), true), claimed, tag));
 			}
 		}
 

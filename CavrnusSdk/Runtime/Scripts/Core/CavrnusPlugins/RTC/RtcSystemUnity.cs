@@ -33,7 +33,7 @@ public class RtcSystemUnity : IRtcSystem
 
 	private bool initialized = false;
 
-	private bool buildingForMagicLeap = false;
+	private bool disableAec = false;
 
 	private RtcOutputSink currentOutputSink = null;
 
@@ -46,10 +46,10 @@ public class RtcSystemUnity : IRtcSystem
 	private Setting<object> localVideoTex = new Setting<object>(null);
 
 
-	public RtcSystemUnity(IUnityScheduler sched, bool buildingForMagicLeap = false)
+	public RtcSystemUnity(IUnityScheduler sched, bool disableAec = false)
 	{
 		this.sched = sched;
-		this.buildingForMagicLeap = buildingForMagicLeap;
+		this.disableAec = disableAec;
 	}
 
 	private static bool fmInitialized = false;
@@ -83,7 +83,7 @@ public class RtcSystemUnity : IRtcSystem
 
 		bool useAec = true;
 
-		if(buildingForMagicLeap)
+		if(disableAec)
 		{
 			//TODO: Is this needed?
 			//this.systemSendMode = this.systemSendMode & ~RtcModeEnum.Video;

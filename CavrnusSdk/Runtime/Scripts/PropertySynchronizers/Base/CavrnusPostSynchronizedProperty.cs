@@ -19,11 +19,11 @@ namespace CavrnusSdk.PropertySynchronizers
 		private IDisposable disp;
 		const float pollingTime = .02f;
 
-		public CavrnusPostSynchronizedProperty(ICavrnusValueSync<T> sync)
+		public CavrnusPostSynchronizedProperty(ICavrnusValueSync<T> sync, string tag = "")
 		{
 			this.sync = sync;
 
-			CavrnusFunctionLibrary.AwaitAnySpaceConnection(sc => spaceConn = sc);
+			CavrnusFunctionLibrary.AwaitSpaceConnectionByTag(tag, sc => spaceConn = sc);
 
 			disp = CavrnusStatics.Scheduler.ExecInMainThreadRepeating(pollingTime, TryUpdate);
 		}
@@ -54,32 +54,32 @@ namespace CavrnusSdk.PropertySynchronizers
 			{
 				if (typeof(T) == typeof(Color))
 				{
-					currPropertyValue = (T)(object)CavrnusFunctionLibrary.GetColorPropertyValue(spaceConn,
+					currPropertyValue = (T)(object)spaceConn.GetColorPropertyValue(
 						sync.Context.UniqueContainerName, sync.PropName);
 				}
 				else if (typeof(T) == typeof(string))
 				{
-					currPropertyValue = (T)(object)CavrnusFunctionLibrary.GetStringPropertyValue(spaceConn,
+					currPropertyValue = (T)(object)spaceConn.GetStringPropertyValue(
 						sync.Context.UniqueContainerName, sync.PropName);
 				}
 				else if (typeof(T) == typeof(bool))
 				{
-					currPropertyValue = (T)(object)CavrnusFunctionLibrary.GetBoolPropertyValue(spaceConn,
+					currPropertyValue = (T)(object)spaceConn.GetBoolPropertyValue(
 						sync.Context.UniqueContainerName, sync.PropName);
 				}
 				else if (typeof(T) == typeof(Vector4))
 				{
-					currPropertyValue = (T)(object)CavrnusFunctionLibrary.GetVectorPropertyValue(spaceConn,
+					currPropertyValue = (T)(object)spaceConn.GetVectorPropertyValue(
 						sync.Context.UniqueContainerName, sync.PropName);
 				}
 				else if (typeof(T) == typeof(float))
 				{
-					currPropertyValue = (T)(object)CavrnusFunctionLibrary.GetFloatPropertyValue(spaceConn,
+					currPropertyValue = (T)(object)spaceConn.GetFloatPropertyValue(
 						sync.Context.UniqueContainerName, sync.PropName);
 				}
 				else if (typeof(T) == typeof(CavrnusTransformData))
 				{
-					currPropertyValue = (T)(object)CavrnusFunctionLibrary.GetTransformPropertyValue(spaceConn,
+					currPropertyValue = (T)(object)spaceConn.GetTransformPropertyValue(
 						sync.Context.UniqueContainerName, sync.PropName);
 				}
 				else

@@ -27,7 +27,7 @@ namespace CavrnusSdk.API
 				if (containerId == null) 
 					return;
 				
-				internalBinding = user.SpaceConnection.BindBoolPropertyValue(containerId, UserPropertyDefs.User_Speaking, onSpeakingChanged);
+				internalBinding = CavrnusPropertyHelpers.GetBoolPropertyBinding(user.SpaceConnection, containerId, UserPropertyDefs.User_Speaking, onSpeakingChanged);
 			});
 
 			return new DelegatedDisposalHelper(() => {
@@ -51,7 +51,7 @@ namespace CavrnusSdk.API
 				if (containerId == null) 
 					return;
 				
-				internalBinding = user.SpaceConnection.BindBoolPropertyValue(containerId, UserPropertyDefs.User_Muted, onMutedChanged);
+				internalBinding = CavrnusPropertyHelpers.GetBoolPropertyBinding(user.SpaceConnection, containerId, UserPropertyDefs.User_Muted, onMutedChanged);
 			});
 
 			return new DelegatedDisposalHelper(() => {
@@ -75,7 +75,7 @@ namespace CavrnusSdk.API
 				if (containerId == null) 
 					return;
 				
-				internalBinding = user.SpaceConnection.BindBoolPropertyValue(containerId, UserPropertyDefs.User_Streaming, onStreamingChanged);
+				internalBinding = CavrnusPropertyHelpers.GetBoolPropertyBinding(user.SpaceConnection, containerId, UserPropertyDefs.User_Streaming, onStreamingChanged);
 			});
 
 			return new DelegatedDisposalHelper(() => {
@@ -99,7 +99,7 @@ namespace CavrnusSdk.API
 				if (containerId == null) 
 					return;
 				
-				internalBinding = user.SpaceConnection.BindStringPropertyValue(containerId, UserPropertyDefs.Users_Name, onNameChanged);
+				internalBinding = CavrnusPropertyHelpers.GetStringPropertyBinding(user.SpaceConnection, containerId, UserPropertyDefs.Users_Name, onNameChanged);
 			});
 
 			return new DelegatedDisposalHelper(() => {
@@ -118,8 +118,9 @@ namespace CavrnusSdk.API
 		        if (containerId == null) 
 			        return;
 				
-		        internalBinding = user.SpaceConnection.BindStringPropertyValue(containerId, UserPropertyDefs.Users_Profile_ProfilePicture, (pp) => {
+		        internalBinding = CavrnusPropertyHelpers.GetStringPropertyBinding(user.SpaceConnection, containerId, UserPropertyDefs.Users_Profile_ProfilePicture,(pp) => {
 			        CavrnusStatics.Scheduler.ExecCoRoutine(LoadProfilePic(pp, onProfilePicChanged));
+
 		        });
 	        });
 
@@ -159,7 +160,7 @@ namespace CavrnusSdk.API
 		        if (containerId == null) 
 			        return;
 				
-		        internalBinding = user.SpaceConnection.BindBoolPropertyValue(containerId, propertyName, onPropertyUpdated);
+		        internalBinding = CavrnusPropertyHelpers.GetBoolPropertyBinding(user.SpaceConnection, containerId, propertyName, onPropertyUpdated);
 	        });
 
 	        return new DelegatedDisposalHelper(() => {
@@ -178,7 +179,8 @@ namespace CavrnusSdk.API
 		        if (containerId == null) 
 			        return;
 				
-		        internalBinding = user.SpaceConnection.BindStringPropertyValue(containerId, propertyName, onPropertyUpdated);
+		        internalBinding = CavrnusPropertyHelpers.GetStringPropertyBinding(user.SpaceConnection, containerId, propertyName, onPropertyUpdated);
+
 	        });
 
 	        return new DelegatedDisposalHelper(() => {
@@ -197,7 +199,7 @@ namespace CavrnusSdk.API
 		        if (containerId == null) 
 			        return;
 				
-		        internalBinding = user.SpaceConnection.BindColorPropertyValue(containerId, propertyName, onPropertyUpdated);
+		        internalBinding = CavrnusPropertyHelpers.GetColorPropertyBinding(user.SpaceConnection, containerId, propertyName, onPropertyUpdated);
 	        });
 
 	        return new DelegatedDisposalHelper(() => {
@@ -216,7 +218,7 @@ namespace CavrnusSdk.API
 		        if (containerId == null) 
 			        return;
 				
-		        internalBinding = user.SpaceConnection.BindFloatPropertyValue(containerId, propertyName, onPropertyUpdated);
+		        internalBinding = CavrnusPropertyHelpers.GetFloatPropertyBinding(user.SpaceConnection, containerId, propertyName, onPropertyUpdated);
 	        });
 	        
 	        return new DelegatedDisposalHelper(() => {
@@ -235,7 +237,7 @@ namespace CavrnusSdk.API
 		        if (containerId == null) 
 			        return;
 				
-		        internalBinding = user.SpaceConnection.BindTransformPropertyValue(containerId, propertyName, onPropertyUpdated);
+		        internalBinding = CavrnusPropertyHelpers.GetTransformPropertyBinding(user.SpaceConnection, containerId, propertyName, onPropertyUpdated);
 	        });
 	        
 	        return new DelegatedDisposalHelper(() => {

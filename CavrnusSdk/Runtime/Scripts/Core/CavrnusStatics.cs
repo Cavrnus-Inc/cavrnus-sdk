@@ -58,7 +58,10 @@ namespace CavrnusCore
 			Notify = new NotifyCommunication(() => new NotifyWebsocket(Scheduler.BaseScheduler), Scheduler.BaseScheduler);
 			LivePolicyEvaluator = new LivePolicyEvaluator(Notify.PoliciesSystem.AllPolicies, Notify.PoliciesSystem.IsActive);
 	
-			rtcSystem = new RtcSystemUnity(Scheduler, settings.DisableAcousticEchoCancellation);
+			if (settings.DisableVoiceAndVideo) 
+				rtcSystem = new RtcSystemUnavailable(); 
+			else
+				rtcSystem = new RtcSystemUnity(Scheduler, settings.DisableAcousticEchoCancellation);
 
 			Scheduler.ExecOnApplicationQuit(Shutdown);
 		}
@@ -68,7 +71,7 @@ namespace CavrnusCore
 			var input = RtcInputSource.FromJson("");
 			var output = RtcOutputSink.FromJson("");
 			var vidInput = RtcInputSource.FromJson("");
-
+			
 			var sendMode = config.IncludeRtc ? RtcModeEnum.AudioVideo : RtcModeEnum.None;
 			var recvMode = config.IncludeRtc ? RtcModeEnum.AudioVideo : RtcModeEnum.None;
 			
@@ -82,7 +85,7 @@ namespace CavrnusCore
 		{
 			CurrentAuthentication = null;
 			Notify.Shutdown();
-			// RtcContext.Shutdown();
+			rtcSystem.Shutdown();
 			CavrnusSpaceConnectionManager.Shutdown();
 		}
 

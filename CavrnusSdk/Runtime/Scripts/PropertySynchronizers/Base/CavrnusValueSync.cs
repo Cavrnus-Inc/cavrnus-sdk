@@ -42,7 +42,7 @@ namespace CavrnusSdk.PropertySynchronizers
                 throw new System.Exception($"A Property Name has not been assigned on object {gameObject.name}");
 
 			if (SendMyChanges)
-				sender = new CavrnusPostSynchronizedProperty<T>(this);
+				sender = new CavrnusPostSynchronizedProperty<T>(this, Tag);
 
 			if (RecieveChanges)
                 displayer = new CavrnusDisplayProperty<T>(this, () => sender?.transientUpdater != null, Tag);            
