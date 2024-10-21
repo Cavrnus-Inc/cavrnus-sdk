@@ -8,7 +8,6 @@ using CavrnusSdk.Setup;
 using UnityBase;
 using System.IO;
 using System.Threading.Tasks;
-using Assets.com.cavrnus.csc.CavrnusSdk.Runtime.Scripts.Core;
 using Collab.Base.Core;
 using Collab.LiveRoomSystem.LiveObjectManagement.ObjectTypeManagers;
 using Collab.LiveRoomSystem.Views;

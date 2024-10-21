@@ -1,7 +1,6 @@
 using System;
 using Collab.Proxy.Prop.JournalInterop;
 using System.Collections;
-using Assets.com.cavrnus.csc.CavrnusSdk.Runtime.Scripts.Core;
 using CavrnusCore;
 using Collab.Base.Collections;
 using Collab.Base.Core;

@@ -3,6 +3,7 @@ using UnityEngine;
 using CavrnusSdk.API;
 using CavrnusSdk.PropertySynchronizers;
 using CavrnusCore;
+using Collab.Base.Collections;
 
 namespace CavrnusSdk.Setup
 {
@@ -40,12 +41,15 @@ namespace CavrnusSdk.Setup
 		{
 			//This list contains the player.  But we don't wanna show their avatar via this system.
 			if (user.IsLocalUser) {
-				user.SpaceConnection.BeginTransientBoolPropertyUpdate(user.ContainerId, "AvatarVis", showLocalUser);
-				
+				user.ContainerIdSetting.Bind(cid=>user.SpaceConnection.BeginTransientBoolPropertyUpdate(cid, "AvatarVis", showLocalUser));
 				return;
 			}
 
 			var initialTransform = user.SpaceConnection.GetTransformPropertyValue(user.ContainerId, "Transform");
+			// TODO MNG: This initial transform is not necessarily updated yet. If it hasn't, then transform will probably be at the origin, then pop
+			// to the avatar's position on the next proper update. This can be solved by passing through the 'invalid' transform state (null, basically)
+			// but that will effect other CSC usages of transforms, since it does not currently pass that information through.
+			// With that, or with a 'await valid transform' binding, the pop can be fixed. Just wait for the transform to become valid before initializing the avatar.
 
 			var avatar = Object.Instantiate(remoteAvatarPrefab, initialTransform.Position, Quaternion.Euler(initialTransform.EulerAngles));
             avatar.AddComponent<CavrnusUserFlag>().User = user;

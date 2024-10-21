@@ -653,3 +653,11 @@
 ## [2.15.3] - 2024-10-17
 
 
+
+
+## [2.15.4] - 2024-10-21
+
+### Fixed
+- Fixed missing rebroadcast of Avatar position and visibility after changing spaces within the same tag.
+
+
