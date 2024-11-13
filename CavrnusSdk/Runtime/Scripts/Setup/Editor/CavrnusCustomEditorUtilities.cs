@@ -114,13 +114,16 @@ namespace CavrnusSdk.Setup.Editor
             return gui;
         }
         
-        public static string CreateTextAreaWithLabel(string container, string label, int height = 200, int space = 10)
+        public static string CreateTextAreaWithLabel(string container, string label, int height = 200, int space = 10, bool isBold = false)
         {
-            GUILayout.Label(label, LabelStyle());
+            var labelStyle = isBold ? new GUIStyle(LabelStyle()) { fontStyle = FontStyle.Bold } : LabelStyle();
+
+            GUILayout.Label(label, labelStyle);
             GUILayout.Space(space / 4);
-            var gui= EditorGUILayout.TextArea(container, GUILayout.Height(height));
+    
+            var gui = EditorGUILayout.TextArea(container, GUILayout.Height(height));
             GUILayout.Space(space);
-            
+    
             return gui;
         }
         

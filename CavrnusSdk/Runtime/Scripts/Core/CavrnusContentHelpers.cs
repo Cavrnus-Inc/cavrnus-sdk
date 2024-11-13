@@ -64,5 +64,16 @@ namespace CavrnusCore
 
 			CavrnusStatics.Scheduler.ExecInMainThread(() => onUploadComplete(new CavrnusRemoteContent(ndo)));
 		}
+
+		internal static async void FetchRemoteContentInfoById(string id, Action<CavrnusRemoteContent> onGotContentInfo)
+		{
+			var ndo = await CavrnusStatics.Notify.ObjectsSystem.StartListeningSpecificAsync(id);
+
+			//TODO: What is this???
+			if (!ndo.Assets.TryGetValue(ObjectAssetIdentifier.SimpleCanonical, out var asset))
+				return;
+
+			CavrnusStatics.Scheduler.ExecInMainThread(() => onGotContentInfo(new CavrnusRemoteContent(ndo)));
+		}
 	}
 }

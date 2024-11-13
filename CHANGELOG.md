@@ -649,15 +649,25 @@
 - Local user specific bindings will now remap when changing spaces.
 
 
-
-## [2.15.3] - 2024-10-17
-
-
-
-
 ## [2.15.4] - 2024-10-21
 
 ### Fixed
 - Fixed missing rebroadcast of Avatar position and visibility after changing spaces within the same tag.
 
+## [2.15.5] - 2024-10-29
 
+### Changed
+- "None" options in the Cavrnus Spatial Connector now say "Custom" to reduce confusion.
+
+## [2.16.0] - 2024-11-13
+
+### Added
+- Added RtcContext shutdown call when SpaceConnection is disposed of. Handles removal of generated gameObjects.
+- Added FetchRemoteContentInfoById call to provide useful file metadata
+- New ServerSelection menu shows when the CSC is not provided a server.
+
+### Changed
+- Updated metadata function names to be more general. Bind/Fetch calls no longer have "local" prefix.
+
+### Fixed
+- Fixed several login flows not saving needed information for api calls.

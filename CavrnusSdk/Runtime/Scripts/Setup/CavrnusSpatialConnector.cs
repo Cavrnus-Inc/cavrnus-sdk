@@ -13,11 +13,13 @@ namespace CavrnusSdk.Setup
 
 		public Canvas UiCanvas;
 
+		public GameObject MyServerMenu;
+
 		public enum AuthenticationOptionEnum
 		{
 			JoinAsGuest = 0,
 			JoinAsMember = 1,
-			None = 2,
+			Custom = 2,
 		}
 		
 		public enum MemberLoginOptionEnum
@@ -54,7 +56,7 @@ namespace CavrnusSdk.Setup
 		{
 			JoinId = 0,
 			SpacesList = 1,
-			None = 2,
+			Custom = 2,
 		}
 		public SpaceJoinOption SpaceJoinMethod;
 
@@ -90,11 +92,28 @@ namespace CavrnusSdk.Setup
 
         public static CavrnusSpatialConnector Instance => instance;
 		private static CavrnusSpatialConnector instance;
+
+		private List<GameObject> CurrentServerUi = new List<GameObject>();
 		private void Start()
 		{
-			ValidateSpawnableObjects();
+			instance = this;
 
-            instance = this;
+			if (!string.IsNullOrEmpty(MyServer))
+			{
+				Startup();
+			}
+			else
+			{
+				CurrentServerUi.Add(Instantiate(MyServerMenu, UiCanvas.transform));
+			}
+		}
+
+		public void Startup()
+		{
+			foreach (var ui in CurrentServerUi)
+				Destroy(ui);
+
+			ValidateSpawnableObjects();
 
 			DontDestroyOnLoad(this);
 
@@ -136,7 +155,7 @@ namespace CavrnusSdk.Setup
 		private List<GameObject> CurrentAuthenticationUi = new List<GameObject>();
 		private async void SetupAuthenticate()
 		{
-			if (AuthenticationMethod != AuthenticationOptionEnum.None)
+			if (AuthenticationMethod != AuthenticationOptionEnum.Custom)
 				CavrnusFunctionLibrary.AwaitAuthentication(auth => SetupJoinSpace());
 			
 			if (AuthenticationMethod == AuthenticationOptionEnum.JoinAsMember)

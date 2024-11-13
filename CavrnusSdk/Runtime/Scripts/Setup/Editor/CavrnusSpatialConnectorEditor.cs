@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using UnityEditor;
+using CavrnusSdk.UI;
 
 namespace CavrnusSdk.Setup.Editor
 {
@@ -9,6 +10,8 @@ namespace CavrnusSdk.Setup.Editor
 	public class CavrnusSpatialConnectorEditor : UnityEditor.Editor
 	{
 		SerializedProperty MyServer;
+
+		SerializedProperty MyServerMenu;
 
 		SerializedProperty AuthenticationMethod;
 		SerializedProperty MemberLoginMethod;
@@ -49,6 +52,8 @@ namespace CavrnusSdk.Setup.Editor
         private void OnEnable()
 		{
 			MyServer = serializedObject.FindProperty(nameof(MyServer));
+
+			MyServerMenu = serializedObject.FindProperty(nameof(MyServerMenu));
 
 			AuthenticationMethod = serializedObject.FindProperty(nameof(AuthenticationMethod));
 			MemberLoginMethod = serializedObject.FindProperty(nameof(MemberLoginMethod));
@@ -98,6 +103,8 @@ namespace CavrnusSdk.Setup.Editor
 
 			EditorGUILayout.LabelField("First please specify the server you are using (ex: \"yourcompany.cavrn.us\")", EditorStyles.boldLabel);
 			EditorGUILayout.PropertyField(MyServer);
+			if (MyServer.stringValue == "")
+				EditorGUILayout.PropertyField(MyServerMenu);
 			EditorGUILayout.BeginHorizontal();
 			
 			EditorGUILayout.LabelField("If you don't have an account, contact us at sales@cavrnus.com");

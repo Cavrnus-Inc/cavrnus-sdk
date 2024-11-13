@@ -114,9 +114,7 @@ namespace CavrnusCore
 			var res = new List<CavrnusSpaceInfo>();
 			foreach (var room in uri.rooms)
 			{
-				INotifyDataRoom notifyRoom = await CavrnusStatics.Notify.RoomsSystem.StartListeningSpecificAsync(room._id);
-
-				res.Add(new CavrnusSpaceInfo(notifyRoom));
+				res.Add(new CavrnusSpaceInfo(room));
 			}
 
 			res.Sort((x, y) => DateTime.Compare(x.LastAccessedTime, y.LastAccessedTime));

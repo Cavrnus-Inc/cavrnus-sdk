@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyServer: 
   UiCanvas: {fileID: 0}
+  MyServerMenu: {fileID: 7982817234186541664, guid: 2b48af9b59c13854e888d0c4ed3afe26, type: 3}
   AuthenticationMethod: 0
   MemberLoginMethod: 0
   GuestLoginMethod: 0

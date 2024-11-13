@@ -3,6 +3,6 @@ namespace CavrnusSdk.Setup
     public static class CavrnusPackageInfo
     {
         public static string Name = "Cavrnus Spatial Connector";
-        public static string Version = "2.15.4";
+        public static string Version = "2.16.0";
     }
 }

@@ -11,7 +11,7 @@ namespace CavrnusSdk.API
 	public class CavrnusSpaceConnection : IDisposable
 	{
 		public CavrnusSpaceConnectionConfig Config{ get; private set; }
-
+		
 		internal IReadonlySetting<CavrnusSpaceConnectionData> CurrentSpaceConnection => currentSpaceConnection;
 		private readonly ISetting<CavrnusSpaceConnectionData> currentSpaceConnection = new Setting<CavrnusSpaceConnectionData>();
 		
@@ -119,6 +119,7 @@ namespace CavrnusSdk.API
 		{
 			currentSpaceConnection?.Value?.Dispose();
 			bindings?.ForEach(b => b?.Dispose());
+			currentRtcContext?.Value?.Shutdown();
 		}
 	}
 }

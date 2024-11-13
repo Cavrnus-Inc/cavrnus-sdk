@@ -21,7 +21,6 @@ namespace CavrnusCore
 		internal static async Task<CavrnusAuthentication> TryAuthenticateWithToken(string server, string token)
 		{
 			RestApiEndpoint endpoint = RestApiEndpoint.ParseFromHostname(server).WithAuthorization(token);
-
 			RestUserCommunication ruc = new RestUserCommunication(endpoint, new FrameworkNetworkRequestImplementation());
 			
 			try
@@ -51,6 +50,7 @@ namespace CavrnusCore
 
 			await Task.WhenAny(CavrnusStatics.Notify.UsersSystem.ConnectedUser.AwaitPredicate((INotifyDataUser lu) => lu != null));
 
+			NotifySetup();
 			HandleAuth(CavrnusStatics.CurrentAuthentication);
 			return CavrnusStatics.CurrentAuthentication;
 		}
@@ -60,9 +60,10 @@ namespace CavrnusCore
 			RestApiEndpoint endpoint = RestApiEndpoint.ParseFromHostname(server);
 
 			RestUserCommunication ruc = new RestUserCommunication(endpoint, new FrameworkNetworkRequestImplementation());
-			RestUserCommunication.LoginRequest req = new RestUserCommunication.LoginRequest();
-			req.email = email;
-			req.password = password;
+			RestUserCommunication.LoginRequest req = new RestUserCommunication.LoginRequest {
+				email = email, 
+				password = password
+			};
 
 			TokenResult token = null;
 			try
@@ -102,10 +103,13 @@ namespace CavrnusCore
 
 			DebugOutput.Info("Logged in as User, token: " + token.token);
 
-			CavrnusStatics.CurrentAuthentication = new CavrnusAuthentication(ruc, endpoint.WithAuthorization(token.token), token.token);
+			var tokenEndpoint = endpoint.WithAuthorization(token.token);
+			var tokenRuc = new RestUserCommunication(tokenEndpoint, new FrameworkNetworkRequestImplementation());
+			CavrnusStatics.CurrentAuthentication = new CavrnusAuthentication(tokenRuc, tokenEndpoint, token.token);
 
-			await Task.WhenAny(CavrnusStatics.Notify.UsersSystem.ConnectedUser.AwaitPredicate((INotifyDataUser lu) => lu != null));
+			await Task.WhenAny(CavrnusStatics.Notify.UsersSystem.ConnectedUser.AwaitPredicate(lu => lu != null));
 
+			NotifySetup();
 			HandleAuth(CavrnusStatics.CurrentAuthentication);
 			onSuccess(CavrnusStatics.CurrentAuthentication);
 		}
@@ -145,8 +149,10 @@ namespace CavrnusCore
 
 
 			DebugOutput.Info("Logged in as Guest, token: " + token);
-
-			CavrnusStatics.CurrentAuthentication = new CavrnusAuthentication(ruc, endpoint.WithAuthorization(token), token);
+			
+			var tokenEndpoint = endpoint.WithAuthorization(token);
+			var tokenRuc = new RestUserCommunication(tokenEndpoint, new FrameworkNetworkRequestImplementation());
+			CavrnusStatics.CurrentAuthentication = new CavrnusAuthentication(tokenRuc, tokenEndpoint, token);
 
 			await Task.WhenAny(CavrnusStatics.Notify.UsersSystem.ConnectedUser.AwaitPredicate(lu => {
 				if (lu != null) {
@@ -156,7 +162,8 @@ namespace CavrnusCore
 
 				return false;
 			}));
-
+			
+			NotifySetup();
 			HandleAuth(CavrnusStatics.CurrentAuthentication);
 			onSuccess(CavrnusStatics.CurrentAuthentication);
 		}
@@ -174,8 +181,6 @@ namespace CavrnusCore
 
 		private static void HandleAuth(CavrnusAuthentication auth)
 		{
-			NotifySetup();
-			
 			if (CavrnusSpatialConnector.Instance.SaveUserToken)
 			{
 				PlayerPrefs.SetString("MemberCavrnusAuthToken", auth.Token);

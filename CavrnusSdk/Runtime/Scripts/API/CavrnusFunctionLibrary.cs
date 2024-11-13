@@ -641,6 +641,17 @@ namespace CavrnusSdk.API
 
 		#region Remote Content
 
+		public static void FetchRemoteContentInfoById(string id, Action<CavrnusRemoteContent> onGotContentInfo)
+		{
+			if (!IsLoggedIn())
+			{
+				Debug.LogError("You must be logged in to access uploaded Content");
+				return;
+			}
+
+			CavrnusContentHelpers.FetchRemoteContentInfoById(id, onGotContentInfo);
+		}
+
 		public static void FetchFileById(string id, Action<string, float> progress, Func<Stream, long, Task> onStreamLoaded)
 		{
 			if(!IsLoggedIn())
@@ -678,12 +689,12 @@ namespace CavrnusSdk.API
 
 		#region UserMetadata
 		
-		public static void FetchLocalUserMetadata(string key, Action<string> onSuccess = null, Action<string> onFailure = null)
+		public static void FetchUserMetadata(string key, Action<string> onSuccess = null, Action<string> onFailure = null)
 		{
 			CavrnusPropertyHelpers.FetchLocalUserMetadata(key, onSuccess, onFailure);
 		}
 		
-		public static void DeleteLocalUserMetadata(string key, Action<string> onSuccess = null, Action<string> onFailure = null)
+		public static void DeleteUserMetadata(string key, Action<string> onSuccess = null, Action<string> onFailure = null)
 		{
 			CavrnusPropertyHelpers.DeleteLocalUserMetadataByKey(key, onSuccess, onFailure);
 		}
@@ -698,12 +709,12 @@ namespace CavrnusSdk.API
 			CavrnusPropertyHelpers.UpdateLocalUserMetadata(key, jValue.ToString(), onSuccess, onFailure);
 		}
 
-		public static IDisposable BindToLocalUserMetadataString(this CavrnusUser user, string key, Action<string> onMetadataChanged)
+		public static IDisposable BindToUserMetadata(this CavrnusUser user, string key, Action<string> onMetadataChanged)
 		{
 			return user.ContainerIdSetting.SubBind(c => c == null ? null : user.SpaceConnection.BindStringPropertyValue($"{c}/meta/", key, onMetadataChanged));
 		}
 
-		public static IDisposable BindToLocalUserMetadataJson(this CavrnusUser user, string key, Action<JObject> onMetadataChanged)
+		public static IDisposable BindToUserMetadataJson(this CavrnusUser user, string key, Action<JObject> onMetadataChanged)
 		{
 			return user.ContainerIdSetting.SubBind(c => c == null ? null : user.SpaceConnection.BindJsonPropertyValue($"{c}/meta/", key, onMetadataChanged));
 		}
