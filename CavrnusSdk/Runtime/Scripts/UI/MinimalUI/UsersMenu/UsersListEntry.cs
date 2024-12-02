@@ -1,7 +1,6 @@
 using CavrnusSdk.API;
 using System;
 using System.Collections.Generic;
-using CavrnusSdk.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,6 +19,8 @@ namespace CavrnusSdk.UI
 		[SerializeField] private RawImage videoStreamImage;
 		
 		[SerializeField] private GameObject mutedGameObject;
+		[SerializeField] private WidgetUserMic userMic;
+		
 		[SerializeField] private MiniUserListSpeakingPulse speakingPulse;
 		
 		[SerializeField] private Button maximizeButton;
@@ -38,6 +39,7 @@ namespace CavrnusSdk.UI
 		{
 			this.user = user;
 			onSelectedUser = selectedUser;
+			userMic.Setup(user);
 			
 			maximizeButton.onClick.AddListener(OnMaximizeUserClicked);
 			

@@ -329,7 +329,7 @@ namespace Collab.RtcWrapper
 
 		public void ChangeGain(float vol)
 		{
-			((ISetting<float>)CurrentGain).Value = Helpers.Clamp(vol, 0f, 10f);
+			((ISetting<float>)CurrentGain).Value = Mathf.Clamp(vol, 0f, 10f);
 			if (RemoteMedia != null)
 				RemoteMedia.AudioGain = CurrentGain.Value;
 		}

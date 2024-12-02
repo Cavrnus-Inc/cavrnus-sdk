@@ -14,6 +14,8 @@ namespace CavrnusSdk.UI
         [SerializeField] private string containerName = UserPropertyDefs.User_Muted;
         [SerializeField] private Button button;
         
+        [SerializeField] private WidgetUserMic widgetUserMic;
+        
         private IDisposable binding;
         private CavrnusUser localUser;
         
@@ -24,6 +26,8 @@ namespace CavrnusSdk.UI
                     localUser = lu;
                     button.onClick.AddListener(ButtonClicked);
                     binding = connection.BindBoolPropertyValue(lu.ContainerId, containerName, SetButtonState);
+                    
+                    widgetUserMic.Setup(localUser);
                 });
             });
         }

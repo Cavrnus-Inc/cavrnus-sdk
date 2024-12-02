@@ -671,3 +671,17 @@
 
 ### Fixed
 - Fixed several login flows not saving needed information for api calls.
+
+
+## [2.17.0] - 2024-12-02
+
+### Added
+- Added current CavrnusSpaceInfo to CavrnusSpaceConnection
+- Added RequestRemoteUserMute() call to mute remote users
+- Added ConnectionId to CavrnusUser
+
+### Changed
+- Removed None video option. Toggle button defaults to last used device on startup.
+
+### Fixed
+- Fixed missing dynamic localUser binds to handle proper rebinding.

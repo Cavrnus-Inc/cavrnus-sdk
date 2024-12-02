@@ -1,4 +1,3 @@
-using Assets.Scripts;
 using Collab.Base.Core;
 using Collab.Proxy;
 using System.Diagnostics;
@@ -12,8 +11,10 @@ using Collab.Base.Collections;
 using static CavrnusSdk.Setup.CavrnusSpatialConnector;
 using System.IO;
 using System;
+using Assets.Scripts;
 using Collab.Proxy.Content;
 using CavrnusSdk.API;
+using Collab.Base.Net;
 
 namespace CavrnusCore
 {
@@ -112,82 +113,58 @@ namespace CavrnusCore
 
 		private static void HandlePlatformsSetup()
 		{
-			if(Application.platform == RuntimePlatform.IPhonePlayer)
+			var integrationInfo = new ClientProvidedIntegrationInfo
 			{
-				CollabPaths.ProgramDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/Caches/ProgramData");
+				ApplicationId = Application.productName,
+				ApplicationVersion = Application.version,
+				EngineId = "Unity",
+				EngineVersion = Application.unityVersion,
+				DeviceId = Application.platform.ToString(),
+				DeviceMode = "desktop"
+			};
+			IntegrationInfo.AssignIntegrationInfo(integrationInfo);
+			var pathValidAppName = Application.productName;
+			Path.GetInvalidPathChars().ForEach((c) => pathValidAppName = pathValidAppName.Replace(c, '_'));
+			IntegrationInfo.ApplicationStorageFolderName = pathValidAppName;
 
-				CollabPaths.DownloadCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/Caches/CacheV1");
-
-				CollabPaths.ContentPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"Documents/{BuildInfo.applicationPathName}Content");
-
-				CollabPaths.ScreenshotsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"Documents/{BuildInfo.applicationPathName}Pictures");
-
-				CollabPaths.TempPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/tmp");
-
-				CollabPaths.SecondaryApplicationsPath = CollabPaths.ProgramDataPath;
+			if (Application.platform == RuntimePlatform.IPhonePlayer)
+			{
+				CollabPaths.SetIOsUnityPaths();
+				RtcContext.DeferImagesOnVideoInputChanges = true;
+				NetworkListener.SupportsThreadInterrupts = false;
 			}
 #if UNITY_2022
 			if (Application.platform == RuntimePlatform.VisionOS /*TODO: Does this use the same settings as iOS?*/)
 			{
-				CollabPaths.ProgramDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/Caches/ProgramData");
-
-				CollabPaths.DownloadCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/Caches/CacheV1");
-
-				CollabPaths.ContentPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"Documents/{BuildInfo.applicationPathName}Content");
-
-				CollabPaths.ScreenshotsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"Documents/{BuildInfo.applicationPathName}Pictures");
-
-				CollabPaths.TempPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/tmp");
-
-				CollabPaths.SecondaryApplicationsPath = CollabPaths.ProgramDataPath;
+				CollabPaths.SetIOsUnityPaths();
+				RtcContext.DeferImagesOnVideoInputChanges = true;
+				NetworkListener.SupportsThreadInterrupts = false;
 			}
 #endif
-			else if (Application.platform == RuntimePlatform.OSXPlayer)
+			else if (Application.platform == RuntimePlatform.OSXPlayer ||
+			         Application.platform == RuntimePlatform.OSXEditor ||
+			         Application.platform == RuntimePlatform.OSXServer)
 			{
-				var ProgramDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/" + BuildInfo.AppNameStorageFolder);
-
-				CollabPaths.ProgramDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library/" + BuildInfo.AppNameStorageFolder);
-
-				CollabPaths.DownloadCachePath = Path.Combine(ProgramDataPath, "CacheV1");
-
-				CollabPaths.ContentPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), BuildInfo.applicationPathName);
-
-				CollabPaths.ScreenshotsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), BuildInfo.applicationPathName);
-
-				CollabPaths.TempPath = Path.Combine(ProgramDataPath, "tmp");
-
-				CollabPaths.SecondaryApplicationsPath = ProgramDataPath;
+				CollabPaths.SetMacosPaths();
+				RtcContext.DeferImagesOnVideoInputChanges = true;
+				NetworkListener.SupportsThreadInterrupts = false;
 			}
 			else if(Application.platform == RuntimePlatform.Android)
 			{
-				var DataPathRoot = Application.persistentDataPath;
-
-				CollabPaths.ProgramDataPath = $"{DataPathRoot}Data";
-
-				CollabPaths.DownloadCachePath = $"{DataPathRoot}CacheV1";
-
-				CollabPaths.ContentPath = $"{DataPathRoot}Documents";
-
-				CollabPaths.ScreenshotsPath = $"{DataPathRoot}Pictures";
-
-				CollabPaths.TempPath = $"{DataPathRoot}tmp";
-
-				CollabPaths.SecondaryApplicationsPath = CollabPaths.ProgramDataPath;
+				CollabPaths.SetPathsFromCommonRoot(Application.persistentDataPath);
+				NetworkListener.SupportsThreadInterrupts = false;
 			}
 			else if(Application.platform == RuntimePlatform.WebGLPlayer)
 			{
-				CollabPaths.ProgramDataPath = Application.persistentDataPath;
-
-				CollabPaths.DownloadCachePath = Path.Combine(Application.persistentDataPath, "CacheV1");
-
-				CollabPaths.TempPath = Path.Combine(Application.persistentDataPath, "tmp");
-
-				// TODO REMOVE IRRELEVANT PATHS
-				CollabPaths.ContentPath = Application.persistentDataPath;
-
-				CollabPaths.ScreenshotsPath = Application.persistentDataPath;
+				CollabPaths.SetPathsFromCommonRoot(Application.persistentDataPath);
+				NetworkListener.SupportsThreadInterrupts = false;
 			}
-			//TODO: DOES MAGIC LEAP JUST WORK WITH ANDROID PATHS?  WE SHOULD CHECK.
+			else if (Application.platform == RuntimePlatform.WindowsPlayer ||
+			         Application.platform == RuntimePlatform.WindowsEditor ||
+			         Application.platform == RuntimePlatform.WindowsServer)
+			{
+				CollabPaths.SetWindowsPaths();
+			}
 		}
 	}
 }

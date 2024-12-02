@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using CavrnusSdk.Setup;
 using Collab.Base.Collections;
 using Collab.LiveRoomSystem;
+using Collab.Proxy.Comm;
+using Collab.Proxy.Comm.NotifyApi;
 using Collab.RtcCommon;
 
 namespace CavrnusSdk.API
@@ -11,7 +13,10 @@ namespace CavrnusSdk.API
 	public class CavrnusSpaceConnection : IDisposable
 	{
 		public CavrnusSpaceConnectionConfig Config{ get; private set; }
-		
+
+		internal IReadonlySetting<CavrnusSpaceInfo> CurrentSpaceInfo => currentSpaceInfo;
+		private readonly ISetting<CavrnusSpaceInfo> currentSpaceInfo = new Setting<CavrnusSpaceInfo>();
+
 		internal IReadonlySetting<CavrnusSpaceConnectionData> CurrentSpaceConnection => currentSpaceConnection;
 		private readonly ISetting<CavrnusSpaceConnectionData> currentSpaceConnection = new Setting<CavrnusSpaceConnectionData>();
 		
@@ -25,12 +30,15 @@ namespace CavrnusSdk.API
 		private readonly NotifyList<Action<CavrnusSpaceConnection>> onConnectedEvents = new();
 
 		private readonly List<IDisposable> bindings = new ();
+
+		private bool setMute = false;
+		private bool setStreaming = false;
 		
 		public CavrnusSpaceConnection(CavrnusSpaceConnectionConfig config)
 		{
 			Config = config;
 			
-			bindings.Add(CurrentSpaceConnection.Bind(sc =>
+			bindings.Add(CurrentSpaceConnection.Bind(async sc =>
 			{
 				if (sc == null) 
 					return;
@@ -40,20 +48,23 @@ namespace CavrnusSdk.API
 
 				onConnectedEvents.Clear();
 				
-				_ = GetLocalUserAsync(sc);
+				var lu = await GetLocalUserAsync(sc);
+				lu.Rtc.Muted.Value = setMute;
+				lu.UpdateLocalUserCameraStreamState(setStreaming);
 			}));
 		}	
 		
-		internal void Update(RoomSystem roomSystem, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects, CavrnusSpaceConnectionConfig config)
+		internal void Update(RoomSystem roomSystem, List<CavrnusSpatialConnector.CavrnusSpawnableObject> spawnableObjects, CavrnusSpaceConnectionConfig config, INotifyDataRoom ndr)
 		{
 			Config = config;
 			currentSpaceConnection.Value?.Dispose();
 			
 			currentSpaceConnection.Value = new CavrnusSpaceConnectionData(roomSystem, spawnableObjects, this);
 			currentRtcContext.Value = roomSystem.RtcContext;
+			currentSpaceInfo.Value = new CavrnusSpaceInfo(ndr);
 		}
 		
-		private async Task GetLocalUserAsync(CavrnusSpaceConnectionData scd)
+		private async Task<ISessionCommunicationLocalUser> GetLocalUserAsync(CavrnusSpaceConnectionData scd)
 		{
 			try {
 				var user = await scd.RoomSystem.AwaitLocalUser();
@@ -62,11 +73,15 @@ namespace CavrnusSdk.API
 					currentLocalUserSetting.Value = new CavrnusUser(user, this);
 				else
 					currentLocalUserSetting.Value.InitUser(user);
+
+				return user;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
 			}
+
+			return null;
 		}
 		
 		internal IDisposable AwaitLocalUser(Action<CavrnusUser> onLocalUser)
@@ -114,7 +129,26 @@ namespace CavrnusSdk.API
 				if (c != null) onConnection(this);
 			});
 		}
-		
+
+		public void SetLocalUserMuted(bool muted)
+		{
+			this.setMute = muted;
+			if (CurrentSpaceConnection.Value == null)
+				return;
+			if (CurrentSpaceConnection.Value.RoomSystem.Comm.LocalCommUser.Value != null)
+				CurrentSpaceConnection.Value.RoomSystem.Comm.LocalCommUser.Value.Rtc.Muted.Value = muted;
+			// Otherwise we'll set the state when local user arrives; it is already bound up above
+		}
+
+		public void SetLocalUserStreaming(bool streaming)
+		{
+			this.setStreaming = streaming;
+			if (CurrentSpaceConnection.Value == null)
+				return;
+			if (CurrentSpaceConnection.Value.RoomSystem.Comm.LocalCommUser.Value != null)
+				CurrentSpaceConnection.Value.RoomSystem.Comm.LocalCommUser.Value.UpdateLocalUserCameraStreamState(streaming);
+			// Otherwise we'll set the state when local user arrives; it is already bound up above
+		}
 		public void Dispose()
 		{
 			currentSpaceConnection?.Value?.Dispose();

@@ -25,14 +25,15 @@ namespace CavrnusSdk.UI
         {
             dropdown.OnDropdownValueChanged += DropdownValueChanged;
 
-            SetButtonState(true);
-            button.interactable = false;
+            SetButtonState(false);
             
-            CavrnusFunctionLibrary.AwaitAnySpaceConnection(connection => {
-                connection.AwaitLocalUser(lu => {
+            CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceConn => {
+                spaceConn.AwaitLocalUser(lu => {
                     localUser = lu;
                     button.onClick.AddListener(ButtonClicked);
-                    binding = connection.BindBoolPropertyValue(lu.ContainerId, containerName, StreamingModeChanged);
+                    
+                    spaceConn.DefineBoolPropertyDefaultValue(lu.ContainerId, containerName, false);
+                    binding = spaceConn.BindBoolPropertyValue(lu.ContainerId, containerName, StreamingModeChanged);
                 });
             });
         }
@@ -47,12 +48,6 @@ namespace CavrnusSdk.UI
         private void DropdownValueChanged(int selection)
         {
             currentDropdownSelection = selection;
-            
-            button.interactable = selection != 0;
-
-            if (selection == 0) {
-                SetButtonState(true); // setting to true for the icon and it doesn't need to be red which is false
-            }
         }
 
         public void StreamingModeChanged(bool state)

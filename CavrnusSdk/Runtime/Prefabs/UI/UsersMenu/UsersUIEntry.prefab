@@ -411,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66a1210f51eb23d469b7880b1a1ba09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entryPrefab: {fileID: 8747692684002212217, guid: 6dac26573e98a89468f1fd8d8dc32641, type: 3}
+  entryPrefab: {fileID: 1196245887108488226, guid: 6dac26573e98a89468f1fd8d8dc32641, type: 3}
   container: {fileID: 249425977266035251}
 --- !u!114 &1888641968011681418
 MonoBehaviour:
@@ -753,8 +753,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 566626595475763190}
   m_HandleRect: {fileID: 8012415355840213749}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -20,7 +20,7 @@ MonoBehaviour:
   - Tag: 
     SpaceDisplayName: Space B
     CavrnusSpaceJoinId: space-b
-    IncludeRTC: 0
+    IncludeRTC: 1
   - Tag: 
     SpaceDisplayName: Space C
     CavrnusSpaceJoinId: space-c
@@ -28,4 +28,4 @@ MonoBehaviour:
   - Tag: 
     SpaceDisplayName: Space D
     CavrnusSpaceJoinId: space-d
-    IncludeRTC: 0
+    IncludeRTC: 1

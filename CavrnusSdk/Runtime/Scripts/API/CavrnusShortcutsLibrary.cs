@@ -12,6 +12,11 @@ namespace CavrnusSdk.API
 {
     public static class CavrnusShortcutsLibrary
     {
+	    public static IDisposable BindUserContainerId(this CavrnusUser user, Action<string> onContainerIdChanged)
+	    {
+		    return user.ContainerIdSetting.Bind(onContainerIdChanged);
+	    }
+
 		public static bool GetUserSpeaking(this CavrnusUser user)
 		{
 			return user.SpaceConnection.GetBoolPropertyValue(user.ContainerId, UserPropertyDefs.User_Speaking);

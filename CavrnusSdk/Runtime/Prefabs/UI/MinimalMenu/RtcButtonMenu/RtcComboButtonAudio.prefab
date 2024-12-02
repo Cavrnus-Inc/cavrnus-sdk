@@ -987,6 +987,7 @@ MonoBehaviour:
         m_CallState: 2
   containerName: muted
   button: {fileID: 7145381332523384085}
+  widgetUserMic: {fileID: 4016389816509715130}
 --- !u!114 &271245254848781990
 MonoBehaviour:
   m_ObjectHideFlags: 0

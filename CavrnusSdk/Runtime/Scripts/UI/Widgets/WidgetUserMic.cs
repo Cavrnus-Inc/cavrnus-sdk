@@ -16,39 +16,35 @@ namespace CavrnusSdk.UI
 		private CavrnusSpaceConnection spaceConn;
 		private readonly List<IDisposable> disposables = new List<IDisposable>();
 
-		private void Start()
+		public void Setup(CavrnusUser user)
 		{
-			CavrnusFunctionLibrary.AwaitAnySpaceConnection(connection => {
-				connection.AwaitLocalUser(lu => {
-					user = lu;
-					spaceConn = user.SpaceConnection;
-					micPulse.Setup(lu);
-
-					//Set the mute component to always match the user's data
-					var mutedDisposable = lu.BindUserMuted(muted =>
-					{
-						if (muted)
-						{
-							speakingGameObject.SetActive(false);
-							mutedGameObject.SetActive(true);
-						}
-						else
-						{
-							speakingGameObject.SetActive(true);
-							mutedGameObject.SetActive(false);
-						}
-					});
-
-					disposables.Add(mutedDisposable);
-				});
+			this.user = user;
+			spaceConn = user.SpaceConnection;
+			micPulse.Setup(user);
+			
+			var mutedDisposable = user.BindUserMuted(muted =>
+			{
+				if (muted)
+				{
+					speakingGameObject.SetActive(false);
+					mutedGameObject.SetActive(true);
+				}
+				else
+				{
+					speakingGameObject.SetActive(true);
+					mutedGameObject.SetActive(false);
+				}
 			});
-		}
 
+			disposables.Add(mutedDisposable);
+		}
+		
 		public void ToggleMic()
 		{
-			if (!user.IsLocalUser) return;
-
-			spaceConn?.SetLocalUserMutedState(!user.GetUserMuted());
+			if (user?.IsLocalUser ?? false)
+				spaceConn?.SetLocalUserMutedState(!user.GetUserMuted());
+			else
+				user?.RequestRemoteUserMute();
 		}
 
 		private void OnDestroy()

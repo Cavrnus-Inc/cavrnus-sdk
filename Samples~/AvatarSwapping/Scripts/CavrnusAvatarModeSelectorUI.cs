@@ -11,9 +11,12 @@ namespace CavrnusSdk.CollaborationExamples
         {
             CavrnusFunctionLibrary.AwaitAnySpaceConnection(spaceConn => 
             {
-                spaceConn.AwaitLocalUser(localUser => 
+                spaceConn.AwaitLocalUser(localUser =>
                 {
-                    liveItemUpdater = spaceConn.BeginTransientStringPropertyUpdate(localUser.ContainerId, "avatarMode", "sphere");
+	                localUser.BindUserContainerId(containerId =>
+	                {
+		                liveItemUpdater = spaceConn.BeginTransientStringPropertyUpdate(containerId, "avatarMode", "sphere");
+	                });
                 });
             });
         }

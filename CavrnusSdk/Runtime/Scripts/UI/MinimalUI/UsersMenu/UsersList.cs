@@ -28,8 +28,8 @@ namespace CavrnusSdk.UI
         private void UserAdded(CavrnusUser user)
         {
             var go = Instantiate(entryPrefab, container);
-            menuInstances[user.ContainerId] = go;
-            menuInstances[user.ContainerId].Setup(user, MaximizedUserSelected);
+            menuInstances[user.IsLocalUser ? "local" : user.ContainerId] = go;
+            menuInstances[user.IsLocalUser ? "local" : user.ContainerId].Setup(user, MaximizedUserSelected);
         }
 
         private void MaximizedUserSelected(CavrnusUser user)
@@ -43,9 +43,9 @@ namespace CavrnusSdk.UI
 
         private void UserRemoved(CavrnusUser user)
         {
-            if (menuInstances.ContainsKey(user.ContainerId)) {
-                Destroy(menuInstances[user.ContainerId].gameObject);
-                menuInstances.Remove(user.ContainerId);
+            if (menuInstances.ContainsKey(user.IsLocalUser ? "local" : user.ContainerId)) {
+                Destroy(menuInstances[user.IsLocalUser ? "local" : user.ContainerId].gameObject);
+                menuInstances.Remove(user.IsLocalUser ? "local" : user.ContainerId);
             }
         }
     }

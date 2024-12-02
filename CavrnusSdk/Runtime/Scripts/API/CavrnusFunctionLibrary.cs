@@ -561,37 +561,57 @@ namespace CavrnusSdk.API
 		//Throws an event with the user's current stream image
         public static IDisposable BindUserVideoFrames(this CavrnusUser user, Action<TextureWithUVs> userFrameArrived)
         {
-            return user.VidProvider.providedTexture.Bind(frame =>
+            return user.VidProvider.SubBind(uvp=>uvp.providedTexture.Bind(frame =>
 			{
                 if (frame == null)
 					return;
 
                 userFrameArrived(frame);
-			});
+			}));
         }
 
         #endregion
 
         #region Voice and Video
+        
+        //Sets muted state for remote user
+        public static void RequestRemoteUserMute(this CavrnusUser user)
+        {
+	        if (user.IsLocalUser) {
+		        throw new ArgumentException("User is the local user. Please provide a remote user.");
+	        }
+	        else {
+		        var transient = new TransientEvent {
+			        UserMuteRequest = new EvRequestMuteUser {
+				        V1 = new EvRequestMuteUser.Types.V1 {
+					        Muted = true,
+					        ConnectionId = user.ConnectionId
+				        }
+			        }
+		        };
+		        
+		        user.SpaceConnection.CurrentSpaceConnection.Value.RoomSystem.Comm.SendTransientEvent(transient, false, false);
+	        }
+        }
 
         //Sets muted state for local user
         public static void SetLocalUserMutedState(this CavrnusSpaceConnection spaceConnection, bool muted)
-		{
-			spaceConnection.CurrentSpaceConnection.Value.RoomSystem.Comm.LocalCommUser.Value.Rtc.Muted.Value = muted;
+        {
+	        spaceConnection.SetLocalUserMuted(muted);//Value.RoomSystem.Comm.LocalCommUser.Value.Rtc.Muted.Value = muted;
 		}
 
         //Sets streaming state for local user
         public static void SetLocalUserStreamingState(this CavrnusSpaceConnection spaceConnection, bool streaming)
-		{
-			spaceConnection.CurrentSpaceConnection.Value.RoomSystem.Comm.LocalCommUser.Value.UpdateLocalUserCameraStreamState(streaming);
+        {
+	        spaceConnection.SetLocalUserStreaming(streaming);//Value.RoomSystem.Comm.LocalCommUser.Value.UpdateLocalUserCameraStreamState(streaming);
 		}
 
         //Gets available microphones
         public static IDisposable FetchAudioInputs(this CavrnusSpaceConnection spaceConnection, Action<List<CavrnusInputDevice>> onRecvDevices)
 		{
-			return spaceConnection.CurrentRtcContext.Bind((ctx) => {
+			return spaceConnection.CurrentRtcContext.BindUntilTrue((ctx) => {
 				if (ctx == null) 
-					return;
+					return false;
 				
 				ctx.FetchAudioInputOptions(res => {
 					var devices = new List<CavrnusInputDevice>();
@@ -601,6 +621,7 @@ namespace CavrnusSdk.API
 
 					CavrnusStatics.Scheduler.ExecInMainThread(() => onRecvDevices?.Invoke(devices));
 				});
+				return true;
 			});
 		}
 
@@ -615,9 +636,9 @@ namespace CavrnusSdk.API
         //Gets available camera/stream sources
         public static IDisposable FetchVideoInputs(this CavrnusSpaceConnection spaceConnection, Action<List<CavrnusVideoInputDevice>> onRecvDevices)
         {
-	        return spaceConnection.CurrentRtcContext.Bind(ctx => {
+	        return spaceConnection.CurrentRtcContext.BindUntilTrue(ctx => {
 		        if (ctx == null) 
-			        return;
+			        return false;
 		        
 		        ctx.FetchVideoInputOptions(res => {
 			        var devices = new List<CavrnusVideoInputDevice>();
@@ -626,6 +647,7 @@ namespace CavrnusSdk.API
 			        
 			        CavrnusStatics.Scheduler.ExecInMainThread(() => onRecvDevices?.Invoke(devices));
 		        });
+		        return true;
 	        });
 		}
 

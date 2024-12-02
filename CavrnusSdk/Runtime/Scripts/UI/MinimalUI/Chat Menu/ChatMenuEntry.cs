@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CavrnusCore;
 using CavrnusSdk.API;
 using Collab.Base.Collections;
+using Collab.Base.Core;
 using Collab.LiveRoomSystem.LiveObjectManagement.ObjectTypeManagers;
 using TMPro;
 using UnityEngine;
@@ -32,7 +33,7 @@ namespace CavrnusSdk.UI
             this.onDelete = onDelete;
 
             disposables.Add(chat.CurrentLanguageTranslatedText.Bind(msg => message.text = msg.text ?? msg.liveSource));
-            disposables.Add(chat.CreateTime.Bind(msg => creationTime.text = UnityBase.HelperFunctions.ToPrettyDay(msg.ToLocalTime())));
+            disposables.Add(chat.CreateTime.Bind(msg => creationTime.text = PrettyString.ToPrettyDay(msg.ToLocalTime())));
 			disposables.Add(chat.CreatorName.Bind(msg => creatorName.text = msg));
 			disposables.Add(chat.CreatorProfilePicUrl.Bind(profilePicUrl =>
 			{

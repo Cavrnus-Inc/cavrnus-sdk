@@ -1,7 +1,9 @@
 {
     "name": "RTC",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "Cavrnus.Helpers"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": true,

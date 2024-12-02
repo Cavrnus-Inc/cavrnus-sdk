@@ -60,17 +60,8 @@ namespace CavrnusCore
 				EngineConnector = new EmptyGameEngineConnector(),
 				ServerContentManager = CavrnusStatics.ContentManager,
 			};
-
-			var integrationInfo = new ClientProvidedIntegrationInfo {
-				ApplicationId = Application.productName,
-				ApplicationVersion = Application.version,
-				EngineId = "Unity",
-				EngineVersion = Application.unityVersion,
-				DeviceId = Application.platform.ToString(),
-				DeviceMode = "desktop"
-			};
-
-			var rs = new RoomSystem(CavrnusStatics.CreateRtcContext(config), env, rsOptions, null, integrationInfo);
+			
+			var rs = new RoomSystem(CavrnusStatics.CreateRtcContext(config), env, rsOptions, null, (JournalRequestInfo)null);
 			rs.InitializeConnection(CavrnusStatics.CurrentAuthentication.Endpoint, joinId);
 
 			await rs.AwaitJournalProcessed();
@@ -88,7 +79,9 @@ namespace CavrnusCore
 			var lu = await rs.AwaitLocalUser();
 			lu.SetupVideoSources(CavrnusStatics.DesiredVideoStream, CavrnusStatics.DesiredVideoStream);
 
-			spaceConnection.Update(rs, spawnableObjects, config);
+			var notifyRoom = await CavrnusStatics.Notify.RoomsSystem.StartListeningSpecificAsync(rs.ConnectedRoom.Value.V1.Id);
+
+			spaceConnection.Update(rs, spawnableObjects, config, notifyRoom);
 			onConnected(spaceConnection);
 		}
 		
