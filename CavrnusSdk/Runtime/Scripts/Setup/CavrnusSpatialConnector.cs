@@ -237,12 +237,7 @@ namespace CavrnusSdk.Setup
 				if (string.IsNullOrEmpty(AutomaticSpaceJoinId))
 					throw new System.Exception("Error on Cavrnus Spatial Connector object: No Automatic Space Join ID specified!");
 
-				CavrnusFunctionLibrary.JoinSpace(AutomaticSpaceJoinId, spaceConn => {
-					print("test");
-				}, onFailure =>
-				{
-					
-				});
+				CavrnusFunctionLibrary.JoinSpace(AutomaticSpaceJoinId, print, print);
 			}
 			else if (SpaceJoinMethod == SpaceJoinOption.SpacesList)
 			{

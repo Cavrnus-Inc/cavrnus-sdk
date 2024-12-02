@@ -78,6 +78,9 @@ namespace CavrnusCore
 
 			var lu = await rs.AwaitLocalUser();
 			lu.SetupVideoSources(CavrnusStatics.DesiredVideoStream, CavrnusStatics.DesiredVideoStream);
+			
+			// var notifyRoom = await CavrnusStatics.Notify.RoomsSystem.StartListeningSpecificAsync(joinId);
+			// var spaceInfo = new CavrnusSpaceInfo(notifyRoom);
 
 			var notifyRoom = await CavrnusStatics.Notify.RoomsSystem.StartListeningSpecificAsync(rs.ConnectedRoom.Value.V1.Id);
 

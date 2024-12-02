@@ -15,7 +15,7 @@ namespace CavrnusSdk.UI
 		private CavrnusUser user;
 		private CavrnusSpaceConnection spaceConn;
 		private readonly List<IDisposable> disposables = new List<IDisposable>();
-
+		
 		public void Setup(CavrnusUser user)
 		{
 			this.user = user;

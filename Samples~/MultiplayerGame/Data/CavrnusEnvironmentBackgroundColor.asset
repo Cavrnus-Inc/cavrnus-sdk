@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef62e3ebad6f1e46bdedca2b9b9352a, type: 3}
+  m_Name: CavrnusEnvironmentBackgroundColor
+  m_EditorClassIdentifier: 
+  ColorData:
+  - DisplayName: blue
+    Color: {r: 0.3647059, g: 0.827451, b: 0.761187, a: 1}
+    Texture: {fileID: 0}
+  - DisplayName: pink
+    Color: {r: 0.82531685, g: 0.3647059, b: 0.827451, a: 1}
+    Texture: {fileID: 0}
+  - DisplayName: red
+    Color: {r: 0.827451, g: 0.39442074, b: 0.3647059, a: 1}
+    Texture: {fileID: 0}
+  - DisplayName: yello
+    Color: {r: 0.7793376, g: 0.827451, b: 0.3647059, a: 1}
+    Texture: {fileID: 0}
+  - DisplayName: dark
+    Color: {r: 0.182435, g: 0.24901903, b: 0.2754717, a: 1}
+    Texture: {fileID: 0}

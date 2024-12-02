@@ -94,6 +94,15 @@ namespace CavrnusSdk.API
 				return true;
 			});
 		}
+		
+		internal IDisposable BindSpaceInfo(Action<CavrnusSpaceInfo> onUpdated)
+		{
+			return currentSpaceInfo.Bind(si => {
+				if (si == null)
+					return;
+				onUpdated?.Invoke(si);
+			});
+		}
 
 		internal IDisposable BindLocalUser(Action<CavrnusUser> onLocalUser)
 		{

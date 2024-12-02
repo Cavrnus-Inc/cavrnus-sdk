@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using CavrnusCore;
 using CavrnusSdk.API;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace CavrnusSdk.UI

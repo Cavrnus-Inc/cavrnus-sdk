@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CavrnusSdk.API;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,19 +29,22 @@ namespace CavrnusSdk.UI
         private void Start()
         {
             Instance = this;
-            sideMenuManager.SetupMenus(sideMenus);
+            CavrnusFunctionLibrary.AwaitAnySpaceConnection(_ => {
+                sideMenuManager.SetupMenus(sideMenus);
 
-            dropdowns = GetComponentsInChildren<RtcUiDropdownBase>(true);
-            if (dropdowns.Length > 0) {
-                foreach (var d in dropdowns) {
-                    d.Setup();
+                dropdowns = GetComponentsInChildren<RtcUiDropdownBase>(true);
+                if (dropdowns.Length > 0) {
+                    foreach (var d in dropdowns) {
+                        d.Setup();
+                    }
                 }
-            }
+                
+                MaximizedUserManager.OnVisChanged += MaximizedUserManagerOnOnVisChanged;
+                
+                transcriptionHUD.OnTranscriptionPropertyEnabled += TranscriptionEnabled;
+                transcriptionVisToggle.onValueChanged.AddListener(TranscriptionToggleValChanged);
             
-            MaximizedUserManager.OnVisChanged += MaximizedUserManagerOnOnVisChanged;
-            
-            transcriptionHUD.OnTranscriptionPropertyEnabled += TranscriptionEnabled;
-            transcriptionVisToggle.onValueChanged.AddListener(TranscriptionToggleValChanged);
+            });
         }
 
         private void TranscriptionToggleValChanged(bool val)

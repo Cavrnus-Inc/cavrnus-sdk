@@ -685,3 +685,13 @@
 
 ### Fixed
 - Fixed missing dynamic localUser binds to handle proper rebinding.
+
+
+## [2.18.0] - 2024-12-02
+
+### Added
+- Add BindSpaceInfo() binding
+- Add new multiplayer game sample to demonstrate space switching and user metadata calls
+
+### Removed
+- Removed MultiSpace Connections Sample

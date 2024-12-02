@@ -111,6 +111,11 @@ namespace CavrnusSdk.API
 
 		#region Spaces
 
+		public static IDisposable BindSpaceInfo(this CavrnusSpaceConnection spaceConn, Action<CavrnusSpaceInfo> onSpaceInfoUpdated)
+		{
+			return spaceConn.BindSpaceInfo(onSpaceInfoUpdated);
+		}
+		
 		//Gets a list of all current spaces which can be joined
 		public static void FetchJoinableSpaces(Action<List<CavrnusSpaceInfo>> onRecvCurrentJoinableSpaces)
 		{
@@ -539,7 +544,7 @@ namespace CavrnusSdk.API
 		{
 			spaceConnection.AwaitLocalUser(localUserArrived);
 		}
-
+		
         //Gives the list of current users in a space
         public static List<CavrnusUser> GetCurrentSpaceUsers(this CavrnusSpaceConnection spaceConn)
         {
@@ -605,7 +610,7 @@ namespace CavrnusSdk.API
         {
 	        spaceConnection.SetLocalUserStreaming(streaming);//Value.RoomSystem.Comm.LocalCommUser.Value.UpdateLocalUserCameraStreamState(streaming);
 		}
-
+        
         //Gets available microphones
         public static IDisposable FetchAudioInputs(this CavrnusSpaceConnection spaceConnection, Action<List<CavrnusInputDevice>> onRecvDevices)
 		{
@@ -711,9 +716,9 @@ namespace CavrnusSdk.API
 
 		#region UserMetadata
 		
-		public static void FetchUserMetadata(string key, Action<string> onSuccess = null, Action<string> onFailure = null)
+		public static string GetUserMetadata(this CavrnusUser user, string key)
 		{
-			CavrnusPropertyHelpers.FetchLocalUserMetadata(key, onSuccess, onFailure);
+			return CavrnusPropertyHelpers.GetStringPropertyValue(user.SpaceConnection, $"{user.ContainerId}/meta/", key);
 		}
 		
 		public static void DeleteUserMetadata(string key, Action<string> onSuccess = null, Action<string> onFailure = null)

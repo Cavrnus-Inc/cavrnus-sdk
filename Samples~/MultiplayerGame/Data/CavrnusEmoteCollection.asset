@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb016a829ac46c2a80d7aec3dd8ab06, type: 3}
+  m_Name: CavrnusEmoteCollection
+  m_EditorClassIdentifier: 
+  EmoteData:
+  - DisplayName: YMCA
+    Animation: {fileID: -203655887218126122, guid: 8e5aea2acc0c1624fbdea16ac5cc421a, type: 3}
+  - DisplayName: Wave
+    Animation: {fileID: -203655887218126122, guid: 391bdc67cb4cb5c4db98d7b4023a87ce, type: 3}
+  - DisplayName: Salsa
+    Animation: {fileID: -203655887218126122, guid: ff74f625ae51e2c469f28e2290a3816f, type: 3}
