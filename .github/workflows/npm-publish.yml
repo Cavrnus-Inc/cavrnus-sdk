@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Delete .github folder
         run: rm -rf .github
-    
+
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -25,3 +25,14 @@ jobs:
 
       - name: Publish to Verdaccio
         run: npm publish --registry https://packages.cavrn.us/
+
+      - name: Save npm debug log
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: npm-debug-log
+          path: /home/runner/.npm/_logs/
+
+      - name: Print npm debug log
+        if: failure()
+        run: cat /home/runner/.npm/_logs/*.log
