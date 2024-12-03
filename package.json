@@ -45,11 +45,6 @@
       "displayName": "Library Sample",
       "description": "Example providing a functional library to upload and download content. ImageLoader provided as example.",
       "path": "Samples~/Library"
-    },
-    {
-      "displayName": "Multiplayer Game",
-      "description": "Example providing avatar swapping, emotes, and metadata syncing.",
-      "path": "Samples~/MultiplayerGame"
     }
   ],
   "dependencies": {
