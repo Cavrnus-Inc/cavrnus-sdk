@@ -139,6 +139,81 @@
               <c>true</c> if the signature is valid; otherwise, <c>false</c>.
             </returns>
         </member>
+        <member name="T:FM.LiveSwitch.CommonConstants">
+            <summary>
+            Common constants.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainTextStringCapitalized">
+            <summary>
+            Obtains a capitalized string representing a Text Stream.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainTextString">
+            <summary>
+            Obtains a string representing a Text Stream.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainMessageStringCapitalized">
+            <summary>
+            Obtains a capitalized string representing a Message Stream.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainMessageString">
+            <summary>
+            Obtains a string representing a Message Stream.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainApplicationStringCapitalized">
+            <summary>
+            Obtains a capitalized string representing an Application Stream.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainApplicationString">
+            <summary>
+            Obtains a string representing an Application Stream.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainDataStringCapitalized">
+            <summary>
+            Obtains a capitalized string representing a Data Stream.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainDataString">
+            <summary>
+            Obtains a string representing a Data Stream.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainVideoStringCapitalized">
+            <summary>
+            Obtains a capitalized string representing a Video Stream.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainVideoString">
+            <summary>
+            Obtains a string representing a Video Stream.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainAudioStringCapitalized">
+            <summary>
+            Obtains a capitalized string representing an Audio Stream.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainAudioString">
+            <summary>
+            Obtains a string representing an Audio Stream.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainPingString">
+            <summary>
+            Obtains a string representing an FM Ping.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.CommonConstants.ObtainPongString">
+            <summary>
+            Obtains a string representing an FM Pong.
+            </summary>
+        </member>
         <member name="T:FM.LiveSwitch.CryptoLibrary">
             <summary>
             A crypto library.
@@ -195,6 +270,16 @@
             <param name="littleEndian">Whether the data buffer should be little-endian.</param>
             <param name="clearBytes">Whether to clear the data buffer.</param>
         </member>
+        <member name="P:FM.LiveSwitch.DataBufferPoolTracer.PooledBytesAvailable">
+            <summary>
+            Gets the total bytes available in the pool.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.DataBufferPoolTracer.ReleasePools">
+            <summary>
+            Release the pools. 
+            </summary>
+        </member>
         <member name="T:FM.LiveSwitch.IDataBufferPool">
             <summary>
             A data buffer pool interface.
@@ -220,6 +305,17 @@
             <param name="size">The number of bytes needed.</param>
             <param name="littleEndian">Whether the data buffer should be little-endian.</param>
             <param name="clearBytes">Whether to clear the data buffer.</param>
+        </member>
+        <member name="P:FM.LiveSwitch.IDataBufferPool.PooledBytesAvailable">
+            <summary>
+            Gets the total bytes available in the pool.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.IDataBufferPool.ReleasePools">
+            <summary>
+            Release the pools. 
+            </summary>
         </member>
         <member name="T:FM.LiveSwitch.IDispatchQueue`1">
             <summary>
@@ -303,6 +399,155 @@
             10,000 ticks is equal to 1 millisecond.
             </summary>
             <returns>The current system timestamp in ticks.</returns>
+        </member>
+        <member name="T:FM.LiveSwitch.LogContext">
+            <summary>
+            LogContext structure to hold ambient properties that can be attached to log events.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.ApplicationId">
+            <summary>
+            Gets or sets the application Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.MediaServerId">
+            <summary>
+            Gets or sets the media server Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.WebSocketMediaServerId">
+            <summary>
+            Gets or sets the websocket media server Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.ConnectionId">
+            <summary>
+            Gets or sets the connection Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.ExternalConnectionId">
+            <summary>
+            Gets or sets the external connection Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.CandidatePairId">
+            <summary>
+            Gets or sets the candidate pair Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.IceTransportId">
+            <summary>
+            Gets or sets the Ice transport Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.SctpTrasnportId">
+            <summary>
+            Gets or sets the Sctp transport Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.SocketManagerId">
+            <summary>
+            Gets or sets the socket manager Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.CandidateId">
+            <summary>
+            Gets or sets the candidate Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.GathererId">
+            <summary>
+            Gets or sets the gatherer Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.SiteId">
+            <summary>
+            Gets or sets the site Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.StreamId">
+            <summary>
+            Gets or sets the stream Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.MediaDescriptionManagerId">
+            <summary>
+            Gets or sets the media description manager Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.BundleTransportId">
+            <summary>
+            Gets or sets the bundle transport Id.
+            </summary>  
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.ChannelId">
+            <summary>
+            Gets or sets the channel Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.ClientId">
+            <summary>
+            Gets or sets the client Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.DeviceId">
+            <summary>
+            Gets or sets the device Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.UserId">
+            <summary>
+            Gets or sets the user Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.GatewayId">
+            <summary>
+            Gets or sets the gateway Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.ClusterConnectionId">
+            <summary>
+            Gets or sets cluster connection Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.RtpPacketId">
+            <summary>
+            Gets or sets RTP packet Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.RtpSenderId">
+            <summary>
+            Gets or sets RTP Sender Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.RtpReceiverId">
+            <summary>
+            Gets or sets RTP Receiver Id.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.LogContext.RtpTransportId">
+            <summary>
+            Gets or sets RTP Transport Id.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.LogContext.Clone">
+            <summary>
+            Clones this object, creating a new instance with the same property values.
+            </summary>
+            <returns>A new LogContext instance with the same properties as this instance.</returns>
+        </member>
+        <member name="M:FM.LiveSwitch.LogContext.ToPairArray">
+            <summary>
+            Returns a paired array rerpresentation of this log context.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.LogContext.FromJson(System.String)">
+            <summary>
+            Deserializes json into a LogContext object.         
+            /// </summary>
+            <param name="valueJson">Value to deserialize</param>
+            <returns>Logcontext</returns>
         </member>
         <member name="T:FM.LiveSwitch.ManagedAutoReleasePool">
             <summary>
@@ -451,6 +696,81 @@
         <member name="M:FM.LiveSwitch.FrequentReadSynchronizedList`1.Clear">
             <summary>
             Clears the list.
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.PlatformType">
+            <summary>
+            A platform specifc type
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.Unknown">
+            <summary>
+            Indicates an unknown or default platform type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.Windows">
+            <summary>
+            Indicates a Windows platform type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.Android">
+            <summary>
+            Indicates an Android platform type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.MacOS">
+            <summary>
+            Indicates a macOS platform type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.IOS">
+            <summary>
+            Indicates a iOS platform type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.Linux">
+            <summary>
+            Indicates a Linux platform type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.Maui">
+            <summary>
+            Indicates a Maui platform type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.Unity">
+            <summary>
+            Indicates a Unity platform type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.Chrome">
+            <summary>
+            Indicates a Browser - Chrome platform type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.Safari">
+            <summary>
+            Indicates a Browser - Safari platform type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.Firefox">
+            <summary>
+            Indicates a Browser - Firefox platform type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.Edge">
+            <summary>
+            Indicates a Browser - Edge platform type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.Opera">
+            <summary>
+            Indicates a Browser - Opera platform type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.PlatformType.IE">
+            <summary>
+            Indicates a Browser - Internet Explorer platform type.
             </summary>
         </member>
         <member name="T:FM.LiveSwitch.SystemClock">
@@ -1049,7 +1369,7 @@
         </member>
         <member name="T:FM.LiveSwitch.Action9`9">
             <summary>
-            Generic method signature for callbacks with nice parameters.
+            Generic method signature for callbacks with nine parameters.
             </summary>
         </member>
         <member name="T:FM.LiveSwitch.AddressType">
@@ -6342,6 +6662,22 @@
             Gets the current programming language for the source code.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.IPlatform.Type">
+            <summary>
+            Gets the current <see cref="T:FM.LiveSwitch.PlatformType"/> being used.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.IPlatform.PlatformTypeVersion">
+            <summary>
+            Gets the current version of the <see cref="T:FM.LiveSwitch.PlatformType"/> being used.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.IPlatform.ToString(System.Boolean)">
+            <summary>
+            Gets the string representation of the <see cref="T:FM.LiveSwitch.PlatformType"/> and Platform type version, if isVerbose 
+            is true then the OS and OS version are included.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.IPlatform.Architecture">
             <summary>
             Gets the current CPU architecture.
@@ -10415,7 +10751,12 @@
             Gets or sets the ID of the thread generating the event.
             </summary>
         </member>
-        <member name="M:FM.LiveSwitch.LogEvent.#ctor(System.DateTime,System.String,System.String,FM.LiveSwitch.LogLevel,System.String,System.Exception,System.Int64)">
+        <member name="P:FM.LiveSwitch.LogEvent.Context">
+            <summary>
+            Gets or sets the event context.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.LogEvent.#ctor(System.DateTime,System.String,System.String,FM.LiveSwitch.LogLevel,FM.LiveSwitch.LogContext,System.String,System.Exception,System.Int64)">
             <summary>
             Initializes a new instance of the <see cref="T:FM.LiveSwitch.LogEvent"/> class.
             </summary>
@@ -10423,6 +10764,7 @@
             <param name="tag">The event tag.</param>
             <param name="scope">The event scope.</param>
             <param name="level">The event level.</param>
+            <param name="context">The event context.</param>
             <param name="message">The event message.</param>
             <param name="exception">The event exception, if one exists.</param>
             <param name="threadId">The ID of the thread generating the event.</param>
@@ -11413,6 +11755,26 @@
         <member name="F:FM.LiveSwitch.ErrorCode.IceInvalidServerAssignmentError">
             <summary>
             Indicates the supplied Turn relay server is invalid or not resolved
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.ErrorCode.WebSocketMediaConnectionsNotAllowed">
+            <summary>
+            Indicates that the WebSocket Media Connections are not allowed or not available for this application or deployment.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.ErrorCode.WebSocketMediaServerToMediaServerError">
+            <summary>
+            Indicates that the WebSocket Media Server encountered a problem connecting to a Media Server over a WebRTC-based connection.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.ErrorCode.WebSocketMediaClientFailure">
+            <summary>
+            Indicates that an error occurred while communicating with a WebSocket Media Server over a service connection.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.ErrorCode.WebSocketMediaServerRejectedConnectionTerminally">
+            <summary>
+            Indicates that the WebSocket Media Server rejected connection due to the capacity policy. Client should not retry.
             </summary>
         </member>
         <member name="T:FM.LiveSwitch.FileAssistant">
@@ -12693,6 +13055,213 @@
             <param name="scope">The scope of this log message.</param>
             <param name="message">The log message.</param>
         </member>
+        <member name="M:FM.LiveSwitch.ILog.Verbose(FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a verbose message to the log.
+            </summary>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Verbose(System.String,FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a verbose message to the log.
+            </summary>
+            <param name="scope">The scope of this log message.</param>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Verbose(FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Writes a verbose message with exception to the log.
+            </summary>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+            <param name="ex">The exception.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Verbose(System.String,FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Writes a verbose message with exception to the log.
+            </summary>
+            <param name="scope">The scope of this log message.</param>
+            <param name="message">The log message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Debug(FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a debug message to the log.
+            </summary>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Debug(System.String,FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a debug message to the log.
+            </summary>
+            <param name="scope">The scope of this log message.</param>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Debug(FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Writes a debug message with exception to the log.
+            </summary>
+            <param name="message">The log message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Debug(System.String,FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Writes a debug message with exception to the log.
+            </summary>
+            <param name="scope">The scope of this log message.</param>
+            <param name="message">The log message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Info(FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a info message to the log.
+            </summary>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Info(System.String,FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a info message to the log.
+            </summary>
+            <param name="scope">The scope of this log message.</param>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Info(FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Writes an info message with exception to the log.
+            </summary>
+            <param name="message">The log message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Info(System.String,FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Writes an info message with exception to the log.
+            </summary>
+            <param name="scope">The scope of this log message.</param>
+            <param name="message">The log message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Warn(FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a warn message to the log.
+            </summary>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Warn(System.String,FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a warn message to the log.
+            </summary>
+            <param name="scope">The scope of this log message.</param>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Warn(FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Writes a warn message with exception to the log.
+            </summary>
+            <param name="message">The log message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Warn(System.String,FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Writes a warn message with exception to the log.
+            </summary>
+            <param name="scope">The scope of this log message.</param>
+            <param name="message">The log message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Error(FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a error message to the log.
+            </summary>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Error(System.String,FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a error message to the log.
+            </summary>
+            <param name="scope">The scope of this log message.</param>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Error(FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Writes a error message with exception to the log.
+            </summary>
+            <param name="message">The log message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Error(System.String,FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Writes a error message with exception to the log.
+            </summary>
+            <param name="scope">The scope of this log message.</param>
+            <param name="message">The log message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Fatal(FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a fatal message to the log.
+            </summary>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Fatal(System.String,FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a fatal message to the log.
+            </summary>
+            <param name="scope">The scope of this log message.</param>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Fatal(FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Writes a fatal message with exception to the log.
+            </summary>
+            <param name="message">The log message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Fatal(System.String,FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Writes a fatal message with exception to the log.
+            </summary>
+            <param name="scope">The scope of this log message.</param>
+            <param name="message">The log message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Log(FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a generic message to the log.
+            </summary>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ILog.Log(System.String,FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Writes a generic message to the log.
+            </summary>
+            <param name="scope">The scope of this log message.</param>
+            <param name="message">The log message.</param>
+            <param name="context">the logigng context.</param>
+        </member>
         <member name="M:FM.LiveSwitch.ILog.IsLogEnabled(FM.LiveSwitch.LogLevel)">
             <summary>
             Returns true if the passed log level is enabled on this logger.
@@ -13173,11 +13742,25 @@
             </summary>
             <param name="message">The message.</param>
         </member>
+        <member name="M:FM.LiveSwitch.Log.Verbose(FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Logs a verbose-level message.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="context">The log context.</param>
+        </member>
         <member name="M:FM.LiveSwitch.Log.Debug(System.String)">
             <summary>
             Logs a debug-level message.
             </summary>
             <param name="message">The message.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.Log.Debug(FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Logs a debug-level message.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="context">The log context.</param>
         </member>
         <member name="M:FM.LiveSwitch.Log.Info(System.String)">
             <summary>
@@ -13185,11 +13768,25 @@
             </summary>
             <param name="message">The message.</param>
         </member>
+        <member name="M:FM.LiveSwitch.Log.Info(FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Logs an info-level message.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="context">The log context.</param>
+        </member>
         <member name="M:FM.LiveSwitch.Log.Warn(System.String)">
             <summary>
             Logs a warn-level message.
             </summary>
             <param name="message">The message.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.Log.Warn(FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Logs a warn-level message.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="context">The log context.</param>
         </member>
         <member name="M:FM.LiveSwitch.Log.Error(System.String)">
             <summary>
@@ -13197,11 +13794,25 @@
             </summary>
             <param name="message">The message.</param>
         </member>
+        <member name="M:FM.LiveSwitch.Log.Error(FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Logs an error-level message.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="context">The log context.</param>
+        </member>
         <member name="M:FM.LiveSwitch.Log.Fatal(System.String)">
             <summary>
             Logs a fatal-level message.
             </summary>
             <param name="message">The message.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.Log.Fatal(FM.LiveSwitch.LogContext,System.String)">
+            <summary>
+            Logs a fatal-level message.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="context">The log context.</param>
         </member>
         <member name="M:FM.LiveSwitch.Log.Verbose(System.String,System.Exception)">
             <summary>
@@ -13210,12 +13821,28 @@
             <param name="message">The message.</param>
             <param name="ex">The exception.</param>
         </member>
+        <member name="M:FM.LiveSwitch.Log.Verbose(FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Logs a verbose-level message.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">The log context.</param>
+        </member>
         <member name="M:FM.LiveSwitch.Log.Debug(System.String,System.Exception)">
             <summary>
             Logs a debug-level message.
             </summary>
             <param name="message">The message.</param>
             <param name="ex">The exception.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.Log.Debug(FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Logs a debug-level message.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">The log context.</param>
         </member>
         <member name="M:FM.LiveSwitch.Log.Info(System.String,System.Exception)">
             <summary>
@@ -13224,12 +13851,28 @@
             <param name="message">The message.</param>
             <param name="ex">The exception.</param>
         </member>
+        <member name="M:FM.LiveSwitch.Log.Info(FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Logs an info-level message.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">The log context.</param>
+        </member>
         <member name="M:FM.LiveSwitch.Log.Warn(System.String,System.Exception)">
             <summary>
             Logs a warn-level message.
             </summary>
             <param name="message">The message.</param>
             <param name="ex">The exception.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.Log.Warn(FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Logs a warn-level message.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">The log context.</param>
         </member>
         <member name="M:FM.LiveSwitch.Log.Error(System.String,System.Exception)">
             <summary>
@@ -13238,12 +13881,28 @@
             <param name="message">The message.</param>
             <param name="ex">The exception.</param>
         </member>
+        <member name="M:FM.LiveSwitch.Log.Error(FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Logs an error-level message.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">The log context.</param>
+        </member>
         <member name="M:FM.LiveSwitch.Log.Fatal(System.String,System.Exception)">
             <summary>
             Logs a fatal-level message.
             </summary>
             <param name="message">The message.</param>
             <param name="ex">The exception.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.Log.Fatal(FM.LiveSwitch.LogContext,System.String,System.Exception)">
+            <summary>
+            Logs a fatal-level message.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="ex">The exception.</param>
+            <param name="context">The log context.</param>
         </member>
         <member name="M:FM.LiveSwitch.Log.WriteLine(System.String)">
             <summary>
@@ -13569,6 +14228,13 @@
             Sleeps the current thread for a specified period of time.
             </summary>
             <param name="millisecondsTimeout">The length of time to sleep in milliseconds.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ManagedThread.Delay(System.Int64)">
+            <summary>
+            Returns a promise that gets resolved after a specified amount of time.
+            </summary>
+            <param name="millis">The length of time to delay in milliseconds. Cannot be greater than 2,147,483,646 ms.</param>
+            <returns>Promise that gets resolved when the delay is complete.</returns>
         </member>
         <member name="T:FM.LiveSwitch.MathAssistant">
             <summary>
@@ -14145,6 +14811,22 @@
             Gets the current programming language for the source code.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.Platform.Type">
+            <summary>
+            Gets the current <see cref="T:FM.LiveSwitch.PlatformType"/>.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.Platform.PlatformTypeVersion">
+            <summary>
+            Gets the version of the <see cref="T:FM.LiveSwitch.PlatformType"/>
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.Platform.ToString(System.Boolean)">
+            <summary>
+            Gets the string representation of the <see cref="T:FM.LiveSwitch.PlatformType"/> and Platform type version, if isVerbose 
+            is true then the OS and OS version are included.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.Platform.Architecture">
             <summary>
             Gets the current CPU architecture.
@@ -14302,6 +14984,16 @@
             <param name="size">The number of bytes needed.</param>
             <param name="littleEndian">Whether the data buffer should be little-endian.</param>
             <param name="clearBytes">Whether to clear the data buffer.</param>
+        </member>
+        <member name="P:FM.LiveSwitch.DataBufferPool.PooledBytesAvailable">
+            <summary>
+            Gets the total bytes available in the pool.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.DataBufferPool.ReleasePools">
+            <summary>
+            Release the pools. 
+            </summary>
         </member>
         <member name="T:FM.LiveSwitch.PoolStatistics">
             <summary>
@@ -14517,6 +15209,27 @@
             </summary>
             <param name="exception">The exception.</param>
             <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.PromiseBase`1.Delay``1(System.Int32)">
+            <summary>
+            Create a promise that resolves afer a delay.
+            </summary>
+            <param name="delayMs"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.PromiseBase`1.Any``1(FM.LiveSwitch.Future{``0}[])">
+            <summary>
+            Returns a promise that resolves when any passed in promise resolves.
+            </summary>
+            <param name="promises">The promises to check.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.PromiseBase`1.DoAny``1(FM.LiveSwitch.Future{``0}[],FM.LiveSwitch.AtomicInteger,FM.LiveSwitch.AtomicInteger)">
+            <summary>
+            Internal DoAny.
+            </summary>
+            <param name="promises"></param>
+            <param name="resolveCount"></param>
+            <param name="rejectCounter"></param>
         </member>
         <member name="M:FM.LiveSwitch.PromiseBase`1.All``1(FM.LiveSwitch.Future{``0}[])">
             <summary>
@@ -16468,6 +17181,11 @@
             Gets or sets the timeout for the stream (in ms).
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.WebSocketOpenArgs.KeepAliveInterval">
+            <summary>
+            Gets or sets the keep-alive interval for the stream (in ms). Defaults to 5,000.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.WebSocketOpenArgs.Sender">
             <summary>
             Gets or sets the sender of the request.
@@ -16812,6 +17530,82 @@
             <summary>
             Releases any resources and shuts down.
             </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssPingMessage">
+            <summary>
+            Represents a WebSocket Ping message with a transaction identifier.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.WssPingMessage._transactionId">
+            <summary>
+            The transaction identifier associated with this ping message.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.WssPingMessage.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FM.LiveSwitch.WssPingMessage"/> class.
+            </summary>
+            <param name="transactionId">The transaction identifier for the ping message.</param>
+        </member>
+        <member name="P:FM.LiveSwitch.WssPingMessage.TransactionId">
+            <summary>
+            Gets the transaction identifier associated with this ping message.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.WssPingMessage.ToString">
+            <summary>
+            Converts the ping message to its string representation.
+            </summary>
+            <returns>A string in the format "ls-ping {transactionId}".</returns>
+        </member>
+        <member name="M:FM.LiveSwitch.WssPingMessage.Parse(System.String)">
+            <summary>
+            Parses a string representation of a ping message into a <see cref="T:FM.LiveSwitch.WssPingMessage"/> instance.
+            </summary>
+            <param name="message">The string to parse, which should be in the format "ls-ping {transactionId}".</param>
+            <returns>A new instance of <see cref="T:FM.LiveSwitch.WssPingMessage"/> containing the parsed transaction ID.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when the message format is invalid.</exception>
+        </member>
+        <member name="T:FM.LiveSwitch.WssPongMessage">
+            <summary>
+            Represents a WebSocket Pong message with a transaction identifier.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.WssPongMessage._transactionId">
+            <summary>
+            The transaction identifier associated with this pong message.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.WssPongMessage.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FM.LiveSwitch.WssPongMessage"/> class.
+            </summary>
+            <param name="transactionId">The transaction identifier for the pong message.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.WssPongMessage.#ctor(FM.LiveSwitch.WssPingMessage)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FM.LiveSwitch.WssPongMessage"/> class with the same transaction ID as the ping message.
+            </summary>
+            <param name="ping">The ping message to respond to.</param>
+        </member>
+        <member name="P:FM.LiveSwitch.WssPongMessage.TransactionId">
+            <summary>
+            Gets the transaction identifier associated with this pong message.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.WssPongMessage.ToString">
+            <summary>
+            Converts the pong message to its string representation.
+            </summary>
+            <returns>A string in the format "ls-pong {transactionId}".</returns>
+        </member>
+        <member name="M:FM.LiveSwitch.WssPongMessage.Parse(System.String)">
+            <summary>
+            Parses a string representation of a pong message into a <see cref="T:FM.LiveSwitch.WssPongMessage"/> instance.
+            </summary>
+            <param name="message">The string to parse, which should be in the format "ls-pong {transactionId}".</param>
+            <returns>A new instance of <see cref="T:FM.LiveSwitch.WssPongMessage"/> containing the parsed transaction ID.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when the message format is invalid.</exception>
         </member>
         <member name="T:FM.LiveSwitch.X501.Attribute">
             <summary>
@@ -19608,6 +20402,27 @@
             Gets the connection's estimated network quality as the minimum of the <see cref="P:FM.LiveSwitch.ConnectionStats.AudioNetworkQuality"/> and the <see cref="P:FM.LiveSwitch.ConnectionStats.VideoNetworkQuality"/>.
             <br />
             The value ranges from 0.0 to 1.0, where 0.0 is the lowest quality and 1.0 is the highest quality.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ConnectionStats.AudioReceiverNetworkScore">
+            <summary>
+            Gets the audio receiver streams' estimated network score.
+            <br />
+            The value ranges from 1.0 to 5.0, where 1.0 is the lowest score and 5.0 is the highest score.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ConnectionStats.VideoReceiverNetworkScore">
+            <summary>
+            Gets the video receiver streams' estimated network score.
+            <br />
+            The value ranges from 1.0 to 5.0, where 1.0 is the lowest score and 5.0 is the highest score.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ConnectionStats.ReceiverNetworkScore">
+            <summary>
+            Gets the connection's estimated network score as the minimum of the <see cref="P:FM.LiveSwitch.ConnectionStats.AudioReceiverNetworkScore"/> and the <see cref="P:FM.LiveSwitch.ConnectionStats.VideoReceiverNetworkScore"/>.
+            <br />
+            The value ranges from 1.0 to 5.0, where 1.0 is the lowest score and 5.0 is the highest score.
             </summary>
         </member>
         <member name="T:FM.LiveSwitch.DataChannelInfo">
@@ -25648,6 +26463,103 @@
             </summary>
             <param name="uri">The URI referring to the data containing the key.</param>
         </member>
+        <member name="T:FM.LiveSwitch.SimulcastNotification">
+            <summary>
+            A simulcast notification.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.SimulcastNotification.SynchronizationSource">
+            <summary>
+            Gets or sets the synchronization source.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.SimulcastNotification.MediaDescriptionId">
+            <summary>
+            Gets or sets the media description ID.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.SimulcastNotification.RtpStreamId">
+            <summary>
+            Gets or sets the RTP stream ID.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.SimulcastNotification.StreamState">
+            <summary>
+            Gets or sets the simulcast stream's state
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.SimulcastNotification.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FM.LiveSwitch.SimulcastNotification"/> class.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.SimulcastNotification.ToJson">
+            <summary>
+            Serializes this instance to JSON.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.SimulcastNotification.SerializeProperties(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Serializes properties to JSON.
+            </summary>
+            <param name="jsonObject">The JSON target.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.SimulcastNotification.DeserializeProperty(System.String,System.String)">
+            <summary>
+            Deserializes a property from JSON.
+            </summary>
+            <param name="key">The property key.</param>
+            <param name="valueJson">The property value in JSON format.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.SimulcastNotification.ToJson(FM.LiveSwitch.SimulcastNotification)">
+            <summary>
+            Serializes an instance to JSON.
+            </summary>
+            <param name="simulcastNotification">The instance.</param>
+            <returns>The instance in JSON format.</returns>
+        </member>
+        <member name="M:FM.LiveSwitch.SimulcastNotification.FromJson(System.String)">
+            <summary>
+            Deserializes an instance from JSON.
+            </summary>
+            <param name="simulcastNotificationJson">The instance in JSON format.</param>
+            <returns>The instance.</returns>
+        </member>
+        <member name="M:FM.LiveSwitch.SimulcastNotification.ToJsonArray(FM.LiveSwitch.SimulcastNotification[])">
+            <summary>
+            Serializes an array to JSON.
+            </summary>
+            <param name="simulcastNotifications">The array.</param>
+            <returns>The array in JSON format.</returns>
+        </member>
+        <member name="M:FM.LiveSwitch.SimulcastNotification.FromJsonArray(System.String)">
+            <summary>
+            Deserializes an array from JSON.
+            </summary>
+            <param name="simulcastNotificationJson">The array in JSON format.</param>
+            <returns>The array.</returns>
+        </member>
+        <member name="T:FM.LiveSwitch.SimulcastStreamState">
+            <summary>
+            A simulcast stream state.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.SimulcastStreamState.Underutilized">
+            <summary>
+            Indicates a stream state that is underutilized.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.SimulcastStreamState.Normal">
+            <summary>
+            Indicates a stream state that is normal.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.SimulcastStreamState.Overutilized">
+            <summary>
+            Indicates a stream state that is overutilized.
+            </summary>
+        </member>
         <member name="T:FM.LiveSwitch.StreamDescription">
             <summary>
             A stream description.
@@ -26630,6 +27542,13 @@
             The value ranges from 0.0 to 1.0, where 0.0 is the lowest quality and 1.0 is the highest quality.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.MediaReceiverStats.NetworkScore">
+            <summary>
+            Gets the receiver's estimated network score.
+            <br />
+            The value ranges from 1.0 to 5.0, where 1.0 is the lowest score and 5.0 is the highest score.
+            </summary>
+        </member>
         <member name="T:FM.LiveSwitch.MediaSenderInfo">
             <summary>
             Media sender information.
@@ -27406,6 +28325,11 @@
             This will be <c>null</c> if BUNDLE is active.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.MediaStreamInfo.WebSocketStreamId">
+            <summary>
+            Gets or sets the WebSocket Stream id.
+            </summary>
+        </member>
         <member name="M:FM.LiveSwitch.MediaStreamInfo.ToJson">
             <summary>
             Serializes this instance to JSON.
@@ -27580,6 +28504,13 @@
             Gets the stream's estimated network quality as the minimum of the <see cref="P:FM.LiveSwitch.MediaStreamStats.SenderNetworkQuality"/> and the <see cref="P:FM.LiveSwitch.MediaStreamStats.ReceiverNetworkQuality"/>.
             <br />
             The value ranges from 0.0 to 1.0, where 0.0 is the lowest quality and 1.0 is the highest quality.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.MediaStreamStats.ReceiverNetworkScore">
+            <summary>
+            Gets the receivers' estimated network score.
+            <br />
+            The value ranges from 1.0 to 5.0, where 1.0 is the lowest score and 5.0 is the highest score.
             </summary>
         </member>
         <member name="T:FM.LiveSwitch.MediaTrackInfo">
@@ -28578,6 +29509,20 @@
             </summary>
             <param name="direction">The direction.</param>
             <returns>The new direction.</returns>
+        </member>
+        <member name="M:FM.LiveSwitch.StreamDirectionHelper.IsSendOnly(System.String)">
+            <summary>
+            Checks send only.
+            </summary>
+            <param name="directionString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.StreamDirectionHelper.IsReceiveOnly(System.String)">
+            <summary>
+            Checks receive only.
+            </summary>
+            <param name="directionString"></param>
+            <returns></returns>
         </member>
         <member name="T:FM.LiveSwitch.StreamInfo">
             <summary>
@@ -31363,6 +32308,11 @@
             Object responsible for demultiplexing incoming payload data.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.BundleTransport.LogContext">
+            <summary>
+            Gets the log context for this connection.
+            </summary>
+        </member>
         <member name="M:FM.LiveSwitch.BundleTransport.#ctor(FM.LiveSwitch.Ice.Transport,FM.LiveSwitch.Dtls.Transport,FM.LiveSwitch.HexDump)">
             <summary>
             Creates an instance of the BundleTransport class and takes optional transport parameters.
@@ -31408,6 +32358,11 @@
             Gets or sets the synchronization source.     
             </summary>
         </member>
+        <member name="T:FM.LiveSwitch.ConverterControllerPair">
+            <summary>
+            A combination of a Converter and a Controller.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.DataStreamMediaDescriptionManager.LegacySignallingFormat">
             <summary>
             Gets a value indicating whether the application stream media description is formated the legacy way.
@@ -31423,6 +32378,21 @@
         <member name="M:FM.LiveSwitch.DataStreamMediaDescriptionManager.CreateSdpMediaDescription(FM.LiveSwitch.MediaDescriptionRequirements,FM.LiveSwitch.Sdp.Message,System.Boolean,System.Boolean)">
             <summary>
             Generates SDP media description for stream.
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.SchedulerType">
+            <summary>
+            Scheduler types for connections.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.SchedulerType.Scheduler">
+            <summary>
+            One scheduler per connection.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.SchedulerType.SchedulerMulti">
+            <summary>
+            Shared scheduler across all connections.
             </summary>
         </member>
         <member name="T:FM.LiveSwitch.IScheduler">
@@ -31669,6 +32639,11 @@
             that serve as a base for the peer or server reflexive candidates.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.Ice.Candidate.LogContext">
+            <summary>
+            Gets the log context for this connection.
+            </summary>
+        </member>
         <member name="E:FM.LiveSwitch.Ice.Candidate.OnPriorityChange">
             <summary>
             Raised on candidate priority change.
@@ -31741,16 +32716,22 @@
             </summary>
             
         </member>
-        <member name="M:FM.LiveSwitch.Ice.Candidate.FromSdpCandidateAttribute(System.Object,FM.LiveSwitch.Sdp.Ice.CandidateAttribute)">
+        <member name="M:FM.LiveSwitch.Ice.Candidate.FromSdpCandidateAttribute(System.Object,FM.LiveSwitch.Sdp.Ice.CandidateAttribute,FM.LiveSwitch.LogContext)">
             <summary>
             Converts an SDP candidate attribute to an ICE candidate.
             </summary>
             <param name="lockObject">The lock object.</param>
             <param name="candidateAttribute">The SDP candidate attribute.</param>
+            <param name="context">Log context.</param>
         </member>
         <member name="T:FM.LiveSwitch.Ice.CandidatePair">
             <summary>
             A pairing containing a local candidate and a remote candidate.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.Ice.CandidatePair.LogContext">
+            <summary>
+            Gets the log context for this connection.
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.Ice.CandidatePair.Id">
@@ -31842,7 +32823,7 @@
             Default value = 10,000 ms.
             </summary>
         </member>
-        <member name="M:FM.LiveSwitch.Ice.CandidatePair.#ctor(System.Object,FM.LiveSwitch.Ice.Candidate,FM.LiveSwitch.Ice.Candidate,FM.LiveSwitch.IceParameters,FM.LiveSwitch.IceParameters,FM.LiveSwitch.IceRole,System.Int64,FM.LiveSwitch.Ice.Component,FM.LiveSwitch.Ice.TransactionManager)">
+        <member name="M:FM.LiveSwitch.Ice.CandidatePair.#ctor(System.Object,FM.LiveSwitch.Ice.Candidate,FM.LiveSwitch.Ice.Candidate,FM.LiveSwitch.IceParameters,FM.LiveSwitch.IceParameters,FM.LiveSwitch.IceRole,System.Int64,FM.LiveSwitch.Ice.Component,FM.LiveSwitch.Ice.TransactionManager,FM.LiveSwitch.LogContext)">
             <summary>
             Initializes a new instance of the <see cref="T:FM.LiveSwitch.Ice.CandidatePair" /> class.
             </summary>
@@ -31855,6 +32836,7 @@
             <param name="tieBreaker">The tie breaker.</param>
             <param name="component">The component.</param>
             <param name="manager">The manager.</param>
+            <param name="context">Logging context.</param>
         </member>
         <member name="M:FM.LiveSwitch.Ice.CandidatePair.ToString">
             <summary>
@@ -32036,6 +33018,11 @@
         <member name="P:FM.LiveSwitch.Ice.DatagramSocketManager.LocalTransportAddress">
             <summary>
             Gets the local transport address
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.Ice.Gatherer.LogContext">
+            <summary>
+            Gets the log context for this connection.
             </summary>
         </member>
         <member name="M:FM.LiveSwitch.Ice.Gatherer.OpenSockets(FM.LiveSwitch.ProtocolType,FM.LiveSwitch.ManagedSocket[]@,FM.LiveSwitch.ManagedSocket[]@)">
@@ -32499,6 +33486,11 @@
             ICE socket manager.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.Ice.SocketManager.LogContext">
+            <summary>
+            Gets the log context for this connection.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.Ice.SocketManager.LocalPreference">
             <summary>
             Gets or sets the local preference.
@@ -32552,32 +33544,37 @@
             <param name="successArgs">The success arguments.</param>
             
         </member>
-        <member name="M:FM.LiveSwitch.Ice.TransactionManager.Remove(System.Object)">
+        <member name="M:FM.LiveSwitch.Ice.TransactionManager.Remove(System.String)">
             <summary>
             Removes all the transactions associated with a given caller.
             </summary>
             <param name="caller">The caller.</param>
         </member>
-        <member name="M:FM.LiveSwitch.Ice.TransactionManager.HasActiveTransactions(System.Object)">
+        <member name="M:FM.LiveSwitch.Ice.TransactionManager.HasActiveTransactions(System.String)">
             <summary>
             Determines whether the specified caller has active transactions.
             </summary>
             <param name="caller">The caller.</param>
             
         </member>
-        <member name="M:FM.LiveSwitch.Ice.TransactionManager.ScheduledItemsForCaller(System.Object)">
+        <member name="M:FM.LiveSwitch.Ice.TransactionManager.ScheduledItemsForCaller(System.String)">
             <summary>
             ScheduleItems for a given caller.
             </summary>
             <param name="caller">The caller.</param>
             
         </member>
-        <member name="M:FM.LiveSwitch.Ice.TransactionManager.SendMessageArgsForCaller(System.Object)">
+        <member name="M:FM.LiveSwitch.Ice.TransactionManager.SendMessageArgsForCaller(System.String)">
             <summary>
             SendMessageArgs for a given caller.
             </summary>
             <param name="caller">The caller.</param>
             
+        </member>
+        <member name="P:FM.LiveSwitch.Ice.Transport.LogContext">
+            <summary>
+            Gets the log context for this connection.
+            </summary>
         </member>
         <member name="P:FM.LiveSwitch.Ice.Transport.LastRoundTripTime">
             <summary>
@@ -34912,6 +35909,21 @@
             Destroys this instance.
             </summary>
         </member>
+        <member name="T:FM.LiveSwitch.MediaProtocol">
+            <summary>
+            The protocol used to carry media on a connection.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.MediaProtocol.WebRTC">
+            <summary>
+            WebRTC Media Protocol
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.MediaProtocol.WebSockets">
+            <summary>
+            WebSockets Media Protcol
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.Rtp.LossController.SystemClock">
             <summary>
             Gets the system clock.
@@ -35404,6 +36416,11 @@
             </summary>
             
         </member>
+        <member name="P:FM.LiveSwitch.Rtp.Receiver`5.LogContext">
+            <summary>
+            Gets the log context for this receiver.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.Rtp.Receiver`5.TestReceivedRtpBuffer">
             <summary>
             Gets or sets a method that can be used to test and optionally modify inbound RTP buffers.
@@ -35418,6 +36435,11 @@
         <member name="P:FM.LiveSwitch.Rtp.Receiver`5.LegacyNackBuffer">
             <summary>
             Gets the nack buffer.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.Rtp.Sender`5.LogContext">
+            <summary>
+            Gets the log context for this connection.
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.Rtp.Sender`5.TestSendingRtpBuffer">
@@ -35823,6 +36845,11 @@
             <typeparam name="TFormat">The type of the format.</typeparam>
             <typeparam name="TFormatCollection">The type of the format collection.</typeparam>
         </member>
+        <member name="P:FM.LiveSwitch.Rtp.Transport`5.LogContext">
+            <summary>
+            Gets the log context for this connection.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.Rtp.Transport`5.Direction">
             <summary>
             Gets the direction.
@@ -36016,6 +37043,26 @@
         <member name="P:FM.LiveSwitch.Rtp.UnknownHeaderExtensionElement.Length">
             <summary>
             Gets the length of this header extension elements in bytes (including the header).
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.VideoRetentionPolicy">
+            <summary>
+            The local policy for how we will handle video retention on poor connections.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.VideoRetentionPolicy.AlwaysRetain">
+            <summary>
+            Video will always be retained regardless of connection viability
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.VideoRetentionPolicy.DynamicRetention">
+            <summary>
+            Video will be dynamically disabled or enabled dependant on the connections restraints 
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.VideoRetentionPolicy.NeverRetain">
+            <summary>
+            Video will be disabled and stay disabled on first indication of failure
             </summary>
         </member>
         <member name="T:FM.LiveSwitch.RateLimiter">
@@ -40434,7 +41481,7 @@
             The maximum suggested cookie lifespan increment
             </summary>
         </member>
-        <member name="F:FM.LiveSwitch.Sctp.TransmissionControlBlock.InitRetrasmitLifetime">
+        <member name="P:FM.LiveSwitch.Sctp.TransmissionControlBlock.InitRetrasmitLifetime">
             <summary>
             Time period during which manager should attempt to resend initialisation control chunks (in milliseconds)
             </summary>
@@ -40714,11 +41761,6 @@
             <param name="numOutboundStreams">The number outbound streams.</param>
             <param name="secretKey">The secret key.</param>
         </member>
-        <member name="M:FM.LiveSwitch.Sctp.TransmissionControlBlock.ImportTcbParameters(FM.LiveSwitch.Sctp.TransmissionControlBlock)">
-            <summary>
-            Import TCB parameters from a TCB extracted from cookie
-            </summary>
-        </member>
         <member name="M:FM.LiveSwitch.Sctp.TransmissionControlBlock.#ctor(System.Int32,System.Int32,System.Int64)">
             <summary>
             Initializes a new instance of the <see cref="T:FM.LiveSwitch.Sctp.TransmissionControlBlock" /> class.
@@ -40741,6 +41783,11 @@
         <member name="T:FM.LiveSwitch.Sctp.Transport">
             <summary>
             Manages SCTP Initiation, Data transmission, Error reporting and Shutdown.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.Sctp.Transport.LogContext">
+            <summary>
+            Gets the log context for this connection.
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.Sctp.Transport.MaxMessageSize">
@@ -40852,7 +41899,7 @@
             <param name="tsnArray">The delete candidates.</param>
             <param name="currentTSN">The current TSN.</param>
         </member>
-        <member name="M:FM.LiveSwitch.Sctp.Transport.#ctor(System.Object,FM.LiveSwitch.IScheduler,FM.LiveSwitch.BundleTransport,FM.LiveSwitch.BundleTransport,System.Int32,System.Int32,System.Int64)">
+        <member name="M:FM.LiveSwitch.Sctp.Transport.#ctor(System.Object,FM.LiveSwitch.IScheduler,FM.LiveSwitch.BundleTransport,FM.LiveSwitch.BundleTransport,System.Int32,System.Int32,System.Int64,FM.LiveSwitch.LogContext,System.Int32)">
             <summary>
             Initializes a new instance of the <see cref="T:FM.LiveSwitch.Sctp.Transport" /> class.
             </summary>
@@ -40863,13 +41910,15 @@
             <param name="requestedOutboundStreams">Defines the number of outbound streams application wishes to create in this association.
             The value of 0 MUST NOT be used.</param>
             <param name="maxIncomingStreams">Maximum incoming channels this association can support.</param>
-            <param name="advertisedReceiverWindow">Advertised Receiver Window Credit (a_rwnd)
+            <param name="advertisedReceiverWindow">Advertised Receiver Window Credit (a_rwnd)</param>
+            <param name="context">the logging context</param>
+            <param name="connectionEstablishmentTimeout">Connection stablishment timeout.
             This value represents the dedicated buffer space, in number of bytes, the sender of the INIT has reserved
             in association with this window. During the life of the association, this buffer space SHOULD NOT be lessened
             (i.e., dedicated buffers taken away from this association); however, an endpoint MAY change the value of a_rwnd
             it sends in SACK chunks.</param>
         </member>
-        <member name="M:FM.LiveSwitch.Sctp.Transport.#ctor(System.Object,FM.LiveSwitch.IScheduler,FM.LiveSwitch.BundleTransport,FM.LiveSwitch.BundleTransport,System.Int32,System.Int32,System.Int64,System.Int32)">
+        <member name="M:FM.LiveSwitch.Sctp.Transport.#ctor(System.Object,FM.LiveSwitch.IScheduler,FM.LiveSwitch.BundleTransport,FM.LiveSwitch.BundleTransport,System.Int32,System.Int32,System.Int64,System.Int32,FM.LiveSwitch.LogContext,System.Int32)">
             <summary>
             Initializes a new instance of the <see cref="T:FM.LiveSwitch.Sctp.Transport" /> class.
             </summary>
@@ -40880,7 +41929,9 @@
             <param name="requestedOutboundStreams">Defines the number of outbound streams application wishes to create in this association.
             The value of 0 MUST NOT be used.</param>
             <param name="maxIncomingStreams">Maximum incoming channels this association can support.</param>
-            <param name="advertisedReceiverWindow">Advertised Receiver Window Credit (a_rwnd)
+            <param name="advertisedReceiverWindow">Advertised Receiver Window Credit (a_rwnd)</param>
+            <param name="context">the logging context</param>
+            <param name="connectionEstablishmentTimeout">Connection stablishment timeout.
             This value represents the dedicated buffer space, in number of bytes, the sender of the INIT has reserved
             in association with this window. During the life of the association, this buffer space SHOULD NOT be lessened
             (i.e., dedicated buffers taken away from this association); however, an endpoint MAY change the value of a_rwnd
@@ -42215,6 +43266,21 @@
             <param name="encodingCount">The encoding count.</param>
             <param name="preferredBitrate">The preferred bitrate, in kbps.</param>
         </member>
+        <member name="T:FM.LiveSwitch.StreamStringUtility">
+            <summary>
+            Stream serialization utility.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.StreamStringUtility.StringifyStreamType(FM.LiveSwitch.StreamType)">
+            <summary>
+            Serializes stream type.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.StreamStringUtility.StringifyStreamState(FM.LiveSwitch.StreamState)">
+            <summary>
+            Serializes Stream State.
+            </summary>
+        </member>
         <member name="T:FM.LiveSwitch.TransportCCControlFrame">
             <summary>
             An RTCP transport-wide congestion control (transport-cc) packet.
@@ -42960,6 +44026,11 @@
         <member name="P:FM.LiveSwitch.MediaDescriptionRequirements.SdesPolicy">
             <summary>
             Gets or sets Sdes policy for stream.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.MediaDescriptionManager.LogContext">
+            <summary>
+            Gets the log context for this connection.
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.MediaStreamMediaDescriptionManager`1.LocalMuted">
@@ -45436,6 +46507,14 @@
             <param name="sharedLock">The shared lock.</param>
             <param name="streams">The streams.</param>
         </member>
+        <member name="M:FM.LiveSwitch.Connection.#ctor(System.Object,FM.LiveSwitch.Stream[],System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FM.LiveSwitch.Connection" /> class.
+            </summary>
+            <param name="sharedLock">The shared lock.</param>
+            <param name="streams">The streams.</param>
+            <param name="useWebSocketsForMedia">Indicate if we should send media over WebSockets instead of WebRTC.</param>
+        </member>
         <member name="P:FM.LiveSwitch.Connection.Instance">
             <summary>
             Gets the current instance.
@@ -45708,6 +46787,12 @@
             <param name="promise">The promise.</param>
             <param name="remoteDescription">The remote description.</param>
         </member>
+        <member name="M:FM.LiveSwitch.Connection.AddToWebSocketConnection(FM.LiveSwitch.WssServiceOpenArgs)">
+            <summary>
+            Add this connection to a WebSocket connection to WMS.
+            </summary>
+            <param name="openArgs">Open args.</param>
+        </member>
         <member name="M:FM.LiveSwitch.Connection.Close">
             <summary>
             Closes this instance.
@@ -45726,9 +46811,19 @@
             Connection base properties/methods.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.ConnectionBase`6.LogContext">
+            <summary>
+            Gets the log context for this connection.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.ConnectionBase`6.Id">
             <summary>
             Gets the identifier.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ConnectionBase`6.MediaProtocol">
+            <summary>
+            Gets or sets the media protocol in use on this connection.
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.ConnectionBase`6.CanonicalName">
@@ -45801,6 +46896,18 @@
         <member name="P:FM.LiveSwitch.ConnectionBase`6.IceGatherPolicy">
             <summary>
             Gets or sets the ICE gather policy.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ConnectionBase`6.VideoRetentionPolicy">
+            <summary>
+            Gets or sets the Video Retention Policy.
+            This will determine how we will handle video on the connection when the connection is poor in quality.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ConnectionBase`6.VideoEnabledUpdateConnectionPolicy">
+            <summary>
+             Gets or sets a method that determines when to enable video again on a connection that dynamically disables video. Optional. If not set, default policy will be used.
+             Takes in an interger parameter that represents the amount of attempts already tried. Will return an interger value as a time period in seconds for how long to wait for the next attempt or -1 for no more attempts. 
             </summary>
         </member>
         <member name="M:FM.LiveSwitch.ConnectionBase`6.GetStats">
@@ -46160,6 +47267,12 @@
             <param name="description">The session description.</param>
             <param name="isLocalDescription">Whether this is a local session description.</param>
         </member>
+        <member name="M:FM.LiveSwitch.ConnectionBase`6.AddToWebSocketConnection(FM.LiveSwitch.WssServiceOpenArgs)">
+            <summary>
+            Add this connection to a WebSocket connection to WMS.
+            </summary>
+            <param name="openArgs">Open args.</param>
+        </member>
         <member name="M:FM.LiveSwitch.ConnectionBase`6.Close">
             <summary>
             Closes this instance.
@@ -46274,6 +47387,17 @@
             Initializes a new <see cref="T:FM.LiveSwitch.IdentityAudioPipe"/>.
             </summary>
             <param name="format">The input/output format.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.IdentityAudioPipe.#ctor(FM.LiveSwitch.AudioFormat,FM.LiveSwitch.AudioFormat)">
+            <summary>
+            Initializes a new <see cref="T:FM.LiveSwitch.IdentityAudioPipe"/>.
+            Allows for the input format of the audio to differ from
+            the output format of the audio to satisfy a media pipeline
+            where the output format is a superset of the input format,
+            however this class will not change the format of any frames.
+            </summary>
+            <param name="inputFormat"></param>
+            <param name="outputFormat"></param>
         </member>
         <member name="M:FM.LiveSwitch.IdentityAudioPipe.UpdateMinInputBitrate(System.Int32)">
             <summary>
@@ -46726,14 +47850,14 @@
             <param name="value">The integer value.</param>
             <returns></returns>
         </member>
-        <member name="M:FM.LiveSwitch.CoreTransport.CreateComplementaryCoreTransport(FM.LiveSwitch.DtlsCertificate[],FM.LiveSwitch.DtlsCipherSuite[],FM.LiveSwitch.DtlsProtocolVersion,FM.LiveSwitch.DtlsProtocolVersion,FM.LiveSwitch.DtlsProtocolVersion,FM.LiveSwitch.DtlsRole)">
+        <member name="M:FM.LiveSwitch.CoreTransport.CreateComplementaryCoreTransport(FM.LiveSwitch.DtlsCertificate[],FM.LiveSwitch.DtlsCipherSuite[],FM.LiveSwitch.DtlsProtocolVersion,FM.LiveSwitch.DtlsProtocolVersion,FM.LiveSwitch.DtlsProtocolVersion,FM.LiveSwitch.DtlsRole,FM.LiveSwitch.LogContext)">
             <summary>
             Creates the complementary core transport for RTCP. This transport may only be created when this Gatherer is in the New state.
             Complementary Gatherer may only be started once this transport has assigned sockets to the complementary transport (signalled by moving into the Gathering state).
             DTLS transport is prepared given supplied DTLS parameters.
             </summary>
         </member>
-        <member name="M:FM.LiveSwitch.CoreTransport.CreateComplementaryCoreTransport">
+        <member name="M:FM.LiveSwitch.CoreTransport.CreateComplementaryCoreTransport(FM.LiveSwitch.LogContext)">
             <summary>
             Creates the complementary core transport for RTCP. This transport may only be created when this Gatherer is in the New state.
             Complementary Gatherer may only be started once this transport has assigned sockets to the complementary transport (signalled by moving into the Gathering state).
@@ -49964,6 +51088,11 @@
             Gets or sets the tie breaker.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.IConnection`5.MediaProtocol">
+            <summary>
+            Gets the media protocol in use on this connection.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.IConnection`5.Timeout">
             <summary>
             Gets or sets the amount of time (in milliseconds)
@@ -53076,7 +54205,7 @@
         </member>
         <member name="P:FM.LiveSwitch.LocalMediaBase`3.VideoSimulcastEncodingCount">
             <summary>
-            Gets or sets the maximum number of simulcast encodings that this LocalMedia produces for the video stream. The default value is 2. For LiveSwitch Media Server, the maximum is 4 encodings. This property must be set before the LocalMedia starts.
+            Gets or sets the maximum number of simulcast encodings that this LocalMedia produces for the video stream. The default value is 2. For LiveSwitch Media Server, the maximum is 3 encodings. This property must be set before the LocalMedia starts.
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.LocalMediaBase`3.VideoSimulcastPreferredBitrate">
@@ -56626,6 +57755,11 @@
             Use <see cref="P:FM.LiveSwitch.MediaStreamBase.MaxSendBitrate"/> to control outbound media bitrate once the session has been negotiated.
             </summary>
         </member>
+        <member name="E:FM.LiveSwitch.MediaStreamBase.OnMaxSendBitrateChange">
+            <summary>
+            Raised when the max send bitrate of the stream is changed.<br/>
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.MediaStreamBase.MaxSendBitrate">
             <summary>
             Gets or sets the maximum bitrate that the upstream connection sends in Kbps.
@@ -58574,6 +59708,14 @@
             A WebRTC/ORTC-compatible collection of local audio/video tracks.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.RtcLocalMedia`1.PacketizerDisabled">
+            <summary>
+            Gets or sets a value indicating whether the packetizer is disabled. 
+            WebRTC media requires the RTP packetizer so the value must be <c>false</c>. 
+            Media-over-WebSockets must not use the RTP packetizer, so the value must be <c>true</c>. 
+            If the packetizer is not required, this value must be set in the constructor.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.RtcLocalMedia`1.AudioDisabled">
             <summary>
             Gets a value indicating whether audio is disabled.
@@ -59417,6 +60559,14 @@
         <member name="T:FM.LiveSwitch.RtcRemoteMedia`1">
             <summary>
             A WebRTC/ORTC-compatible collection of remote audio/video tracks.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.RtcRemoteMedia`1.DepacketizerDisabled">
+            <summary>
+            Gets or sets a value indicating whether the depacketizer is disabled. 
+            WebRTC media requires the RTP depacketizer so the value must be <c>false</c>. 
+            Media-over-WebSockets must not use the RTP depacketizer, so the value must be <c>true</c>.
+            If the depacketizer is not required, this value must be set in the constructor.
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.RtcRemoteMedia`1.AudioDisabled">
@@ -60267,6 +61417,11 @@
         <member name="P:FM.LiveSwitch.RtpPacketHeader.FixedHeaderLength">
             <summary>
             Gets the length of the fixed header.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.RtpPacketHeader.Id">
+            <summary>
+            Gets the Id of the Rtp Packet Header
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.RtpPacketHeader.Version">
@@ -61918,6 +63073,11 @@
             Stream base properties/methods.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.StreamBase.LogContext">
+            <summary>
+            Gets the log context for this connection.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.StreamBase.Id">
             <summary>
             Gets the identifier.
@@ -61944,6 +63104,16 @@
             Gets or sets the type.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.StreamBase.IsCapableOfSending">
+            <summary>
+            Gets if the stream is capable of sending.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.StreamBase.IsCapableOfReceiving">
+            <summary>
+            Gets if the stream is capable of receiving.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.StreamBase.DirectionCapabilities">
             <summary>
             Gets the direction capabilities of this stream.
@@ -61952,6 +63122,11 @@
         <member name="P:FM.LiveSwitch.StreamBase.Tag">
             <summary>
             Gets or sets optional data to associate with this instance.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.StreamBase.UseWssForMedia">
+            <summary>
+            Gets or sets a value indicating whether W
             </summary>
         </member>
         <member name="E:FM.LiveSwitch.StreamBase.OnDirectionChange">
@@ -64016,6 +65191,11 @@
             </summary>
         </member>
         <member name="E:FM.LiveSwitch.VideoEncoder.OnBitrateChange">
+            <summary>
+            Raised when the bitrate changes.
+            </summary>
+        </member>
+        <member name="E:FM.LiveSwitch.VideoEncoder.OnBitrateChangeWithCaller">
             <summary>
             Raised when the bitrate changes.
             </summary>
@@ -67409,12 +68589,6 @@
             <param name="buffer">The buffer.</param>
             
         </member>
-        <member name="M:FM.LiveSwitch.Vp8.Utility.IsGapAllowed(FM.LiveSwitch.Vp8.Fragment,FM.LiveSwitch.Vp8.Fragment)">
-            <summary>
-            Determines whether a gap in the sequence of two fragments is allowed.
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:FM.LiveSwitch.Vp8.Utility.GetPictureIdDelta(System.Int32,System.Int32)">
             <summary>
             Retrieves the difference between two picture IDs
@@ -67423,6 +68597,17 @@
             <param name="pictureId">The current picture ID.</param>
             <param name="lastPictureId">The last picture ID.</param>
             <returns>The difference between the picture IDs.</returns>
+        </member>
+        <member name="T:FM.LiveSwitch.Vp8.UtilityExtension">
+            <summary>
+            Utility methods.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.Vp8.UtilityExtension.IsGapAllowed(FM.LiveSwitch.Vp8.Fragment,FM.LiveSwitch.Vp8.Fragment)">
+            <summary>
+            Determines whether a gap in the sequence of two fragments is allowed.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:FM.LiveSwitch.Vp9.Depacketizer">
             <summary>
@@ -67632,6 +68817,26 @@
             </summary>
             <param name="buffer">The buffer.</param>
             
+        </member>
+        <member name="T:FM.LiveSwitch.WssDemuxer">
+            <summary>
+            WSS Demuxer
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssDepacketizer">
+            <summary>
+            WSS Depacketizer
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssLocalMediaStreamer">
+            <summary>
+            WSS Local Media Sreamer
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssManagerBase`6">
+            <summary>
+            WSS Manager.
+            </summary>
         </member>
         <member name="T:FM.LiveSwitch.Wave.AudioRecorder">
             <summary>
@@ -70138,6 +71343,51 @@
             Gets or sets a value indicating whether any
             of the tracks in this branch are muted.
             Setting a value will apply to all elements.
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssConnectionOpenAwaitArgs">
+            <summary>
+            WSS Service Connection.
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssManager">
+            <summary>
+            WSS WebSocket Connection.
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssPacketizer">
+            <summary>
+            WSS Packetizer
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssRemoteMediaStreamer">
+            <summary>
+            WSS Remote Media Sreamer
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssServiceConnection">
+            <summary>
+            WSS Service Connection.
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssServiceOpenArgs">
+            <summary>
+            WSS Service Connection.
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssWebSocketConnection">
+            <summary>
+            WSS WebSocket Connection.
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssWebSocketConnectionBase`6">
+            <summary>
+            WSS WebSocket Connection.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.WssWebSocketConnectionBase`6.MediaProtocol">
+            <summary>
+            Gets the media protocol in use on this connection.
             </summary>
         </member>
         <member name="T:FM.LiveSwitch.Yuv4Mpeg.VideoRecorder">
@@ -73719,6 +74969,16 @@
             Gets the number of message bytes received.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.Channel.WebSocketServerEndpointUrl">
+            <summary>
+            Gets the WebSocket Media Server Endpoint for this channel.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.Channel.WebSocketAccessToken">
+            <summary>
+            Gets the WebSocket Media Server Authorization Token for this channel.
+            </summary>
+        </member>
         <member name="E:FM.LiveSwitch.Channel.OnMessage">
             <summary>
             Raised when a channel-scope message is received from the server.
@@ -74156,11 +75416,27 @@
             <param name="audioStream">The audio stream.</param>
             <returns></returns>
         </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.AudioStream,System.Boolean)">
+            <summary>
+            Creates an audio-only SFU upstream connection.
+            </summary>
+            <param name="audioStream">The audio stream.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream this media instead of WebRTC.</param>
+            <returns></returns>
+        </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.VideoStream)">
             <summary>
             Creates a video-only SFU upstream connection.
             </summary>
             <param name="videoStream">The video stream.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.VideoStream,System.Boolean)">
+            <summary>
+            Creates a video-only SFU upstream connection.
+            </summary>
+            <param name="videoStream">The video stream.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream this media instead of WebRTC.</param>
             <returns></returns>
         </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.DataStream)">
@@ -74176,6 +75452,25 @@
             </summary>
             <param name="audioStream">The audio stream.</param>
             <param name="videoStream">The video stream.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.AudioStream,FM.LiveSwitch.VideoStream,System.Boolean)">
+            <summary>
+            Creates an audio/video SFU upstream connection.
+            </summary>
+            <param name="audioStream">The audio stream.</param>
+            <param name="videoStream">The video stream.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream this media instead of WebRTC.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.AudioStream,FM.LiveSwitch.VideoStream,FM.LiveSwitch.DataStream,System.Boolean)">
+            <summary>
+            Creates an audio/video/data SFU upstream connection.
+            </summary>
+            <param name="audioStream">The audio stream.</param>
+            <param name="videoStream">The video stream.</param>
+            <param name="dataStream">The data stream.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream this media instead of WebRTC.</param>
             <returns></returns>
         </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.AudioStream,FM.LiveSwitch.DataStream)">
@@ -74212,6 +75507,16 @@
             <param name="mediaId">The media identifier, unique to this channel, for persistent SFU downstream connections.</param>
             <returns></returns>
         </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.AudioStream,System.String,System.Boolean)">
+            <summary>
+            Creates an audio-only SFU upstream connection with a specific media
+            identifier that can be targeted by SFU downstream connections.
+            </summary>
+            <param name="audioStream">The audio stream.</param>
+            <param name="mediaId">The media identifier, unique to this channel, for persistent SFU downstream connections.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream this media instead of WebRTC.</param>
+            <returns></returns>
+        </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.VideoStream,System.String)">
             <summary>
             Creates a video-only SFU upstream connection with a specific media
@@ -74219,6 +75524,16 @@
             </summary>
             <param name="videoStream">The video stream.</param>
             <param name="mediaId">The media identifier, unique to this channel, for persistent SFU downstream connections.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.VideoStream,System.String,System.Boolean)">
+            <summary>
+            Creates a video-only SFU upstream connection with a specific media
+            identifier that can be targeted by SFU downstream connections.
+            </summary>
+            <param name="videoStream">The video stream.</param>
+            <param name="mediaId">The media identifier, unique to this channel, for persistent SFU downstream connections.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream this media instead of WebRTC.</param>
             <returns></returns>
         </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.DataStream,System.String)">
@@ -74238,6 +75553,17 @@
             <param name="audioStream">The audio stream.</param>
             <param name="videoStream">The video stream.</param>
             <param name="mediaId">The media identifier, unique to this channel, for persistent SFU downstream connections.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.AudioStream,FM.LiveSwitch.VideoStream,System.String,System.Boolean)">
+            <summary>
+            Creates an audio/video SFU upstream connection with a specific media
+            identifier that can be targeted by SFU downstream connections.
+            </summary>
+            <param name="audioStream">The audio stream.</param>
+            <param name="videoStream">The video stream.</param>
+            <param name="mediaId">The media identifier, unique to this channel, for persistent SFU downstream connections.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream this media instead of WebRTC.</param>
             <returns></returns>
         </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.AudioStream,FM.LiveSwitch.DataStream,System.String)">
@@ -74271,6 +75597,18 @@
             <param name="mediaId">The media identifier, unique to this channel, for persistent SFU downstream connections.</param>
             <returns></returns>
         </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuUpstreamConnection(FM.LiveSwitch.AudioStream,FM.LiveSwitch.VideoStream,FM.LiveSwitch.DataStream,System.String,System.Boolean)">
+            <summary>
+            Creates an audio/video SFU upstream connection with a specific media
+            identifier that can be targeted by SFU downstream connections.
+            </summary>
+            <param name="audioStream">The audio stream.</param>
+            <param name="videoStream">The video stream.</param>
+            <param name="dataStream">The video stream.</param>
+            <param name="mediaId">The media identifier, unique to this channel, for persistent SFU downstream connections.</param>
+            <param name="useWebSocketsForMedia">A flag to indicate if we should send media over a WebSocket connection.</param>
+            <returns></returns>
+        </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(FM.LiveSwitch.ConnectionInfo,FM.LiveSwitch.AudioStream)">
             <summary>
             Creates an audio-only SFU downstream connection to the SFU or MCU
@@ -74280,6 +75618,16 @@
             <param name="audioStream">The audio stream.</param>
             <returns></returns>
         </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(FM.LiveSwitch.ConnectionInfo,FM.LiveSwitch.AudioStream,System.Boolean)">
+            <summary>
+            Creates an audio-only SFU downstream connection to the SFU or MCU
+            upstream connection identified by the remote connection info.
+            </summary>
+            <param name="remoteConnectionInfo">The remote connection information.</param>
+            <param name="audioStream">The audio stream.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream this media instead of WebRTC.</param>
+            <returns></returns>
+        </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(FM.LiveSwitch.ConnectionInfo,FM.LiveSwitch.VideoStream)">
             <summary>
             Creates a video-only SFU downstream connection to the SFU or MCU
@@ -74287,6 +75635,16 @@
             </summary>
             <param name="remoteConnectionInfo">The remote connection information.</param>
             <param name="videoStream">The video stream.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(FM.LiveSwitch.ConnectionInfo,FM.LiveSwitch.VideoStream,System.Boolean)">
+            <summary>
+            Creates a video-only SFU downstream connection to the SFU or MCU
+            upstream connection identified by the remote connection info.
+            </summary>
+            <param name="remoteConnectionInfo">The remote connection information.</param>
+            <param name="videoStream">The video stream.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream this media instead of WebRTC.</param>
             <returns></returns>
         </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(FM.LiveSwitch.ConnectionInfo,FM.LiveSwitch.DataStream)">
@@ -74305,6 +75663,17 @@
             <param name="remoteConnectionInfo">The remote connection information.</param>
             <param name="audioStream">The audio stream.</param>
             <param name="videoStream">The video stream.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(FM.LiveSwitch.ConnectionInfo,FM.LiveSwitch.AudioStream,FM.LiveSwitch.VideoStream,System.Boolean)">
+            <summary>
+            Creates an audio/video SFU downstream connection to the SFU or MCU
+            upstream connection identified by the remote connection info.
+            </summary>
+            <param name="remoteConnectionInfo">The remote connection information.</param>
+            <param name="audioStream">The audio stream.</param>
+            <param name="videoStream">The video stream.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream this media instead of WebRTC.</param>
             <returns></returns>
         </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(FM.LiveSwitch.ConnectionInfo,FM.LiveSwitch.AudioStream,FM.LiveSwitch.DataStream)">
@@ -74335,6 +75704,17 @@
             <param name="dataStream">The data stream.</param>
             <returns></returns>
         </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(FM.LiveSwitch.ConnectionInfo,FM.LiveSwitch.AudioStream,FM.LiveSwitch.VideoStream,FM.LiveSwitch.DataStream,System.Boolean)">
+            <summary>
+            Creates an audio/video/data SFU downstream connection.
+            </summary>
+            <param name="remoteConnectionInfo">The remote connection information.</param>
+            <param name="audioStream">The audio stream.</param>
+            <param name="videoStream">The video stream.</param>
+            <param name="dataStream">The data stream.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream the media instead of WebRTC.</param>
+            <returns></returns>
+        </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(System.String,FM.LiveSwitch.AudioStream)">
             <summary>
             Creates an audio-only SFU downstream connection to the SFU or MCU
@@ -74344,12 +75724,31 @@
             <param name="audioStream">The audio stream.</param>
             <returns></returns>
         </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(System.String,FM.LiveSwitch.AudioStream,System.Boolean)">
+            <summary>
+            Creates an audio-only SFU downstream connection to the SFU or MCU
+            upstream connection with the remote media identifier.
+            </summary>
+            <param name="remoteMediaId">The remote media identifier.</param>
+            <param name="audioStream">The audio stream.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream this media instead of WebRTC.</param>
+            <returns></returns>
+        </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(System.String,FM.LiveSwitch.VideoStream)">
             <summary>
             Creates a video-only SFU downstream connection.
             </summary>
             <param name="remoteMediaId">The remote media identifier.</param>
             <param name="videoStream">The video stream.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(System.String,FM.LiveSwitch.VideoStream,System.Boolean)">
+            <summary>
+            Creates a video-only SFU downstream connection.
+            </summary>
+            <param name="remoteMediaId">The remote media identifier.</param>
+            <param name="videoStream">The video stream.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream this media instead of WebRTC.</param>
             <returns></returns>
         </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(System.String,FM.LiveSwitch.DataStream)">
@@ -74367,6 +75766,16 @@
             <param name="remoteMediaId">The remote media identifier.</param>
             <param name="audioStream">The audio stream.</param>
             <param name="videoStream">The video stream.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(System.String,FM.LiveSwitch.AudioStream,FM.LiveSwitch.VideoStream,System.Boolean)">
+            <summary>
+            Creates an audio/video SFU downstream connection.
+            </summary>
+            <param name="remoteMediaId">The remote media identifier.</param>
+            <param name="audioStream">The audio stream.</param>
+            <param name="videoStream">The video stream.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream this media instead of WebRTC.</param>
             <returns></returns>
         </member>
         <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(System.String,FM.LiveSwitch.AudioStream,FM.LiveSwitch.DataStream)">
@@ -74395,6 +75804,17 @@
             <param name="audioStream">The audio stream.</param>
             <param name="videoStream">The video stream.</param>
             <param name="dataStream">The data stream.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Channel.CreateSfuDownstreamConnection(System.String,FM.LiveSwitch.AudioStream,FM.LiveSwitch.VideoStream,FM.LiveSwitch.DataStream,System.Boolean)">
+            <summary>
+            Creates an audio/video/data SFU downstream connection.
+            </summary>
+            <param name="remoteMediaId">The remote media identifier.</param>
+            <param name="audioStream">The audio stream.</param>
+            <param name="videoStream">The video stream.</param>
+            <param name="dataStream">The data stream.</param>
+            <param name="useWebSocketsForMedia">Use WebSockets to stream the media instead of WebRTC.</param>
             <returns></returns>
         </member>
         <member name="M:FM.LiveSwitch.Channel.CreateMcuConnection(FM.LiveSwitch.AudioStream)">
@@ -74767,6 +76187,11 @@
             Raised whenever a client disconnects or reconnects to the internet.
             </summary>
         </member>
+        <member name="E:FM.LiveSwitch.Client.OnStreamChanged">
+            <summary>
+            Raised after a client disconnects or reconnects to the internet.
+            </summary>
+        </member>
         <member name="M:FM.LiveSwitch.Client.Register(System.String)">
             <summary>
             Registers with the signalling server.
@@ -75014,6 +76439,11 @@
             A managed connection.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.ManagedConnection.MediaProtocol">
+            <summary>
+            Gets or sets the media protocol in use on this connection.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.ManagedConnection.DefaultStatsInterval">
             <summary>
             Gets or sets the default interval, in milliseconds, between stats reports sent to the Gateway.
@@ -75037,10 +76467,15 @@
         </member>
         <member name="P:FM.LiveSwitch.ManagedConnection.DefaultNoMediaServerTimeout">
             <summary>
-            Gets or sets the default timeout, in milliseconds, between retries for cases
+            Gets or sets the default timeout, in milliseconds, before we fail the connection attempt
             where no Media Servers are available for either ICE servers or SFU/MCU offer processing.
             <br />
             The default value is 120,000 (2 minutes).
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ManagedConnection.Randomizer">
+            <summary>
+            Gets a randomizer for backoff timers
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.ManagedConnection.RecordingEnabled">
@@ -75273,6 +76708,11 @@
             Gets or sets the media identifier.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.ManagedConnection.UseWebSocketsForMedia">
+            <summary>
+            Gets or sets if we should use WebSockets for sending media.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.ManagedConnection.RemoteMediaId">
             <summary>
             Gets or sets the remote media identifier, if available.
@@ -75374,6 +76814,37 @@
         <member name="E:FM.LiveSwitch.ManagedConnection.OnNoMediaServersAvailable">
             <summary>
             Raised when there are no Media Servers available.
+            </summary>
+        </member>
+        <member name="E:FM.LiveSwitch.ManagedConnection.OnNoWebSocketMediaServersAvailable">
+            <summary>
+            Raised when there are no WebSocket Media Servers available.
+            </summary>
+        </member>
+        <member name="E:FM.LiveSwitch.ManagedConnection.OnVideoEnabledChange">
+            <summary>
+            Raised when a connection has it's video state changed from disabled or enabled. Due to connection constrainsts.
+            Parameters:
+                - connection - the connection
+                - videoEnabled - the value indicating true if the video has been enabled or false for disabled.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ManagedConnection.VideoEnabledUpdateConnectionPolicy">
+            <summary>
+             Gets or sets a method that determines when to enable video again on a connection that dynamically disables video. Optional. If not set, default policy will be used.
+             Takes in an interger parameter that represents the amount of attempts already tried. Will return an interger value as a time period in seconds for how long to wait for the next attempt or -1 for no more attempts. 
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ManagedConnection.VideoEnabledConnectionUpdateAttempts">
+            <summary>
+            Gets or sets the amount of attempts this connection has made to enabled video on a connection. These attempts happen after
+            the connection has been updated to disabled video due to network constraints. 
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ManagedConnection.VideoRetentionPolicy">
+            <summary>
+            Gets or sets the Video Retention Policy.
+            This will determine how we will handle video on the connection when the connection is of poor quality.
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.ManagedConnection.StatsInterval">
@@ -75704,8 +77175,24 @@
         </member>
         <member name="P:FM.LiveSwitch.ManagedConnection.NoMediaServerTimeout">
             <summary>
-            Gets or sets the timeout, in milliseconds, between retries for cases
+            Gets or sets the timeout, in milliseconds, before failing a request
             where no Media Servers are available for either ICE servers or SFU/MCU offer processing.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ManagedConnection.MinNoMediaServerRetryBackoff">
+            <summary>
+            Gets or sets the mininum retry backoff timeout, in milliseconds, before we retry a request
+            after receiving no Media Servers are available for either ICE servers or SFU/MCU offer processing.
+            <br />
+            The default value is 1000ms.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ManagedConnection.MaxNoMediaServerRetryBackoff">
+            <summary>
+            Gets or sets the maximum retry backoff timeout, in milliseconds, before we retry a request
+            after receiving no Media Servers are available for either ICE servers or SFU/MCU offer processing.
+            <br />
+            The default value is 1500ms.
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.ManagedConnection.InternalRtcpDataChannel">
@@ -75721,6 +77208,41 @@
             timeout is reached, the state of the connection will change to failed.
             Defaults to 15,000.
             </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.ManagedConnection.#ctor(System.Object,System.String,System.String,System.String,System.String,System.String,FM.LiveSwitch.Function1{FM.LiveSwitch.Message,FM.LiveSwitch.Future{FM.LiveSwitch.Message}},System.String,FM.LiveSwitch.AudioStream,FM.LiveSwitch.VideoStream,FM.LiveSwitch.DataStream,System.String)">
+            <summary>
+            ManagedConnection constructor.
+            </summary>
+            <param name="sharedLock"></param>
+            <param name="applicationId"></param>
+            <param name="channelId"></param>
+            <param name="userId"></param>
+            <param name="deviceId"></param>
+            <param name="clientId"></param>
+            <param name="doSend"></param>
+            <param name="type"></param>
+            <param name="audioStream"></param>
+            <param name="videoStream"></param>
+            <param name="dataStream"></param>
+            <param name="mediaId"></param>
+        </member>
+        <member name="M:FM.LiveSwitch.ManagedConnection.#ctor(System.Object,System.String,System.String,System.String,System.String,System.String,FM.LiveSwitch.Function1{FM.LiveSwitch.Message,FM.LiveSwitch.Future{FM.LiveSwitch.Message}},System.String,FM.LiveSwitch.AudioStream,FM.LiveSwitch.VideoStream,FM.LiveSwitch.DataStream,System.String,System.Boolean)">
+            <summary>
+            ManagedConnection constructor.
+            </summary>
+            <param name="sharedLock"></param>
+            <param name="applicationId"></param>
+            <param name="channelId"></param>
+            <param name="userId"></param>
+            <param name="deviceId"></param>
+            <param name="clientId"></param>
+            <param name="doSend"></param>
+            <param name="type"></param>
+            <param name="audioStream"></param>
+            <param name="videoStream"></param>
+            <param name="dataStream"></param>
+            <param name="mediaId"></param>
+            <param name="useWebSocketsForMedia"></param>
         </member>
         <member name="M:FM.LiveSwitch.ManagedConnection.TrySendRtcpDataChannel(FM.LiveSwitch.Message)">
             <summary>
@@ -75820,6 +77342,22 @@
             </summary>
             <param name="message">The message.</param>
         </member>
+        <member name="P:FM.LiveSwitch.ManagedConnection.WmsAddress">
+            <summary>
+            Gets or sets the WMS endpoint address.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ManagedConnection.WmsConnectionToken">
+            <summary>
+            Gets or sets WMS connection token.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.ManagedConnection.DoCreateUseWebSocketServiceMessage">
+            <summary>
+            Create the message to use WebSockets for media
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FM.LiveSwitch.ManagedConnection.DoOpen">
             <summary>
             Opens the connection.
@@ -75882,9 +77420,42 @@
             <param name="videoStream">The video stream.</param>
             <param name="bitrateNotification">The bitrate notification.</param>
         </member>
+        <member name="M:FM.LiveSwitch.ManagedConnection.ProcessSimulcastNotification(FM.LiveSwitch.Message)">
+            <summary>
+            Processes a simulcast notification
+            </summary>
+            <param name="message">The simulcast notificaiton message.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ManagedConnection.UpdateVideoEnabledOnConnection(System.Boolean)">
+            <summary>
+            Updates the current connection to enabled or disabled the video based on the constraints on the connection.
+            </summary>
+            <param name="videoEnabled">The boolean value for if we should enable or disabled video.</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ManagedConnection.DefaultVideoEnabledUpdateConnectionPolicy">
+            <summary>
+            Returns a value in seconds, for how long we should wait until we attempt to enable video on the connection after disabling it.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.ManagedConnection.EnableVideoAttempt(System.Int32)">
+            <summary>
+            Attempts to reactivate video on this connection after a period of time.
+            </summary>
+            <param name="waitTime">The time in seconds to wait before we attempt to enable video on the connection</param>
+        </member>
+        <member name="M:FM.LiveSwitch.ManagedConnection.EnableVideoTimerElapsed(System.Object)">
+            <summary>
+            Event that will attempt to enable video on the connection when the Simuclast timer has elapsed.
+            </summary>
+        </member>
         <member name="M:FM.LiveSwitch.ManagedConnection.RaiseNoMediaServersAvailable(FM.LiveSwitch.NoMediaServersAvailableEventArgs)">
             <summary>
             Raises the OnNoMediaServersAvailable event.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.ManagedConnection.RaiseNoWebSocketMediaServersAvailable(FM.LiveSwitch.NoWebSocketMediaServersAvailableEventArgs)">
+            <summary>
+            Raises the OnNoWebSocketMediaServersAvailable event.
             </summary>
         </member>
         <member name="M:FM.LiveSwitch.ManagedConnection.ProcessLocalError(FM.LiveSwitch.Error)">
@@ -75966,6 +77537,22 @@
         <member name="M:FM.LiveSwitch.NoMediaServersAvailableEventArgs.#ctor(System.Int32)">
             <summary>
             Initializes a new instance of the <see cref="T:FM.LiveSwitch.NoMediaServersAvailableEventArgs"/> class.
+            </summary>
+            <param name="backoff"></param>
+        </member>
+        <member name="T:FM.LiveSwitch.NoWebSocketMediaServersAvailableEventArgs">
+            <summary>
+            Event arguments for OnNoWebSocketMediaServersAvailable.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.NoWebSocketMediaServersAvailableEventArgs.Backoff">
+            <summary>
+            Gets the backoff in milliseconds.
+            </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.NoWebSocketMediaServersAvailableEventArgs.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FM.LiveSwitch.NoWebSocketMediaServersAvailableEventArgs"/> class.
             </summary>
             <param name="backoff"></param>
         </member>
@@ -76184,6 +77771,11 @@
             The answering role.
             </summary>
         </member>
+        <member name="E:FM.LiveSwitch.RenegotiationManager.OnReadyToRenegotiate">
+            <summary>
+            Gets or sets the event listener raised when the system is ready renegotiate connection..
+            </summary>
+        </member>
         <member name="T:FM.LiveSwitch.ServerConnection">
             <summary>
             A server connection.
@@ -76218,6 +77810,41 @@
             <summary>
             Raised when the inbound video bitrate changes.
             </summary>
+        </member>
+        <member name="M:FM.LiveSwitch.ServerConnection.#ctor(System.Object,System.String,System.String,System.String,System.String,System.String,FM.LiveSwitch.Function1{FM.LiveSwitch.Message,FM.LiveSwitch.Future{FM.LiveSwitch.Message}},System.String,FM.LiveSwitch.AudioStream,FM.LiveSwitch.VideoStream,FM.LiveSwitch.DataStream,System.String)">
+            <summary>
+            ServerConnection constructor.
+            </summary>
+            <param name="sharedLock"></param>
+            <param name="applicationId"></param>
+            <param name="channelId"></param>
+            <param name="userId"></param>
+            <param name="deviceId"></param>
+            <param name="clientId"></param>
+            <param name="send"></param>
+            <param name="connectionType"></param>
+            <param name="audioStream"></param>
+            <param name="videoStream"></param>
+            <param name="dataStream"></param>
+            <param name="mediaId"></param>
+        </member>
+        <member name="M:FM.LiveSwitch.ServerConnection.#ctor(System.Object,System.String,System.String,System.String,System.String,System.String,FM.LiveSwitch.Function1{FM.LiveSwitch.Message,FM.LiveSwitch.Future{FM.LiveSwitch.Message}},System.String,FM.LiveSwitch.AudioStream,FM.LiveSwitch.VideoStream,FM.LiveSwitch.DataStream,System.String,System.Boolean)">
+            <summary>
+            ServerConnection constructor.
+            </summary>
+            <param name="sharedLock"></param>
+            <param name="applicationId"></param>
+            <param name="channelId"></param>
+            <param name="userId"></param>
+            <param name="deviceId"></param>
+            <param name="clientId"></param>
+            <param name="send"></param>
+            <param name="connectionType"></param>
+            <param name="audioStream"></param>
+            <param name="videoStream"></param>
+            <param name="dataStream"></param>
+            <param name="mediaId"></param>
+            <param name="useWebSocketsForMedia"></param>
         </member>
         <member name="M:FM.LiveSwitch.ServerConnection.DetachInternalEventHandlers">
             <summary>
@@ -76327,6 +77954,12 @@
             <param name="offer">The offer.</param>
             <returns></returns>
         </member>
+        <member name="M:FM.LiveSwitch.SfuDownstreamConnection.DoCreateUseWebSocketServiceMessage">
+            <summary>
+            Create the message to use WebSockets for media
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FM.LiveSwitch.SfuDownstreamConnection.IsMediaDirectionAllowed(System.String)">
             <summary>
             Gets a value indicating whether the given media direction is allowed for this connection.
@@ -76344,6 +77977,12 @@
             Creates an offer message.
             </summary>
             <param name="offer">The offer.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.SfuUpstreamConnection.DoCreateUseWebSocketServiceMessage">
+            <summary>
+            Create the message to use WebSockets for media
+            </summary>
             <returns></returns>
         </member>
         <member name="M:FM.LiveSwitch.SfuUpstreamConnection.IsMediaDirectionAllowed(System.String)">
@@ -77458,6 +79097,77 @@
             <param name="dataStreamReportJson">The serialized Json.</param>
             <returns>The deserialized DataChannelReport.</returns>
         </member>
+        <member name="T:FM.LiveSwitch.WssChangeMediaParametersResponse">
+            <summary>
+            WssChangeMediaParamtersResponse.
+            1st Byte: stream ID.
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssConnectionStateUpdate">
+            <summary>
+            WssConnectionStateUpdate.
+            0th byte: version and packet type
+            1st Byte: stream ID.
+            2nd Byte: connection  state
+            3rd byte: connection ID length
+            4+ byte: connection ID
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssPacketType">
+            <summary>
+            WssMediaPacket Type.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.WssPacketType.WssMediaPacket">
+            <summary>
+            Media Packet.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.WssPacketType.ChangeMediaParametersRequest">
+            <summary>
+            Change Media Parameters.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.WssPacketType.KeyFrameRequest">
+            <summary>
+            KeyFrame Request.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.WssPacketType.StunRequest">
+            <summary>
+            Stun Request.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.WssPacketType.StunResponse">
+            <summary>
+            Stun Response.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.WssPacketType.ResetStreamRequest">
+            <summary>
+            Reset Stream.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.WssPacketType.StreamStateUpdate">
+            <summary>
+            The state of the stream.
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.WssPacketType.SignallingMessage">
+            <summary>
+            Create a signalling message
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.WssPacketType.ConnectionStateUpdate">
+            <summary>
+            The state of the connection
+            </summary>
+        </member>
+        <member name="F:FM.LiveSwitch.WssPacketType.ChangeMediaParametersResponse">
+            <summary>
+            Change media parameters response
+            </summary>
+        </member>
         <member name="T:FM.LiveSwitch.RecordingMode">
             <summary>
             The recording mode helper.
@@ -78255,6 +79965,21 @@
             Gets or sets the client operating system version.
             </summary>​
         </member>
+        <member name="P:FM.LiveSwitch.ClientInfo.PlatformType">
+            <summary>
+            Gets or sets the client platform type.
+            </summary>​
+        </member>
+        <member name="P:FM.LiveSwitch.ClientInfo.PlatformTypeVersion">
+            <summary>
+            Gets or sets the client platform type version.
+            </summary>​
+        </member>
+        <member name="P:FM.LiveSwitch.ClientInfo.PlatformDescription">
+            <summary>
+            Gets or sets the client platform description.
+            </summary>​
+        </member>
         <member name="P:FM.LiveSwitch.ClientInfo.Architecture">
             <summary>
             Gets or sets the client architecture.
@@ -78533,6 +80258,11 @@
             <summary>
             Gets or sets the media identifier, for MCU or SFU upstream connections.
             </summary>​
+        </member>
+        <member name="P:FM.LiveSwitch.ConnectionInfo.UseWebSocketsForMedia">
+            <summary>
+            Gets or sets if we should use WebSockets for sending media.
+            </summary>
         </member>
         <member name="P:FM.LiveSwitch.ConnectionInfo.RemoteConnectionId">
             <summary>
@@ -79049,6 +80779,16 @@
             Gets the error type associated with "serverNoMediaServersAvailable".
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.ErrorType.ServerNoWebSocketMediaServersAvailable">
+            <summary>
+            Gets the error type associated with "serverNoWebSocketMediaServersAvailable".
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.ErrorType.WebSocketServiceForbidden">
+            <summary>
+            Get the error type associated with "webSocketServiceForbidden".
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.ErrorType.ServerUnknownError">
             <summary>
             Gets the error type associated with "serverUnknownError".
@@ -79211,6 +80951,11 @@
         <member name="P:FM.LiveSwitch.EventOrigin.MediaServer">
             <summary>
             Gets the 'mediaserver' event origin string.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.EventOrigin.WebSocketMediaServer">
+            <summary>
+            Gets the 'websocketmediaserver' event origin string.
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.EventOrigin.SipConnector">
@@ -79756,6 +81501,16 @@
             Gets or sets the Recording Muxer identifer.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.Message.WebSocketMediaServerId">
+            <summary>
+            Gets or sets the Media Server identifier.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.Message.PreferredWebSocketMediaServerId">
+            <summary>
+            Gets or sets the preferred WebSocket Media Server identifier.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.Message.ApplicationId">
             <summary>
             Gets or sets the application identifier.
@@ -79921,6 +81676,26 @@
             Gets or sets the serialized version of MediaIntents
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.Message.WebSocketUrl">
+            <summary>
+            Gets or sets the WebSocket Url.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.Message.WebSocketAccessToken">
+            <summary>
+            Gets or sets the WebSocket Access Token.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.Message.StreamAudioOverWebSocket">
+            <summary>
+            Gets or sets whether the WebSocket Media Server should stream audio over a WebSocket connection.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.Message.StreamVideoOverWebSocket">
+            <summary>
+            Gets or sets whether the WebSocket Media Server should stream video over a WebSocket connection.
+            </summary>
+        </member>
         <member name="M:FM.LiveSwitch.Message.Clone">
             <summary>
             Creates a copy of the Message.
@@ -80019,6 +81794,67 @@
             <summary>
             Creates an "mediaIntent" message.
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Message.CreateUseWebSocketForSfuUpstreamMessage(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,FM.LiveSwitch.ConnectionInfo,System.String)">
+            <summary>
+            Creates an "useWebSocketsForSfuUpstream" message.
+            </summary>
+            <param name="connectionId"></param>
+            <param name="applicationId"></param>
+            <param name="userId"></param>
+            <param name="deviceId"></param>
+            <param name="clientId"></param>
+            <param name="channelId"></param>
+            <param name="includeAudio"></param>
+            <param name="includeVideo"></param>
+            <param name="connectionInfo"></param>
+            <param name="mediaId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Message.CreateUseWebSocketForSfuDownstreamMessage(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,FM.LiveSwitch.ConnectionInfo,System.String)">
+            <summary>
+            Creates an "useWebSocketsForSfuDownstream" message.
+            </summary>
+            <param name="connectionId"></param>
+            <param name="applicationId"></param>
+            <param name="userId"></param>
+            <param name="deviceId"></param>
+            <param name="clientId"></param>
+            <param name="channelId"></param>
+            <param name="includeAudio"></param>
+            <param name="includeVideo"></param>
+            <param name="remoteConnectionInfo"></param>
+            <param name="remoteMediaId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Message.CreateUseWebSocketServiceMessage(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates a "useWebSocketService" message.
+            </summary>=
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Message.CreateResponseUseWebSocketServiceMessage(FM.LiveSwitch.Message,System.String,System.String,System.String)">
+            <summary>
+            Creates a response to "useWebSocketService" message.
+            </summary>
+            <param name="useWebsocketServiceMessage">Message requiring response.</param>
+            <param name="region">Client region (optional).</param>
+            <param name="webSocketMediaServerUrl">WebSocket Media Server Url to coimmunicate to the client.</param>
+            <param name="webSocketAccessToken">Acess Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Message.CreateWebSocketMediaStreamInfo(System.String,System.String,System.String,System.String,System.String,System.String,FM.LiveSwitch.ConnectionInfo)">
+            <summary>
+            Creates a "webSocketStreamInfo" message.
+            </summary>
+            <param name="connectionId"></param>
+            <param name="channelId"></param>
+            <param name="applicationId"></param>
+            <param name="userId"></param>
+            <param name="deviceId"></param>
+            <param name="clientId"></param>
+            <param name="connectionInfo"></param>
             <returns></returns>
         </member>
         <member name="M:FM.LiveSwitch.Message.CreateMcuOfferMessage(System.String,System.String)">
@@ -80239,6 +82075,18 @@
         <member name="M:FM.LiveSwitch.Message.CreateBitrateNotificationMessage(FM.LiveSwitch.BitrateNotification[])">
             <summary>
             Creates a "bitrateNotification" message.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Message.CreateSimulcastNotificationMessage(FM.LiveSwitch.SimulcastNotification)">
+            <summary>
+            Creates a "simulcastNotification" message.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FM.LiveSwitch.Message.CreateSimulcastNotificationMessage(FM.LiveSwitch.SimulcastNotification[])">
+            <summary>
+            Creates a "simulcastNotification" message.
             </summary>
             <returns></returns>
         </member>
@@ -80561,6 +82409,11 @@
             Gets the "bitrateNotification" message type string.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.MessageType.SimulcastNotification">
+            <summary>
+            Gets the "simulcastNotification" message type string.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.MessageType.DtmfTones">
             <summary>
             Gets the "dtmfTones" message type string.
@@ -80579,6 +82432,31 @@
         <member name="P:FM.LiveSwitch.MessageType.Layout">
             <summary>
             Gets the "layout" message type string.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.MessageType.UseWebSocketsForSfuUpstream">
+            <summary>
+            Gets the "useWebSocketsForSfuUpstream" message type string.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.MessageType.UseWebSocketsForSfuDownstream">
+            <summary>
+            Gets the "useWebSocketsForSfuDownstream" message type string.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.MessageType.UseWebSocketService">
+            <summary>
+            Gets the "useWebSocketService" message type string.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.MessageType.WebSocketMediaStreamInfo">
+            <summary>
+            Gets the "webSocketStreamInfo" message type string.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.MessageType.WebSocketInfo">
+            <summary>
+            Gets the "webSocketInfo" message type string.
             </summary>
         </member>
         <member name="T:FM.LiveSwitch.MixerReport">
@@ -81030,6 +82908,11 @@
             Gets the Media Server identifier.
             </summary>
         </member>
+        <member name="P:FM.LiveSwitch.Token.WebSocketMediaServerId">
+            <summary>
+            Gets the Web Socket Media Server identifier.
+            </summary>
+        </member>
         <member name="P:FM.LiveSwitch.Token.ConnectorId">
             <summary>
             Gets the Connector identifier.
@@ -81470,6 +83353,17 @@
             <param name="expirationTime">The time the token will expire in UTC.</param>
             <returns></returns>
         </member>
+        <member name="M:FM.LiveSwitch.Token.GenerateClientWebSocketAccessToken(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Generates a signed client WebSocket access token.
+            </summary>
+            <param name="applicationId"></param>
+            <param name="userId"></param>
+            <param name="deviceId"></param>
+            <param name="clientId"></param>
+            <param name="sharedSecret"></param>
+            <returns></returns>
+        </member>
         <member name="M:FM.LiveSwitch.Token.Verify(System.String)">
             <summary>
             Verifies the token signature.
@@ -81534,6 +83428,11 @@
         <member name="P:FM.LiveSwitch.TokenType.Event">
             <summary>
             Gets the "event" token type string.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.TokenType.WebSocketAccess">
+            <summary>
+            Gets the "websocketaccess" token type string.
             </summary>
         </member>
         <member name="T:FM.LiveSwitch.TransportReport">
@@ -81828,6 +83727,77 @@
             <param name="webhookInfoJson">The serialized Json.</param>
             <returns>The deserialized WebhookInfo.</returns>
         </member>
+        <member name="T:FM.LiveSwitch.WssChangeMediaParametersRequest">
+            <summary>
+            WssChangeMediaParametersRequest.
+            1st Byte: stream ID. If 0: reset all streams
+            2nd, 3rd Byte: Width
+            4th, 5th byte: Height
+            6th byte: FrameRate
+            7th byte: 2 bits Mute (0 - no change, 1 - mute, 2 - unmute), Disable(0 - no change, 1 - enable, 2 - disable), 4 bits - bitrate
+            8th, 9th byte: bitrate
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssKeyFrameRequest">
+            <summary>
+            WssKeyFrameRequest.
+            1st Byte: stream ID.
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssMediaPacket">
+            <summary>
+            WSS Media Packet.
+            1st byte: stream ID. 
+            2nd - 5th bytes: Timestamp.
+            6th byte: Payload Start Locn
+            7th-8th byte? - new resolution width(?) ("00", bbbbb bbbbbbbb - new width)
+            9th-10th byte? - new resolution height(?) ("00", bbbbb bbbbbbbb - new height)
+            11th-13th bytes(7th - 9th bytes): payload size
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssPacket">
+            <summary>
+            WssMediaPacket.
+            0th Byte: 4 bits - version, 4 bits - packet type
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.WssPacket.StreamId">
+            <summary>
+            StreamId this packet refers to. 0 means all streams on the same WebSocket connection.
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssResetStreamRequest">
+            <summary>
+            WssStunRequest.
+            1st Byte: stream ID. If -1: reset all streams
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssStreamAssignment">
+            <summary>
+            WssStreamStateUpdate.
+            1st Byte: stream ID.
+            2nd Byte: state
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssStreamStateUpdate">
+            <summary>
+            WssStreamStateUpdate.
+            1st Byte: stream ID.
+            2nd Byte: state
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssStunResponse">
+            <summary>
+            WssStunResponse.
+            Bytes 1, 2 - TransactionId.
+            </summary>
+        </member>
+        <member name="T:FM.LiveSwitch.WssStunRequest">
+            <summary>
+            WssStunRequest.
+            Bytes 1, 2 - TransactionId.
+            </summary>
+        </member>
         <member name="T:FM.LiveSwitch.Signalling.Advice">
             <summary>
             Advice class used in messages.
@@ -81980,6 +83950,11 @@
         <member name="E:FM.LiveSwitch.Signalling.Client.OnStreamChange">
             <summary>
             Raised whenever a client disconnects or reconnects to the internet.
+            </summary>
+        </member>
+        <member name="E:FM.LiveSwitch.Signalling.Client.OnStreamChanged">
+            <summary>
+            Raised after a client disconnects or reconnects to the internet.
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.Signalling.Client.ConnectionState">
@@ -83022,6 +84997,16 @@
         <member name="P:FM.LiveSwitch.Signalling.Message.ServerActions">
             <summary>
             Gets or sets the server actions, used internally.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.Signalling.Message.IsEndpointTypeClient">
+            <summary>
+            Gets whether this message has originated from an EndpointType of EndpointType.Client.
+            </summary>
+        </member>
+        <member name="P:FM.LiveSwitch.Signalling.Message.IsConnectionStatsReport">
+            <summary>
+            Gets whether this message contains a connection stats report.
             </summary>
         </member>
         <member name="P:FM.LiveSwitch.Signalling.Message.Type">

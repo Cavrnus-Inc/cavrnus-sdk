@@ -4,6 +4,7 @@ using CavrnusCore;
 using UnityEngine;
 using CavrnusSdk.API;
 using CavrnusSdk.Editor.PropertyDrawers;
+using UnityEngine.Serialization;
 
 namespace CavrnusSdk.Setup
 {
@@ -84,7 +85,8 @@ namespace CavrnusSdk.Setup
         [System.Serializable]
         public class CavrnusSettings
 		{
-            public bool DisableVoiceAndVideo = false;
+            public bool DisableVoice = false;
+            public bool DisableVideo = false;
             public bool DisableAcousticEchoCancellation = false;
         }
         

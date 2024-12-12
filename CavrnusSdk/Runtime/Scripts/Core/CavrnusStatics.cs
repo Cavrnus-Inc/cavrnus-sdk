@@ -10,10 +10,10 @@ using Collab.RtcCommon;
 using Collab.Base.Collections;
 using static CavrnusSdk.Setup.CavrnusSpatialConnector;
 using System.IO;
-using System;
 using Assets.Scripts;
 using Collab.Proxy.Content;
 using CavrnusSdk.API;
+using CavrnusSdk.PlatformPermissions;
 using Collab.Base.Net;
 
 namespace CavrnusCore
@@ -44,8 +44,12 @@ namespace CavrnusCore
 		internal static CavrnusAuthentication CurrentAuthentication = null;
 		private static IRtcSystem rtcSystem;
 
+		internal static CavrnusSettings CavrnusSettings;
+
 		internal static void Setup(CavrnusSettings settings)
 		{
+			CavrnusSettings = settings;
+			
 			UnityBase.HelperFunctions.MainThread = Thread.CurrentThread;
 			DebugOutput.MessageEvent += DoRecvMessage;
 			CollabPaths.FlushTemporaryFilePath();
@@ -59,7 +63,7 @@ namespace CavrnusCore
 			Notify = new NotifyCommunication(() => new NotifyWebsocket(Scheduler.BaseScheduler), Scheduler.BaseScheduler);
 			LivePolicyEvaluator = new LivePolicyEvaluator(Notify.PoliciesSystem.AllPolicies, Notify.PoliciesSystem.IsActive);
 	
-			if (settings.DisableVoiceAndVideo) 
+			if (settings.DisableVoice && settings.DisableVideo) 
 				rtcSystem = new RtcSystemUnavailable(); 
 			else
 				rtcSystem = new RtcSystemUnity(Scheduler, settings.DisableAcousticEchoCancellation);
@@ -73,8 +77,31 @@ namespace CavrnusCore
 			var output = RtcOutputSink.FromJson("");
 			var vidInput = RtcInputSource.FromJson("");
 			
-			var sendMode = config.IncludeRtc ? RtcModeEnum.AudioVideo : RtcModeEnum.None;
-			var recvMode = config.IncludeRtc ? RtcModeEnum.AudioVideo : RtcModeEnum.None;
+			RtcModeEnum sendMode;
+			RtcModeEnum recvMode;
+
+			// If SpatialConnector A/V settings are set then those have priority
+			if (CavrnusSettings.DisableVideo && CavrnusSettings.DisableVoice)
+			{
+				sendMode = RtcModeEnum.None;
+				recvMode = RtcModeEnum.None;
+				
+			}
+			else if (CavrnusSettings.DisableVideo)
+			{
+				sendMode = RtcModeEnum.AudioOnly;
+				recvMode = RtcModeEnum.AudioOnly;
+			}
+			else if (CavrnusSettings.DisableVoice)
+			{
+				sendMode = RtcModeEnum.Video;
+				recvMode = RtcModeEnum.Video;
+			}
+			else
+			{
+				sendMode = config.IncludeRtc ? RtcModeEnum.AudioVideo : RtcModeEnum.None;
+				recvMode = config.IncludeRtc ? RtcModeEnum.AudioVideo : RtcModeEnum.None;
+			}
 			
 			var ctx = new RtcContext(rtcSystem, Scheduler.BaseScheduler);
 			ctx.Initialize(input, output, vidInput, sendMode, recvMode);
@@ -113,6 +140,8 @@ namespace CavrnusCore
 
 		private static void HandlePlatformsSetup()
 		{
+			PlatformPermissionsRequestHelper.RequestPermissions(CavrnusSettings.DisableVoice, CavrnusSettings.DisableVideo);
+			
 			var integrationInfo = new ClientProvidedIntegrationInfo
 			{
 				ApplicationId = Application.productName,

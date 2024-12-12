@@ -36,11 +36,11 @@ namespace CavrnusSdk.API
 	{
         //Sets up all static helpers and systems required for Cavrnus to run
         public static void InitializeCavrnus()
-		{
-			CavrnusStatics.Setup(CavrnusSpatialConnector.Instance.AdditionalSettings);
-		}
+        {
+	        CavrnusStatics.Setup(CavrnusSpatialConnector.Instance.AdditionalSettings);
+        }
 
-		public static void ShutdownCavrnus()
+        public static void ShutdownCavrnus()
 		{
 			CavrnusStatics.Shutdown();
 		}

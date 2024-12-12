@@ -691,5 +691,10 @@
 ### Added
 - Add BindSpaceInfo() binding
 
-### Removed
-- Removed MultiSpace Connections Sample
+
+## [2.19.0] - 2024-12-11
+
+### Added
+- Added Analytics Gathering tools to track which objects users are looking at.
+- Add audio and video toggles to spatial connector component
+- Updated RTC and added permissions helper for ios devices

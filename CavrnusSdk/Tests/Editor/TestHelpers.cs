@@ -73,7 +73,7 @@ namespace Cavrnus.Tests
 			connectorOb.UiCanvas = canvasOb;
 			connectorOb.transform.SetAsFirstSibling();
 			connectorOb.MyServer = testServer;
-			connectorOb.AdditionalSettings.DisableVoiceAndVideo = true;
+			connectorOb.AdditionalSettings.DisableVoice = true;
 			connectorOb.AdditionalSettings.DisableAcousticEchoCancellation = true;
 			connectorOb.AutomaticSpaceJoinId = TestSpaceJoinId;
 			canvasOb.transform.SetAsFirstSibling();
