@@ -76,12 +76,12 @@ namespace CavrnusCore
 				Debug.Log($"UVTP: arg. {SystemInfo.graphicsUVStartsAtTop}");
 				
 				#if UNITY_VISIONOS
-					providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 0, 1, 1));
+					providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 1, 1, -1));
 				#else
 					if (SystemInfo.graphicsUVStartsAtTop)
-						providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 0, 1, -1));
+						providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 1, 1, -1));
 					else
-						providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 1, 1, 1));
+						providedTexture.Value = new TextureWithUVs(tex, new Rect(0, 0, 1, 1));
 				#endif
 			}
 			else if (val is TextureWithUVs twu)
@@ -94,9 +94,9 @@ namespace CavrnusCore
 			{
 				// only true for self-stream in direct-video systems (android atm 1/23)
 				if (SystemInfo.graphicsUVStartsAtTop)
-					providedTexture.Value = new TextureWithUVs(rt, new Rect(0, 0, 1, -1));
+					providedTexture.Value = new TextureWithUVs(rt, new Rect(0, 1, 1, -1));
 				else
-					providedTexture.Value = new TextureWithUVs(rt, new Rect(0, 1, 1, 1));
+					providedTexture.Value = new TextureWithUVs(rt, new Rect(0, 0, 1, 1));
 			}
 
 			providedTextureNeedsToBeDestroyed = false;

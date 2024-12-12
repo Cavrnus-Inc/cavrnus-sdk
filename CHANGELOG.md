@@ -698,3 +698,15 @@
 - Added Analytics Gathering tools to track which objects users are looking at.
 - Add audio and video toggles to spatial connector component
 - Updated RTC and added permissions helper for ios devices
+
+
+## [2.19.1] - 2024-12-12
+
+### Added
+- Added Analytics Gathering tools to track which objects users are looking at.
+
+### Changed
+- Rollback to older version of LiveSwitch
+
+### Fixed
+- Several UV texture fixes when streaming. Still known issue for Ios stream textures
