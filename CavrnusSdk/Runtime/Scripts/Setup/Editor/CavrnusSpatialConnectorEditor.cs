@@ -44,7 +44,7 @@ namespace CavrnusSdk.Setup.Editor
 
         SerializedProperty SpawnableObjects;
 
-        SerializedProperty AdditionalSettings;
+        SerializedProperty WebRtcSettings;
         
         SerializedProperty SpawnRemoteAvatars;
         SerializedProperty ShowLocalUser;
@@ -77,7 +77,7 @@ namespace CavrnusSdk.Setup.Editor
 			UiCanvas = serializedObject.FindProperty(nameof(UiCanvas));
 
 			SpawnableObjects = serializedObject.FindProperty(nameof(SpawnableObjects));
-            AdditionalSettings = serializedObject.FindProperty(nameof(AdditionalSettings));
+            WebRtcSettings = serializedObject.FindProperty(nameof(WebRtcSettings));
             
             RemoteUserAvatar = serializedObject.FindProperty(nameof(RemoteUserAvatar));
             SpawnRemoteAvatars = serializedObject.FindProperty(nameof(SpawnRemoteAvatars));
@@ -281,7 +281,7 @@ namespace CavrnusSdk.Setup.Editor
             }
             GUILayout.EndHorizontal();
             
-            EditorGUILayout.PropertyField(AdditionalSettings);
+            EditorGUILayout.PropertyField(WebRtcSettings);
 
             serializedObject.ApplyModifiedProperties();
 		}

@@ -1,3 +1,4 @@
+using System;
 using Collab.Base.Core;
 using Collab.Proxy;
 using System.Diagnostics;
@@ -42,7 +43,7 @@ namespace CavrnusCore
 		internal static ISetting<RtcInputSource> DesiredVideoStream = new Setting<RtcInputSource>(null);
 
 		internal static CavrnusAuthentication CurrentAuthentication = null;
-		private static IRtcSystem rtcSystem;
+		internal static IRtcSystem RtcSystem;
 
 		internal static CavrnusSettings CavrnusSettings;
 
@@ -64,56 +65,18 @@ namespace CavrnusCore
 			LivePolicyEvaluator = new LivePolicyEvaluator(Notify.PoliciesSystem.AllPolicies, Notify.PoliciesSystem.IsActive);
 	
 			if (settings.DisableVoice && settings.DisableVideo) 
-				rtcSystem = new RtcSystemUnavailable(); 
+				RtcSystem = new RtcSystemUnavailable(); 
 			else
-				rtcSystem = new RtcSystemUnity(Scheduler, settings.DisableAcousticEchoCancellation);
+				RtcSystem = new RtcSystemUnity(Scheduler, settings.DisableAEC);
 
 			Scheduler.ExecOnApplicationQuit(Shutdown);
-		}
-
-		internal static RtcContext CreateRtcContext(CavrnusSpaceConnectionConfig config)
-		{
-			var input = RtcInputSource.FromJson("");
-			var output = RtcOutputSink.FromJson("");
-			var vidInput = RtcInputSource.FromJson("");
-			
-			RtcModeEnum sendMode;
-			RtcModeEnum recvMode;
-
-			// If SpatialConnector A/V settings are set then those have priority
-			if (CavrnusSettings.DisableVideo && CavrnusSettings.DisableVoice)
-			{
-				sendMode = RtcModeEnum.None;
-				recvMode = RtcModeEnum.None;
-				
-			}
-			else if (CavrnusSettings.DisableVideo)
-			{
-				sendMode = RtcModeEnum.AudioOnly;
-				recvMode = RtcModeEnum.AudioOnly;
-			}
-			else if (CavrnusSettings.DisableVoice)
-			{
-				sendMode = RtcModeEnum.Video;
-				recvMode = RtcModeEnum.Video;
-			}
-			else
-			{
-				sendMode = config.IncludeRtc ? RtcModeEnum.AudioVideo : RtcModeEnum.None;
-				recvMode = config.IncludeRtc ? RtcModeEnum.AudioVideo : RtcModeEnum.None;
-			}
-			
-			var ctx = new RtcContext(rtcSystem, Scheduler.BaseScheduler);
-			ctx.Initialize(input, output, vidInput, sendMode, recvMode);
-
-			return ctx;
 		}
 
 		internal static void Shutdown()
 		{
 			CurrentAuthentication = null;
 			Notify.Shutdown();
-			rtcSystem.Shutdown();
+			RtcSystem.Shutdown();
 			CavrnusSpaceConnectionManager.Shutdown();
 		}
 

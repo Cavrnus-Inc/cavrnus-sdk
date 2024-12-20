@@ -87,10 +87,10 @@ namespace CavrnusSdk.Setup
 		{
             public bool DisableVoice = false;
             public bool DisableVideo = false;
-            public bool DisableAcousticEchoCancellation = false;
+            public bool DisableAEC = false;
         }
         
-		public CavrnusSettings AdditionalSettings;
+		public CavrnusSettings WebRtcSettings;
 
         public static CavrnusSpatialConnector Instance => instance;
 		private static CavrnusSpatialConnector instance;
@@ -99,6 +99,38 @@ namespace CavrnusSdk.Setup
 		private void Start()
 		{
 			instance = this;
+
+			//Parse and handle cmd line args
+			foreach (var arg in System.Environment.GetCommandLineArgs())
+			{
+				if (arg.StartsWith("Server="))
+				{
+					MyServer = arg.Substring("Server=".Length);
+				}
+				if (arg.StartsWith("GuestName="))
+				{
+					AuthenticationMethod = AuthenticationOptionEnum.JoinAsGuest;
+					GuestLoginMethod = GuestLoginOptionEnum.EnterNameBelow;
+					GuestName = arg.Substring("GuestName=".Length);
+				}
+				if (arg.StartsWith("UserEmail="))
+				{
+					AuthenticationMethod = AuthenticationOptionEnum.JoinAsMember;
+					MemberLoginMethod = MemberLoginOptionEnum.EnterMemberLoginCredentials;
+					MemberEmail = arg.Substring("UserEmail=".Length);
+				}
+				if (arg.StartsWith("UserPassword="))
+				{
+					AuthenticationMethod = AuthenticationOptionEnum.JoinAsMember;
+					MemberLoginMethod = MemberLoginOptionEnum.EnterMemberLoginCredentials;
+					MemberPassword = arg.Substring("UserPassword=".Length);
+				}
+				if (arg.StartsWith("SpaceJoinId="))
+				{
+					SpaceJoinMethod = SpaceJoinOption.JoinId;
+					AutomaticSpaceJoinId = arg.Substring("SpaceJoinId=".Length);
+				}
+			}
 
 			if (!string.IsNullOrEmpty(MyServer))
 			{

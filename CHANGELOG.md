@@ -710,3 +710,12 @@
 
 ### Fixed
 - Several UV texture fixes when streaming. Still known issue for Ios stream textures
+
+
+## [2.19.2] - 2024-12-20
+
+### Added
+- Add command line args
+
+### Fixed
+- Fix VisionOS microphone bug due to inconsistent microphone initialization from Polyspatial plugin 1.3.11
