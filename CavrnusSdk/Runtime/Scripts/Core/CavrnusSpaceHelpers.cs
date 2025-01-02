@@ -60,10 +60,8 @@ namespace CavrnusCore
 				EngineConnector = new EmptyGameEngineConnector(),
 				ServerContentManager = CavrnusStatics.ContentManager,
 			};
-
-			var rtcContext = await CavrnusRtcContextHelpers.CreateRtcContext(config);
-			var rs = new RoomSystem(rtcContext, env, rsOptions, null, null);
-
+			
+			var rs = new RoomSystem(CavrnusStatics.CreateRtcContext(config), env, rsOptions, null, (JournalRequestInfo)null);
 			rs.InitializeConnection(CavrnusStatics.CurrentAuthentication.Endpoint, joinId);
 
 			await rs.AwaitJournalProcessed();
@@ -80,7 +78,10 @@ namespace CavrnusCore
 
 			var lu = await rs.AwaitLocalUser();
 			lu.SetupVideoSources(CavrnusStatics.DesiredVideoStream, CavrnusStatics.DesiredVideoStream);
-		
+			
+			// var notifyRoom = await CavrnusStatics.Notify.RoomsSystem.StartListeningSpecificAsync(joinId);
+			// var spaceInfo = new CavrnusSpaceInfo(notifyRoom);
+
 			var notifyRoom = await CavrnusStatics.Notify.RoomsSystem.StartListeningSpecificAsync(rs.ConnectedRoom.Value.V1.Id);
 
 			spaceConnection.Update(rs, spawnableObjects, config, notifyRoom);

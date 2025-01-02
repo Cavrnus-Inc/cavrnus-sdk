@@ -40,7 +40,7 @@ public abstract class LocalMedia : RtcLocalMedia<Texture>
     {
 	    if (AudioDisabled)
 		    return null;
-        return new LSUnity.AudioClipSource(config);
+        return new LSUnity.CavrnusLSAudioClipSource(config);
     }
 
     /// <summary>

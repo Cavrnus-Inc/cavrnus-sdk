@@ -10,7 +10,7 @@ public class AecContextUnity : FM.LiveSwitch.AecContext
     protected override AecPipe CreateProcessor()
     {
         var config = new AudioConfig(16000, 1);
-        return new AecProcessor(config, AudioClipSource.GetBufferDelay(config) + AudioClipSink.GetBufferDelay(config));
+        return new AecProcessor(config, CavrnusLSAudioClipSource.GetBufferDelay(config) + AudioClipSink.GetBufferDelay(config));
     }
 
     /// <summary>

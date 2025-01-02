@@ -73,8 +73,8 @@ namespace Cavrnus.Tests
 			connectorOb.UiCanvas = canvasOb;
 			connectorOb.transform.SetAsFirstSibling();
 			connectorOb.MyServer = testServer;
-			connectorOb.WebRtcSettings.DisableVoice = true;
-			connectorOb.WebRtcSettings.DisableAEC = true;
+			connectorOb.AdditionalSettings.DisableVoice = true;
+			connectorOb.AdditionalSettings.DisableAcousticEchoCancellation = true;
 			connectorOb.AutomaticSpaceJoinId = TestSpaceJoinId;
 			canvasOb.transform.SetAsFirstSibling();
 			Selection.SetActiveObjectWithContext(connectorOb, connectorOb);

@@ -87,10 +87,10 @@ namespace CavrnusSdk.Setup
 		{
             public bool DisableVoice = false;
             public bool DisableVideo = false;
-            public bool DisableAEC = false;
+            public bool DisableAcousticEchoCancellation = false;
         }
         
-		public CavrnusSettings WebRtcSettings;
+		public CavrnusSettings AdditionalSettings;
 
         public static CavrnusSpatialConnector Instance => instance;
 		private static CavrnusSpatialConnector instance;
